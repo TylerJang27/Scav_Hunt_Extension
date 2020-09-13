@@ -1,0 +1,24 @@
+{
+    "name": "Scavenger Hunt",
+    "description": "A basic scavenger hunt",
+    "version": "0.9",
+    "creator": "Tyler Jang",
+    "clues" : [
+        {
+            "id": 0,
+            "url": "google.com",
+            "text": "The start, go to duke.edu",
+            "html": "clue0.html",
+            "image": "clue0.png",
+            "type": "always"
+        },
+        {
+            "id": 1,
+            "url": "duke.edu",
+            "text": "You found the first clue!",
+            "html": "clue1.html",
+            "image": "clue1.png",
+            "type": "always"
+        }
+    ]
+}

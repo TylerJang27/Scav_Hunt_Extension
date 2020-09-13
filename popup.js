@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     const bg = chrome.extension.getBackgroundPage() //gets access to background.js background page window
-    Object.keys(bg.bears).forEach(function (url) {
+    Object.keys(bg.clue).forEach(function (url) {
       const div = document.createElement('div')
-      div.textContent = `${url}: ${bg.bears[url]}`
+      div.textContent = `${url}: ${bg.clue[url]}`
+
+      //TODO 3: RATHER THAN POPULATE WITH DIV AND STUFF, POPULATE WITH THE CORRECT STUFF
+
       document.body.appendChild(div)
     })
   

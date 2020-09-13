@@ -1,6 +1,6 @@
 {
-    "name": "bear",
-    "version": "1.0",
+    "name": "Scavenger Hunt",
+    "version": "0.9",
     "manifest_version": 2,
     "content_scripts": [
       {
@@ -9,7 +9,7 @@
       }
     ],
     "browser_action": {
-      "default_title": "Bear"
+      "default_title": "Scavenger Hunt"
     },
     "background": {
       "scripts": ["background.js"]
