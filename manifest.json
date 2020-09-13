@@ -14,5 +14,8 @@
     "background": {
       "scripts": ["background.js"]
     },
-    "permissions": ["tabs"]
+    "permissions": ["tabs"],
+    "web_accessible_resources": [
+        "res/*"
+    ]
   }

@@ -10,7 +10,7 @@
             "text": "The start, go to duke.edu",
             "html": "clue0.html",
             "image": "clue0.png",
-            "type": "always"
+            "interact": "always"
         },
         {
             "id": 1,
@@ -18,7 +18,7 @@
             "text": "You found the first clue!",
             "html": "clue1.html",
             "image": "clue1.png",
-            "type": "always"
+            "interact": "always"
         }
     ]
 }
