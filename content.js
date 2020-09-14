@@ -8,6 +8,8 @@
 // const re = new RegExp('bear', 'gi')
 // const matches = document.documentElement.innerHTML.match(re) || []
 
+const encoded = false;
+
 async function getClues() {
   const json_url = chrome.runtime.getURL('res/hunt.json');
   try {

@@ -9,7 +9,8 @@
             "url": "google.com",
             "text": "The start, go to duke.edu",
             "html": "clue0.html",
-            "image": "clue0.png",
+            "image": "res/clue0.png",
+            "alt": "a monkey",
             "interact": "always"
         },
         {
@@ -17,8 +18,14 @@
             "url": "duke.edu",
             "text": "You found the first clue!",
             "html": "clue1.html",
-            "image": "clue1.png",
+            "image": "https://duke.edu/assets/img/duketoday-logo.svg",
+            "alt": "Duke",
             "interact": "always"
+        },
+        {
+            "id": 2,
+            "url": "https://xkcd.com/",
+            "html": "res/xkcd.html"
         }
     ]
 }

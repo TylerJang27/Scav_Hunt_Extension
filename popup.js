@@ -1,15 +1,45 @@
-document.addEventListener('DOMContentLoaded', function () {
+function populateDiv(div, clue) {
+  div.textContent = `${clue.url}: ${clue.text}`
+  // add image
+  if (clue.image != undefined) {
+    const img = document.createElement('img');
+    console.log("clue.img is " + clue.image);
+    if (clue.image.includes("res/")) {
+      img.src = chrome.runtime.getURL(clue.image);
+    } else {
+      img.src = clue.image;
+    }
+    
+    //add alt text
+    if (clue.alt != undefined) {
+      img.alt = clue.alt;
+    }
+    div.appendChild(img);
+  }
+}
 
+
+document.addEventListener('DOMContentLoaded', function () {
     const bg = chrome.extension.getBackgroundPage() //gets access to background.js background page window
     const div = document.createElement('div')
-    if (bg.clue.error != undefined) {
-      div.textContent = 'Keep looking 1!'
-    } else if (bg.clue.url != undefined) {
-      div.textContent = `${bg.clue.url}: ${bg.clue.text}`
+    if (bg.clue.url != undefined) {
+      if (bg.clue.interact == "submit") {
+        if (bg.clue.visible) {
+          populateDiv(div, bg.clue);
+        } else {
+          //TODO: ADD SUBMIT BOX AND BUTTON HERE
+
+        }
+      } else {
+        populateDiv(div, bg.clue);
+      }
     } else {
+      //if control flow is correct, this should not be hit
       div.textContent = 'Keep looking!'
     }
     document.body.appendChild(div)
+
+
 
     // Object.keys(bg.clue).forEach(function (url) {
     //   const div = document.createElement('div')
