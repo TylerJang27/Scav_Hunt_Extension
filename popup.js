@@ -1,18 +1,19 @@
+import { encryptSoft, encryptHard, decryptSoft } from './encrypt.js';
+
 function populateDiv(div, clue) {
-  div.textContent = `${clue.url}: ${clue.text}`
+  div.textContent = `${decryptSoft(clue.url)}: ${decryptSoft(clue.text)}`
   // add image
   if (clue.image != undefined) {
     const img = document.createElement('img');
-    console.log("clue.img is " + clue.image);
-    if (clue.image.includes("res/")) {
-      img.src = chrome.runtime.getURL(clue.image);
+    if (decryptSoft(clue.image).includes("res/")) {
+      img.src = chrome.runtime.getURL(decryptSoft(clue.image));
     } else {
-      img.src = clue.image;
+      img.src = decryptSoft(clue.image);
     }
     
     //add alt text
     if (clue.alt != undefined) {
-      img.alt = clue.alt;
+      img.alt = decryptSoft(clue.alt);
     }
     div.appendChild(img);
   }
@@ -21,13 +22,8 @@ function populateDiv(div, clue) {
 function validateKey() {
   const clue = chrome.extension.getBackgroundPage().clue;
   var userKey = document.getElementById('userInput').value;
-  console.log("key's value in form: " + userKey);
-  if (String(clue.key).toUpperCase() == String(userKey).toUpperCase()) {
+  if (String(decryptSoft(clue.key)).toUpperCase() == String(userKey).toUpperCase()) {
     clue.visible = true;
-    // document.getElementById('keyForm').visible = false;
-    // const div = document.createElement('div')
-    // populateDiv(div, clue);
-    // document.body.appendChild(div);
   } else {
     alert("Try Again");
   }
@@ -60,17 +56,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const bg = chrome.extension.getBackgroundPage() //gets access to background.js background page window
     const div = document.createElement('div')
 
-    console.log("Correct key: " + bg.clue.key);
-
-
     if (bg.clue.url != undefined) {
-      if (bg.clue.interact == "submit") {
+      if (bg.clue.interact == encryptSoft("submit")) {
         if (bg.clue.visible) {
           populateDiv(div, bg.clue);
         } else {
           populateForm(div);
-          //TODO: ADD SUBMIT BOX AND BUTTON HERE
-
         }
       } else {
         populateDiv(div, bg.clue);

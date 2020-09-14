@@ -1,22 +1,10 @@
-// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-//     const re = new RegExp('bear', 'gi')
-//     const matches = document.documentelement.innerHTML.match(re);
-//     sendResponse({count: matches.length})
-//     //alert(request)
-// })
-
-// const re = new RegExp('bear', 'gi')
-// const matches = document.documentElement.innerHTML.match(re) || []
-
-const encoded = false;
+import { encryptSoft, encryptHard, decryptSoft } from './encrypt.js';
 
 async function getClues() {
   const json_url = chrome.runtime.getURL('res/hunt.json');
   try {
     let res = await fetch(json_url);
     let data = await res.json();
-    //TODO: ENCRYPT WITH JSON
-    console.log(data);
     handleJson(data);
   } catch (error) {
     console.error(error);
@@ -49,7 +37,7 @@ function handleJson(hunt_data) {
     }
 
     //check if url matches a clue
-    let reg = new RegExp(clues[i].url)
+    let reg = new RegExp(decryptSoft(clues[i].url))
     var matches = window.location.href.match(reg);
 
     if (matches == null) {
@@ -73,7 +61,6 @@ function populate_match_data(this_clue) {
   match_data["url"] = this_clue.url;
   if (this_clue.text != undefined) {
     match_data["text"] = this_clue.text;
-    console.log("sending text");
   } else {
     match_data["html"] = this_clue.html;
   }
@@ -85,7 +72,7 @@ function populate_match_data(this_clue) {
   if (this_clue.interact != undefined) { //TODO: MAKE ENUM
     match_data["interact"] = this_clue.interact;
   } else {
-    match_data["interact"] = "always";
+    match_data["interact"] = encryptSoft("always");
   }
 
   if (this_clue.key != undefined) {

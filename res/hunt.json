@@ -29,7 +29,7 @@
         },
         {
             "id": 3,
-            "url": "https://www.nytimes.com/",
+            "url": "https://www.nytimes.com/*",
             "text": "You cracked the code!",
             "interact": "submit",
             "key": "yolo"

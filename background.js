@@ -1,3 +1,5 @@
+import { encryptSoft, encryptHard, decryptSoft } from './encrypt.js';
+
 window.clue = {};
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request != null) {
@@ -16,15 +18,16 @@ chrome.browserAction.onClicked.addListener(function (tab) {
   } else {
     if (window.clue.html != undefined) {
       //note: preempts the clickable or submit behaviors
-      chrome.tabs.create({url: window.clue.html});
+      //in content.js html is preempted by text
+      chrome.tabs.create({url: decryptSoft(window.clue.html)});
     } else {
-      if (window.clue.interact == "clickable") {
+      if (window.clue.interact == encryptSoft("clickable")) {
         if (bg.clue.visible) {
           chrome.tabs.create({url: 'popup.html'});
         } else {
           alert("Click the special text on the page!");
         }
-      } else if (window.clue.interact == "submit") {
+      } else if (window.clue.interact == encryptSoft("submit")) {
         chrome.tabs.create({url: 'popup.html'});
       } else {
         chrome.tabs.create({url: 'popup.html'});
