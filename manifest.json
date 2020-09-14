@@ -12,7 +12,7 @@
       "default_title": "Scavenger Hunt"
     },
     "background": {
-      "scripts": ["background.js"]
+      "scripts": ["background.js", "encrypt.js"]
     },
     "permissions": ["tabs"],
     "web_accessible_resources": [

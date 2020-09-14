@@ -3,6 +3,7 @@
     "description": "A basic scavenger hunt",
     "version": "0.9",
     "creator": "Tyler Jang",
+    "encrypted": false,
     "clues" : [
         {
             "id": 0,

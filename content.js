@@ -1,5 +1,3 @@
-import { encryptSoft, encryptHard, decryptSoft } from './encrypt.js';
-
 async function getClues() {
   const json_url = chrome.runtime.getURL('res/hunt.json');
   try {
@@ -13,6 +11,11 @@ async function getClues() {
 
 function handleJson(hunt_data) {
   var clues = hunt_data.clues;
+  var en = hunt_data.encrypted;
+  if (en == undefined) {
+    en = false;
+  }
+
 
   var match_data = {};
 
@@ -37,7 +40,8 @@ function handleJson(hunt_data) {
     }
 
     //check if url matches a clue
-    let reg = new RegExp(decryptSoft(clues[i].url))
+    console.log(decryptSoft(clues[i].url, en));
+    let reg = new RegExp(decryptSoft(clues[i].url, en))
     var matches = window.location.href.match(reg);
 
     if (matches == null) {
@@ -45,7 +49,7 @@ function handleJson(hunt_data) {
       continue;
     } else {
       //populate match with clue info
-      match_data = populate_match_data(clues[i]);
+      match_data = populate_match_data(clues[i], en);
       break
     }
   }
@@ -53,10 +57,11 @@ function handleJson(hunt_data) {
   //can do highlighting here to, may have to do some request stuff correctly for popups, etc. (but that's stage 2)
 
   //TODO 1B: PASS THE CORRECT INFO ALONG
+  match_data["encrypted"] = en;
   chrome.runtime.sendMessage(match_data);
 }
 
-function populate_match_data(this_clue) {
+function populate_match_data(this_clue, en) {
   match_data = {}
   match_data["url"] = this_clue.url;
   if (this_clue.text != undefined) {
@@ -72,7 +77,7 @@ function populate_match_data(this_clue) {
   if (this_clue.interact != undefined) { //TODO: MAKE ENUM
     match_data["interact"] = this_clue.interact;
   } else {
-    match_data["interact"] = encryptSoft("always");
+    match_data["interact"] = encryptSoft("always", en);
   }
 
   if (this_clue.key != undefined) {
@@ -81,6 +86,30 @@ function populate_match_data(this_clue) {
 
   //if (match_data["type"] == "clickable") // check if clickable or button
   return match_data;
+}
+
+function decryptSoft(blah, encrypted) {
+  if (encrypted) {
+      level1 = "";
+      for (var k = 0; k < blah.length; k += 2) {
+          level1 += blah.charAt(k);
+      }
+      return (atob(levelc));
+  }
+  return blah;
+}
+
+function encryptSoft(text, encrypted) {
+  if (encrypted) {
+      var level1 = btoa(text);
+      var level2 = level1.split("");
+      var level3 = "";
+      for (var k = 0; k < level2.length-1; k++) {
+          level3 += level1.charAt(k) + Math.random().toString(36).charAt(2);
+      }
+      return (level3 + level2[level2.length - 1]);
+  }
+  return text;
 }
 
 getClues();
