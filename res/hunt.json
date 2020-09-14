@@ -2,7 +2,7 @@
     "name": "Scavenger Hunt",
     "description": "A basic scavenger hunt",
     "version": "0.9",
-    "creator": "Tyler Jang",
+    "author": "Tyler Jang",
     "encrypted": false,
     "clues" : [
         {
