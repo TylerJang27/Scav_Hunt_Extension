@@ -30,7 +30,7 @@ function handleJson(hunt_data) {
       match_data["error"] = "Missing text or HTML, please contact the Scavenger Hunt manager";
       break;
     }
-    if (clues[i].url == undefined && clues[i].id != 0) {
+    if (clues[i].url == undefined) {
       match_data["error"] = "Missing URL, please contact the Scavenger Hunt manager";
       break;
     }
@@ -72,6 +72,10 @@ function populate_match_data(this_clue, en) {
 
   if (this_clue.image != undefined) {
     match_data["image"] = this_clue.image;
+  }
+
+  if (this_clue.alt != undefined) {
+    match_data["alt"] = this_clue.alt;
   }
   
   if (this_clue.interact != undefined) { //TODO: MAKE ENUM
