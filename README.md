@@ -10,6 +10,5 @@ https://stackoverflow.com/questions/7853130/how-to-change-the-style-of-alert-box
 
 TODO:
 
-SUBMIT BOX
 HIGHLIGHT AND CLICK BOX
 ENCODING

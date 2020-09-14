@@ -18,15 +18,57 @@ function populateDiv(div, clue) {
   }
 }
 
+function validateKey() {
+  const clue = chrome.extension.getBackgroundPage().clue;
+  var userKey = document.getElementById('userInput').value;
+  console.log("key's value in form: " + userKey);
+  if (String(clue.key).toUpperCase() == String(userKey).toUpperCase()) {
+    clue.visible = true;
+    // document.getElementById('keyForm').visible = false;
+    // const div = document.createElement('div')
+    // populateDiv(div, clue);
+    // document.body.appendChild(div);
+  } else {
+    alert("Try Again");
+  }
+}
+
+function populateForm(div) {
+  const frm = document.createElement('form');
+  frm.setAttribute('id', 'keyForm');
+  const lbl = document.createElement('label');
+  lbl.setAttribute('for', 'textPrompt');
+  lbl.textContent="Enter Key: ";
+  const txt_input = document.createElement('input');
+  txt_input.setAttribute('type', 'text');
+  txt_input.setAttribute('id', 'userInput');
+  txt_input.setAttribute('name', 'userInput');
+  const submit_btn = document.createElement('input');
+  submit_btn.setAttribute('type', 'submit');
+  submit_btn.setAttribute('id', 'submit');
+  submit_btn.setAttribute('name', 'submit');
+  submit_btn.addEventListener("click", validateKey);
+
+  frm.appendChild(lbl);
+  frm.appendChild(txt_input);
+  frm.appendChild(submit_btn);
+
+  div.appendChild(frm);
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     const bg = chrome.extension.getBackgroundPage() //gets access to background.js background page window
     const div = document.createElement('div')
+
+    console.log("Correct key: " + bg.clue.key);
+
+
     if (bg.clue.url != undefined) {
       if (bg.clue.interact == "submit") {
         if (bg.clue.visible) {
           populateDiv(div, bg.clue);
         } else {
+          populateForm(div);
           //TODO: ADD SUBMIT BOX AND BUTTON HERE
 
         }

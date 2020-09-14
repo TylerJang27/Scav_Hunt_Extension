@@ -43,6 +43,10 @@ function handleJson(hunt_data) {
       match_data["error"] = "Missing URL, please contact the Scavenger Hunt manager";
       break;
     }
+    if (clues[i].interact == "submit" && clues[i].key == undefined) {
+      match_data["error"] = "Missing submit key, please contact the Scavenger Hunt manager";
+      break;
+    }
 
     //check if url matches a clue
     let reg = new RegExp(clues[i].url)
@@ -82,6 +86,10 @@ function populate_match_data(this_clue) {
     match_data["interact"] = this_clue.interact;
   } else {
     match_data["interact"] = "always";
+  }
+
+  if (this_clue.key != undefined) {
+    match_data["key"] = this_clue.key;
   }
 
   //if (match_data["type"] == "clickable") // check if clickable or button
