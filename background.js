@@ -1,4 +1,7 @@
 window.clue = {};
+//window.clues = {};
+
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request != null) {
     window.clue = request;
@@ -6,7 +9,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     window.clue = {};
   }
 })
-
 
 chrome.browserAction.onClicked.addListener(function (tab) {
   var en = window.clue.encrypted;
