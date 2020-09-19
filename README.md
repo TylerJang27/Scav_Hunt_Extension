@@ -1,12 +1,16 @@
 # Scav_Hunt_Extension
 
 Creator: Tyler Jang
-Last Updated: 9/14/20
+Last Updated: 9/19/20
 Status: Alpha
 
 ## Overview
 
-A simple Chrome Extension to create a Scavenger Hunt based on [encoded json](res/hunt.json). Only use Chrome Extensions created by those you trust.
+A simple Chrome Extension to create a Scavenger Hunt based on [encoded json](res/hunt.json). Only use Chrome Extensions and JSON created by those you trust.
+
+Upon installing the Chrome Extension, right click on the Extension and open up Options. There, you will have the option to change the JSON source for the scavenger hunt. You can specify the sample JSON, JSON from a URL ([example](https://raw.githubusercontent.com/TylerJang27/Scav_Hunt_Extension/master/res/hunt.json)), or upload JSON directly (*WORK IN PROGRESS*).
+
+For feedback, please see this [survey](https://duke.qualtrics.com/jfe/form/SV_3RgYWhVtf0fHZpr)
 
 *TODO: INCLUDE SCREENSHOTS*
 
@@ -66,9 +70,10 @@ Low-level base64 encryption is made available in order to prevent a curious user
 
 ### References
 
-The following resources were used to create this extension.
+The following resources were used to create this extension. Thank You :)
  - [kunal-mandalia's Let's Write Code](https://github.com/shama/letswritecode/tree/master/how-to-make-chrome-extensions)
  - [Javascript fetch tutorial](https://www.javascripttutorial.net/javascript-fetch-api/#:~:text=The%20fetch()%20method%20returns,%2F%2F%20handle%20the%20error%20%7D)
+ - [Javascript JSON fetch](https://daveceddia.com/unexpected-token-in-json-at-position-0/)
  - [Alert box styling](https://stackoverflow.com/questions/7853130/how-to-change-the-style-of-alert-box)
  - [Creating Options](https://developer.chrome.com/extensions/options)
  - [Downloading with extensions](https://stackoverflow.com/questions/4845215/making-a-chrome-extension-download-a-file/24162238)
