@@ -7,6 +7,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
 })
 
+
 chrome.browserAction.onClicked.addListener(function (tab) {
   var en = window.clue.encrypted;
   if (window.clue.error != undefined) {

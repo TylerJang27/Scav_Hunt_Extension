@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head><title>Scavenger Hunt Source</title></head>
+<body>
+
+<h2>Scavenger Hunt Source</h2>
+<div>
+<form>
+    <input type="radio" id="sample_choice" name="source" value="Sample">
+    <label for="sample">Sample</label><br>
+    <input type="radio" id="url_choice" name="source" value="URL">
+    <label for="url_label">URL</label>
+    <input type="url" id="urlsource" name="urlsource"><br>
+    <input type="radio" id="upload_choice" name="source" value="Upload">
+    <label for="myfile">Upload</label>
+    <input type="file" accept=".json,.zip,.html,.css" id="myfile" name="myfile">
+    <br><br>
+    <input type="button" id="submitit" value="Submit">
+    <input type="button" id="resetit" value="Reset">
+</form>
+</div>
+
+<div id="status"></div>
+
+<script src="options.js"></script>
+</body>
+</html>

@@ -70,3 +70,6 @@ The following resources were used to create this extension.
  - [kunal-mandalia's Let's Write Code](https://github.com/shama/letswritecode/tree/master/how-to-make-chrome-extensions)
  - [Javascript fetch tutorial](https://www.javascripttutorial.net/javascript-fetch-api/#:~:text=The%20fetch()%20method%20returns,%2F%2F%20handle%20the%20error%20%7D)
  - [Alert box styling](https://stackoverflow.com/questions/7853130/how-to-change-the-style-of-alert-box)
+ - [Creating Options](https://developer.chrome.com/extensions/options)
+ - [Downloading with extensions](https://stackoverflow.com/questions/4845215/making-a-chrome-extension-download-a-file/24162238)
+ - [Error callbacks](https://stackoverflow.com/questions/51600832/how-to-make-chrome-downloads-api-wait-until-a-download-has-ended)
