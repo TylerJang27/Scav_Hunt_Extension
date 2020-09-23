@@ -1,5 +1,6 @@
 {
     "name": "Scavenger Hunt",
+    "description": "A simple scavenger hunt extension based on URLs",
     "version": "0.9",
     "manifest_version": 2,
     "options_ui": {
