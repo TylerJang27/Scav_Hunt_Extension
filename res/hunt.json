@@ -11,8 +11,8 @@
             "url": "google.com",
             "text": "The start, go to duke.edu\nIf you dare...",
             "html": "clue0.html",
-            "image": "res/clue0.png",
-            "alt": "a monkey",
+            "image": "res/scav_alt.png",
+            "alt": "Scavenger Hunt Icon",
             "interact": "always"
         },
         {

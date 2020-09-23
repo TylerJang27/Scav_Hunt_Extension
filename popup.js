@@ -24,6 +24,9 @@ function populateDiv(div, clue, en) {
   // add image
   if (clue.image != undefined) {
     const img = document.createElement('img');
+    img.setAttribute('display', 'block');
+    img.setAttribute('height', '75%');
+    img.setAttribute('width', '75%');
     if (decryptSoft(clue.image, en).includes("res/")) {
       img.src = chrome.runtime.getURL(decryptSoft(clue.image, en));
     } else {
