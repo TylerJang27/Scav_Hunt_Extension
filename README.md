@@ -8,20 +8,37 @@ Status: Beta
 
 A simple Chrome Extension to create a Scavenger Hunt based on [encoded json](res/hunt.json). Only use Chrome Extensions and JSON created by those you trust.
 
-Upon installing the Chrome Extension, right click on the Extension and open up Options. There, you will have the option to change the JSON source for the scavenger hunt. You can specify the sample JSON, JSON from a URL ([example](https://raw.githubusercontent.com/TylerJang27/Scav_Hunt_Extension/master/res/hunt.json)), or upload JSON directly (*WORK IN PROGRESS*).
-
-For feedback, please see this [survey](https://duke.qualtrics.com/jfe/form/SV_3RgYWhVtf0fHZpr)
-
 *TODO: INCLUDE SCREENSHOTS*
+
+### Install
+
+In order to run the Chrome Extension from this repo:
+ - `git clone git@github.com:TylerJang27/Scav_Hunt_Extension.git`
+ - Go to `chrome://extensions`
+ - Enable Developer mode (top right)
+ - Load Unpacked, and select the folder for this repo
+ - Right click the extension manager (puzzle piece) and pin the Scavenger Hunt Extension
+
+### Configuration
+
+Upon installing the Chrome Extension, right click on the Extension and open up Options. There, you will have the option to change the JSON source for the scavenger hunt. You can specify the sample JSON, JSON from a URL ([example](https://raw.githubusercontent.com/TylerJang27/Scav_Hunt_Extension/master/res/hunt.json)), or upload JSON directly (*WORK IN PROGRESS*). Click submit, and the sourc will be configured!
+
+### Hunting
+
+Navigate to the start of the hunt (contact hunt creator for the start, default is `google.com`), and click on the extension in the top right of your browser!
+
+### Customization and Development
 
 In order to make your own scavenger hunt:
  - Fork off of this branch,
  - Edit [res/hunt.json](res/hunt.json) to include your clues and URLs, in accordance with the guidelines below,
  - Add any additional HTML or image files in `res/`,
- - Change the [popup.html](popup.html) and [popup.css](popup.css) files as you wish, and
+ - Change the [popup.html](popup.html) and [hunt.css](hunt.css) files as you wish, and
  - Have fun!
 
-## JSON Guiddlines
+ For feedback, please see this [survey](https://duke.qualtrics.com/jfe/form/SV_3RgYWhVtf0fHZpr)
+
+## JSON Guidelines
 [1] denotes required, [2=_] denotes default value unless specified
 
 See the sample files for examples.
@@ -29,7 +46,7 @@ See the sample files for examples.
 ### Top Level
 
 The following top-level Key-Value Pairs should be included in the [json file]](res/hunt.json).
- - name (String)
+ - name (String) [2=Scavenger Hunt]
     - The name of the scavenger hunt
  - description (String)
     - A description of the hunt
@@ -41,6 +58,8 @@ The following top-level Key-Value Pairs should be included in the [json file]](r
     - Whether or not the values in the json are encrypted (see below)
  - clues (List of Objects) [1]
     - The clues to be found along the trail
+ - background (String) [2=[Unsplash](https://unsplash.com/photos/J_xAScfz3EE)]
+   - A URL pointing to an image
 
 ### Clues
 
@@ -71,7 +90,7 @@ Low-level base64 encryption is made available in order to prevent a curious user
 ### References
 
 The following resources were used to create this extension. Thank You :)
- - [kunal-mandalia's Let's Write Code](https://github.com/shama/letswritecode/tree/master/how-to-make-chrome-extensions)
+ - kunal-mandalia's [Let's Write Code](https://github.com/shama/letswritecode/tree/master/how-to-make-chrome-extensions)
  - [Javascript fetch tutorial](https://www.javascripttutorial.net/javascript-fetch-api/#:~:text=The%20fetch()%20method%20returns,%2F%2F%20handle%20the%20error%20%7D)
  - [Javascript JSON fetch](https://daveceddia.com/unexpected-token-in-json-at-position-0/)
  - [Alert box styling](https://stackoverflow.com/questions/7853130/how-to-change-the-style-of-alert-box)
