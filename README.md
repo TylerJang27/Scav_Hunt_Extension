@@ -1,7 +1,7 @@
 # Scav_Hunt_Extension
 
-Creator: Tyler Jang
-Last Updated: 9/22/20
+Creator: Tyler Jang |
+Last Updated: 9/22/20 |
 Status: Beta
 
 ## Overview
