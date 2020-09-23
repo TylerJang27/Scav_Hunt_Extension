@@ -15,7 +15,7 @@
     ],
     "browser_action": {
       "default_title": "Scavenger Hunt",
-      "default_icon": "scav.png"
+      "default_icon": "scav4.png"
     },
     "background": {
       "scripts": ["background.js"]

@@ -4,11 +4,12 @@
     "version": "0.9",
     "author": "Tyler Jang",
     "encrypted": false,
+    "background": "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80", 
     "clues" : [
         {
             "id": 0,
             "url": "google.com",
-            "text": "The start, go to duke.edu",
+            "text": "The start, go to duke.edu\nIf you dare...",
             "html": "clue0.html",
             "image": "res/clue0.png",
             "alt": "a monkey",

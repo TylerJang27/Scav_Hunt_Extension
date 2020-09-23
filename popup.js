@@ -1,5 +1,26 @@
 function populateDiv(div, clue, en) {
-  div.textContent = `${decryptSoft(clue.url, en)}: ${decryptSoft(clue.text, en)}`
+  const p = document.createElement('p');
+  p.setAttribute('class', 'lead');
+  p.textContent = `${decryptSoft(clue.url, en)}`;
+  const br = document.createElement('br');
+  p.appendChild(br);
+  var clue_content = `${decryptSoft(clue.text, en)}`;
+  if (clue_content.includes("\n")) {
+    clue_lines = clue_content.split("\n");
+  } else {
+    clue_lines = [clue_content];
+  }
+  
+  var lastp = p;
+  for (i = 0; i < clue_lines.length; i++) {
+    var p2 = document.createElement('p');
+    p2.setAttribute('class', 'lead');
+    p2.textContent = clue_lines[i];
+    lastp.appendChild(p2);
+    lastp = p2;
+  }
+  div.appendChild(p);
+
   // add image
   if (clue.image != undefined) {
     const img = document.createElement('img');
@@ -13,7 +34,7 @@ function populateDiv(div, clue, en) {
     if (clue.alt != undefined) {
       img.alt = decryptSoft(clue.alt, en);
     }
-    div.appendChild(img, en);
+    div.appendChild(img);
   }
 }
 
@@ -35,6 +56,7 @@ function populateForm(div) {
   const lbl = document.createElement('label');
   lbl.setAttribute('for', 'textPrompt');
   lbl.textContent="Enter Key: ";
+  const br = document.createElement('br');
   const txt_input = document.createElement('input');
   txt_input.setAttribute('type', 'text');
   txt_input.setAttribute('id', 'userInput');
@@ -46,6 +68,7 @@ function populateForm(div) {
   submit_btn.addEventListener("click", validateKey);
 
   frm.appendChild(lbl);
+  frm.appendChild(br);
   frm.appendChild(txt_input);
   frm.appendChild(submit_btn);
 
@@ -56,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const bg = chrome.extension.getBackgroundPage() //gets access to background.js background page window
     const div = document.createElement('div')
     var en = bg.clue.encrypted;
-
+    console.log(bg.clue.url);
     if (bg.clue.url != undefined) {
       if (bg.clue.interact == encryptSoft("submit", en)) {
         if (bg.clue.visible) {
@@ -69,22 +92,30 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     } else {
       //if control flow is correct, this should not be hit
-      div.textContent = 'Keep looking!'
+      div.textContent = 'Please return to the previous page and try again!'
     }
-    document.body.appendChild(div)
-    //document.getElementById("clue").appendChild(div);
+    document.getElementById("hunt-clue").appendChild(div);
 
+    //set correct title and background image
+    chrome.storage.sync.get({
+      clueobject: "",
+    }, function(items) {
+      var hunt_data = items.clueobject; //TODO: ADD TITLE AND SUCH
+      var img = hunt_data.background;
+      if (img == undefined) {
+        img = "https://getbootstrap.com/docs/4.5/examples/cover/";
+      }
+      console.log(img);
+      var sheet = document.styleSheets[2];
+      sheet.insertRule("body { ,height: 100%; background: url('" + img + "') no-repeat center; background-position: cover;}", 0);
 
+      var title = hunt_data.name;
+      if (title == undefined) {
+        title = "Scavenger Hunt";
+      }
+      document.getElementById("hunt-title").textContent=title;
+    });
 
-    // Object.keys(bg.clue).forEach(function (url) {
-    //   const div = document.createElement('div')
-    //   div.textContent = `${url}: ${bg.clue[url]}`
-
-    //   //TODO 3: RATHER THAN POPULATE WITH DIV AND STUFF, POPULATE WITH THE CORRECT STUFF
-
-    //   document.body.appendChild(div)
-    // })
-  
   }, false)
 
   function decryptSoft(blah, encrypted) {
