@@ -1,17 +1,4 @@
-// async function getClues() {
-//   const json_url = chrome.runtime.getURL('res/hunt.json');
-//   try {
-//     let res = await fetch(json_url);
-//     let data = await res.json();
-//     handleJson(data);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
 function checkForUpdates() {
-  //var updatedSource;
-
   chrome.storage.sync.get({
     sourceUpdates: false
   }, function(items) {
@@ -28,17 +15,6 @@ function checkForUpdates() {
       handleJson();
     }
   });
-
-  // if (updatedSource) {
-  //   chrome.storage.sync.get({
-  //     sourceJson: chrome.runtime.getURL('res/hunt.json'),
-  //   }, function(items) {
-  //     console.log("retrieving clues...");
-  //     getClues(items.sourceJson);
-  //   });
-  // } else {
-  //   console.log("No updates");
-  // }
 }
 
 async function getClues(source) {
@@ -50,12 +26,6 @@ async function getClues(source) {
     })
     .then(res => res.json())
     .then(function(response) {
-      // window.clues = await res.json();
-      // handleJson(data);
-      // TODO: VERIFY THIS WORKS WITH THE DIFFERENT INPUT TYPES
-      // console.log(JSON.parse(res));
-      // console.log(res.json());
-
       chrome.storage.sync.set({
         sourceUpdates: false,
         clueobject: response
@@ -76,8 +46,6 @@ function handleJson() {
       clueobject: "",
     }, function(items) {
       hunt_data = items.clueobject;
-      //const bg = chrome.extension.getBackgroundPage();
-      //hunt_data = bg.clues;
       var clues = hunt_data.clues;
       var en = hunt_data.encrypted;
       if (en == undefined) {
@@ -124,9 +92,8 @@ function handleJson() {
         }
       }
     
-      //can do highlighting here to, may have to do some request stuff correctly for popups, etc. (but that's stage 2)
+      //can do highlighting here too, may have to do some request stuff correctly for popups, etc. (but that's stage 2)
     
-      //TODO 1B: PASS THE CORRECT INFO ALONG
       match_data["encrypted"] = en;
       chrome.runtime.sendMessage(match_data);
     });
@@ -135,6 +102,7 @@ function handleJson() {
   }
 }
 
+//populates match_data and specifies default values
 function populate_match_data(this_clue, en) {
   match_data = {}
   match_data["url"] = this_clue.url;
@@ -190,46 +158,7 @@ function encryptSoft(text, encrypted) {
   return text;
 }
 
-//getClues();
 checkForUpdates();
 handleJson();
 
-
-
-  // {
-  // url: window.location.href,
-  // count: matches.length
-  //url
-  //html source (optional)
-  //text (optional)
-  //number
-  //image (optional)
-  //interact (always, clickable)
-// }
-// )
-
-//need to do some document getElementById or the innerHTML search and stuff
-
-
-
-//from https://stackoverflow.com/questions/35412645/automatically-highlight-specific-word-in-browser
-// var all = document.getElementsByTagName("*");
-// highlight_words('Bryant', all);
-
-// function highlight_words(keywords, element) {
-//     if(keywords) {
-//         var textNodes;
-//         keywords = keywords.replace(/\W/g, '');
-//         var str = keywords.split(" ");
-//         $(str).each(function() {
-//             var term = this;
-//             var textNodes = $(element).contents().filter(function() { return this.nodeType === 3 });
-//             textNodes.each(function() {
-//                 var content = $(this).text();
-//                 var regex = new RegExp(term, "gi");
-//                 content = content.replace(regex, '<span class="highlight">' + term + '</span>');
-//                 $(this).replaceWith(content);
-//             });
-//         });
-//     }
-// }
+//TODO: Implement highlighting, check https://stackoverflow.com/questions/35412645/automatically-highlight-specific-word-in-browser

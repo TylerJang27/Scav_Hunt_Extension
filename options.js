@@ -1,5 +1,3 @@
-//import saveAs from 'file-saver';
-
 // Saves options to chrome.storage
 function save_options() {
     var choice = -1;
@@ -22,27 +20,14 @@ function save_options() {
         choice = 1;
         var status = document.getElementById('status');
         status.textContent = "url noted \n " + document.getElementById('urlsource').value;
-        // chrome.downloads.download({
-        //     url: document.getElementById('urlsource').value,
-        //     filename: "url_hunt.json",
-        //     conflictAction: "overwrite"
-        // }, id => {
-        //     currentId = id;
-        // });
         json_source = document.getElementById('urlsource').value;
         status.textContent = "Save successful.";
     } else if (file_selected) {
         choice = 2;
         document.getElementById('urlsource').value = "";
-        //TODO: FIX
-        //const reader = new FileReader();
+        //TODO: Implement uploads
         
         var status = document.getElementById('status');
-        //status.textContent = "hello " + document.getElementById('myfile').value;
-
-        // var FileSaver = require('file-saver');
-        // var blob = new Blob(["Hello, world!"], {type: "text/plain;charset=utf-8"});
-        // FileSaver.saveAs(blob, "hello world.txt");
 
         status.textContent = "Many apologies, but the file upload feature is not yet working, please select a different option.";
     }
