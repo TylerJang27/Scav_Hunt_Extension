@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       console.log(img);
       var sheet = document.styleSheets[2];
-      sheet.insertRule("body { ,height: 100%; background: url('" + img + "') no-repeat center; background-position: cover;}", 0);
+      sheet.insertRule("body { ,height: 100%; background: url('" + img + "') no-repeat center; background-size:cover; background-position: cover;}", 0);
 
       var title = hunt_data.name;
       if (title == undefined) {
