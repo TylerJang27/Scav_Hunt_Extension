@@ -79,10 +79,9 @@ function populateForm(div) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    const bg = chrome.extension.getBackgroundPage() //gets access to background.js background page window
-    const div = document.createElement('div')
+    const bg = chrome.extension.getBackgroundPage(); //gets access to background.js background page window
+    const div = document.createElement('div');
     var en = bg.clue.encrypted;
-    console.log(bg.clue.url);
     if (bg.clue.url != undefined) {
       if (bg.clue.interact == encryptSoft("submit", en)) {
         if (bg.clue.visible) {
@@ -102,13 +101,13 @@ document.addEventListener('DOMContentLoaded', function () {
     //set correct title and background image
     chrome.storage.sync.get({
       clueobject: "",
+      maxId: 0
     }, function(items) {
       var hunt_data = items.clueobject; //TODO: ADD TITLE AND SUCH
       var img = hunt_data.background;
       if (img == undefined) {
         img = "https://getbootstrap.com/docs/4.5/examples/cover/";
       }
-      console.log(img);
       var sheet = document.styleSheets[2];
       sheet.insertRule("body { ,height: 100%; background: url('" + img + "') no-repeat center; background-size:cover; background-position: cover;}", 0);
 
@@ -117,9 +116,23 @@ document.addEventListener('DOMContentLoaded', function () {
         title = "Scavenger Hunt";
       }
       document.getElementById("hunt-title").textContent=title;
+
+      handleMaxId(bg.clue, div, items.maxId);
     });
 
   }, false)
+
+  function handleMaxId(clue, div, max) {
+    if (max == clue.id) {
+      const br = document.createElement('br');
+      const a = document.createElement('a');
+      a.textContent="Feedback Survey";
+      a.setAttribute("href", "https://forms.gle/3ZhvtKasc3WZZF9V7");
+      a.setAttribute("class", "survey");
+      div.appendChild(br);
+      div.appendChild(a);
+    }
+  }
 
   function decryptSoft(blah, encrypted) {
     if (encrypted) {

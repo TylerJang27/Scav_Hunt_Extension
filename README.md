@@ -37,7 +37,7 @@ In order to make your own scavenger hunt:
  - Change the [popup.html](popup.html) and [hunt.css](hunt.css) files as you wish, and
  - Have fun!
 
- For feedback, please see this [survey](https://duke.qualtrics.com/jfe/form/SV_3RgYWhVtf0fHZpr)
+ For feedback, please see this [survey](https://forms.gle/3ZhvtKasc3WZZF9V7)
 
 ## JSON Guidelines
 [1] denotes required, [2=_] denotes default value unless specified

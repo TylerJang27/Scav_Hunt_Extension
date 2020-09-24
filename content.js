@@ -2,16 +2,13 @@ function checkForUpdates() {
   chrome.storage.sync.get({
     sourceUpdates: false
   }, function(items) {
-    console.log("here is my update status: " + items.sourceUpdates);
     if (items.sourceUpdates) {
       chrome.storage.sync.get({
         sourceJson: chrome.runtime.getURL('res/hunt.json'),
       }, function(items) {
-        console.log("retrieving clues...");
         getClues(items.sourceJson);
       });
     } else {
-      console.log("No updates");
       handleJson();
     }
   });
@@ -19,7 +16,6 @@ function checkForUpdates() {
 
 async function getClues(source) {
   //const json_url = chrome.runtime.getURL('res/hunt.json');
-  console.log("source is: " + source);
   try {
     fetch(source, {
       mode: "cors"
@@ -28,7 +24,8 @@ async function getClues(source) {
     .then(function(response) {
       chrome.storage.sync.set({
         sourceUpdates: false,
-        clueobject: response
+        clueobject: response,
+        maxId: getMaxId(response.clues)
       }, function() {
         handleJson();
       });
@@ -36,6 +33,16 @@ async function getClues(source) {
   } catch (error) {
     console.error(error);
   }
+}
+
+function getMaxId(clues) {
+  var max_id = 0;
+  for(var i = 0; i < clues.length; i++) {
+    if (clues[i].id > max_id) {
+      max_id = clues[i].id;
+    }
+  }
+  return max_id;
 }
 
 function handleJson() {
@@ -55,30 +62,28 @@ function handleJson() {
       if (clues == undefined || hunt_data == "") {
         match_data["error"] = "Please set or reset the Scavenger Hunt source in Options.";
       } else {
-        console.log("Looping through " + clues.length);
         for(var i = 0; i < clues.length; i++) {
-          var obj = clues[i]
+          var obj = clues[i];
           //error handling for bad clue definitions
-          if (clues[i].id == undefined) {
+          if (obj.id == undefined) {
             match_data["error"] = "Missing ID, please contact the Scavenger Hunt manager";
             break;
           }
-          if (clues[i].text == undefined && clues[i].html == undefined) {
+          if (obj.text == undefined && obj.html == undefined) {
             match_data["error"] = "Missing text or HTML, please contact the Scavenger Hunt manager";
             break;
           }
-          if (clues[i].url == undefined) {
+          if (obj.url == undefined) {
             match_data["error"] = "Missing URL, please contact the Scavenger Hunt manager";
             break;
           }
-          if (clues[i].interact == "submit" && clues[i].key == undefined) {
+          if (obj.interact == "submit" && obj.key == undefined) {
             match_data["error"] = "Missing submit key, please contact the Scavenger Hunt manager";
             break;
           }
     
           //check if url matches a clue
-          console.log(decryptSoft(clues[i].url, en));
-          let reg = new RegExp(decryptSoft(clues[i].url, en))
+          let reg = new RegExp(decryptSoft(obj.url, en))
           var matches = window.location.href.match(reg);
     
           if (matches == null) {
@@ -86,7 +91,7 @@ function handleJson() {
             continue;
           } else {
             //populate match with clue info
-            match_data = populate_match_data(clues[i], en);
+            match_data = populate_match_data(obj, en);
             break
           }
         }
@@ -106,6 +111,7 @@ function handleJson() {
 function populate_match_data(this_clue, en) {
   match_data = {}
   match_data["url"] = this_clue.url;
+  match_data["id"] = this_clue.id;
   if (this_clue.text != undefined) {
     match_data["text"] = this_clue.text;
   } else {
