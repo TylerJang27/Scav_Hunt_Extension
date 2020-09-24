@@ -6,7 +6,7 @@ Status: Beta
 
 ## Overview
 
-A simple Chrome Extension to create a Scavenger Hunt based on [encoded json](res/hunt.json). Only use Chrome Extensions and JSON created by those you trust.
+A simple Chrome Extension to create a Scavenger Hunt for URLs based on [encoded json](res/hunt.json). Only load JSON hunts created by those you trust.
 
 ![image](graphics/clue_1.jpg)
 ![image](graphics/clue_2.jpg)
