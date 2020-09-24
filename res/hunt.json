@@ -9,7 +9,7 @@
         {
             "id": 0,
             "url": "google.com",
-            "text": "The start, go to duke.edu\nIf you dare...",
+            "text": "The hunt begins for pure and brave\nAt education's own conclave.\nYou'll find the treasure that you seek\nUpon Khan's anointed peak.",
             "html": "clue0.html",
             "image": "res/scav_alt.png",
             "alt": "Scavenger Hunt Icon",
@@ -17,11 +17,10 @@
         },
         {
             "id": 1,
-            "url": "duke.edu",
+            "url": "khanacademy.org/",
             "text": "You found the first clue!",
-            "html": "clue1.html",
-            "image": "https://duke.edu/assets/img/duketoday-logo.svg",
-            "alt": "Duke",
+            "image": "https://i.pcmag.com/imagery/reviews/07AxdIVbQ63OEkJoPgCybXt-19.1594914797.fit_scale.size_1028x578.png",
+            "alt": "Khan Academy",
             "interact": "always"
         },
         {

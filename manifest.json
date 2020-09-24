@@ -26,7 +26,7 @@
     "background": {
       "scripts": ["background.js"]
     },
-    "permissions": ["tabs", "storage", "downloads"],
+    "permissions": ["tabs", "storage"],
     "web_accessible_resources": [
         "res/*"
     ]
