@@ -26,7 +26,7 @@ Upon installing the Chrome Extension, right click on the extension icon (top rig
 
 ### Hunting
 
-Navigate to the start of the hunt (contact hunt creator for the start, default is `google.com`), and click on the extension in the top right of your browser!
+Navigate to the start of the hunt (contact hunt creator for the start, default is `google.com`), and click on the extension in the top right of your browser! Note that you must wait for the page to load completely before you can lcick on the extension.
 
 ### Customization and Development
 
