@@ -8,7 +8,8 @@ Status: Beta
 
 A simple Chrome Extension to create a Scavenger Hunt based on [encoded json](res/hunt.json). Only use Chrome Extensions and JSON created by those you trust.
 
-*TODO: INCLUDE SCREENSHOTS*
+![image](res/clue_1.jpg)
+![image](res/clue_2.jpg)
 
 ### Install
 
@@ -93,8 +94,6 @@ The following resources were used to create this extension. Thank You :)
  - kunal-mandalia's [Let's Write Code](https://github.com/shama/letswritecode/tree/master/how-to-make-chrome-extensions)
  - [Javascript fetch tutorial](https://www.javascripttutorial.net/javascript-fetch-api/#:~:text=The%20fetch()%20method%20returns,%2F%2F%20handle%20the%20error%20%7D)
  - [Javascript JSON fetch](https://daveceddia.com/unexpected-token-in-json-at-position-0/)
- - [Alert box styling](https://stackoverflow.com/questions/7853130/how-to-change-the-style-of-alert-box)
  - [Creating Options](https://developer.chrome.com/extensions/options)
- - [Downloading with extensions](https://stackoverflow.com/questions/4845215/making-a-chrome-extension-download-a-file/24162238)
  - [Error callbacks](https://stackoverflow.com/questions/51600832/how-to-make-chrome-downloads-api-wait-until-a-download-has-ended)
  - Clue page built using [Bootstrap](https://getbootstrap.com/)
