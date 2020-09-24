@@ -83,7 +83,7 @@ function handleJson() {
           }
     
           //check if url matches a clue
-          let reg = new RegExp(decryptSoft(obj.url, en))
+          let reg = new RegExp(decryptSoft(obj.url, en));
           var matches = window.location.href.match(reg);
     
           if (matches == null) {
@@ -92,7 +92,7 @@ function handleJson() {
           } else {
             //populate match with clue info
             match_data = populate_match_data(obj, en);
-            break
+            break;
           }
         }
       }
@@ -109,7 +109,7 @@ function handleJson() {
 
 //populates match_data and specifies default values
 function populate_match_data(this_clue, en) {
-  match_data = {}
+  match_data = {};
   match_data["url"] = this_clue.url;
   match_data["id"] = this_clue.id;
   if (this_clue.text != undefined) {
