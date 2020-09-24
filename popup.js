@@ -44,7 +44,7 @@ function populateDiv(div, clue, en) {
 function validateKey() {
   const bg = chrome.extension.getBackgroundPage();
   const clue = bg.clue;
-  const en = bg.encrypted;
+  const en = clue.encrypted;
   var userKey = document.getElementById('userInput').value;
   if (String(decryptSoft(clue.key, en)).toUpperCase() == String(userKey).toUpperCase()) {
     clue.visible = true;
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const div = document.createElement('div');
     var en = bg.clue.encrypted;
     if (bg.clue.url != undefined) {
-      if (bg.clue.interact == encryptSoft("submit", en)) {
+      if (bg.clue.interact == "submit") {
         if (bg.clue.visible) {
           populateDiv(div, bg.clue, en);
         } else {
@@ -106,10 +106,10 @@ document.addEventListener('DOMContentLoaded', function () {
       var hunt_data = items.clueobject; //TODO: ADD TITLE AND SUCH
       var img = hunt_data.background;
       if (img == undefined) {
-        img = "https://getbootstrap.com/docs/4.5/examples/cover/";
+        img = "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80";
       }
       var sheet = document.styleSheets[2];
-      sheet.insertRule("body { ,height: 100%; background: url('" + img + "') no-repeat center; background-size:cover; background-position: cover;}", 0);
+      sheet.insertRule("body { ,height: 100%; background: url('" + img + "') no-repeat center; background-size: cover; background-position: cover;}", 0);
 
       var title = hunt_data.name;
       if (title == undefined) {
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
         for (var k = 0; k < blah.length; k += 2) {
             level1 += blah.charAt(k);
         }
-        return (atob(levelc));
+        return (atob(level1));
     }
     return blah;
   }

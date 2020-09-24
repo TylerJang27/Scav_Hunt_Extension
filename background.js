@@ -56,7 +56,7 @@ function decryptSoft(blah, encrypted) {
       for (var k = 0; k < blah.length; k += 2) {
           level1 += blah.charAt(k);
       }
-      return (atob(levelc));
+      return (atob(level1));
   }
   return blah;
 }

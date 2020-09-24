@@ -1,7 +1,7 @@
 # Scav_Hunt_Extension
 
 Creator: Tyler Jang |
-Last Updated: 9/22/20 |
+Last Updated: 9/24/20 |
 Status: Beta
 
 ## Overview
@@ -30,7 +30,12 @@ Navigate to the start of the hunt (contact hunt creator for the start, default i
 
 ### Customization and Development
 
-In order to make your own scavenger hunt:
+To make your own scavenger hunt:
+ - Install the Extension,
+ - Navigate to the Extension's Options,
+ - Click on `Generate Hunt` to open a form and create a hunt.
+
+ To add more customization:
  - Fork off of this branch,
  - Edit [res/hunt.json](res/hunt.json) to include your clues and URLs, in accordance with the guidelines below,
  - Add any additional HTML or image files in `res/`,
@@ -57,10 +62,10 @@ The following top-level Key-Value Pairs should be included in the [json file]](r
     - Author of the scavenger hunt
  - encypted (Boolean) [2=false]
     - Whether or not the values in the json are encrypted (see below)
+- background (String) [2=[Unsplash](https://unsplash.com/photos/J_xAScfz3EE)]
+   - A URL pointing to an image
  - clues (List of Objects) [1]
     - The clues to be found along the trail
- - background (String) [2=[Unsplash](https://unsplash.com/photos/J_xAScfz3EE)]
-   - A URL pointing to an image
 
 ### Clues
 
@@ -86,7 +91,7 @@ The following key-value pairs are expected as part of clue objects.
 
 ### Encryption
 
-Low-level base64 encryption is made available in order to prevent a curious user from poking the json. Note that a motivated user could still determine the json's contents. To generate the expected json, see *[WORK IN PROGRESS]()*. You should indicate in the json whether or not encryption is enabled at the encryption key.
+Low-level base64 encryption is made available in order to prevent a curious user from poking the json. Note that a motivated user could still determine the json's contents. To generate the expected json, see the Chrome Extension options, where you will be able to fill out a [form](encode.html) and create it. You should indicate in the json whether or not encryption is enabled at the encryption key.
 
 ### References
 
@@ -97,3 +102,5 @@ The following resources were used to create this extension. Thank You :)
  - [Creating Options](https://developer.chrome.com/extensions/options)
  - [Error callbacks](https://stackoverflow.com/questions/51600832/how-to-make-chrome-downloads-api-wait-until-a-download-has-ended)
  - Clue page built using [Bootstrap](https://getbootstrap.com/)
+ - [HTML Tables](https://www.w3schools.com/jsref/met_tablerow_insertcell.asp#:~:text=Insert%20new%20row(s)%20at,cells%20in%20the%20new%20row.)
+ - [Chrome Extension Downloads](https://stackoverflow.com/questions/4845215/making-a-chrome-extension-download-a-file/24162238)

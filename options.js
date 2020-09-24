@@ -93,7 +93,6 @@ function save_options() {
             document.getElementById('urlsource').value = items.sourceJson;
         } else if (items.sourceChoice == 2) {
             document.getElementById('upload_choice').checked = true;
-            document.getElementById('myfile').value = items.sourceJson;
         }
     });
   }

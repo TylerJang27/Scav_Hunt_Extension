@@ -146,7 +146,7 @@ function decryptSoft(blah, encrypted) {
       for (var k = 0; k < blah.length; k += 2) {
           level1 += blah.charAt(k);
       }
-      return (atob(levelc));
+      return (atob(level1));
   }
   return blah;
 }
@@ -165,6 +165,6 @@ function encryptSoft(text, encrypted) {
 }
 
 checkForUpdates();
-handleJson();
+//handleJson();
 
 //TODO: Implement highlighting, check https://stackoverflow.com/questions/35412645/automatically-highlight-specific-word-in-browser
