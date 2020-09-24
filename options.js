@@ -25,11 +25,11 @@ function save_options() {
     } else if (file_selected) {
         choice = 2;
         document.getElementById('urlsource').value = "";
-        //TODO: Implement uploads
-        
-        var status = document.getElementById('status');
+        var file_obj = document.getElementById('myfile');
+        var file = file_obj.files[0];
 
-        status.textContent = "Many apologies, but the file upload feature is not yet working, please select a different option.";
+        retrieveUpload(file);
+        json_source="upload";
     }
 
     if (choice >= 0 && error == 0) {
@@ -52,6 +52,29 @@ function save_options() {
         var status = document.getElementById('status');
         status.textContent = 'Please select a valid option';
     }
+  }
+
+  async function retrieveUpload(file) {
+    const reader = new FileReader();
+    reader.addEventListener('load', (event) => {
+        var hunt_data = JSON.parse(event.target.result);
+        chrome.storage.sync.set({
+            clueobject: hunt_data,
+            sourceUpdates: false,
+            maxId: getMaxId(hunt_data.clues)
+        });
+    });
+    reader.readAsText(file);
+  }
+
+  function getMaxId(clues) {
+    var max_id = 0;
+    for(var i = 0; i < clues.length; i++) {
+      if (clues[i].id > max_id) {
+        max_id = clues[i].id;
+      }
+    }
+    return max_id;
   }
   
   // Restores select box and checkbox state using the preferences

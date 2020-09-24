@@ -22,7 +22,7 @@ In order to run the Chrome Extension from this repo:
 
 ### Configuration
 
-Upon installing the Chrome Extension, right click on the Extension and open up Options. There, you will have the option to change the JSON source for the scavenger hunt. You can specify the sample JSON, JSON from a URL ([example](https://raw.githubusercontent.com/TylerJang27/Scav_Hunt_Extension/master/res/hunt.json)), or upload JSON directly (*WORK IN PROGRESS*). Click submit, and the sourc will be configured!
+Upon installing the Chrome Extension, right click on the Extension and open up Options. There, you will have the option to change the JSON source for the scavenger hunt. You can specify the sample JSON, JSON from a URL ([example](https://raw.githubusercontent.com/TylerJang27/Scav_Hunt_Extension/master/res/hunt.json)), or upload JSON directly. Click submit, and the source will be configured!
 
 ### Hunting
 
