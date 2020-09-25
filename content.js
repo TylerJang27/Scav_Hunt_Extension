@@ -83,7 +83,7 @@ function handleJson() {
           }
     
           //check if url matches a clue
-          let reg = new RegExp(decryptSoft(obj.url, en));
+          let reg = new RegExp(decryptSoft(obj.url, en, hunt_data.version));
           var matches = window.location.href.match(reg);
     
           if (matches == null) {
@@ -91,7 +91,7 @@ function handleJson() {
             continue;
           } else {
             //populate match with clue info
-            match_data = populate_match_data(obj, en);
+            match_data = populate_match_data(obj, hunt_data.version);
             break;
           }
         }
@@ -107,7 +107,7 @@ function handleJson() {
 }
 
 //populates match_data and specifies default values
-function populate_match_data(this_clue, en) {
+function populate_match_data(this_clue, version) {
   match_data = {};
   match_data["url"] = this_clue.url;
   match_data["id"] = this_clue.id;
@@ -128,39 +128,40 @@ function populate_match_data(this_clue, en) {
   if (this_clue.interact != undefined) { //TODO: MAKE ENUM
     match_data["interact"] = this_clue.interact;
   } else {
-    match_data["interact"] = encryptSoft("always", en);
+    match_data["interact"] = "always";
+  }
+
+  if (this_clue.prompt != undefined) {
+    match_data["prompt"] = this_clue.prompt;
   }
 
   if (this_clue.key != undefined) {
     match_data["key"] = this_clue.key;
   }
 
+  match_data["version"] = version;
+
   //if (match_data["type"] == "clickable") // check if clickable or button
   return match_data;
 }
 
-function decryptSoft(blah, encrypted) {
+function decryptSoft(blah, encrypted, version) {
   if (encrypted) {
+    if (version == "0.9") {
       level1 = "";
       for (var k = 0; k < blah.length; k += 2) {
           level1 += blah.charAt(k);
       }
       return (atob(level1));
+    } else {
+      level1 = "";
+      for (var k = 0; k < blah.length; k += 2) {
+          level1 += blah.charAt(k);
+      }
+      return (atob(level1));
+    }
   }
   return blah;
-}
-
-function encryptSoft(text, encrypted) {
-  if (encrypted) {
-      var level1 = btoa(text);
-      var level2 = level1.split("");
-      var level3 = "";
-      for (var k = 0; k < level2.length-1; k++) {
-          level3 += level1.charAt(k) + Math.random().toString(36).charAt(2);
-      }
-      return (level3 + level2[level2.length - 1]);
-  }
-  return text;
 }
 
 checkForUpdates();

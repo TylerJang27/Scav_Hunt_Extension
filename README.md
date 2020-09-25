@@ -57,7 +57,8 @@ The following top-level Key-Value Pairs should be included in the [json file]](r
  - description (String)
     - A description of the hunt
  - version (String)
-    - Version of the scavenger hunt file
+    - Version of the scavenger hunt file (used for encryption compatibility)
+    - Currently 0.9
  - author (String)
     - Author of the scavenger hunt
  - encypted (Boolean) [2=false]
@@ -86,6 +87,8 @@ The following key-value pairs are expected as part of clue objects.
     - always: The clue will always be viewable as long as the user is at the correct URL
     - submit: The clue will require a user-submitted key in order to unlock
     - clickable: *WORK IN PROGRESS*
+ - prompt (String) [2=Enter key:]
+    - A prompt for what the user should enter in the key box
  - key (String) [1 if interact]
     - If interact is submit, a key to match (ignoring case) to view the next clue for a specified URL
 

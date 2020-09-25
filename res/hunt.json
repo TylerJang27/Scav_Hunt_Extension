@@ -33,6 +33,7 @@
             "url": "https://www.nytimes.com/*",
             "text": "You cracked the code!",
             "interact": "submit",
+            "prompt": "Enter yolo",
             "key": "yolo"
         }
     ]

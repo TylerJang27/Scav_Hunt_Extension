@@ -1,10 +1,10 @@
 function populateDiv(div, clue, en) {
   const p = document.createElement('p');
   p.setAttribute('class', 'lead');
-  p.textContent = `${decryptSoft(clue.url, en)}`;
+  p.textContent = `${decryptSoft(clue.url, en, clue.version)}`;
   const br = document.createElement('br');
   p.appendChild(br);
-  var clue_content = `${decryptSoft(clue.text, en)}`;
+  var clue_content = `${decryptSoft(clue.text, en, clue.version)}`;
   if (clue_content.includes("\n")) {
     clue_lines = clue_content.split("\n");
   } else {
@@ -27,10 +27,10 @@ function populateDiv(div, clue, en) {
     img.setAttribute('display', 'block');
     img.setAttribute('height', '75%');
     img.setAttribute('width', '75%');
-    if (decryptSoft(clue.image, en).includes("res/")) {
-      img.src = chrome.runtime.getURL(decryptSoft(clue.image, en));
+    if (decryptSoft(clue.image, en, clue.version).includes("res/")) {
+      img.src = chrome.runtime.getURL(decryptSoft(clue.image, en, clue.version));
     } else {
-      img.src = decryptSoft(clue.image, en);
+      img.src = decryptSoft(clue.image, en, clue.version);
     }
     
     //add alt text
@@ -46,19 +46,23 @@ function validateKey() {
   const clue = bg.clue;
   const en = clue.encrypted;
   var userKey = document.getElementById('userInput').value;
-  if (String(decryptSoft(clue.key, en)).toUpperCase() == String(userKey).toUpperCase()) {
+  if (String(decryptSoft(clue.key, en, clue.version)).toUpperCase() == String(userKey).toUpperCase()) {
     clue.visible = true;
   } else {
     alert("Try Again");
   }
 }
 
-function populateForm(div) {
+function populateForm(div, clue, en) {
   const frm = document.createElement('form');
   frm.setAttribute('id', 'keyForm');
   const lbl = document.createElement('label');
   lbl.setAttribute('for', 'textPrompt');
-  lbl.textContent="Enter Key: ";
+  if (clue.prompt == undefined) {
+    lbl.textContent="Enter Key: ";
+  } else {
+    lbl.textContent=decryptSoft(clue.prompt, en, clue.version);
+  }
   const br = document.createElement('br');
   const txt_input = document.createElement('input');
   txt_input.setAttribute('type', 'text');
@@ -87,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (bg.clue.visible) {
           populateDiv(div, bg.clue, en);
         } else {
-          populateForm(div);
+          populateForm(div, bg.clue, en);
         }
       } else {
         populateDiv(div, bg.clue, en);
@@ -134,26 +138,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  function decryptSoft(blah, encrypted) {
-    if (encrypted) {
-        level1 = "";
-        for (var k = 0; k < blah.length; k += 2) {
-            level1 += blah.charAt(k);
-        }
-        return (atob(level1));
+function decryptSoft(blah, encrypted, version) {
+  if (encrypted) {
+    if (version == "0.9") {
+      level1 = "";
+      for (var k = 0; k < blah.length; k += 2) {
+          level1 += blah.charAt(k);
+      }
+      return (atob(level1));
+    } else {
+      level1 = "";
+      for (var k = 0; k < blah.length; k += 2) {
+          level1 += blah.charAt(k);
+      }
+      return (atob(level1));
     }
-    return blah;
   }
-  
-  function encryptSoft(text, encrypted) {
-    if (encrypted) {
-        var level1 = btoa(text);
-        var level2 = level1.split("");
-        var level3 = "";
-        for (var k = 0; k < level2.length-1; k++) {
-            level3 += level1.charAt(k) + Math.random().toString(36).charAt(2);
-        }
-        return (level3 + level2[level2.length - 1]);
-    }
-    return text;
-  }
+  return blah;
+}

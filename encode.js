@@ -24,10 +24,7 @@ function generateJson() {
     if (description != "") {
         obj["description"] = description;
     }
-    var version = document.getElementById("huntVersion").value;
-    if (version != "") {
-        obj["version"] = version;
-    }
+    obj["version"] = "0.9"; //change at each encoding iteration
     var author = document.getElementById("huntAuthor").value;
     if (author != "") {
         obj["author"] = author;
@@ -65,6 +62,8 @@ function generateJson() {
             clue["interact"] = "submit";
             var submit_key = document.getElementById("clueKey" + i).value;
             clue["key"] = encryptSoft(submit_key, en);
+            var submit_prompt = document.getElementById("cluePrompt" + i).value;
+            clue["prompt"] = encryptSoft(submit_prompt, en);
         }
         clues.push(clue);
     }
@@ -145,7 +144,12 @@ function generateRow(row, id) {
     interactionCell.appendChild(generateRadioDiv(1, id));
     interactionCell.appendChild(generateRadioDiv(2, id));
 
-    var keyCell = row.insertCell(6);
+    var promptCell = row.insertCell(6);
+    promptCell.setAttribute('scope', 'col');
+    promptCell.appendChild(generateInput("cluePrompt" + id));
+    promptCell.getElementsByTagName('input')[0].disabled = true;
+
+    var keyCell = row.insertCell(7);
     keyCell.setAttribute('scope', 'col');
     keyCell.appendChild(generateInput("clueKey" + id));
     keyCell.getElementsByTagName('input')[0].disabled = true;
@@ -195,25 +199,29 @@ function disableKey(num) {
     var key = document.getElementById("clueKey" + num);
     key.disabled = true;
     key.value = "";
+    var prompt = document.getElementById("cluePrompt" + num);
+    prompt.disabled = true;
+    prompt.value = "";
 }
 
 function enableKey(num) {
     var num = this.id[this.id.length-1];
     document.getElementById("clueKey" + num).disabled = false;
+    document.getElementById("cluePrompt" + num).disabled = false;
 }
 
 function encryptSoft(text, encrypted) {
-    if (encrypted) {
-        var level1 = btoa(text);
-        var level2 = level1.split("");
-        var level3 = "";
-        for (var k = 0; k < level2.length-1; k++) {
-            level3 += level1.charAt(k) + Math.random().toString(36).charAt(2);
-        }
-        return (level3 + level2[level2.length - 1]);
+if (encrypted) { //version 0.9
+    var level1 = btoa(text);
+    var level2 = level1.split("");
+    var level3 = "";
+    for (var k = 0; k < level2.length-1; k++) {
+        level3 += level1.charAt(k) + Math.random().toString(36).charAt(2);
     }
-    return text;
-  }
+    return (level3 + level2[level2.length - 1]);
+}
+return text;
+}
 
 document.getElementById('submitit').addEventListener('click', submit);
 document.getElementById('resetit').addEventListener('click', restore_options);
