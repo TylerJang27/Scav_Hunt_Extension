@@ -26,7 +26,7 @@ Upon installing the Chrome Extension, right click on the extension icon (top rig
 
 ### Hunting
 
-Navigate to the start of the hunt (contact hunt creator for the start, default is `google.com`), and click on the extension in the top right of your browser! Note that you must wait for the page to load completely before you can lcick on the extension.
+Navigate to the start of the hunt (contact the hunt creator for the start, the default is `google.com`). When you are on a page that contains a clue, the extension icon will display a blue "1". Click on it to retrieve the clue! Depending on the clue type, you will either receive the next clue or have the option to submit a key. Note that you must wait for the page to load completely before you can click on the extension.
 
 ### Customization and Development
 
