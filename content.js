@@ -1,9 +1,9 @@
 function checkForUpdates() {
-  chrome.storage.sync.get({
+  chrome.storage.local.get({
     sourceUpdates: false
   }, function(items) {
     if (items.sourceUpdates) {
-      chrome.storage.sync.get({
+      chrome.storage.local.get({
         sourceJson: chrome.runtime.getURL('res/hunt.json'),
       }, function(items) {
         getClues(items.sourceJson);
@@ -22,7 +22,7 @@ async function getClues(source) {
     })
     .then(res => res.json())
     .then(function(response) {
-      chrome.storage.sync.set({
+      chrome.storage.local.set({
         sourceUpdates: false,
         clueobject: response,
         maxId: getMaxId(response.clues)
@@ -49,7 +49,7 @@ function handleJson() {
   var match_data = {};
   hunt_data = "";
   try {
-    chrome.storage.sync.get({
+    chrome.storage.local.get({
       clueobject: "",
     }, function(items) {
       hunt_data = items.clueobject;
@@ -85,8 +85,8 @@ function handleJson() {
           //check if url matches a clue
           let reg = new RegExp(decryptSoft(obj.url, en, hunt_data.version));
           var matches = window.location.href.match(reg);
-    
-          if (matches == null) {
+          var included = window.location.href.includes(decryptSoft(obj.url, en, hunt_data.version));
+          if (matches == null && !included) {
             //skip to next clue
             continue;
           } else {

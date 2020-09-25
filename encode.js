@@ -195,7 +195,9 @@ function generateInput(id) {
 }
 
 function disableKey(num) {
-    var num = this.id[this.id.length-1];
+    console.log(this.id);
+    console.log(this.id.substring(12, this.id.length));
+    var num = this.id.substring(12, this.id.length);
     var key = document.getElementById("clueKey" + num);
     key.disabled = true;
     key.value = "";
@@ -205,7 +207,9 @@ function disableKey(num) {
 }
 
 function enableKey(num) {
-    var num = this.id[this.id.length-1];
+    console.log(this.id);
+    console.log(this.id.substring(12, this.id.length));
+    var num = this.id.substring(12, this.id.length);
     document.getElementById("clueKey" + num).disabled = false;
     document.getElementById("cluePrompt" + num).disabled = false;
 }

@@ -74,7 +74,7 @@ The following key-value pairs are expected as part of clue objects.
  - id (Integer) [1]
     - The step of the clue. 0 denotes the starting point
  - url (String/Regex) [1]
-    - The URL Regex where the clue should be found
+    - The URL Regex where the clue should be found. Do NOT inclue the https://
  - text (String) [1 or html]
     - The text of the clue leading to the next step. Favored over HTML
  - html (String) [1 or text]

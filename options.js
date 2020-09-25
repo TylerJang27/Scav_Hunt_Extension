@@ -33,7 +33,7 @@ function save_options() {
     }
 
     if (choice >= 0 && error == 0) {
-        chrome.storage.sync.set({
+        chrome.storage.local.set({
             sourceChoice: choice,
             sourceJson: json_source,
             sourceUpdates: true
@@ -58,7 +58,7 @@ function save_options() {
     const reader = new FileReader();
     reader.addEventListener('load', (event) => {
         var hunt_data = JSON.parse(event.target.result);
-        chrome.storage.sync.set({
+        chrome.storage.local.set({
             clueobject: hunt_data,
             sourceUpdates: false,
             maxId: getMaxId(hunt_data.clues)
@@ -81,7 +81,7 @@ function save_options() {
   // stored in chrome.storage.
   function restore_options() {
     // Use default value color = 'red' and likesColor = true.
-    chrome.storage.sync.get({
+    chrome.storage.local.get({
         sourceChoice: 0,
         sourceJson: chrome.runtime.getURL('res/hunt.json')
     }, function(items) {

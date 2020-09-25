@@ -5,8 +5,8 @@ function populateDiv(div, clue, en) {
   const br = document.createElement('br');
   p.appendChild(br);
   var clue_content = `${decryptSoft(clue.text, en, clue.version)}`;
-  if (clue_content.includes("\n")) {
-    clue_lines = clue_content.split("\n");
+  if (clue_content.includes("\\n")) {
+    clue_lines = clue_content.split("\\n");
   } else {
     clue_lines = [clue_content];
   }
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("hunt-clue").appendChild(div);
 
     //set correct title and background image
-    chrome.storage.sync.get({
+    chrome.storage.local.get({
       clueobject: "",
       maxId: 0
     }, function(items) {
