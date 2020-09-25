@@ -3,6 +3,7 @@ window.clue = {};
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request != null) {
     window.clue = request;
+    chrome.browserAction.setBadgeText({text: "1"});
   } else {
     window.clue = {};
   }
@@ -15,18 +16,19 @@ chrome.browserAction.onClicked.addListener(function (tab) {
   } else if (window.clue.url == undefined) {
     my_alert("Keep looking!");
   } else {
+    chrome.browserAction.setBadgeText({text: ""});
     if (window.clue.html != undefined) {
       //note: preempts the clickable or submit behaviors
       //in content.js html is preempted by text
       chrome.tabs.create({url: decryptSoft(window.clue.html, en)});
     } else {
-      if (window.clue.interact == encryptSoft("clickable", en)) {
+      if (window.clue.interact == "clickable") {
         if (bg.clue.visible) {
           chrome.tabs.create({url: 'popup.html'});
         } else {
           my_alert("Click the special text on the page!");
         }
-      } else if (window.clue.interact == encryptSoft("submit", en)) {
+      } else if (window.clue.interact == "submit", en) {
         chrome.tabs.create({url: 'popup.html'});
       } else {
         chrome.tabs.create({url: 'popup.html'});
