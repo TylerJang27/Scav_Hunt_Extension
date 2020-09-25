@@ -98,7 +98,6 @@ function handleJson() {
       }
     
       //can do highlighting here too, may have to do some request stuff correctly for popups, etc. (but that's stage 2)
-    
       match_data["encrypted"] = en;
       chrome.runtime.sendMessage(match_data);
     });
