@@ -2,7 +2,7 @@
 
 Creator: Tyler Jang |
 Last Updated: 10/6/20 |
-Status: Beta
+Status: Version 0.9.1
 
 ## Overview
 
