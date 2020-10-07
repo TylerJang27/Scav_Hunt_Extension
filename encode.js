@@ -34,8 +34,8 @@ function generateJson() {
         obj["background"] = background;
     }
     var beginning = document.getElementById("huntBeginning").value;
-    if (background != "") {
-        obj["background"] = background;
+    if (beginning != "") {
+        obj["beginning"] = beginning;
     }
     var en = document.getElementById("encryptYes").checked;
     obj["encrypted"] = en;

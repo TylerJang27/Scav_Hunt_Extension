@@ -93,8 +93,12 @@ function handleJson() {
           } else {
             //populate match with clue info
             match_data = populate_match_data(obj, hunt_data.version);
-            if (items.clueobject.silent == undefined || !items.clueobject.silent) {
+            if ((items.clueobject.silent == undefined || !items.clueobject.silent) && (obj.found == undefined || !obj.found)) {
               alert("You found a clue! Click on the Scavenger Hunt icon to view the message.");
+              hunt_data.clues[i]["found"] = true;
+              chrome.storage.local.set({
+                clueobject: hunt_data
+              });
             }
             break;
           }
