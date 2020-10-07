@@ -69,6 +69,8 @@ The following top-level Key-Value Pairs should be included in the [json file]](r
    - A URL pointing to an image
 - silent (Boolean) [2=false]
    - Whether or not you want alerts to be suppressed when a user finds a clue
+- beginning (String)
+   - A beginning text message to be displayed when a user chooses a hunt. Can use `\n`
  - clues (List of Objects) [1]
     - The clues to be found along the trail
 
@@ -80,7 +82,7 @@ The following key-value pairs are expected as part of clue objects.
  - url (String/Regex) [1]
     - The URL Regex where the clue should be found. Do NOT inclue the https://
  - text (String) [1 or html]
-    - The text of the clue leading to the next step. Favored over HTML
+    - The text of the clue leading to the next step. Favored over HTML. Can use `\n`
  - html (String) [1 or text]
     - An HTML file containing a clue. If specified and no text, interact will default to "always"
  - image (String)
