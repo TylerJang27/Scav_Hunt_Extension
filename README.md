@@ -1,7 +1,7 @@
 # Scav_Hunt_Extension
 
 Creator: Tyler Jang |
-Last Updated: 9/24/20 |
+Last Updated: 10/6/20 |
 Status: Beta
 
 ## Overview
@@ -42,6 +42,8 @@ To make your own scavenger hunt:
  - Change the [popup.html](popup.html) and [hunt.css](hunt.css) files as you wish, and
  - Have fun!
 
+ If you have an implementation change to this repository, feel free to submit a pull request and it will be reviewed.
+
  For feedback, please see this [survey](https://forms.gle/3ZhvtKasc3WZZF9V7)
 
 ## JSON Guidelines
@@ -65,6 +67,8 @@ The following top-level Key-Value Pairs should be included in the [json file]](r
     - Whether or not the values in the json are encrypted (see below)
 - background (String) [2=[Unsplash](https://unsplash.com/photos/J_xAScfz3EE)]
    - A URL pointing to an image
+- silent (Boolean) [2=false]
+   - Whether or not you want alerts to be suppressed when a user finds a clue
  - clues (List of Objects) [1]
     - The clues to be found along the trail
 

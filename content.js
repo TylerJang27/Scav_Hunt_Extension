@@ -92,6 +92,9 @@ function handleJson() {
           } else {
             //populate match with clue info
             match_data = populate_match_data(obj, hunt_data.version);
+            if (items.clueobject.silent == undefined || !items.clueobject.silent) {
+              alert("You found a clue! Click on the Scavenger Hunt icon to view the message.");
+            }
             break;
           }
         }

@@ -49,9 +49,3 @@ function my_alert(msg) {
   // })
   alert(msg);
 }
-
-function setMessage (res) {
-  const div = document.createElement('div');
-  div.textContent = `${res.count} bears`;
-  document.body.appendChild(div);
-}
