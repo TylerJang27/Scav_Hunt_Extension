@@ -50,6 +50,7 @@ function save_options() {
                 //TODO: SET SOURCE UPDATES TO FALSE, SET MAXID, SET CLUEOBJECT
             }, function() {
                 getClues(json_source);
+                popupStart();
                 confirmSubmission();
             });
         }
@@ -67,6 +68,8 @@ function save_options() {
             clueobject: hunt_data,
             sourceUpdates: false,
             maxId: getMaxId(hunt_data.clues)
+        }, function() {
+            popupStart();
         });
     });
     reader.readAsText(file);
@@ -139,6 +142,20 @@ function save_options() {
     setTimeout(function() {
         status.textContent = '';
     }, 1500);
+  }
+
+  function popupStart() {
+    chrome.storage.local.get({
+        clueobject: {}
+    }, function(items) {
+        if (items.clueobject != undefined) {
+            var beg = items.clueobject.beginning;
+            if (beg != undefined) {
+                console.log("hi");
+                chrome.tabs.create({url: 'beginning.html'});
+            }
+        }
+    });
   }
 
 document.addEventListener('DOMContentLoaded', restore_options);
