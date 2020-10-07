@@ -33,21 +33,26 @@ function save_options() {
     }
 
     if (choice >= 0 && error == 0) {
-        chrome.storage.local.set({
-            sourceChoice: choice,
-            sourceJson: json_source,
-            sourceUpdates: true
-        }, function() {
-            // Update status to let user know options were saved.
-            var status = document.getElementById('status');
-            var bg = chrome.extension.getBackgroundPage();
-            bg.sourceSet = true;
-            updatedSource = true;
-            status.textContent = 'Options saved.';
-            setTimeout(function() {
-                status.textContent = '';
-            }, 1500);
-        });
+        if (json_source == "upload") {
+            chrome.storage.local.set({
+                sourceChoice: choice,
+                sourceJson: json_source,
+                sourceUpdates: false
+            }, function() {
+                // Update status to let user know options were saved.
+                confirmSubmission();
+            });
+        } else {
+            chrome.storage.local.set({
+                sourceChoice: choice,
+                sourceJson: json_source,
+                sourceUpdates: true
+                //TODO: SET SOURCE UPDATES TO FALSE, SET MAXID, SET CLUEOBJECT
+            }, function() {
+                getClues(json_source);
+                confirmSubmission();
+            });
+        }
     } else {
         var status = document.getElementById('status');
         status.textContent = 'Please select a valid option';
@@ -65,6 +70,25 @@ function save_options() {
         });
     });
     reader.readAsText(file);
+  }
+
+  async function getClues(source) {
+    //const json_url = chrome.runtime.getURL('res/hunt.json');
+    try {
+      fetch(source, {
+        mode: "cors"
+      })
+      .then(res => res.json())
+      .then(function(response) {
+        chrome.storage.local.set({
+          sourceUpdates: false,
+          clueobject: response,
+          maxId: getMaxId(response.clues)
+        });
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   function getMaxId(clues) {
@@ -104,6 +128,17 @@ function save_options() {
         status.textContent = 'Error, please verify the URL';
         error = 1;
     }
+  }
+
+  function confirmSubmission() {
+    var status = document.getElementById('status');
+    var bg = chrome.extension.getBackgroundPage();
+    bg.sourceSet = true;
+    updatedSource = true;
+    status.textContent = 'Options saved.';
+    setTimeout(function() {
+        status.textContent = '';
+    }, 1500);
   }
 
 document.addEventListener('DOMContentLoaded', restore_options);

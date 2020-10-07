@@ -6,6 +6,7 @@ function checkForUpdates() {
       chrome.storage.local.get({
         sourceJson: chrome.runtime.getURL('res/hunt.json'),
       }, function(items) {
+        //should only be necessary if error or race condition
         getClues(items.sourceJson);
       });
     } else {
