@@ -30,7 +30,7 @@
     "background": {
       "scripts": ["background.js"]
     },
-    "permissions": ["tabs", "storage", "downloads"],
+    "permissions": ["storage", "downloads"],
     "web_accessible_resources": [
         "res/*"
     ]
