@@ -4,6 +4,8 @@ Creator: Tyler Jang |
 Last Updated: 10/6/20 |
 Status: Version 0.9.1
 
+Available on [Chrome Store](https://chrome.google.com/webstore/detail/scavenger-hunt/opcgbolmjikeaokbmldpfhemaamnfggf?hl=en-US)
+
 ## Overview
 
 A simple Chrome Extension to create a Scavenger Hunt for URLs based on [encoded json](res/hunt.json). Only load JSON hunts created by those you trust.
