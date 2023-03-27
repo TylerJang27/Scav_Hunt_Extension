@@ -1,0 +1,18 @@
+{
+    "name": "loadstone-server",
+    "version": "0.9.1",
+    "description": "Create and Run Chrome Extension Scavenger Hunts",
+    "repository": "https://github.com/TylerJang27/Scav_Hunt_Extension",
+    "author": "TylerJang27",
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+      "typescript": "^4.8.4"
+    },
+    "devDependencies": {
+    },
+    "scripts": {
+      "build": "tsc"
+    }
+  }
+  

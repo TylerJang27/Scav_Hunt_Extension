@@ -21,7 +21,7 @@ A simple Chrome Extension to create a Scavenger Hunt for URLs based on [encoded 
 In order to run the Chrome Extension from this repo:
  - `git clone git@github.com:TylerJang27/Scav_Hunt_Extension.git`
  - Go to `chrome://extensions`
- - Enable Developer mode (top right)
+ - Enable Developer mode if necessary (top right)
  - Load Unpacked, and select the folder for this repo
  - Right click the extension manager (puzzle piece) and pin the Scavenger Hunt Extension
 
