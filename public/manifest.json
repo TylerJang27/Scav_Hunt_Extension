@@ -16,11 +16,11 @@
     "content_scripts": [
       {
         "matches": ["http://*/*"],
-        "js": ["content.js"]
+        "js": ["js/content.js"]
       },
       {
         "matches": ["https://*/*"],
-        "js": ["content.js"]
+        "js": ["js/content.js"]
       }
     ],
     "browser_action": {
@@ -28,7 +28,7 @@
       "default_icon": "graphics/scav.png"
     },
     "background": {
-      "scripts": ["background.js"]
+      "scripts": ["js/background.js"]
     },
     "permissions": ["storage", "downloads"],
     "web_accessible_resources": [

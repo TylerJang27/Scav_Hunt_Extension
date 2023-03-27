@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head><title>Scavenger Hunt Source</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/cover/">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="hunt.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+      <div class="row space">
+        <div class="col-md-4">
+            <h3 class="masthead-brand justify-content-center">Scavenger Hunt Source</h3>
+        </div>
+    </div>
+    <div class="row space">
+        <div class="col-md-4">
+            <div class="form-check">
+                <form>
+                    <input type="radio" id="sample_choice" name="source" value="Sample">
+                    <label for="sample">Sample</label><br>
+                    <input type="radio" id="url_choice" name="source" value="URL">
+                    <label for="url_label">URL</label>
+                    <input type="url" id="urlsource" name="urlsource"><br>
+                    <input type="radio" id="upload_choice" name="source" value="Upload">
+                    <label for="myfile">Upload</label>
+                    <input type="file" accept=".json,.zip,.html,.css" id="myfile" name="myfile">
+                    <br><br>
+                    <input type="button" id="submitit" value="Submit">
+                    <input type="button" id="resetit" value="Reset">
+                </form>
+                </div>
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <a href="encode.html" target="_blank">Generate Hunt</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 text-center" id="status"></div>
+    </div>
+</div>
+<script src="js/options.js"></script>
+</body>
+</html>
