@@ -1,37 +1,35 @@
 {
-    "name": "Scavenger Hunt",
-    "description": "A simple scavenger hunt extension based on URLs",
-    "version": "0.9.1",
-    "manifest_version": 2,
-    "options_ui": {
-      "page": "options.html",
-      "open_in_tab": false
+  "name": "Scavenger Hunt",
+  "description": "A simple scavenger hunt extension based on URLs",
+  "version": "0.9.1",
+  "manifest_version": 2,
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+  "icons": {
+    "16": "graphics/scav16.png",
+    "48": "graphics/scav48.png",
+    "128": "graphics/scav128.png"
+  },
+  "minimum_chrome_version": "46",
+  "content_scripts": [
+    {
+      "matches": ["http://*/*"],
+      "js": ["js/content_script.js"]
     },
-    "icons": { 
-      "16": "graphics/scav16.png",
-      "48": "graphics/scav48.png",
-     "128": "graphics/scav128.png" 
-    },
-    "minimum_chrome_version": "46",
-    "content_scripts": [
-      {
-        "matches": ["http://*/*"],
-        "js": ["js/content.js"]
-      },
-      {
-        "matches": ["https://*/*"],
-        "js": ["js/content.js"]
-      }
-    ],
-    "browser_action": {
-      "default_title": "Scavenger Hunt",
-      "default_icon": "graphics/scav.png"
-    },
-    "background": {
-      "scripts": ["js/background.js"]
-    },
-    "permissions": ["storage", "downloads"],
-    "web_accessible_resources": [
-        "res/*"
-    ]
-  }
+    {
+      "matches": ["https://*/*"],
+      "js": ["js/content_script.js"]
+    }
+  ],
+  "browser_action": {
+    "default_title": "Scavenger Hunt",
+    "default_icon": "graphics/scav.png"
+  },
+  "background": {
+    "scripts": ["js/background.js"]
+  },
+  "permissions": ["storage", "downloads"],
+  "web_accessible_resources": ["res/*"]
+}

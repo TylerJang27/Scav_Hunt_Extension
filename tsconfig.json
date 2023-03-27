@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
+    // TODO: TYLER MIGRATE ALL JAVASCRIPT INTO TYPESCRIPT, REMOVE JSX
+    "jsx": "react",
     "target": "es6",
     "module": "commonjs",
-    "outDir": "dist/",
+    "outDir": "dist/js",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
