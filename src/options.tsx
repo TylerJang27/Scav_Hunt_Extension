@@ -1,8 +1,11 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 
+// TODO: TYLER NEED TO REWRITE THIS WHOLE PAGE WITH REACT/MUI
+
 // Saves options to chrome.storage
 function save_options() {
+  console.log("SAVING OPTIONS");
   var choice = -1;
   var error = 0;
   var json_source = chrome.runtime.getURL("res/hunt.json");
@@ -47,6 +50,7 @@ function save_options() {
         },
         function () {
           // Update status to let user know options were saved.
+          console.log("SAVING OPTIONS");
           confirmSubmission();
         }
       );
@@ -150,6 +154,7 @@ function onChanged({ id }: any) {
 }
 
 function confirmSubmission() {
+  console.log("SAVING OPTIONS");
   var status = document.getElementById("status") as any;
   var bg = chrome.extension.getBackgroundPage() as any;
   bg.sourceSet = true;
@@ -256,7 +261,6 @@ const Options = () => {
             <div className="col-md-4 text-center" id="status"></div>
           </div>
         </div>
-        {/* <script src="options.js"></script> */}
       </body>
     </>
   );
