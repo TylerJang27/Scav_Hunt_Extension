@@ -1,5 +1,12 @@
-import React from "react";
+import { ThemeProvider } from "@emotion/react";
+import { Button, Container, createTheme, FormControl, FormControlLabel, FormLabel, Grid, Link, Radio, RadioGroup, TextField, Typography } from "@mui/material";
+import { yellow } from "@mui/material/colors";
+import React, { ChangeEvent, useState } from "react";
+import { useEffect } from "react";
 import { createRoot } from "react-dom/client";
+import { ExitableModal } from "./components/ExitableModal";
+import { PageHeaderAndSubtitle } from "./components/PageHeaderAndSubtitle";
+import { HuntSource } from "./types/progress";
 
 // TODO: TYLER NEED TO REWRITE THIS WHOLE PAGE WITH REACT/MUI
 
@@ -182,88 +189,205 @@ function popupStart() {
   );
 }
 
+interface SourceFormType {
+  sourceType: HuntSource;
+  sampleName: string;
+  sourceURL?: string;
+  fileName?: string;
+}
+
 const Options = () => {
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: yellow[600],
+      },
+      secondary: {
+        main: "#654eff",
+      },
+    },
+  });
+
+  // TODO: DETERMINE THESE PROGRAMATICALLY
+  const sampleHuntOptions = ["Tutorial", "Board Games", "Star Wars"];
+
+  // TODO: TYLER USE PRESET USEEFFECT TO GET THE CURRENT CONFIGURATION
+  const [sourceFormState, setSourceFormState] = useState<SourceFormType>({
+    sourceType: "Sample",
+    sampleName: "Tutorial"
+  });
+
+  const validateAndSetHuntConfig = (huntConfig: any) => {
+    console.log("Validating hunt config");
+    // TODO: TYLER PARSE CONFIG, RENDER ERRORS, SAVE TO STATE
+  }
+
+  const [sampleModalOpen, setSampleModalOpen] =
+    useState<boolean>(false);
+
+  // TODO: TYLER ADD UPLOAD POPUP
+  const onUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
+    const file = e.target.files[0];
+    const { name } = file;
+    setSourceFormState({...sourceFormState, fileName: name});
+
+    const reader = new FileReader();
+    reader.addEventListener("load", (event) => {
+      var huntData = JSON.parse(event.target?.result as string);
+      validateAndSetHuntConfig(huntData)
+    });
+    reader.readAsText(file);
+  };
+
+  const validateSubmit = () => {
+    if(sourceFormState.sourceType == "Sample") {
+      return Boolean(sourceFormState.sampleName);
+    } else if (sourceFormState.sourceType == "URL") {
+      // TODO: TYLER IMPLEMENT VALIDATION CRITERIA
+    } else if (sourceFormState.sourceType == "Upload") {
+      // TODO: TYLER IMPLEMENT VALIDATION CRITERIA
+    }
+    return false;
+  };
+
+  const [submitable, setSubmitable] =
+    useState<boolean>(true);
+  useEffect(() => {
+    setSubmitable(validateSubmit());
+  }, [sourceFormState]);
+
+  const onSubmit = () => {};
+  const onReset = () => {};
+
   return (
     <>
-      <head>
-        <title>Scavenger Hunt Source</title>
-        <link
-          rel="canonical"
-          href="https://getbootstrap.com/docs/4.5/examples/cover/"
-        />
-        <link
-          rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-          crossOrigin="anonymous"
-        />
-        <link href="assets/hunt.css" rel="stylesheet" />
-      </head>
-      <body>
-        <div className="container">
-          <div className="row space">
-            <div className="col-md-4">
-              <h3 className="masthead-brand justify-content-center">
-                Scavenger Hunt Source
-              </h3>
-            </div>
-          </div>
-          <div className="row space">
-            <div className="col-md-4">
-              <div className="form-check">
-                <form>
-                  <input
-                    type="radio"
-                    id="sample_choice"
-                    name="source"
-                    value="Sample"
+    <ThemeProvider theme={theme}>
+      <Container maxWidth="sm" sx={{ mt: 3 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            {/* TODO: TYLER ADD ICON HERE */}
+            <PageHeaderAndSubtitle header="Choose Your Hunt" />
+          </Grid>
+          <Grid item xs={12}>
+          <FormControl>
+            <RadioGroup
+              name="source-type-group"
+              sx={{ display: "flex" }}
+              value={sourceFormState.sourceType}
+              onChange={(e) => {setSourceFormState({...sourceFormState, sourceType: e.target.value as HuntSource}); console.log("Source type", e.target.value)}}
+            >
+              <FormControlLabel value="Sample" sx={{ display: "flex" }} control={
+              <Radio />
+            } label={
+              <Grid container direction="row" spacing={1}>
+                <Grid item xs={4} sx={{ display: "flex", alignItems: "center"}}>
+                  <Typography>
+                  Sample
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Button
+                    fullWidth
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => {setSourceFormState({...sourceFormState, sourceType: "Sample"});
+                    setSampleModalOpen(true);
+                  }}
+                  >{sourceFormState.sampleName}</Button>
+                </Grid>
+              </Grid>
+              } />
+              <FormControlLabel value="URL" control={
+              <Radio />
+            } label={
+              <Grid container direction="row" spacing={0}>
+                <Grid item xs={2} sx={{ display: "flex", alignItems: "center"}}>
+                  <Typography>
+                  URL
+                  </Typography>
+                </Grid>
+                <Grid item xs={10}>
+                  <TextField
+                    fullWidth
+                    color="secondary"
+                    variant="outlined"
+                    onChange={(e) => {setSourceFormState({...sourceFormState, sourceURL: e.target.value.trim()});}}
+                    value={sourceFormState.sourceURL ?? ""}
+                    error={sourceFormState.sourceType === "URL" && (sourceFormState.sourceURL ?? "") === ""}
                   />
-                  <label htmlFor="sample">Sample</label>
-                  <br />
-                  <input
-                    type="radio"
-                    id="url_choice"
-                    name="source"
-                    value="URL"
-                  />
-                  <label htmlFor="url_label">URL</label>
-                  <input type="url" id="urlsource" name="urlsource" />
-                  <br />
-                  <input
-                    type="radio"
-                    id="upload_choice"
-                    name="source"
-                    value="Upload"
-                  />
-                  <label htmlFor="myfile">Upload</label>
+                </Grid>
+              </Grid>
+              } />
+              <FormControlLabel value="Upload" control={<Radio />
+            } label="Upload" />
+            <Grid container direction="row" spacing={1} sx={{ display: "flex", alignItems: "center"}}>
+                <Grid item xs={6}>
+                <Button
+                  variant="contained"
+                  size="medium"
+                  component="label"
+                >Choose File
                   <input
                     type="file"
-                    accept=".json,.zip,.html,.css"
-                    id="myfile"
-                    name="myfile"
+                    accept=".json,jsn,.json5"
+                    onChange={(e)=>{setSourceFormState({...sourceFormState, sourceType: "Upload"}); onUpload(e);}}
+                    hidden
                   />
-                  <br />
-                  <br />
-                  <input type="button" id="submitit" value="Submit" />
-                  <input type="button" id="resetit" value="Reset" />
-                </form>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-4 text-center">
-              <a href="encode.html" target="_blank">
-                Generate Hunt
-              </a>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-4 text-center" id="status"></div>
-          </div>
-        </div>
-      </body>
+                  </Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography>{sourceFormState.fileName ?? "No file chosen"}</Typography>
+                </Grid>
+              </Grid>
+            </RadioGroup>
+          </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container direction="row" spacing={1} sx={{ display: "flex", alignItems: "center"}}>
+              <Button
+                variant="outlined"
+                size="medium"
+                disabled={submitable}
+                onClick={onSubmit}
+              >Submit</Button>
+              <Button
+                variant="outlined"
+                size="medium"
+                onClick={onReset}
+              >Reset</Button>
+            </Grid>
+          </Grid>
+          <Grid item xs={4} justifyContent='center'>
+              <Typography><Link href="encode.html" target="_blank">Generate Hunt</Link></Typography>
+          </Grid>
+        </Grid>
+      </Container>
+      <ExitableModal
+        open={sampleModalOpen}
+        onClose={() => setSampleModalOpen(false)}
+        modalTitle="Select Sample Hunt"
+      >
+        {/* TODO: TYLER ADD SUBMIT AND CANCEL BUTTONS TO MODAL */}
+        <FormControl>
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            name="sample-hunt-group"
+            value={sourceFormState.sampleName}
+            onChange={(e) => {setSourceFormState({...sourceFormState, sampleName: e.target.value as HuntSource});}}
+          >
+            {
+              sampleHuntOptions.map((huntName) => <FormControlLabel value={huntName} control={<Radio/>} label={huntName}/>)
+            }
+          </RadioGroup>
+        </FormControl>
+        </ExitableModal>
+      </ThemeProvider>
     </>
-  );
+  )
 };
 
 const root = createRoot(document.getElementById("root")!);
@@ -273,7 +397,3 @@ root.render(
     <Options />
   </React.StrictMode>
 );
-
-document.addEventListener("DOMContentLoaded", restore_options);
-document.getElementById("submitit")?.addEventListener("click", save_options);
-document.getElementById("resetit")?.addEventListener("click", restore_options);
