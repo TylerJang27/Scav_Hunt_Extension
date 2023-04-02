@@ -1,5 +1,5 @@
-import { BulkError, ConfigError, InvalidIndexError, MissingFieldError, MissingValueError, SUPPORTED_VERSIONS, UnsupportedVersionError } from "src/types/errors";
-import { ClueConfig, HuntConfig } from "src/types/hunt_config";
+import { BulkError, ConfigError, InvalidIndexError, MissingFieldError, MissingValueError, SUPPORTED_VERSIONS, UnsupportedVersionError } from "../types/errors";
+import { ClueConfig, HuntConfig } from "../types/hunt_config";
 
 const DEFAULT_BACKGROUND = "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80"
 
@@ -97,10 +97,10 @@ export const ParseConfig = (object: any) => {
     // Parse clues
     object.clues.reduce(([index, clueAccumulator, errorAccumulator]: [number, ClueConfig[], ConfigError[]], clue: any) => {
         try {
-            return [clueAccumulator.concat(ParseClue(clue, index++)), errorAccumulator];
+            return [index+1, clueAccumulator.concat(ParseClue(clue, index++)), errorAccumulator];
         } catch (error) {
             if (error instanceof ConfigError) {
-                return [clueAccumulator, errorAccumulator.concat(error)];
+                return [index+1, clueAccumulator, errorAccumulator.concat(error)];
             }
             throw(error);
         }

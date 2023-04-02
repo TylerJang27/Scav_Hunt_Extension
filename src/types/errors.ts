@@ -73,11 +73,12 @@ export class FileTooLargeError extends ConfigError {
   }
 }
 
+
 export class BulkError extends Error {
   errors: ConfigError[];
 
   constructor(errors: ConfigError[]) {
-    super(errors.join("\n"));
+    super(errors.map(e=>e.message).join("\n"));
     this.errors = errors;
 
     Object.setPrototypeOf(this, BulkError.prototype);

@@ -1,203 +1,65 @@
 import { ThemeProvider } from "@emotion/react";
-import { Button, Container, createTheme, FormControl, FormControlLabel, FormLabel, Grid, Link, Radio, RadioGroup, TextField, Typography } from "@mui/material";
+import { Alert, Button, Container, createTheme, FormControl, FormControlLabel, FormLabel, Grid, Link, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import { yellow } from "@mui/material/colors";
 import React, { ChangeEvent, useState } from "react";
 import { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { ExitableModal } from "./components/ExitableModal";
 import { PageHeaderAndSubtitle } from "./components/PageHeaderAndSubtitle";
-import { HuntSource } from "./types/progress";
+import { HuntConfig } from "./types/hunt_config";
+import { HuntSource, Progress } from "./types/progress";
+import { ParseConfig } from "./utils/parse";
+import path from "path";
 
-// TODO: TYLER NEED TO REWRITE THIS WHOLE PAGE WITH REACT/MUI
-
-// Saves options to chrome.storage
-function save_options() {
-  console.log("SAVING OPTIONS");
-  var choice = -1;
-  var error = 0;
-  var json_source = chrome.runtime.getURL("res/hunt.json");
-
-  //   let currentId;
-
-  var sample_selected = (document.getElementById("sample_choice") as any)
-    .checked;
-  var url_selected = (document.getElementById("url_choice") as any).checked;
-  var file_selected = (document.getElementById("upload_choice") as any).checked;
-
-  //   var url_source;
-  //   var file_source;
-
-  if (sample_selected) {
-    choice = 0;
-    (document.getElementById("urlsource") as any).value = "";
-  } else if (url_selected) {
-    choice = 1;
-    var status = document.getElementById("status");
-    status!.textContent =
-      "url noted \n " + (document.getElementById("urlsource") as any).value;
-    json_source = (document.getElementById("urlsource") as any).value;
-    status!.textContent = "Save successful.";
-  } else if (file_selected) {
-    choice = 2;
-    (document.getElementById("urlsource") as any).value = "";
-    var file_obj = document.getElementById("myfile") as any;
-    var file = file_obj.files[0];
-
-    retrieveUpload(file);
-    json_source = "upload";
-  }
-
-  if (choice >= 0 && error == 0) {
-    if (json_source == "upload") {
-      chrome.storage.local.set(
-        {
-          sourceChoice: choice,
-          sourceJson: json_source,
-          sourceUpdates: false,
-        },
-        function () {
-          // Update status to let user know options were saved.
-          console.log("SAVING OPTIONS");
-          confirmSubmission();
-        }
-      );
-    } else {
-      chrome.storage.local.set(
-        {
-          sourceChoice: choice,
-          sourceJson: json_source,
-          sourceUpdates: true,
-          //TODO: SET SOURCE UPDATES TO FALSE, SET MAXID, SET CLUEOBJECT
-        },
-        function () {
-          getClues(json_source);
-          popupStart();
-          confirmSubmission();
-        }
-      );
-    }
-  } else {
-    var status = document.getElementById("status");
-    status!.textContent = "Please select a valid option";
-  }
-}
-
-async function retrieveUpload(file: any) {
-  const reader = new FileReader();
-  reader.addEventListener("load", (event) => {
-    var hunt_data = JSON.parse(event.target?.result as string);
-    chrome.storage.local.set(
-      {
-        clueobject: hunt_data,
-        sourceUpdates: false,
-        maxId: getMaxId(hunt_data.clues),
-      },
-      function () {
-        popupStart();
-      }
-    );
-  });
-  reader.readAsText(file);
-}
-
-async function getClues(source: string) {
-  //const json_url = chrome.runtime.getURL('res/hunt.json');
-  try {
-    fetch(source, {
-      mode: "cors",
-    })
-      .then((res) => res.json())
-      .then(function (response) {
-        chrome.storage.local.set({
-          sourceUpdates: false,
-          clueobject: response,
-          maxId: getMaxId(response.clues),
-        });
-      });
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-function getMaxId(clues: any[]) {
-  var max_id = 0;
-  for (var i = 0; i < clues.length; i++) {
-    if (clues[i].id > max_id) {
-      max_id = clues[i].id;
-    }
-  }
-  return max_id;
-}
-
-// Restores select box and checkbox state using the preferences
-// stored in chrome.storage.
-function restore_options() {
-  // Use default value color = 'red' and likesColor = true.
-  chrome.storage.local.get(
-    {
-      sourceChoice: 0,
-      sourceJson: chrome.runtime.getURL("res/hunt.json"),
-    },
-    function (items) {
-      (document.getElementById("urlsource") as any).value = "";
-      if (items.sourceChoice == 0) {
-        (document.getElementById("sample_choice") as any).checked = true;
-      } else if (items.sourceChoice == 1) {
-        (document.getElementById("url_choice") as any).checked = true;
-        (document.getElementById("urlsource") as any).value = items.sourceJson;
-      } else if (items.sourceChoice == 2) {
-        (document.getElementById("upload_choice") as any).checked = true;
-      }
-    }
-  );
-}
-
-function onChanged({ id }: any) {
-  if (id === undefined) {
-    var status = document.getElementById("status") as any;
-    status.textContent = "Error, please verify the URL";
-    // error = 1;
-  }
-}
-
-function confirmSubmission() {
-  console.log("SAVING OPTIONS");
-  var status = document.getElementById("status") as any;
-  var bg = chrome.extension.getBackgroundPage() as any;
-  bg.sourceSet = true;
-  // updatedSource = true;
-  status.textContent = "Options saved.";
-  setTimeout(function () {
-    status.textContent = "";
-  }, 1500);
-}
-
-function popupStart() {
-  chrome.storage.local.get(
-    {
-      clueobject: {},
-    },
-    function (items) {
-      if (items.clueobject != undefined) {
-        var beg = items.clueobject.beginning;
-        if (beg != undefined) {
-          console.log("hi");
-          chrome.tabs.create({ url: "beginning.html" });
-        }
-      }
-    }
-  );
-}
+const SAMPLE_DIR = "res";
 
 interface SourceFormType {
   sourceType: HuntSource;
+  huntName: string;
+  // Sample
   sampleName: string;
+  // URL
   sourceURL?: string;
+  // Upload
   fileName?: string;
+  uploadedConfig?: HuntConfig;
+  uploadedError?: Error;
+}
+
+const fetchFromUrl = async (url: string) => {
+  return await fetch(url, {
+    mode: "cors",
+  }).then((res) => res.json());
+};
+
+const fetchFromSample = async (sampleName: string) => {
+  const url = chrome.runtime.getURL(path.join(SAMPLE_DIR, sampleName));
+  return await fetchFromUrl(url);
+};
+
+const saveConfigAndLaunch = (huntConfig: HuntConfig, sourceType: HuntSource) => {
+  // Save config and hunt progress to chrome.storage.local
+  const progress: Progress = {
+    sourceType,
+    huntConfig,
+    maxProgress: 0
+  }
+  
+  chrome.storage.local.set(
+    {
+      progress
+    },
+    function () {
+      console.log("Hunt progress saved.");
+      // Popup beginnining of hunt
+      chrome.tabs.create({ url: "beginning.html" });
+    }
+  );
 }
 
 const Options = () => {
 
+  // TODO: TYLER FIGURE OUT THEMES
   const theme = createTheme({
     palette: {
       primary: {
@@ -213,20 +75,48 @@ const Options = () => {
   const sampleHuntOptions = ["Tutorial", "Board Games", "Star Wars"];
 
   // TODO: TYLER USE PRESET USEEFFECT TO GET THE CURRENT CONFIGURATION
+  // Persistent state
   const [sourceFormState, setSourceFormState] = useState<SourceFormType>({
     sourceType: "Sample",
+    huntName: "Tutorial",
     sampleName: "Tutorial"
   });
 
-  const validateAndSetHuntConfig = (huntConfig: any) => {
-    console.log("Validating hunt config");
-    // TODO: TYLER PARSE CONFIG, RENDER ERRORS, SAVE TO STATE
-  }
-
+  // TODO: TYLER RENDER ERRORS
+  const [validationError, setValidationError] = useState<Error | undefined>(undefined);
   const [sampleModalOpen, setSampleModalOpen] =
     useState<boolean>(false);
 
-  // TODO: TYLER ADD UPLOAD POPUP
+    const validateSubmitable = () => {
+      if (validationError) {
+        return false;
+      }
+      
+      if(sourceFormState.sourceType == "Sample") {
+        return Boolean(sourceFormState.sampleName);
+      } else if (sourceFormState.sourceType == "URL") {
+        return Boolean(sourceFormState.sourceURL);
+      } else if (sourceFormState.sourceType == "Upload") {
+        return Boolean(sourceFormState.uploadedConfig)
+      }
+      return false;
+    };
+  
+    const [submitable, setSubmitable] =
+      useState<boolean>(true);
+
+  // Upload state
+  const validateAndSetUploadedConfig = (huntConfig: any) => {
+    console.log("Validating hunt config");
+    try {
+      const parsedConfig = ParseConfig(huntConfig);
+      setSourceFormState({...sourceFormState, huntName: parsedConfig.name, uploadedConfig: parsedConfig, uploadedError: undefined});
+    } catch (error) {
+      setSourceFormState({...sourceFormState, uploadedError: error as Error});
+      setValidationError(error as Error);
+    }
+  }
+
   const onUpload = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
@@ -238,30 +128,47 @@ const Options = () => {
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
       var huntData = JSON.parse(event.target?.result as string);
-      validateAndSetHuntConfig(huntData)
+      validateAndSetUploadedConfig(huntData)
     });
     reader.readAsText(file);
   };
 
-  const validateSubmit = () => {
-    if(sourceFormState.sourceType == "Sample") {
-      return Boolean(sourceFormState.sampleName);
-    } else if (sourceFormState.sourceType == "URL") {
-      // TODO: TYLER IMPLEMENT VALIDATION CRITERIA
-    } else if (sourceFormState.sourceType == "Upload") {
-      // TODO: TYLER IMPLEMENT VALIDATION CRITERIA
-    }
-    return false;
-  };
-
-  const [submitable, setSubmitable] =
-    useState<boolean>(true);
+  // Provide reactivity for error reporting when cycling through radio buttons
   useEffect(() => {
-    setSubmitable(validateSubmit());
-  }, [sourceFormState]);
+    if (sourceFormState.sourceType == "Upload" && sourceFormState.uploadedError) {
+      setValidationError(sourceFormState.uploadedError)
+    } else {
+      setValidationError(undefined);
+    }
+  }, [sourceFormState.sourceType])
+  
+  useEffect(() => {
+    setSubmitable(validateSubmitable());
+  }, [sourceFormState, validationError]);
 
-  const onSubmit = () => {};
-  const onReset = () => {};
+  const onSubmit = async () => {
+    try {
+      const {sourceType, sampleName, sourceURL, uploadedConfig} = sourceFormState;
+      if (sourceType == "Sample") {
+        const sampledJson = await fetchFromSample(sampleName);
+        const parsedConfig = ParseConfig(sampledJson);
+        saveConfigAndLaunch(parsedConfig, sourceType);
+      } else if (sourceType == "URL" && sourceURL) {
+        const fetchedJson = await fetchFromUrl(sourceURL);
+        const parsedConfig = ParseConfig(fetchedJson);
+        saveConfigAndLaunch(parsedConfig, sourceType);
+      } else if (sourceType == "Upload" && uploadedConfig) {
+        // huntConfig will have already been parsed
+        saveConfigAndLaunch(uploadedConfig, sourceType);
+      }
+      console.warn("Error: unknown condition reached. Please refresh the page.");
+    } catch (error) {
+      setValidationError(error as Error)
+    }
+  };
+  const onReset = () => {
+    console.log("Reset functionality coming soon!");
+  };
 
   return (
     <>
@@ -297,7 +204,9 @@ const Options = () => {
                     onClick={() => {setSourceFormState({...sourceFormState, sourceType: "Sample"});
                     setSampleModalOpen(true);
                   }}
-                  >{sourceFormState.sampleName}</Button>
+                  ><>{sourceFormState.sampleName}
+                  {/* TODO: TYLER ADD DROPDOWN ICON */}</>
+                  </Button>
                 </Grid>
               </Grid>
               } />
@@ -351,7 +260,7 @@ const Options = () => {
               <Button
                 variant="outlined"
                 size="medium"
-                disabled={submitable}
+                disabled={!submitable}
                 onClick={onSubmit}
               >Submit</Button>
               <Button
@@ -361,6 +270,9 @@ const Options = () => {
               >Reset</Button>
             </Grid>
           </Grid>
+          {validationError && 
+            <Alert severity="error">{validationError.message}</Alert>}
+          {/* TODO: TYLER ADD ERROR RENDERING HERE! */}
           <Grid item xs={4} justifyContent='center'>
               <Typography><Link href="encode.html" target="_blank">Generate Hunt</Link></Typography>
           </Grid>
