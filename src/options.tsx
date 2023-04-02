@@ -46,14 +46,18 @@ const saveConfigAndLaunch = (huntConfig: HuntConfig, sourceType: HuntSource) => 
     maxProgress: 0
   }
   
+  console.log("SETTING STORAGE"); // TODO: REMOVE
   chrome.storage.local.set(
-    {
-      progress
-    },
+    progress,
     function () {
-      console.log("Hunt progress saved.");
-      // Popup beginnining of hunt
-      chrome.tabs.create({ url: "beginning.html" });
+      const error = chrome.runtime.lastError;
+      if (error) {
+        console.log("Error saving initial progress", error)
+      } else {
+        // Popup beginnining of hunt
+        console.log("Saved initial progress", progress); // TODO: TYLER REMOVE PROGRESS FROM LOG
+        chrome.tabs.create({ url: "beginning.html" });
+      }
     }
   );
 }
@@ -65,8 +69,6 @@ const getSampleOptions = () => {
     const name =  path.parse(file).name.replace("_", " ");
     sampleHuntOptions.set(file, name);
   });
-  // sampleHuntOptions.set("hunt.json", "hunt");
-  console.log("GOT HUNT OPTIONS:", sampleHuntOptions);
   return sampleHuntOptions;
 }
 
@@ -113,6 +115,8 @@ const Options = () => {
         return Boolean(sourceFormState.sourceURL);
       } else if (sourceFormState.sourceType == "Upload") {
         return Boolean(sourceFormState.uploadedConfig)
+      } else {
+        console.warn("Error: unknown condition reached. Please refresh the page.", sourceFormState.sourceType);
       }
       return false;
     };
@@ -179,8 +183,9 @@ const Options = () => {
       } else if (sourceType == "Upload" && uploadedConfig) {
         // huntConfig will have already been parsed
         saveConfigAndLaunch(uploadedConfig, sourceType);
+      } else {
+        console.warn("Error: unknown condition reached. Please refresh the page.", sourceType);
       }
-      console.warn("Error: unknown condition reached. Please refresh the page.");
     } catch (error) {
       setValidationError(error as Error)
     }
@@ -195,7 +200,6 @@ const Options = () => {
       <Container maxWidth="sm" sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            {/* TODO: TYLER ADD ICON HERE */}
             <PageHeaderAndSubtitle header="Choose Your Hunt" />
           </Grid>
           <Grid item xs={12}>

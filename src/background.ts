@@ -4,17 +4,18 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request != null) {
     (window as any).clue = request;
     if ((window as any).url != undefined) {
-      chrome.browserAction.setBadgeText({ text: "1" });
+      chrome.action.setBadgeText({ text: "1" });
     } else {
-      chrome.browserAction.setBadgeText({ text: "" });
+      chrome.action.setBadgeText({ text: "" });
     }
   } else {
     (window as any).clue = {};
   }
 });
 
-chrome.browserAction.onClicked.addListener(function (tab) {
-  chrome.browserAction.setBadgeText({ text: "" });
+// TODO: TYLER REPLACE WITH ACTION
+chrome.action.onClicked.addListener(function (tab) {
+  chrome.action.setBadgeText({ text: "" });
   var clue = (window as any).clue;
   var en = clue.encrypted;
   if (clue.error != undefined) {
@@ -28,6 +29,8 @@ chrome.browserAction.onClicked.addListener(function (tab) {
       chrome.tabs.create({ url: clue.html });
     } else {
       if (clue.interact == "clickable") {
+        // TODO: REPLACE GETBACKGROUNDPAGE WITH SENDMESSAGE
+        // https://developer.chrome.com/docs/extensions/migrating/api-calls/#replace-browser-page-actions
         const bg = chrome.extension.getBackgroundPage() as any;
         if (bg.clue.visible) {
           chrome.tabs.create({ url: "popup.html" });

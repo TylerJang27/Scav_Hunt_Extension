@@ -2,7 +2,7 @@
   "name": "Scavenger Hunt",
   "description": "A simple scavenger hunt extension based on URLs",
   "version": "0.9.1",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "options_ui": {
     "page": "options.html",
     "open_in_tab": false
@@ -23,13 +23,16 @@
       "js": ["js/content_script.js"]
     }
   ],
-  "browser_action": {
+  "action": {
     "default_title": "Scavenger Hunt",
     "default_icon": "graphics/scav.png"
   },
   "background": {
-    "scripts": ["js/background.js"]
+    "service_worker": "js/background.js"
   },
   "permissions": ["storage", "downloads"],
-  "web_accessible_resources": ["res/*"]
+  "web_accessible_resources": [{
+    "resources": ["res/*"],
+    "matches": ["*://*/*"]
+  }]
 }
