@@ -17,7 +17,7 @@ export interface ClueConfig {
     interactive?: IntractiveConfig;
 }
 
-// TODO: OTHER OPTIONS, SUCH AS REQUIRE IN-ORDER
+// TODO: OTHER OPTIONS, SUCH AS REQUIRE IN-ORDER, SHOW_PROGRESS
 export interface HuntOptions {
     silent: boolean;
 }

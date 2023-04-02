@@ -1,11 +1,11 @@
 {
   "name": "The Hunt Is On",
   "description": "A basic scavenger hunt",
-  "version": "0.9",
+  "version": "1.0",
   "author": "Tyler Jang",
   "encrypted": false,
   "background": "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80",
-  "silent": false,
+  "options": {"silent": false},
   "beginning": "Welcome to the hunt.\nBegin by navigating to google.com",
   "clues": [
     {
@@ -14,16 +14,14 @@
       "text": "The hunt begins for pure and brave\nAt education's own conclave.\nYou'll find the treasure that you seek\nUpon Khan's anointed peak.",
       "html": "clue0.html",
       "image": "res/scav_alt.png",
-      "alt": "Scavenger Hunt Icon",
-      "interact": "always"
+      "alt": "Scavenger Hunt Icon"
     },
     {
       "id": 1,
       "url": "khanacademy.org/",
       "text": "You found the first clue!",
       "image": "https://i.pcmag.com/imagery/reviews/07AxdIVbQ63OEkJoPgCybXt-19.1594914797.fit_scale.size_1028x578.png",
-      "alt": "Khan Academy",
-      "interact": "always"
+      "alt": "Khan Academy"
     },
     {
       "id": 2,
@@ -34,9 +32,10 @@
       "id": 3,
       "url": "https://www.nytimes.com/*",
       "text": "You cracked the code!",
-      "interact": "submit",
-      "prompt": "Enter yolo",
-      "key": "yolo"
+      "interactive": {
+        "prompt": "Enter yolo",
+        "key": "yolo"
+      }
     }
   ]
 }

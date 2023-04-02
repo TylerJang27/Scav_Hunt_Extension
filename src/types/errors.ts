@@ -39,6 +39,21 @@ export class MissingFieldError extends ConfigError {
   }
 }
 
+export class XORFieldsError extends ConfigError {
+  index?: number;
+
+  constructor(value1: any, fieldName1: string, value2: any, fieldName2: string, index?: number) {
+    if (index) {
+      super(`Only one of ${fieldName1} and ${fieldName2} can be set in clue index ${index}. Got ${value1} and ${value2}`);
+    } else {
+      super(`Only one of ${fieldName1} and ${fieldName2}. Got ${value1} and ${value2}`);
+    }
+    this.index = index;
+
+    Object.setPrototypeOf(this, XORFieldsError.prototype);
+  }
+}
+
 export class MissingValueError extends ConfigError {
   index?: number;
 

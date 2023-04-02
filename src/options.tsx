@@ -9,6 +9,7 @@ import { PageHeaderAndSubtitle } from "./components/PageHeaderAndSubtitle";
 import { HuntConfig } from "./types/hunt_config";
 import { HuntSource, Progress } from "./types/progress";
 import { ParseConfig } from "./utils/parse";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import path from "path";
 
 const SAMPLE_DIR = "res";
@@ -17,7 +18,7 @@ interface SourceFormType {
   sourceType: HuntSource;
   huntName: string;
   // Sample
-  sampleName: string;
+  samplePath: string;
   // URL
   sourceURL?: string;
   // Upload
@@ -32,8 +33,8 @@ const fetchFromUrl = async (url: string) => {
   }).then((res) => res.json());
 };
 
-const fetchFromSample = async (sampleName: string) => {
-  const url = chrome.runtime.getURL(path.join(SAMPLE_DIR, sampleName));
+const fetchFromSample = async (samplePath: string) => {
+  const url = chrome.runtime.getURL(path.join(SAMPLE_DIR, samplePath));
   return await fetchFromUrl(url);
 };
 
@@ -57,6 +58,18 @@ const saveConfigAndLaunch = (huntConfig: HuntConfig, sourceType: HuntSource) => 
   );
 }
 
+const getSampleOptions = () => {
+  let sampleHuntOptions = new Map<string, string>();
+  const files = ["hunt.json"];
+  files.filter((file) => file.endsWith(".json")).forEach((file) => {
+    const name =  path.parse(file).name.replace("_", " ");
+    sampleHuntOptions.set(file, name);
+  });
+  // sampleHuntOptions.set("hunt.json", "hunt");
+  console.log("GOT HUNT OPTIONS:", sampleHuntOptions);
+  return sampleHuntOptions;
+}
+
 const Options = () => {
 
   // TODO: TYLER FIGURE OUT THEMES
@@ -72,14 +85,16 @@ const Options = () => {
   });
 
   // TODO: DETERMINE THESE PROGRAMATICALLY
-  const sampleHuntOptions = ["Tutorial", "Board Games", "Star Wars"];
+  
+  // const sampleHuntOptions = ["Tutorial", "Board Games", "Star Wars"];
+  const sampleHuntOptions = getSampleOptions();
 
   // TODO: TYLER USE PRESET USEEFFECT TO GET THE CURRENT CONFIGURATION
   // Persistent state
   const [sourceFormState, setSourceFormState] = useState<SourceFormType>({
     sourceType: "Sample",
     huntName: "Tutorial",
-    sampleName: "Tutorial"
+    samplePath: Array.from(sampleHuntOptions.keys())[0]
   });
 
   // TODO: TYLER RENDER ERRORS
@@ -93,7 +108,7 @@ const Options = () => {
       }
       
       if(sourceFormState.sourceType == "Sample") {
-        return Boolean(sourceFormState.sampleName);
+        return Boolean(sourceFormState.samplePath);
       } else if (sourceFormState.sourceType == "URL") {
         return Boolean(sourceFormState.sourceURL);
       } else if (sourceFormState.sourceType == "Upload") {
@@ -106,11 +121,11 @@ const Options = () => {
       useState<boolean>(true);
 
   // Upload state
-  const validateAndSetUploadedConfig = (huntConfig: any) => {
+  const validateAndSetUploadedConfig = (huntConfig: any, fileName: string) => {
     console.log("Validating hunt config");
     try {
       const parsedConfig = ParseConfig(huntConfig);
-      setSourceFormState({...sourceFormState, huntName: parsedConfig.name, uploadedConfig: parsedConfig, uploadedError: undefined});
+      setSourceFormState({...sourceFormState, fileName, huntName: parsedConfig.name, uploadedConfig: parsedConfig, uploadedError: undefined});
     } catch (error) {
       setSourceFormState({...sourceFormState, uploadedError: error as Error});
       setValidationError(error as Error);
@@ -118,17 +133,21 @@ const Options = () => {
   }
 
   const onUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log("TYLER UPLOADING!");
     if (!e.target.files) {
       return;
     }
     const file = e.target.files[0];
     const { name } = file;
-    setSourceFormState({...sourceFormState, fileName: name});
-
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
-      var huntData = JSON.parse(event.target?.result as string);
-      validateAndSetUploadedConfig(huntData)
+      try {
+        var huntData = JSON.parse(event.target?.result as string);
+        validateAndSetUploadedConfig(huntData, name)
+      } catch (error) {
+        setSourceFormState({...sourceFormState, uploadedError: error as Error});
+        setValidationError(error as Error);
+      }
     });
     reader.readAsText(file);
   };
@@ -148,9 +167,9 @@ const Options = () => {
 
   const onSubmit = async () => {
     try {
-      const {sourceType, sampleName, sourceURL, uploadedConfig} = sourceFormState;
+      const {sourceType, samplePath, sourceURL, uploadedConfig} = sourceFormState;
       if (sourceType == "Sample") {
-        const sampledJson = await fetchFromSample(sampleName);
+        const sampledJson = await fetchFromSample(samplePath);
         const parsedConfig = ParseConfig(sampledJson);
         saveConfigAndLaunch(parsedConfig, sourceType);
       } else if (sourceType == "URL" && sourceURL) {
@@ -204,7 +223,8 @@ const Options = () => {
                     onClick={() => {setSourceFormState({...sourceFormState, sourceType: "Sample"});
                     setSampleModalOpen(true);
                   }}
-                  ><>{sourceFormState.sampleName}
+                  ><>{sampleHuntOptions.get(sourceFormState.samplePath) ?? "Unknown name"}
+                  <ArrowDropDownIcon/>
                   {/* TODO: TYLER ADD DROPDOWN ICON */}</>
                   </Button>
                 </Grid>
@@ -272,7 +292,6 @@ const Options = () => {
           </Grid>
           {validationError && 
             <Alert severity="error">{validationError.message}</Alert>}
-          {/* TODO: TYLER ADD ERROR RENDERING HERE! */}
           <Grid item xs={4} justifyContent='center'>
               <Typography><Link href="encode.html" target="_blank">Generate Hunt</Link></Typography>
           </Grid>
@@ -288,11 +307,11 @@ const Options = () => {
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
             name="sample-hunt-group"
-            value={sourceFormState.sampleName}
-            onChange={(e) => {setSourceFormState({...sourceFormState, sampleName: e.target.value as HuntSource});}}
+            value={sourceFormState.samplePath}
+            onChange={(e) => {setSourceFormState({...sourceFormState, samplePath: e.target.value as HuntSource});}}
           >
             {
-              sampleHuntOptions.map((huntName) => <FormControlLabel value={huntName} control={<Radio/>} label={huntName}/>)
+              Array.from(sampleHuntOptions.entries()).map(([samplePath, sampleName]) => <FormControlLabel value={samplePath} control={<Radio/>} label={sampleName} sx={{textTransform: "capitalize"}}/>)
             }
           </RadioGroup>
         </FormControl>

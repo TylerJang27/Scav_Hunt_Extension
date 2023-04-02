@@ -1,4 +1,4 @@
-import { BulkError, ConfigError, InvalidIndexError, MissingFieldError, MissingValueError, SUPPORTED_VERSIONS, UnsupportedVersionError } from "../types/errors";
+import { BulkError, ConfigError, InvalidIndexError, MissingFieldError, MissingValueError, SUPPORTED_VERSIONS, UnsupportedVersionError, XORFieldsError } from "../types/errors";
 import { ClueConfig, HuntConfig } from "../types/hunt_config";
 
 const DEFAULT_BACKGROUND = "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80"
@@ -18,6 +18,12 @@ const ValidateRequiredNonEmptyField = (value: any, fieldName: string, index?: nu
         throw new MissingValueError(fieldName, index);
     }
     return value;
+}
+
+const ValidateXORFields = (value1: any, fieldName1: string, value2: any, fieldName2: string, index?: number) => {
+    if ((!Boolean(value1) && !Boolean(value2)) || (Boolean(value1) && Boolean(value2))) {
+        throw new XORFieldsError(value1, fieldName1, value2, fieldName2, index);
+    }
 }
 
 const ValidateVersion = (value: any) => {
@@ -47,8 +53,10 @@ const ParseClue = ({
         alt: alt,
         interactive: interactive
     };
+
+    ValidateXORFields(text, "text", html, "html", index);
     
-        // Validate clue config
+    // Validate clue config
     if (interactive) {
         ValidateRequiredNonEmptyField(interactive?.key, "interactive.key", index);
     }

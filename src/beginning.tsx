@@ -1,11 +1,20 @@
-import React from "react";
+import { ThemeProvider } from "@emotion/react";
+import { Alert, Button, Container, createTheme, FormControl, FormControlLabel, FormLabel, Grid, Link, Radio, RadioGroup, TextField, Typography } from "@mui/material";
+import { yellow } from "@mui/material/colors";
+import React, { ChangeEvent, useState } from "react";
+import { useEffect } from "react";
 import { createRoot } from "react-dom/client";
+import { ExitableModal } from "./components/ExitableModal";
+import { PageHeaderAndSubtitle } from "./components/PageHeaderAndSubtitle";
+import { HuntConfig } from "./types/hunt_config";
+import { HuntSource, Progress } from "./types/progress";
+import path from "path";
 
 // TODO: TYLER STRONGLY TYPE
 function populateDiv(div: any, clueobj: any) {
   if (clueobj == undefined || clueobj.beginning == undefined) {
     div.textContent =
-      "An unexpected error has occurred. Please contact the hung manager.";
+      "An unexpected error has occurred. Please contact the hunt manager.";
   } else {
     const p = document.createElement("p");
     p.setAttribute("class", "lead");
@@ -140,6 +149,61 @@ const Beginning = () => {
     </>
   );
 };
+
+const loadBeginningFromStorage = (callback: any) => {
+  chrome.storage.local.get(
+    {
+      huntConfig: undefined
+    }, function (items) {
+      callback(items);
+    }
+  )
+};
+
+// const Beginning = () => {
+//   // TODO: TYLER FIGURE OUT THEMES
+//   const theme = createTheme({
+//     palette: {
+//       primary: {
+//         main: yellow[600],
+//       },
+//       secondary: {
+//         main: "#654eff",
+//       },
+//     },
+//   });
+
+//   const [beginningText, setBeginningText] = useState<string>("Empty beginning text. Please reset the hunt.");
+
+//   loadBeginningFromStorage((items: any) => {
+//     if (items.huntConfig) {
+//       // Set background image
+//       const sheet = document.styleSheets[2];
+//       sheet.insertRule(
+//         "body { ,height: 100%; background: url('" +
+//           items.huntConfig.background +
+//           "') no-repeat center; background-size: cover; background-position: cover;}",
+//         0
+//       );
+//       // Set beginning text
+//       setBeginningText(items.huntConfig.beginning);
+//     } else {
+//       console.warn("No hunt informatino found. Please reset the hunt.");
+//     }
+//   });
+
+//   return (
+//     <>
+//     <ThemeProvider theme={theme}>
+//       <Container maxWidth="sm" sx={{ mt: 3 }}>
+//         <Grid container spacing={2}>
+
+
+//           </Grid>
+//           </Container>
+//           </ThemeProvider>
+//           </>);
+// };
 
 const root = createRoot(document.getElementById("root")!);
 
