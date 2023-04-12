@@ -11,13 +11,13 @@ export const PageHeaderAndSubtitle: React.FC<PageHeaderAndSubtitleProps> = (
   props: PageHeaderAndSubtitleProps
 ) => {
   const theme = useTheme();
-
   return (
     <>
       <Typography
         variant="h4"
         fontWeight={theme.typography.fontWeightBold}
         textAlign="center"
+        color="white"
       >
         {props.headerPrefix}
         {props.headerPrefix && ": "}
@@ -25,7 +25,7 @@ export const PageHeaderAndSubtitle: React.FC<PageHeaderAndSubtitleProps> = (
       </Typography>
 
       {props.subtitle && (
-        <Typography variant="h6" textAlign="center">
+        <Typography variant="h6" textAlign="center" color="white">
           {props.subtitle}
         </Typography>
       )}
