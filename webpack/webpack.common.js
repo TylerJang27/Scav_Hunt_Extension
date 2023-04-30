@@ -20,7 +20,7 @@ module.exports = {
     splitChunks: {
       name: "vendor",
       chunks(chunk) {
-        return chunk.name !== "background";
+        return !["background", "popup", "beginning"].includes(chunk.name)
       },
     },
   },

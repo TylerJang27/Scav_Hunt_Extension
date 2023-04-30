@@ -65,11 +65,12 @@ const ParseClue = ({
 };
 
 const ValidateClues = (clues: ClueConfig[]) => {
-    let index = 0;
+    let index = 1;
     clues.forEach(clue => {
-        if (clue.id != index++) {
+        if (clue.id != index) {
             throw new InvalidIndexError(clue.id, index);
         }
+        index++;
     })
 };
 
@@ -99,11 +100,8 @@ const ParseHuntOptions = (
 
 
 export const ParseConfig = (object: any) => {
-    const errors: ConfigError[] = [];
-    const clues: ClueConfig[] = [];
-
     // Parse clues
-    object.clues.reduce(([index, clueAccumulator, errorAccumulator]: [number, ClueConfig[], ConfigError[]], clue: any) => {
+    const [_index, clues, errors] = object.clues.reduce(([index, clueAccumulator, errorAccumulator]: [number, ClueConfig[], ConfigError[]], clue: any) => {
         try {
             return [index+1, clueAccumulator.concat(ParseClue(clue, index++)), errorAccumulator];
         } catch (error) {
@@ -112,7 +110,12 @@ export const ParseConfig = (object: any) => {
             }
             throw(error);
         }
-    }, [0, clues, errors]);
+    }, [0, [], []]);
+
+    // Errors at this point are high enough priority that we throw so users can resolve them.
+    if (errors.length) {
+        throw new BulkError(errors);
+    }
 
     try {
         // Parse hunt config
@@ -153,7 +156,29 @@ export const Decrypt = (text: string, encrypted: boolean) => {
         for (var k = 0; k < text.length; k += 2) {
             level1 += text.charAt(k);
         }
-        return Buffer.from(level1, 'base64');
+        return Buffer.from(level1, 'base64').toString();
       }
       return text;
 };
+
+const wrapDecrypt = (text: string | undefined, encoded: boolean) => {
+    if (text) {
+      return Decrypt(text, encoded);
+    }
+    return undefined;
+  };
+
+export const DecryptClue = (clue: ClueConfig, encrypted: boolean) => ({
+    /* Decoded fields */
+    id: clue.id,
+    /* Encoded fields */
+    url: Decrypt(clue.url, encrypted),
+    text: wrapDecrypt(clue.text, encrypted),
+    html: wrapDecrypt(clue.html, encrypted),
+    image: wrapDecrypt(clue.image, encrypted),
+    alt: wrapDecrypt(clue.alt, encrypted),
+    interactive: clue.interactive ? {
+      prompt: wrapDecrypt(clue.interactive.prompt, encrypted),
+      key: clue.interactive.key,
+    } : undefined
+});

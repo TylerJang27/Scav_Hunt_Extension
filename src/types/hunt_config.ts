@@ -1,12 +1,16 @@
-
-
 export interface IntractiveConfig {
+    /* Encrypted fields */
     prompt?: string;
+    // Only decrypted during final check
     key: string;
 }
 
 export interface ClueConfig {
+    /* Unencrypted fields */
+    // Required to be ordered, starting from 1
     id: number;
+
+    /* Encrypted fields */
     // URL or regex
     url: string;
     text?: string;

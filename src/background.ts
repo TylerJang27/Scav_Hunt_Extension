@@ -1,56 +1,50 @@
-(window as any).clue = {};
+// Chrome manifest v3 migrated from a background worker to service worker
+
+import { Decrypt } from "./utils/parse";
+
+const openClueCallback = (items: any) => {
+  if (items.huntConfig && items.currentProgress !== undefined) {
+    if (items.currentProgress == 0) {
+      // TODO: TYLER SHOULD WE OPEN THE OPTIONS PAGE? OR A TUTORIAL?
+      return;
+    }
+    const { clues, encrypted } = items.huntConfig;
+    const foundClue = clues[items.currentProgress - 1];
+    if (foundClue.html) {
+      chrome.tabs.create({ url: Decrypt(foundClue.html, encrypted) });
+      return;
+    }
+    
+    // Open the clue page for the most recently found clue.
+    chrome.tabs.create({ url: "popup.html"});
+  } else {
+    console.warn("Error. Empty or invalid hunt.");
+  }
+}
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request != null) {
-    (window as any).clue = request;
-    if ((window as any).url != undefined) {
+  if (request) {
+    if (request.status == "Found") {
       chrome.action.setBadgeText({ text: "1" });
-    } else {
+      return;
+    } else if (request.status == "Not Found") {
       chrome.action.setBadgeText({ text: "" });
+      return;
+    } else if (request.status == "Invalid") {
+      chrome.action.setBadgeText({ text: "X" });
+      return;
     }
-  } else {
-    (window as any).clue = {};
   }
+  console.log("Invalid request", request);
 });
 
-// TODO: TYLER REPLACE WITH ACTION
 chrome.action.onClicked.addListener(function (tab) {
   chrome.action.setBadgeText({ text: "" });
-  var clue = (window as any).clue;
-  var en = clue.encrypted;
-  if (clue.error != undefined) {
-    my_alert("There is a problem with the clues:\n" + clue.error);
-  } else if (clue.url == undefined) {
-    my_alert("Keep looking!");
-  } else {
-    if (clue.html != undefined) {
-      //note: preempts the clickable or submit behaviors
-      //in content.js html is preempted by text
-      chrome.tabs.create({ url: clue.html });
-    } else {
-      if (clue.interact == "clickable") {
-        // TODO: REPLACE GETBACKGROUNDPAGE WITH SENDMESSAGE
-        // https://developer.chrome.com/docs/extensions/migrating/api-calls/#replace-browser-page-actions
-        const bg = chrome.extension.getBackgroundPage() as any;
-        if (bg.clue.visible) {
-          chrome.tabs.create({ url: "popup.html" });
-        } else {
-          my_alert("Click the special text on the page!");
-        }
-      } else if (clue.interact == "submit") {
-        chrome.tabs.create({ url: "popup.html" });
-      } else {
-        chrome.tabs.create({ url: "popup.html" });
-      }
-    }
-  }
+
+  chrome.storage.local.get(
+    ["huntConfig",
+    "currentProgress"],
+    function (items) {
+      openClueCallback(items);
+    });
 });
-
-function my_alert(msg: any) {
-  //TODO: CHANGE my_alert APPEARANCE, https://stackoverflow.com/questions/7853130/how-to-change-the-style-of-alert-box
-
-  // chrome.tabs.query({currentWindow: true, active: true}, function (tabs) {
-  //   chrome.tabs.sendMessage(tabs[0].id, msg, setMessage);
-  // })
-  alert(msg);
-}

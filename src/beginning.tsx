@@ -1,39 +1,6 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
-import { HuntPage } from "./components/HuntPage";
-
-// TODO: TYLER STRONGLY TYPE
-function populateDiv(div: any, clueobj: any) {
-  if (clueobj == undefined || clueobj.beginning == undefined) {
-    div.textContent =
-      "An unexpected error has occurred. Please contact the hunt manager.";
-  } else {
-    const p = document.createElement("p");
-    p.setAttribute("class", "lead");
-
-    var clue_content = clueobj.beginning;
-    var clue_lines = [];
-    console.log(clue_content);
-    if (clue_content.includes("\n")) {
-      console.log("splitting");
-      clue_lines = clue_content.split("\n");
-    } else {
-      console.log("not splitting");
-      clue_lines = [clue_content];
-    }
-    console.log(clue_lines);
-
-    var lastp = p;
-    for (var i = 0; i < clue_lines.length; i++) {
-      var p2 = document.createElement("p");
-      p2.setAttribute("class", "lead");
-      p2.textContent = clue_lines[i];
-      lastp.appendChild(p2);
-      lastp = p2;
-    }
-    div.appendChild(p);
-  }
-}
+import { CluePage } from "./components/CluePage";
 
 const loadBeginningFromStorage = (callback: any) => {
   chrome.storage.local.get("huntConfig", function (items) {
@@ -68,7 +35,7 @@ const Beginning = () => {
 
   // TODO: TYLER MAKE THESE INTO REUSABLE COMPONENTS
   return (
-    <HuntPage title={huntName} message={beginningText}/>);
+    <CluePage title={huntName} message={beginningText}/>);
 };
 
 const root = createRoot(document.getElementById("root")!);

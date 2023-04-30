@@ -5,12 +5,12 @@ import { Footer } from "./Footer";
 import { PageHeaderAndSubtitle } from "./PageHeaderAndSubtitle";
 import { yellow } from "@mui/material/colors";
 
-export interface HuntPageProps {
+export interface CluePageProps {
 title: React.ReactNode;
 message: React.ReactNode;
 }
 
-export const HuntPage = (props: HuntPageProps) => {
+export const CluePage = (props: CluePageProps) => {
       // TODO: TYLER FIGURE OUT THEMES
   const theme = createTheme({
     palette: {

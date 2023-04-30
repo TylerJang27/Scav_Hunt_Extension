@@ -43,7 +43,8 @@ const saveConfigAndLaunch = (huntConfig: HuntConfig, sourceType: HuntSource) => 
   const progress: Progress = {
     sourceType,
     huntConfig,
-    maxProgress: 0
+    maxProgress: 0,
+    currentProgress: 0
   }
   
   console.log("SETTING STORAGE"); // TODO: REMOVE
