@@ -6,13 +6,11 @@ import { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { ExitableModal } from "./components/ExitableModal";
 import { PageHeaderAndSubtitle } from "./components/PageHeaderAndSubtitle";
-import { HuntConfig } from "./types/hunt_config";
+import { HuntConfig, SAMPLE_DIR } from "./types/hunt_config";
 import { HuntSource, Progress } from "./types/progress";
 import { ParseConfig } from "./utils/parse";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import path from "path";
-
-const SAMPLE_DIR = "res";
 
 interface SourceFormType {
   sourceType: HuntSource;

@@ -1,5 +1,6 @@
 // Chrome manifest v3 migrated from a background worker to service worker
 
+import { EMPTY_OR_INVALID_HUNT } from "./types/errors";
 import { Decrypt } from "./utils/parse";
 
 const openClueCallback = (items: any) => {
@@ -18,7 +19,7 @@ const openClueCallback = (items: any) => {
     // Open the clue page for the most recently found clue.
     chrome.tabs.create({ url: "popup.html"});
   } else {
-    console.warn("Error. Empty or invalid hunt.");
+    console.warn(EMPTY_OR_INVALID_HUNT);
   }
 }
 

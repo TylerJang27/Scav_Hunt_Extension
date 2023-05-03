@@ -1,85 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { CluePage } from "./components/CluePage";
+import { ClueConfig } from "./types/hunt_config";
+import { EMPTY_OR_INVALID_HUNT, UNKNOWN_ERROR_RESET_HUNT } from "./types/errors";
+import { DEFAULT_BACKGROUND, DecryptClue } from "./utils/parse";
 
-// TODO: TYLER ADAPT FOR THE CONTENT
-function populateDiv(div: any, clueobj: any) {
-  if (clueobj == undefined || clueobj.beginning == undefined) {
-    div.textContent =
-      "An unexpected error has occurred. Please contact the hunt manager.";
-  } else {
-    const p = document.createElement("p");
-    p.setAttribute("class", "lead");
-
-    var clue_content = clueobj.beginning;
-    var clue_lines = [];
-    console.log(clue_content);
-    if (clue_content.includes("\n")) {
-      console.log("splitting");
-      clue_lines = clue_content.split("\n");
-    } else {
-      console.log("not splitting");
-      clue_lines = [clue_content];
-    }
-    console.log(clue_lines);
-
-    var lastp = p;
-    for (var i = 0; i < clue_lines.length; i++) {
-      var p2 = document.createElement("p");
-      p2.setAttribute("class", "lead");
-      p2.textContent = clue_lines[i];
-      lastp.appendChild(p2);
-      lastp = p2;
-    }
-    div.appendChild(p);
-  }
-}
-
-// TODO: REMOVE
-const loadBeginningFromStorage = (callback: any) => {
-  chrome.storage.local.get("huntConfig", function (items) {
-      callback(items);
-    }
-  )
+const DEFAULT_LOADING_CLUE = {
+  id: -1,
+  url: "https://chrome.google.com/webstore/detail/scavenger-hunt/opcgbolmjikeaokbmldpfhemaamnfggf/related?hl=en-US",
+  text: ""
 };
 
-// TODO: USE
-const loadSolvedClueFromStorage = (callback: any) => {
+const loadSolvedClueFromStorage = (huntNameCallback: any, encryptedCallback: any, huntBackgroundCallback: any, clueCallback: any, errorCallback: any) => {
   chrome.storage.local.get(
     ["huntConfig",
     "currentProgress"],
     function (items) {
-      callback(items);
+      console.log("GETTING STORAGE");
+      if (!items.huntConfig || items.currentProgress === undefined) {
+        errorCallback(EMPTY_OR_INVALID_HUNT);
+        return;
+      }
+      
+      if (items.currentProgress === 0) {
+        // TODO: TYLER SHOULD WE OPEN THE OPTIONS PAGE? OR A TUTORIAL?
+        errorCallback(UNKNOWN_ERROR_RESET_HUNT);
+        return;
+      }
+
+      const { name, encrypted, background, clues } = items.huntConfig;
+      const decryptedClue = DecryptClue(clues[items.currentProgress - 1], encrypted);
+
+      huntNameCallback(name);
+      encryptedCallback(encrypted);
+      huntBackgroundCallback(background);
+      clueCallback(decryptedClue);
     });
 };
 
 const Popup = () => {
   const [huntName, setHuntName] = useState<string>("Scavenger Hunt");
-  const [beginningText, setBeginningText] = useState<string>("Empty beginning text. Please reset the hunt.");
+  const [encrypted, setEncrypted] = useState<boolean>(false);
+  const [decryptedClue, setDecryptedClue] = useState<ClueConfig>(DEFAULT_LOADING_CLUE);
+  const [error, setError] = useState<string | undefined>();
 
-  loadBeginningFromStorage((items: any) => {
-    if (items.huntConfig) {
-      const huntConfig = items.huntConfig;
-      // Set background image
-      const sheet = document.styleSheets[2];
-      sheet.insertRule(
-        "body { ,height: 100%; background: url('" +
-          huntConfig.background +
-          "') no-repeat center; background-size: cover; background-position: cover;}",
-        0
-      );
-      // Set beginning text
-      setBeginningText(huntConfig.beginning);
-      setHuntName(huntConfig.name);
-    } else {
-      console.log(items);
-      console.warn("No hunt information found. Please reset the hunt.");
-    }
-  });
+  // TODO: TYLER MAKE THIS MORE REACT-IVE
+  const backgroundCallback = (background: string) => {
+    const sheet = document.styleSheets[2];
+    sheet.insertRule(
+      "body { ,height: 100%; background: url('" +
+        background +
+        "') no-repeat center; background-size: cover; background-position: cover;}",
+      0
+    );
+  }
 
-  // TODO: TYLER PASS MORE THINGS HERE
+  // TODO: TYLER MAKE SURE EVERYWHERE ELSE HAS THE USE EFFECT IT NEEDS
+  useEffect(()=>loadSolvedClueFromStorage(setHuntName, setEncrypted, backgroundCallback, setDecryptedClue, setError), []);
   return (
-    <CluePage title={huntName} message={beginningText}/>);
+    <CluePage huntName={huntName} encrypted={encrypted} clue={decryptedClue} error={error}/>);
 };
 
 const root = createRoot(document.getElementById("root")!);

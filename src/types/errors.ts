@@ -1,3 +1,6 @@
+export const EMPTY_OR_INVALID_HUNT = "Error. Empty or invalid hunt.";
+export const UNKNOWN_ERROR_RESET_HUNT = "Unknown error. Please reset the hunt.";
+
 export class ConfigError extends Error {
   constructor(message: string) {
     super(message);

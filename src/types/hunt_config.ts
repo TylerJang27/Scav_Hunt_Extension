@@ -1,3 +1,5 @@
+export const SAMPLE_DIR = "res";
+
 export interface IntractiveConfig {
     /* Encrypted fields */
     prompt?: string;

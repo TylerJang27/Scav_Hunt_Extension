@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
-import { CluePage } from "./components/CluePage";
+import { BeginningPage } from "./components/CluePage";
 
 const loadBeginningFromStorage = (callback: any) => {
   chrome.storage.local.get("huntConfig", function (items) {
@@ -35,7 +35,7 @@ const Beginning = () => {
 
   // TODO: TYLER MAKE THESE INTO REUSABLE COMPONENTS
   return (
-    <CluePage title={huntName} message={beginningText}/>);
+    <BeginningPage title={huntName} message={beginningText}/>);
 };
 
 const root = createRoot(document.getElementById("root")!);

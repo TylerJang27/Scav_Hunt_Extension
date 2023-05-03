@@ -1,7 +1,7 @@
 import { BulkError, ConfigError, InvalidIndexError, MissingFieldError, MissingValueError, SUPPORTED_VERSIONS, UnsupportedVersionError, XORFieldsError } from "../types/errors";
 import { ClueConfig, HuntConfig } from "../types/hunt_config";
 
-const DEFAULT_BACKGROUND = "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80"
+export const DEFAULT_BACKGROUND = "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80"
 
 const ValidateRequiredField = (value: any, fieldName: string, index?: number) => {
     if (value === undefined) {
