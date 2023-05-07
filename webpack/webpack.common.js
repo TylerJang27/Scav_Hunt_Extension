@@ -20,7 +20,9 @@ module.exports = {
     splitChunks: {
       name: "vendor",
       chunks(chunk) {
-        return !["background", "popup", "beginning", "options"].includes(chunk.name)
+        return !["background", "popup", "beginning", "options"].includes(
+          chunk.name
+        );
       },
     },
   },
@@ -35,7 +37,7 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
-    fallback: { "path": require.resolve("path-browserify") }
+    fallback: { path: require.resolve("path-browserify") },
   },
   plugins: [
     new CopyPlugin({

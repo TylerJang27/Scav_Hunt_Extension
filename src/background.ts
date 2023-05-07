@@ -15,13 +15,13 @@ const openClueCallback = (items: any) => {
       chrome.tabs.create({ url: Decrypt(foundClue.html, encrypted) });
       return;
     }
-    
+
     // Open the clue page for the most recently found clue.
-    chrome.tabs.create({ url: "popup.html"});
+    chrome.tabs.create({ url: "popup.html" });
   } else {
     console.warn(EMPTY_OR_INVALID_HUNT);
   }
-}
+};
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request) {
@@ -42,10 +42,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 chrome.action.onClicked.addListener(function (tab) {
   chrome.action.setBadgeText({ text: "" });
 
-  chrome.storage.local.get(
-    ["huntConfig",
-    "currentProgress"],
-    function (items) {
-      openClueCallback(items);
-    });
+  chrome.storage.local.get(["huntConfig", "currentProgress"], function (items) {
+    openClueCallback(items);
+  });
 });

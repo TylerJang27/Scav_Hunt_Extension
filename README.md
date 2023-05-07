@@ -95,7 +95,7 @@ The following top-level Key-Value Pairs should be included in the [json file]](r
   - A beginning text message to be displayed when a user chooses a hunt. Can use `\n`
 - clues (List of Objects) [1]
   - The clues to be found along the trail
-- show_progress: _WORK IN PROGRESS_
+- show*progress: \_WORK IN PROGRESS*
 
 ### Clues
 

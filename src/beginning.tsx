@@ -4,14 +4,15 @@ import { BeginningPage } from "./components/CluePage";
 
 const loadBeginningFromStorage = (callback: any) => {
   chrome.storage.local.get("huntConfig", function (items) {
-      callback(items);
-    }
-  )
+    callback(items);
+  });
 };
 
 const Beginning = () => {
   const [huntName, setHuntName] = useState<string>("Scavenger Hunt");
-  const [beginningText, setBeginningText] = useState<string>("Empty beginning text. Please reset the hunt.");
+  const [beginningText, setBeginningText] = useState<string>(
+    "Empty beginning text. Please reset the hunt."
+  );
 
   loadBeginningFromStorage((items: any) => {
     if (items.huntConfig) {
@@ -28,14 +29,12 @@ const Beginning = () => {
       setBeginningText(huntConfig.beginning);
       setHuntName(huntConfig.name);
     } else {
-      console.log(items);
       console.warn("No hunt information found. Please reset the hunt.");
     }
   });
 
   // TODO: TYLER MAKE THESE INTO REUSABLE COMPONENTS
-  return (
-    <BeginningPage title={huntName} message={beginningText}/>);
+  return <BeginningPage title={huntName} message={beginningText} />;
 };
 
 const root = createRoot(document.getElementById("root")!);

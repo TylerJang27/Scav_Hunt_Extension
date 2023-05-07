@@ -31,8 +31,10 @@
     "service_worker": "js/background.js"
   },
   "permissions": ["storage", "downloads"],
-  "web_accessible_resources": [{
-    "resources": ["res/*"],
-    "matches": ["*://*/*"]
-  }]
+  "web_accessible_resources": [
+    {
+      "resources": ["res/*"],
+      "matches": ["*://*/*"]
+    }
+  ]
 }

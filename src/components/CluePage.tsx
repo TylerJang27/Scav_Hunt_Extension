@@ -1,11 +1,21 @@
 import { ThemeProvider } from "@emotion/react";
-import { Container, Grid, Card, CardContent, Typography, createTheme, FormControl, TextField, Button } from "@mui/material";
+import {
+  Container,
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  createTheme,
+  FormControl,
+  TextField,
+  Button,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Footer } from "./Footer";
 import { PageHeaderAndSubtitle } from "./PageHeaderAndSubtitle";
 import { yellow } from "@mui/material/colors";
 import { ClueConfig } from "src/types/hunt_config";
-import { Decrypt } from "../utils/parse";
+import { Encrypt } from "../utils/parse";
 
 export interface BeginningPageProps {
   title: React.ReactNode;
@@ -14,15 +24,21 @@ export interface BeginningPageProps {
 
 export interface CluePageProps {
   huntName: string;
-  encrypted: boolean
+  encrypted: boolean;
   clue: ClueConfig;
   error?: string;
 }
 
 export const CluePage = (props: CluePageProps) => {
   // TODO: TYLER FIGURE OUT THEMES
-  const {huntName, encrypted, clue: {id, text, image, alt, interactive}, error} = props;
-  const imageURL = (image && !image.startsWith("http")) ? chrome.runtime.getURL(image) : image;
+  const {
+    huntName,
+    encrypted,
+    clue: { id, text, image, alt, interactive },
+    error,
+  } = props;
+  const imageURL =
+    image && !image.startsWith("http") ? chrome.runtime.getURL(image) : image;
 
   const clueNumber = id > 0 ? `: ${id}` : "";
   const title = `${huntName}${clueNumber}`;
@@ -47,53 +63,96 @@ export const CluePage = (props: CluePageProps) => {
   }, [interactive]);
 
   const validateKey = () => {
-    if (interactive && inputKey === Decrypt(interactive.key, encrypted)) {
+    if (interactive && interactive.key === Encrypt(inputKey, encrypted)) {
       setSolved(true);
     }
-  }
+  };
 
-    return (
-        <>
-        <ThemeProvider theme={theme}>
-          <Container maxWidth="sm" sx={{ mt: 3, "&::after": { flex: "auto" }}}>
-            <Grid container spacing={2} justifyContent="center" alignItems="center">
-              <Grid item xs={12}>
-                <Card sx={{mt: 4, backgroundColor: "#333"}}>
-                  <CardContent>
-                    <PageHeaderAndSubtitle header={title} />
-                    {solved && <Typography variant="body1" textAlign="center" color="white" mt={1}>
+  useEffect(() => {
+    const listener = (event: KeyboardEvent) => {
+      if (event.code === "Enter" || event.code === "NumpadEnter") {
+        validateKey();
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  }, [interactive, inputKey]);
+
+  return (
+    <>
+      <ThemeProvider theme={theme}>
+        <Container maxWidth="sm" sx={{ mt: 3, "&::after": { flex: "auto" } }}>
+          <Grid
+            container
+            spacing={2}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Grid item xs={12}>
+              <Card sx={{ mt: 4, backgroundColor: "#333" }}>
+                <CardContent>
+                  <PageHeaderAndSubtitle header={title} />
+                  {solved && (
+                    <Typography
+                      variant="body1"
+                      textAlign="center"
+                      color="white"
+                      mt={1}
+                    >
                       {/* TODO: TYLER DO LINE REPLACEMENT */}
                       {error ?? text}
-                    </Typography>}
-                    { image && <img
+                    </Typography>
+                  )}
+                  {image && (
+                    <img
                       src={imageURL}
                       alt={alt}
                       loading="lazy"
                       width="75%"
                       height="75%"
-                      style={{ marginLeft: "auto", marginRight: "auto", display: "block"}}
-                    />}
-                    {/* prompt, key */}
-                    { interactive && 
+                      style={{
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        display: "block",
+                      }}
+                    />
+                  )}
+                  {interactive && (
                     // TODO: ADD STYLING
-                    <FormControl>
-                      { interactive.prompt && <Typography>{interactive.prompt}</Typography>}
-                      <TextField variant="outlined" value={inputKey} onChange={(e) => setInputKey(e.target.value.trim())} error={interactive === undefined || !solved}/>
-                      {/* TODO: ADD ENTER SUPPORT */}
-                      <Button variant="outlined" size="medium" onClick={validateKey}>Submit</Button>
-                      
-                      </FormControl>}
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12}>
-                <Footer/>
-              </Grid>
+                    <FormControl sx={{ minWidth: "100%" }}>
+                      {interactive.prompt && (
+                        <Typography>{interactive.prompt}</Typography>
+                      )}
+                      <TextField
+                        variant="outlined"
+                        value={inputKey}
+                        onChange={(e) => setInputKey(e.target.value.trim())}
+                        error={interactive === undefined || !solved}
+                      />
+                      {/* TODO: ADD BETTER ERROR/RESPONSIVENESS SUPPORT (Show message on error) */}
+                      <Button
+                        variant="outlined"
+                        size="medium"
+                        onClick={validateKey}
+                      >
+                        Submit
+                      </Button>
+                    </FormControl>
+                  )}
+                </CardContent>
+              </Card>
             </Grid>
-          </Container>
-        </ThemeProvider>
-        </>);
-}
+            <Grid item xs={12}>
+              <Footer />
+            </Grid>
+          </Grid>
+        </Container>
+      </ThemeProvider>
+    </>
+  );
+};
 
 // TODO: TYLER REFACTOR TO MAKE THESE COMMON
 export const BeginningPage = (props: BeginningPageProps) => {
@@ -109,27 +168,38 @@ export const BeginningPage = (props: BeginningPageProps) => {
     },
   });
 
-    return (
-        <>
-        <ThemeProvider theme={theme}>
-          <Container maxWidth="sm" sx={{ mt: 3, "&::after": { flex: "auto" }}}>
-            <Grid container spacing={2} justifyContent="center" alignItems="center">
-              <Grid item xs={12}>
-                <Card sx={{mt: 4, backgroundColor: "#333"}}>
-                  <CardContent>
-                    <PageHeaderAndSubtitle header={props.title} />
-                    <Typography variant="body1" textAlign="center" color="white" mt={1}>
-                      {/* TODO: TYLER DO LINE REPLACEMENT */}
-                      {props.message}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12}>
-                <Footer/>
-              </Grid>
+  return (
+    <>
+      <ThemeProvider theme={theme}>
+        <Container maxWidth="sm" sx={{ mt: 3, "&::after": { flex: "auto" } }}>
+          <Grid
+            container
+            spacing={2}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Grid item xs={12}>
+              <Card sx={{ mt: 4, backgroundColor: "#333" }}>
+                <CardContent>
+                  <PageHeaderAndSubtitle header={props.title} />
+                  <Typography
+                    variant="body1"
+                    textAlign="center"
+                    color="white"
+                    mt={1}
+                  >
+                    {/* TODO: TYLER DO LINE REPLACEMENT */}
+                    {props.message}
+                  </Typography>
+                </CardContent>
+              </Card>
             </Grid>
-          </Container>
-        </ThemeProvider>
-        </>);
-}
+            <Grid item xs={12}>
+              <Footer />
+            </Grid>
+          </Grid>
+        </Container>
+      </ThemeProvider>
+    </>
+  );
+};

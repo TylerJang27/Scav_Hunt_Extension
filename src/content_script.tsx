@@ -6,14 +6,15 @@ import { Decrypt } from "./utils/parse";
  * 1. Check if the stored hunt config is valid
  * 2. Check if the current URL applies to any clues
  * 3. If it does, send a message to the background/worker to render an update for the clue
- * 
+ *
  * Notes:
  * 1. Content Script is in charge of rendering an alert if desired
  * 2. Content Script is in charge of updating progress and maxProgress* on opened
  * 3. Worker is in charge of updating the badge text
  */
 
-const CLUE_FOUND_TEXT = "You found a clue! Click on the Scavenger Hunt icon to view the message.";
+const CLUE_FOUND_TEXT =
+  "You found a clue! Click on the Scavenger Hunt icon to view the message.";
 
 /* Utils */
 
@@ -25,13 +26,19 @@ const alertWrapper = (msg: any) => {
   // })
   // Potentially also chrome.notifications
   alert(msg);
-}
+};
 
 /* Parse hunt config and current page */
 
-const checkHuntForURLMatch = (huntConfig: HuntConfig): ClueConfig | undefined => {
-  console.log("checking for match!")
-  const { encrypted, clues, options: { silent } } = huntConfig;
+const checkHuntForURLMatch = (
+  huntConfig: HuntConfig
+): ClueConfig | undefined => {
+  console.log("checking for match!");
+  const {
+    encrypted,
+    clues,
+    options: { silent },
+  } = huntConfig;
   for (let i = 0; i < clues.length; i++) {
     const clue = clues[i];
 
@@ -46,12 +53,12 @@ const checkHuntForURLMatch = (huntConfig: HuntConfig): ClueConfig | undefined =>
     if (!silent) {
       alertWrapper(CLUE_FOUND_TEXT);
     }
-    console.log("found a match!")
+    console.log("found a match!");
     return clue;
   }
 
   return undefined;
-}
+};
 
 /* Send messages to worker */
 
@@ -64,34 +71,33 @@ const sendClueFound = (maxProgress: number, solvedClue: ClueConfig) => {
   };
 
   chrome.storage.local.set(
-    {maxProgress: currentProgress > maxProgress ? currentProgress : maxProgress,
-    currentProgress},
+    {
+      maxProgress:
+        currentProgress > maxProgress ? currentProgress : maxProgress,
+      currentProgress,
+    },
     sendClueFoundMessage
-  )
+  );
 };
 
 const sendClueNotFound = () => {
   chrome.runtime.sendMessage({
-    status: "Not Found"
+    status: "Not Found",
   });
 };
 
 const sendEmptyOrInvalidHunt = () => {
   chrome.runtime.sendMessage({
-    status: "Invalid"
+    status: "Invalid",
   });
 };
 
 /* Handle storage and page */
 
 const loadHuntProgress = (callback: any) => {
-  chrome.storage.local.get(
-    ["huntConfig",
-    "maxProgress"],
-    function (items) {
-      callback(items);
-    }
-  );
+  chrome.storage.local.get(["huntConfig", "maxProgress"], function (items) {
+    callback(items);
+  });
 };
 
 const loadHuntCallback = (items: any) => {
@@ -106,6 +112,6 @@ const loadHuntCallback = (items: any) => {
   } else {
     sendEmptyOrInvalidHunt();
   }
-}
+};
 
 loadHuntProgress(loadHuntCallback);
