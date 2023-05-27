@@ -62,7 +62,6 @@ const saveConfigAndLaunch = (
     currentProgress: 0,
   };
 
-  console.log("SETTING STORAGE"); // TODO: REMOVE
   chrome.storage.local.set(progress, function () {
     const error = chrome.runtime.lastError;
     if (error) {

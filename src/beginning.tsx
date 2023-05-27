@@ -33,7 +33,6 @@ const Beginning = () => {
     }
   });
 
-  // TODO: TYLER MAKE THESE INTO REUSABLE COMPONENTS
   return <BeginningPage title={huntName} message={beginningText} />;
 };
 
