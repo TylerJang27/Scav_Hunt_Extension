@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { HuntConfig } from "./types/hunt_config";
-import { Card, CardContent, Container, Grid, TextField, createTheme } from "@mui/material";
+import { ClueConfig, HuntConfig } from "./types/hunt_config";
+import {
+  Button,
+  Card,
+  CardContent,
+  Container,
+  FormControl,
+  Grid,
+  TextField,
+  createTheme,
+} from "@mui/material";
 import { yellow } from "@mui/material/colors";
 import { ThemeProvider } from "@emotion/react";
 import { PageHeaderAndSubtitle } from "./components/PageHeaderAndSubtitle";
 import { Footer } from "./components/Footer";
+import { ExitableModal } from "./components/ExitableModal";
 
 const Encode = () => {
   // TODO: TYLER FIGURE OUT THEMES
@@ -20,9 +30,29 @@ const Encode = () => {
     },
   });
 
-  
+  const [huntConfig, setHuntConfig] = useState<HuntConfig>({
+    name: "",
+    description: "",
+    author: "",
+    version: "1.0",
+    encrypted: false,
+    background: "",
+    options: {
+      silent: false
+    },
+    beginning: "",
+    clues: []
+  });
 
-  const [huntConfig, setHuntConfig] = useState<HuntConfig | any>({});
+  const [createClueOpen, setCreateClueOpen] = useState<boolean>(false);
+  const [createdClueIndex, setCreatedClueIndex] = useState<number>(0);
+  const [createdClue, setCreatedClue] = useState<ClueConfig>({
+    id: -1,
+    url: "",
+    text: "",
+  });
+
+  // TODO: TYLER MAKE SURE TO TRIM RESULTS BEFORE DOWNLOADING
 
   const sampleJson = `{
     "name": "The Hunt Is On",
@@ -65,13 +95,12 @@ const Encode = () => {
     ]
   }
   `;
-  
+
   return (
     <>
       <ThemeProvider theme={theme}>
         <Container maxWidth="lg" sx={{ mt: 3 }}>
-          
-        <Grid
+          <Grid
             container
             spacing={2}
             justifyContent="center"
@@ -81,32 +110,69 @@ const Encode = () => {
               <Card sx={{ mt: 4, backgroundColor: "#333" }}>
                 <CardContent>
                   <PageHeaderAndSubtitle header={"Make Your Own Hunt"} />
-          
-          
-          <Grid
-            container
-            spacing={1}
-            justifyContent="center"
-            alignItems="center"
-            direction="row"
-            >
-              {/* Input pane */}
-              <Grid item xs={6}
-                          display={"grid"}>
-                Input
-              </Grid>
 
-              {/* Preview pane */}
-              {/*  TODO: Figure out how to set the color while also making disabled */}
-              <Grid item xs={6}
-                          display={"grid"}>
-                <TextField variant="outlined" InputProps={{ inputProps: { style: { color: '#fff' }}}} maxRows={30} multiline value={sampleJson} sx={{fontFamily: "system-ui", fontSize: "0.9rem", color: "white"}}/>
-              </Grid>
-            </Grid>
+                  <Grid
+                    container
+                    spacing={1}
+                    justifyContent="center"
+                    alignItems="center"
+                    direction="row"
+                  >
+                    {/* Input pane */}
+                    <Grid item xs={6} display={"grid"}>
+                      Input
+                      <FormControl>
+                        <TextField value={huntConfig.name} label="Name" required variant="outlined" onChange={(e) => {
+                          setHuntConfig({...huntConfig, name: e.target.value});
+                        }}/>
+                        {/* TODO: DESCRIPTION, AUTHOR, ENCRYPTED (BOOL-AND SHOW), BACKGROUND (VALIDATION?), OPTIONS, BEGINNING */}
 
+                        {/* TODO: RENDER THE LIST OF CLUES IN huntConfig as cards with their own summary and index and edit/delete button */}
+                        {Array.from(huntConfig.clues).map(({id, url, text, image, alt, interactive}) => (
+                          // TODO: RENDER A CARD FOR THE CLUE HERE
+                          <>
+                          
+                          </>
+                        ))}
 
+                        <Button
+                            fullWidth
+                            color="secondary"
+                            variant="contained"
+                            onClick={() => {
+                              setCreatedClueIndex(huntConfig.clues.length);
+                              setCreatedClue({
+                                id: huntConfig.clues.length + 1,
+                                url: "",
+                                text: ""
+                              });
+                              setCreateClueOpen(true);
+                            }}>Create New Clue</Button>
 
-            </CardContent>
+                          {/* TODO: DOWNLOAD BUTTON */}
+                      </FormControl>
+                    </Grid>
+
+                    {/* Preview pane */}
+                    {/*  TODO: Figure out how to set the color while also making disabled */}
+                    <Grid item xs={6} display={"grid"}>
+                      <TextField
+                        variant="outlined"
+                        InputProps={{
+                          inputProps: { style: { color: "#fff" } },
+                        }}
+                        maxRows={30}
+                        multiline
+                        value={JSON.stringify(huntConfig, null, "  ")}
+                        sx={{
+                          fontFamily: "system-ui",
+                          fontSize: "0.9rem",
+                          color: "white",
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                </CardContent>
               </Card>
             </Grid>
             <Grid item xs={12}>
@@ -114,6 +180,26 @@ const Encode = () => {
             </Grid>
           </Grid>
         </Container>
+
+        {/* Create clue modal */}
+        <ExitableModal
+          open={createClueOpen}
+          // TODO: ON SAVE, ADD THE IN PROGRESS CLUE TO THE END OF THE LIST
+          onClose={() => setCreateClueOpen(false)}
+          modalTitle="Create new clue" 
+          // TODO: TYLER OR EDIT CLUE
+        >
+          <FormControl>
+            <TextField label="URL" variant="outlined" required value={createdClue.url} onChange={(e) => {
+                          setCreatedClue({...createdClue, url: e.target.value});
+                        }}/>
+            <TextField label="Text" variant="outlined" required value={createdClue.text} onChange={(e) => {
+                          setCreatedClue({...createdClue, text: e.target.value});
+                        }}/>
+                        {/*  TODO: OTHER CLUE INFO */}
+
+          </FormControl>
+        </ExitableModal>
       </ThemeProvider>
     </>
   );
