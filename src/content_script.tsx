@@ -94,12 +94,6 @@ const sendEmptyOrInvalidHunt = () => {
 
 /* Handle storage and page */
 
-const loadHuntProgress = (callback: any) => {
-  chrome.storage.local.get(["huntConfig", "maxProgress"], function (items) {
-    callback(items);
-  });
-};
-
 const loadHuntCallback = (items: any) => {
   console.log(items);
   if (items.huntConfig && items.maxProgress !== undefined) {
@@ -114,4 +108,10 @@ const loadHuntCallback = (items: any) => {
   }
 };
 
-loadHuntProgress(loadHuntCallback);
+const loadHuntProgress = () => {
+  chrome.storage.local.get(["huntConfig", "maxProgress"], function (items) {
+    loadHuntCallback(items);
+  });
+};
+
+loadHuntProgress();

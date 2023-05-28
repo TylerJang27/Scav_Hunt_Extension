@@ -1,0 +1,22 @@
+TODOs before next release
+
+Development:
+1. Testing framework, complete with mocks
+2. Themes
+3. Debugging log support
+4. Development for one page at a time, complete with mocks as necessary
+5. GH workflows and GH branch protection
+6. Trunk upgrade
+7. Refactor components as necessary
+8. i18n
+
+Scope:
+1. Finish and refine encode page
+2. Audit uploading own html (could be prompt interrupted)
+3. Provide dynamic mechanism for uploading tutorial/default hunts
+4. Audit hunt settings and if we want more options
+    a. Progress bar
+    b. Require in-order
+    c. Silence on going backwards
+5. Maximum hunt size and relevant permissions
+6. Redirect to options on install
