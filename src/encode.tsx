@@ -10,6 +10,9 @@ import {
   Grid,
   TextField,
   createTheme,
+  Select,
+  MenuItem,
+  InputLabel
 } from "@mui/material";
 import { yellow } from "@mui/material/colors";
 import { ThemeProvider } from "@emotion/react";
@@ -110,15 +113,39 @@ const Encode = () => {
                   >
                     {/* Input pane */}
                     <Grid item xs={6} display={"grid"}>
-                      Input
                       <FormControl>
                         <TextField value={huntConfig.name} label="Name" required variant="outlined" onChange={(e) => {
-                          setHuntConfig({...huntConfig, name: e.target.value});
-                        }}/>
-                        {/* TODO: DESCRIPTION, AUTHOR, ENCRYPTED (BOOL-AND SHOW), BACKGROUND (VALIDATION?), OPTIONS, BEGINNING */}
+                          setHuntConfig({ ...huntConfig, name: e.target.value });
+                        }} />
+                        <TextField value={huntConfig.description} label="Description" required variant="outlined" onChange={(e) => {
+                          setHuntConfig({ ...huntConfig, description: e.target.value });
+                        }} />
+                        <TextField value={huntConfig.author} label="Author" required variant="outlined" onChange={(e) => {
+                          setHuntConfig({ ...huntConfig, author: e.target.value });
+                        }} />
+                        <TextField value={huntConfig.version} label="Version" required variant="outlined" onChange={(e) => {
+                          setHuntConfig({ ...huntConfig, version: e.target.value });
+                        }} />
+                        <TextField value={huntConfig.background} label="Background (URL)" required variant="outlined" type="url" onChange={(e) => {
+                          setHuntConfig({ ...huntConfig, background: e.target.value });
+                        }} />
+                        <TextField value={huntConfig.beginning} label="Beginning" required variant="outlined" onChange={(e) => {
+                          setHuntConfig({ ...huntConfig, beginning: e.target.value });
+                        }} />
+                        Silent: <br />
+                        <Select value={huntConfig.options.silent} label="Silent" required variant="outlined" onChange={(e) => {
+                          setHuntConfig({ ...huntConfig, options: { ...huntConfig.options, silent: e.target.value === 'true' } });
+                        }}>
+                          <MenuItem value={"false"}>False: Popping up alerts</MenuItem>
+                          <MenuItem value={"true"}>True: Icon alerts</MenuItem>
+                        </Select>
+
+
+
+
 
                         {/* TODO: RENDER THE LIST OF CLUES IN huntConfig as cards with their own summary and index and edit/delete button */}
-                        {Array.from(huntConfig.clues).map(({id, url, text, image, alt, interactive}) => (
+                        {Array.from(huntConfig.clues).map(({ id, url, text, image, alt, interactive }) => (
                           // TODO: RENDER A CARD FOR THE CLUE HERE
                           <>
 
@@ -126,20 +153,20 @@ const Encode = () => {
                         ))}
 
                         <Button
-                            fullWidth
-                            color="secondary"
-                            variant="contained"
-                            onClick={() => {
-                              setCreatedClueIndex(huntConfig.clues.length);
-                              setCreatedClue({
-                                id: huntConfig.clues.length + 1,
-                                url: "",
-                                text: ""
-                              });
-                              setCreateClueOpen(true);
-                            }}>Create New Clue</Button>
+                          fullWidth
+                          color="secondary"
+                          variant="contained"
+                          onClick={() => {
+                            setCreatedClueIndex(huntConfig.clues.length);
+                            setCreatedClue({
+                              id: huntConfig.clues.length + 1,
+                              url: "",
+                              text: ""
+                            });
+                            setCreateClueOpen(true);
+                          }}>Create New Clue</Button>
 
-                          {/* TODO: DOWNLOAD BUTTON */}
+                        {/* TODO: DOWNLOAD BUTTON */}
                       </FormControl>
                     </Grid>
 
@@ -177,16 +204,20 @@ const Encode = () => {
           // TODO: ON SAVE, ADD THE IN PROGRESS CLUE TO THE END OF THE LIST
           onClose={() => setCreateClueOpen(false)}
           modalTitle="Create new clue"
+<<<<<<< HEAD
           // TODO: TYLER OR EDIT CLUE
+=======
+        // TODO: TYLER OR EDIT CLUE
+>>>>>>> 36e2f78 (Finish basic encode page excluding the clue part)
         >
           <FormControl>
             <TextField label="URL" variant="outlined" required value={createdClue.url} onChange={(e) => {
-                          setCreatedClue({...createdClue, url: e.target.value});
-                        }}/>
+              setCreatedClue({ ...createdClue, url: e.target.value });
+            }} />
             <TextField label="Text" variant="outlined" required value={createdClue.text} onChange={(e) => {
-                          setCreatedClue({...createdClue, text: e.target.value});
-                        }}/>
-                        {/*  TODO: OTHER CLUE INFO */}
+              setCreatedClue({ ...createdClue, text: e.target.value });
+            }} />
+            {/*  TODO: OTHER CLUE INFO */}
 
           </FormControl>
         </ExitableModal>
