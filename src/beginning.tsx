@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BeginningPage } from "./components/CluePage";
+import { provider } from "./providers/chrome";
 
 const loadBeginningFromStorage = (callback: any) => {
-  chrome.storage.local.get("huntConfig", function (items) {
+  console.log("LOADING BEGININNG FROM STORAGE");
+  provider.storage.local.get("huntConfig", function (items) {
     callback(items);
   });
 };
@@ -14,24 +16,24 @@ const Beginning = () => {
     "Empty beginning text. Please reset the hunt."
   );
 
-  loadBeginningFromStorage((items: any) => {
+  useEffect(()=>loadBeginningFromStorage((items: any) => {
     if (items.huntConfig) {
-      const huntConfig = items.huntConfig;
+      const {background, beginning, name} = items.huntConfig;
       // Set background image
       const sheet = document.styleSheets[3];
       sheet.insertRule(
         "body { ,height: 100%; background: url('" +
-          huntConfig.background +
+          background +
           "') no-repeat center; background-size: cover; background-position: cover;}",
         0
       );
       // Set beginning text
-      setBeginningText(huntConfig.beginning);
-      setHuntName(huntConfig.name);
+      setBeginningText(beginning);
+      setHuntName(name);
     } else {
       console.warn("No hunt information found. Please reset the hunt.");
     }
-  });
+  }), []);
 
   return <BeginningPage title={huntName} message={beginningText} />;
 };
