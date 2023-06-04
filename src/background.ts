@@ -1,5 +1,6 @@
 // Chrome manifest v3 migrated from a background worker to service worker
 
+import { logger } from "./logger";
 import { provider } from "./providers/chrome";
 import { EMPTY_OR_INVALID_HUNT } from "./types/errors";
 import { Decrypt } from "./utils/parse";
@@ -20,7 +21,7 @@ const openClueCallback = (items: any) => {
     // Open the clue page for the most recently found clue.
     provider.tabs.create({ url: "popup.html" });
   } else {
-    console.warn(EMPTY_OR_INVALID_HUNT);
+    logger.warn(EMPTY_OR_INVALID_HUNT);
   }
 };
 
@@ -37,7 +38,7 @@ provider.runtime.onMessage.addListener(function (request, sender, sendResponse) 
       return;
     }
   }
-  console.log("Invalid request", request);
+  logger.info("Invalid request", request);
 });
 
 provider.action.onClicked.addListener(function (tab) {

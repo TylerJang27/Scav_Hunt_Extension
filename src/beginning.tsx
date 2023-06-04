@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BeginningPage } from "./components/CluePage";
 import { provider } from "./providers/chrome";
+import { logger } from "./logger";
 
 const loadBeginningFromStorage = (callback: any) => {
-  console.log("LOADING BEGININNG FROM STORAGE");
+  logger.debug("Loading beginning from storage");
   provider.storage.local.get("huntConfig", function (items) {
     callback(items);
   });
@@ -31,7 +32,7 @@ const Beginning = () => {
       setBeginningText(beginning);
       setHuntName(name);
     } else {
-      console.warn("No hunt information found. Please reset the hunt.");
+      logger.warn("No hunt information found. Please reset the hunt.");
     }
   }), []);
 

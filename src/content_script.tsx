@@ -1,3 +1,4 @@
+import { logger } from "./logger";
 import { provider } from "./providers/chrome";
 import { ClueConfig, HuntConfig } from "./types/hunt_config";
 import { Decrypt } from "./utils/parse";
@@ -33,7 +34,7 @@ const alertWrapper = (msg: any) => {
 const checkHuntForURLMatch = (
   huntConfig: HuntConfig
 ): ClueConfig | undefined => {
-  console.log("checking for match!");
+  logger.info("checking for match!");
   const {
     encrypted,
     clues,
@@ -53,7 +54,7 @@ const checkHuntForURLMatch = (
     if (!silent) {
       alertWrapper(CLUE_FOUND_TEXT);
     }
-    console.log("found a match!");
+    logger.info("found a match!");
     return clue;
   }
 
@@ -95,7 +96,7 @@ const sendEmptyOrInvalidHunt = () => {
 /* Handle storage and page */
 
 const loadHuntCallback = (items: any) => {
-  console.log(items);
+  logger.info(items);
   if (items.huntConfig && items.maxProgress !== undefined) {
     const urlMatchClue = checkHuntForURLMatch(items.huntConfig as HuntConfig);
     if (urlMatchClue) {
