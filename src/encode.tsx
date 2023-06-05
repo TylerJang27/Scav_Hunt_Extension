@@ -28,7 +28,7 @@ const Encode = () => {
     description: "",
     author: "",
     version: "1.0",
-    encrypted: false,
+    encrypted: true,
     background: "",
     options: {
       silent: false
@@ -114,35 +114,104 @@ const Encode = () => {
                     {/* Input pane */}
                     <Grid item xs={6} display={"grid"}>
                       <FormControl>
-                        <TextField value={huntConfig.name} label="Name" required variant="outlined" onChange={(e) => {
-                          setHuntConfig({ ...huntConfig, name: e.target.value });
-                        }} />
-                        <TextField value={huntConfig.description} label="Description" required variant="outlined" onChange={(e) => {
-                          setHuntConfig({ ...huntConfig, description: e.target.value });
-                        }} />
-                        <TextField value={huntConfig.author} label="Author" required variant="outlined" onChange={(e) => {
-                          setHuntConfig({ ...huntConfig, author: e.target.value });
-                        }} />
-                        <TextField value={huntConfig.version} label="Version" required variant="outlined" onChange={(e) => {
-                          setHuntConfig({ ...huntConfig, version: e.target.value });
-                        }} />
-                        <TextField value={huntConfig.background} label="Background (URL)" required variant="outlined" type="url" onChange={(e) => {
-                          setHuntConfig({ ...huntConfig, background: e.target.value });
-                        }} />
-                        <TextField value={huntConfig.beginning} label="Beginning" required variant="outlined" onChange={(e) => {
-                          setHuntConfig({ ...huntConfig, beginning: e.target.value });
-                        }} />
-                        Silent: <br />
-                        <Select value={huntConfig.options.silent} label="Silent" required variant="outlined" onChange={(e) => {
-                          setHuntConfig({ ...huntConfig, options: { ...huntConfig.options, silent: e.target.value === 'true' } });
-                        }}>
-                          <MenuItem value={"false"}>False: Popping up alerts</MenuItem>
-                          <MenuItem value={"true"}>True: Icon alerts</MenuItem>
+                        <TextField
+                          value={huntConfig.name}
+                          label="Name"
+                          required
+                          variant="outlined"
+                          onChange={(e) => {
+                            setHuntConfig({ ...huntConfig, name: e.target.value });
+                          }}
+                        />
+
+                        <TextField
+                          value={huntConfig.description}
+                          label="Description"
+                          required
+                          variant="outlined"
+                          onChange={(e) => {
+                            setHuntConfig({ ...huntConfig, description: e.target.value });
+                          }}
+                        />
+
+                        <TextField
+                          value={huntConfig.author}
+                          label="Author"
+                          required
+                          variant="outlined"
+                          onChange={(e) => {
+                            setHuntConfig({ ...huntConfig, author: e.target.value });
+                          }}
+                        />
+
+                        <TextField
+                          value={huntConfig.version}
+                          label="Version"
+                          required
+                          variant="outlined"
+                          onChange={(e) => {
+                            setHuntConfig({ ...huntConfig, version: e.target.value });
+                          }}
+                        />
+
+                        <TextField
+                          value={huntConfig.background}
+                          label="Background (URL)"
+                          required
+                          variant="outlined"
+                          type="url"
+                          onChange={(e) => {
+                            setHuntConfig({ ...huntConfig, background: e.target.value });
+                          }}
+                        />
+
+                        <TextField
+                          value={huntConfig.beginning}
+                          label="Beginning"
+                          required
+                          variant="outlined"
+                          onChange={(e) => {
+                            setHuntConfig({ ...huntConfig, beginning: e.target.value });
+                          }}
+                        />
+                        <br />
+                        Silent:
+                        <br />
+                        <Select
+                          value={huntConfig.options.silent}
+                          label="Silent"
+                          required
+                          variant="outlined"
+                          onChange={(e) => {
+                            setHuntConfig({ ...huntConfig, options: { ...huntConfig.options, silent: e.target.value === 'true' } });
+                          }}
+                        >
+                          <MenuItem value="false">False (Popping up alerts)</MenuItem>
+                          <MenuItem value="true">True (Icon alerts)</MenuItem>
                         </Select>
 
+                        <br />
 
+                        Encrypted:
+                        <br />
+                        <Select
+                          value={huntConfig.encrypted}
+                          label="Encrypted"
+                          required
+                          variant="outlined"
+                          onChange={(e) => {
+                            const selectedValue = e.target.value;
+                            setHuntConfig({ ...huntConfig, encrypted: selectedValue === 'true' });
+                            if (selectedValue === 'false') {
+                              window.alert("The downloaded file will NOT be encrypted and the clues will be displayed as plain text.");
+                            }
+                          }}
+                        >
+                          <MenuItem value="true">True (Default)</MenuItem>
+                          <MenuItem value="false">False</MenuItem>
+                        </Select>
 
-
+                        <br />
 
                         {/* TODO: RENDER THE LIST OF CLUES IN huntConfig as cards with their own summary and index and edit/delete button */}
                         {Array.from(huntConfig.clues).map(({ id, url, text, image, alt, interactive }) => (
