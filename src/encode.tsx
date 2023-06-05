@@ -12,10 +12,13 @@ import {
   createTheme,
   Select,
   MenuItem,
-  InputLabel,
-  Typography,
-  CardActions,
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
 } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { yellow } from "@mui/material/colors";
 import { ThemeProvider } from "@emotion/react";
 import { PageHeaderAndSubtitle } from "./components/PageHeaderAndSubtitle";
@@ -216,35 +219,22 @@ const Encode = () => {
                         <br />
 
                         {/* TODO: RENDER THE LIST OF CLUES IN huntConfig as cards with their own summary and index and edit/delete button */}
-                        {huntConfig.clues.map(({ id, url, text, image, alt, interactive }, index) => (
-                          <Card key={id} style={{ margin: "1rem" }}>
-                            <CardContent>
-                              <Typography variant="h5" component="h2">
-                                Clue {index + 1}
-                              </Typography>
-                              <Typography color="textSecondary">
-                                URL: {url}
-                              </Typography>
-                              <Typography variant="body2" component="p">
-                                Text: {text}
-                              </Typography>
-                              <Typography color="textSecondary">
-                                Image URL: {image}
-                              </Typography>
-                              <Typography variant="body2" component="p">
-                                Image Alt: {alt}
-                              </Typography>
-                            </CardContent>
-                            <CardActions>
-                              <Button size="small" color="primary" onClick={() => {/* TODO: ADD EDIT FUNCTION HERE */ }}>
-                                Edit
-                              </Button>
-                              <Button size="small" color="secondary" onClick={() => {/* TODO: ADD DELETE FUNCTION HERE */ }}>
-                                Delete
-                              </Button>
-                            </CardActions>
-                          </Card>
-                        ))}
+                        <List>
+  {huntConfig.clues.map(({ id, url, text }, index) => (
+    <ListItem key={id} divider>
+      <ListItemText
+        primary={`Clue ${index + 1}: ${text}`}
+        secondary={`URL: ${url}`}
+      />
+      <IconButton edge="end" aria-label="edit" onClick={() => {/* TODO: ADD EDIT FUNCTION HERE */}}>
+        <EditIcon />
+      </IconButton>
+      <IconButton edge="end" aria-label="delete" onClick={() => {/* TODO: ADD DELETE FUNCTION HERE */}}>
+        <DeleteIcon />
+      </IconButton>
+    </ListItem>
+  ))}
+</List>
 
                         <Button
                           fullWidth
