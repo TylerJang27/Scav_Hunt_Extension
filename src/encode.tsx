@@ -226,12 +226,12 @@ const Encode = () => {
                           color="secondary"
                           variant="contained"
                           onClick={() => {
-                            setCreatedClueIndex(huntConfig.clues.length);
-                            setCreatedClue({
-                              id: huntConfig.clues.length + 1,
-                              url: "",
-                              text: ""
-                            });
+                            // setCreatedClueIndex(huntConfig.clues.length);
+                            // setCreatedClue({
+                            //   id: huntConfig.clues.length + 1,
+                            //   url: "",
+                            //   text: ""
+                            // });
                             setCreateClueOpen(true);
                           }}>Create New Clue</Button>
 
@@ -286,7 +286,42 @@ const Encode = () => {
             <TextField label="Text" variant="outlined" required value={createdClue.text} onChange={(e) => {
               setCreatedClue({ ...createdClue, text: e.target.value });
             }} />
-            {/*  TODO: OTHER CLUE INFO */}
+            <TextField label="Image URL" variant="outlined" value={createdClue.image} onChange={(e) => {
+              setCreatedClue({ ...createdClue, image: e.target.value });
+            }} />
+            <TextField label="Image Alt" variant="outlined" value={createdClue.alt} onChange={(e) => {
+              setCreatedClue({ ...createdClue, alt: e.target.value });
+            }} />
+
+            <Button variant="contained" color="primary" onClick={() => {
+              // Add the new clue to the list
+              let newClue = {
+                id: huntConfig.clues.length + 1,
+                url: createdClue.url,
+                text: createdClue.text,
+                image: createdClue.image,
+                alt: createdClue.alt
+              };
+
+              setHuntConfig({
+                ...huntConfig,
+                clues: [...huntConfig.clues, newClue]
+              });
+
+              // Reset the createdClue state
+              setCreatedClue({
+                id: -1,
+                url: '',
+                text: '',
+                image: '',
+                alt: ''
+              });
+
+              // Close the modal
+              setCreateClueOpen(false);
+            }}>
+              Save
+            </Button>
 
           </FormControl>
         </ExitableModal>
