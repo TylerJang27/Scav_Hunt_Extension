@@ -1,0 +1,20 @@
+{
+  "name": "Test Hunt",
+  "description": "Test Data",
+  "version": "1.0",
+  "author": "M. Test",
+  "encrypted": false,
+  "beginning": "This is the beginning",
+  "bonus": 1,
+  "random": "random string",
+  "clues": [
+    {
+      "id": 1,
+      "url": "google.com",
+      "text": "The first clue",
+      "image": "https://i.pcmag.com/imagery/reviews/07AxdIVbQ63OEkJoPgCybXt-19.1594914797.fit_scale.size_1028x578.png",
+      "alt": "Khan Academy",
+      "bonanza": "extra"
+    }
+  ]
+}

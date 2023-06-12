@@ -1,6 +1,11 @@
 module.exports = {
-  roots: ["src"],
+  preset: "ts-jest",
+  roots: ["<rootDir>/src/__tests__"],
+  setupFilesAfterEnv: ["<rootDir>/jest_setup.ts"],
+  snapshotFormat: {
+    printBasicPrototype: false,
+  },
   transform: {
-    "^.+\\.ts$": "ts-jest",
+    "^.+\\.test.ts$": "ts-jest",
   },
 };
