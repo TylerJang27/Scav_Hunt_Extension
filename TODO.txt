@@ -1,16 +1,16 @@
 TODOs before next release
 
 Development:
-1. Testing framework, complete with mocks
-2. Themes
-3. GH workflows and GH branch protection
-4. Trunk upgrade, linting
-5. Refactor components as necessary
-6. i18n
+1. Frontend testing
+2. GH workflows and GH branch protection
+3. Trunk upgrade, linting
+4. Refactor components as necessary (particularly options.tsx and CluePage)
+5. i18n
+6. Simplify css files
 
 Scope:
 1. Finish and refine encode page
-2. Audit uploading own html (could be prompt interrupted)
+2. Replace HTML support with markdown and sanitize
 3. Provide dynamic mechanism for uploading tutorial/default hunts
 4. Audit hunt settings and if we want more options
     a. Progress bar
