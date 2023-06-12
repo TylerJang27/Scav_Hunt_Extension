@@ -1,5 +1,6 @@
+import { logger } from "./logger";
+import { provider } from "./providers/chrome";
 import { ClueConfig, HuntConfig } from "./types/hunt_config";
-import { SolvedOptions, SolvedClueWrapper } from "./types/progress";
 import { Decrypt } from "./utils/parse";
 /**
  * When a page is loaded:
@@ -21,8 +22,8 @@ const CLUE_FOUND_TEXT =
 const alertWrapper = (msg: any) => {
   //TODO: CHANGE alertWrapper APPEARANCE, https://stackoverflow.com/questions/7853130/how-to-change-the-style-of-alert-box
 
-  // chrome.tabs.query({currentWindow: true, active: true}, function (tabs) {
-  //   chrome.tabs.sendMessage(tabs[0].id, msg, setMessage);
+  // provider.tabs.query({currentWindow: true, active: true}, function (tabs) {
+  //   provider.tabs.sendMessage(tabs[0].id, msg, setMessage);
   // })
   // Potentially also chrome.notifications
   alert(msg);
@@ -33,7 +34,7 @@ const alertWrapper = (msg: any) => {
 const checkHuntForURLMatch = (
   huntConfig: HuntConfig
 ): ClueConfig | undefined => {
-  console.log("checking for match!");
+  logger.info("checking for match!");
   const {
     encrypted,
     clues,
@@ -53,7 +54,7 @@ const checkHuntForURLMatch = (
     if (!silent) {
       alertWrapper(CLUE_FOUND_TEXT);
     }
-    console.log("found a match!");
+    logger.info("found a match!");
     return clue;
   }
 
@@ -65,12 +66,12 @@ const checkHuntForURLMatch = (
 const sendClueFound = (maxProgress: number, solvedClue: ClueConfig) => {
   const currentProgress = solvedClue.id;
   const sendClueFoundMessage = () => {
-    chrome.runtime.sendMessage({
+    provider.runtime.sendMessage({
       status: "Found",
     });
   };
 
-  chrome.storage.local.set(
+  provider.storage.local.set(
     {
       maxProgress:
         currentProgress > maxProgress ? currentProgress : maxProgress,
@@ -81,13 +82,13 @@ const sendClueFound = (maxProgress: number, solvedClue: ClueConfig) => {
 };
 
 const sendClueNotFound = () => {
-  chrome.runtime.sendMessage({
+  provider.runtime.sendMessage({
     status: "Not Found",
   });
 };
 
 const sendEmptyOrInvalidHunt = () => {
-  chrome.runtime.sendMessage({
+  provider.runtime.sendMessage({
     status: "Invalid",
   });
 };
@@ -95,7 +96,7 @@ const sendEmptyOrInvalidHunt = () => {
 /* Handle storage and page */
 
 const loadHuntCallback = (items: any) => {
-  console.log(items);
+  logger.info(items);
   if (items.huntConfig && items.maxProgress !== undefined) {
     const urlMatchClue = checkHuntForURLMatch(items.huntConfig as HuntConfig);
     if (urlMatchClue) {
@@ -109,7 +110,7 @@ const loadHuntCallback = (items: any) => {
 };
 
 const loadHuntProgress = () => {
-  chrome.storage.local.get(["huntConfig", "maxProgress"], function (items) {
+  provider.storage.local.get(["huntConfig", "maxProgress"], function (items) {
     loadHuntCallback(items);
   });
 };

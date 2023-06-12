@@ -6,7 +6,8 @@ import {
   EMPTY_OR_INVALID_HUNT,
   UNKNOWN_ERROR_RESET_HUNT,
 } from "./types/errors";
-import { DEFAULT_BACKGROUND, DecryptClue } from "./utils/parse";
+import { DecryptClue } from "./utils/parse";
+import { provider } from "./providers/chrome";
 
 const DEFAULT_LOADING_CLUE = {
   id: -1,
@@ -21,8 +22,7 @@ const loadSolvedClueFromStorage = (
   clueCallback: any,
   errorCallback: any
 ) => {
-  chrome.storage.local.get(["huntConfig", "currentProgress"], function (items) {
-    console.log("GETTING STORAGE");
+  provider.storage.local.get(["huntConfig", "currentProgress"], function (items) {
     if (!items.huntConfig || items.currentProgress === undefined) {
       errorCallback(EMPTY_OR_INVALID_HUNT);
       return;

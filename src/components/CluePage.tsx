@@ -16,6 +16,7 @@ import { PageHeaderAndSubtitle } from "./PageHeaderAndSubtitle";
 import { yellow } from "@mui/material/colors";
 import { ClueConfig } from "src/types/hunt_config";
 import { Encrypt } from "../utils/parse";
+import { provider } from "../providers/chrome";
 
 export interface BeginningPageProps {
   title: React.ReactNode;
@@ -38,7 +39,7 @@ export const CluePage = (props: CluePageProps) => {
     error,
   } = props;
   const imageURL =
-    image && !image.startsWith("http") ? chrome.runtime.getURL(image) : image;
+    image && !image.startsWith("http") ? provider.runtime.getURL(image) : image;
 
   const clueNumber = id > 0 ? `: ${id}` : "";
   const title = `${huntName}${clueNumber}`;

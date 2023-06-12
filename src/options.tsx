@@ -25,6 +25,8 @@ import { HuntSource, Progress } from "./types/progress";
 import { ParseConfig } from "./utils/parse";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import path from "path";
+import { provider } from "./providers/chrome";
+import { logger } from "./logger";
 
 interface SourceFormType {
   sourceType: HuntSource;
@@ -46,7 +48,7 @@ const fetchFromUrl = async (url: string) => {
 };
 
 const fetchFromSample = async (samplePath: string) => {
-  const url = chrome.runtime.getURL(path.join(SAMPLE_DIR, samplePath));
+  const url = provider.runtime.getURL(path.join(SAMPLE_DIR, samplePath));
   return await fetchFromUrl(url);
 };
 
@@ -54,7 +56,7 @@ const saveConfigAndLaunch = (
   huntConfig: HuntConfig,
   sourceType: HuntSource
 ) => {
-  // Save config and hunt progress to chrome.storage.local
+  // Save config and hunt progress to local storage
   const progress: Progress = {
     sourceType,
     huntConfig,
@@ -62,14 +64,14 @@ const saveConfigAndLaunch = (
     currentProgress: 0,
   };
 
-  chrome.storage.local.set(progress, function () {
-    const error = chrome.runtime.lastError;
+  provider.storage.local.set(progress, function () {
+    const error = provider.runtime.lastError;
     if (error) {
-      console.log("Error saving initial progress", error);
+      logger.error("Error saving initial progress", error);
     } else {
       // Popup beginnining of hunt
-      console.log("Saved initial progress", progress); // TODO: TYLER REMOVE PROGRESS FROM LOG
-      chrome.tabs.create({ url: "beginning.html" });
+      logger.info("Saved initial progress", progress); // TODO: TYLER REMOVE PROGRESS FROM LOG
+      provider.tabs.create({ url: "beginning.html" });
     }
   });
 };
@@ -130,7 +132,7 @@ const Options = () => {
     } else if (sourceFormState.sourceType == "Upload") {
       return Boolean(sourceFormState.uploadedConfig);
     } else {
-      console.warn(
+      logger.warn(
         "Error: unknown condition reached. Please refresh the page.",
         sourceFormState.sourceType
       );
@@ -142,7 +144,7 @@ const Options = () => {
 
   // Upload state
   const validateAndSetUploadedConfig = (huntConfig: any, fileName: string) => {
-    console.log("Validating hunt config"); // TODO: REMOVE
+    logger.info("Validating hunt config"); // TODO: REMOVE
     try {
       const parsedConfig = ParseConfig(huntConfig);
       setSourceFormState({
@@ -212,7 +214,7 @@ const Options = () => {
         // huntConfig will have already been parsed
         saveConfigAndLaunch(uploadedConfig, sourceType);
       } else {
-        console.warn(
+        logger.warn(
           "Error: unknown condition reached. Please refresh the page.",
           sourceType
         );
@@ -223,7 +225,7 @@ const Options = () => {
   };
   const onReset = () => {
     // TODO: TYLER IMPLEMENT
-    console.log("Reset functionality coming soon!");
+    logger.error("Reset functionality coming soon!");
   };
 
   return (
@@ -245,7 +247,7 @@ const Options = () => {
                       ...sourceFormState,
                       sourceType: e.target.value as HuntSource,
                     });
-                    console.log("Source type", e.target.value); // TODO: REMOVE
+                    logger.info("Source type", e.target.value); // TODO: REMOVE
                   }}
                 >
                   <FormControlLabel
