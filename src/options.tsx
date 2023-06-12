@@ -24,9 +24,12 @@ import { HuntSource, Progress } from "./types/progress";
 import { ParseConfig } from "./utils/parse";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import path from "path";
-import { provider } from "./providers/chrome";
 import { logger } from "./logger";
 import { theme } from "./components/theme";
+import { saveStorageValues } from "./providers/storage";
+import { createTab } from "./providers/tabs";
+import { getLastError, getURL } from "./providers/runtime";
+import { Render } from "./utils/root";
 
 interface SourceFormType {
   sourceType: HuntSource;
@@ -48,11 +51,11 @@ const fetchFromUrl = async (url: string) => {
 };
 
 const fetchFromSample = async (samplePath: string) => {
-  const url = provider.runtime.getURL(path.join(SAMPLE_DIR, samplePath));
+  const url = getURL(path.join(SAMPLE_DIR, samplePath));
   return await fetchFromUrl(url);
 };
 
-const saveConfigAndLaunch = (
+export const saveConfigAndLaunch = (
   huntConfig: HuntConfig,
   sourceType: HuntSource
 ) => {
@@ -64,19 +67,20 @@ const saveConfigAndLaunch = (
     currentProgress: 0,
   };
 
-  provider.storage.local.set(progress, function () {
-    const error = provider.runtime.lastError;
+  saveStorageValues(progress, () => {
+    const error = getLastError();
     if (error) {
       logger.error("Error saving initial progress", error);
     } else {
       // Popup beginnining of hunt
       logger.info("Saved initial progress", progress); // TODO: TYLER REMOVE PROGRESS FROM LOG
-      provider.tabs.create({ url: "beginning.html" });
+      createTab("beginning.html");
     }
   });
 };
 
 const getSampleOptions = () => {
+  // TODO: TYLER POPULATE THIS WITH MORE DEFAULTS
   let sampleHuntOptions = new Map<string, string>();
   const files = ["hunt.json"];
   files
@@ -420,10 +424,5 @@ const Options = () => {
   );
 };
 
-const root = createRoot(document.getElementById("root")!);
+Render(<Options />)
 
-root.render(
-  <React.StrictMode>
-    <Options />
-  </React.StrictMode>
-);

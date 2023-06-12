@@ -1,7 +1,12 @@
 import { logger } from "./logger";
-import { provider } from "./providers/chrome";
+import { alertWrapper } from "./providers/alert";
+import { getCurrentURL } from "./providers/href";
+import { sendMessage } from "./providers/runtime";
+// import { provider } from "./providers/chrome";
+import { loadStorageValues, saveStorageValues } from "./providers/storage";
 import { ClueConfig, HuntConfig } from "./types/hunt_config";
 import { Decrypt } from "./utils/parse";
+
 /**
  * When a page is loaded:
  * 1. Check if the stored hunt config is valid
@@ -16,18 +21,6 @@ import { Decrypt } from "./utils/parse";
 
 const CLUE_FOUND_TEXT =
   "You found a clue! Click on the Scavenger Hunt icon to view the message.";
-
-/* Utils */
-
-const alertWrapper = (msg: any) => {
-  //TODO: CHANGE alertWrapper APPEARANCE, https://stackoverflow.com/questions/7853130/how-to-change-the-style-of-alert-box
-
-  // provider.tabs.query({currentWindow: true, active: true}, function (tabs) {
-  //   provider.tabs.sendMessage(tabs[0].id, msg, setMessage);
-  // })
-  // Potentially also chrome.notifications
-  alert(msg);
-};
 
 /* Parse hunt config and current page */
 
@@ -45,7 +38,7 @@ const checkHuntForURLMatch = (
 
     const clueUrl = Decrypt(clue.url, encrypted);
     const reg = new RegExp(clueUrl);
-    const currentUrl = window.location.href;
+    const currentUrl = getCurrentURL();
     if (!currentUrl.match(reg) && !currentUrl.includes(clueUrl)) {
       continue;
     }
@@ -66,12 +59,12 @@ const checkHuntForURLMatch = (
 const sendClueFound = (maxProgress: number, solvedClue: ClueConfig) => {
   const currentProgress = solvedClue.id;
   const sendClueFoundMessage = () => {
-    provider.runtime.sendMessage({
+    sendMessage({
       status: "Found",
     });
   };
 
-  provider.storage.local.set(
+  saveStorageValues(
     {
       maxProgress:
         currentProgress > maxProgress ? currentProgress : maxProgress,
@@ -82,13 +75,13 @@ const sendClueFound = (maxProgress: number, solvedClue: ClueConfig) => {
 };
 
 const sendClueNotFound = () => {
-  provider.runtime.sendMessage({
+  sendMessage({
     status: "Not Found",
   });
 };
 
 const sendEmptyOrInvalidHunt = () => {
-  provider.runtime.sendMessage({
+  sendMessage({
     status: "Invalid",
   });
 };
@@ -97,22 +90,25 @@ const sendEmptyOrInvalidHunt = () => {
 
 const loadHuntCallback = (items: any) => {
   logger.info(items);
-  if (items.huntConfig && items.maxProgress !== undefined) {
-    const urlMatchClue = checkHuntForURLMatch(items.huntConfig as HuntConfig);
-    if (urlMatchClue) {
-      sendClueFound(items.maxProgress, urlMatchClue);
+  try {
+    if (items.huntConfig && items.maxProgress !== undefined) {
+      const urlMatchClue = checkHuntForURLMatch(items.huntConfig as HuntConfig);
+      if (urlMatchClue) {
+        sendClueFound(items.maxProgress, urlMatchClue);
+      } else {
+        sendClueNotFound();
+      }
     } else {
-      sendClueNotFound();
+      sendEmptyOrInvalidHunt();
     }
-  } else {
+  } catch (err) {
+    logger.warn(err);
     sendEmptyOrInvalidHunt();
   }
 };
 
-const loadHuntProgress = () => {
-  provider.storage.local.get(["huntConfig", "maxProgress"], function (items) {
-    loadHuntCallback(items);
-  });
+export const loadHuntProgress = () => {
+  loadStorageValues(["huntConfig", "maxProgress"], loadHuntCallback);
 };
 
 loadHuntProgress();

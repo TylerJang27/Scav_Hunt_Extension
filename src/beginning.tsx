@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BeginningPage } from "./components/CluePage";
-import { provider } from "./providers/chrome";
 import { logger } from "./logger";
+import { loadStorageValue, LoadStorageCallback } from "./providers/storage";
+import { Render } from "./utils/root";
 
-const loadBeginningFromStorage = (callback: any) => {
+const loadBeginningFromStorage = (callback: LoadStorageCallback) => {
   logger.debug("Loading beginning from storage");
-  provider.storage.local.get("huntConfig", function (items) {
-    callback(items);
-  });
+  loadStorageValue("huntConfig", callback);
 };
 
 const Beginning = () => {
@@ -39,10 +38,4 @@ const Beginning = () => {
   return <BeginningPage title={huntName} message={beginningText} />;
 };
 
-const root = createRoot(document.getElementById("root")!);
-
-root.render(
-  <React.StrictMode>
-    <Beginning />
-  </React.StrictMode>
-);
+Render(<Beginning />);

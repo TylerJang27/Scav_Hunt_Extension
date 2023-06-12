@@ -74,7 +74,7 @@ See the sample files for examples.
 
 <!-- TODO: TYLER DEVELOP A SCHEMA, INCLUDING A VERSION -->
 
-The following top-level Key-Value Pairs should be included in the [json file]](res/hunt.json).
+The following top-level Key-Value Pairs should be included in the [json file](res/hunt.json).
 
 - name (String) [2=Scavenger Hunt]
   - The name of the scavenger hunt
@@ -87,7 +87,7 @@ The following top-level Key-Value Pairs should be included in the [json file]](r
   - Author of the scavenger hunt
 - encypted (Boolean) [2=false]
   - Whether or not the values in the json are encrypted (see below)
-- background (String) [2=[Unsplash](https://unsplash.com/photos/J_xAScfz3EE)]
+- background (String) [2=[Unsplash](https://unsplash.com/photos/J_xAScfz3EE)
   - A URL pointing to an image
 - silent (Boolean) [2=false]
   - Whether or not you want alerts to be suppressed when a user finds a clue

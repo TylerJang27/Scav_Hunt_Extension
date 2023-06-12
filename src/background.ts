@@ -1,50 +1,57 @@
 // Chrome manifest v3 migrated from a background worker to service worker
 
 import { logger } from "./logger";
-import { provider } from "./providers/chrome";
+import { addOnClickedListener, setBadgeText } from "./providers/action";
+import { addMessageListener } from "./providers/runtime";
+import { loadStorageValues } from "./providers/storage";
+import { createTab } from "./providers/tabs";
 import { EMPTY_OR_INVALID_HUNT } from "./types/errors";
-import { Decrypt } from "./utils/parse";
 
 const openClueCallback = (items: any) => {
-  if (items.huntConfig && items.currentProgress !== undefined) {
+  // TODO: TYLER SHOULD WE OPEN THE OPTIONS PAGE WHEN THERES NO HUNT? OR A TUTORIAL?
+  if (items.huntConfig && items.huntConfig.clues && items.currentProgress !== undefined) {
     if (items.currentProgress == 0) {
-      // TODO: TYLER SHOULD WE OPEN THE OPTIONS PAGE? OR A TUTORIAL?
       return;
     }
     const { clues, encrypted } = items.huntConfig;
     const foundClue = clues[items.currentProgress - 1];
+    // TODO: TYLER REMOVE THIS FUNCTIONALITY AND USE MARKDOWN
     if (foundClue.html) {
-      provider.tabs.create({ url: Decrypt(foundClue.html, encrypted) });
+      logger.error("HTML functionality is deprecated. Please adjust your hunt.");
+      // createTab(Decrypt(foundClue.html, encrypted));
       return;
     }
 
     // Open the clue page for the most recently found clue.
-    provider.tabs.create({ url: "popup.html" });
+    createTab("popup.html");
   } else {
     logger.warn(EMPTY_OR_INVALID_HUNT);
   }
 };
 
-provider.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request) {
-    if (request.status == "Found") {
-      provider.action.setBadgeText({ text: "1" });
-      return;
-    } else if (request.status == "Not Found") {
-      provider.action.setBadgeText({ text: "" });
-      return;
-    } else if (request.status == "Invalid") {
-      provider.action.setBadgeText({ text: "X" });
-      return;
+export const setupMessageListener = () =>
+  addMessageListener((request, sender, sendResponse) => {
+    if (request) {
+      if (request.status == "Found") {
+        setBadgeText("1");
+        return;
+      } else if (request.status == "Not Found") {
+        setBadgeText("");
+        return;
+      } else {
+        // Invalid
+        setBadgeText("X");
+        return;
+      }
     }
-  }
-  logger.info("Invalid request", request);
-});
-
-provider.action.onClicked.addListener(function (tab) {
-  provider.action.setBadgeText({ text: "" });
-
-  provider.storage.local.get(["huntConfig", "currentProgress"], function (items) {
-    openClueCallback(items);
+    logger.warn("Invalid request", request);
   });
-});
+
+export const setupOnClickedListener = () => 
+  addOnClickedListener(() => {
+    setBadgeText("");
+    loadStorageValues(["huntConfig", "currentProgress"], openClueCallback);
+  });
+
+setupMessageListener();
+setupOnClickedListener();
