@@ -3,12 +3,10 @@ TODOs before next release
 Development:
 1. Testing framework, complete with mocks
 2. Themes
-3. Debugging log support
-4. Development for one page at a time, complete with mocks as necessary
-5. GH workflows and GH branch protection
-6. Trunk upgrade
-7. Refactor components as necessary
-8. i18n
+3. GH workflows and GH branch protection
+4. Trunk upgrade, linting
+5. Refactor components as necessary
+6. i18n
 
 Scope:
 1. Finish and refine encode page

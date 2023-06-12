@@ -3,7 +3,6 @@ import {
   Alert,
   Button,
   Container,
-  createTheme,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -27,6 +26,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import path from "path";
 import { provider } from "./providers/chrome";
 import { logger } from "./logger";
+import { theme } from "./components/theme";
 
 interface SourceFormType {
   sourceType: HuntSource;
@@ -89,18 +89,6 @@ const getSampleOptions = () => {
 };
 
 const Options = () => {
-  // TODO: TYLER FIGURE OUT THEMES
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: yellow[600],
-      },
-      secondary: {
-        main: "#654eff",
-      },
-    },
-  });
-
   // TODO: DETERMINE THESE PROGRAMATICALLY
 
   // const sampleHuntOptions = ["Tutorial", "Board Games", "Star Wars"];
@@ -266,7 +254,7 @@ const Options = () => {
                         <Grid item xs={8}>
                           <Button
                             fullWidth
-                            color="secondary"
+                            color="primary"
                             variant="contained"
                             onClick={() => {
                               setSourceFormState({
@@ -337,6 +325,7 @@ const Options = () => {
                         variant="contained"
                         size="medium"
                         component="label"
+                        color="secondary"
                       >
                         Choose File
                         <input
@@ -374,10 +363,11 @@ const Options = () => {
                   size="medium"
                   disabled={!submitable}
                   onClick={onSubmit}
+                  color="secondary"
                 >
                   Submit
                 </Button>
-                <Button variant="outlined" size="medium" onClick={onReset}>
+                <Button variant="outlined" size="medium" onClick={onReset} color="secondary">
                   Reset
                 </Button>
               </Grid>
@@ -387,7 +377,7 @@ const Options = () => {
             )}
             <Grid item xs={4} justifyContent="center">
               <Typography>
-                <Link href="encode.html" target="_blank">
+                <Link href="encode.html" target="_blank" color={yellow[600]}>
                   Generate Hunt
                 </Link>
               </Typography>

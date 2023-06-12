@@ -1,4 +1,5 @@
 import { Box, Link, Typography } from "@mui/material";
+import { yellow } from "@mui/material/colors";
 import React from "react";
 
 export const Footer = () => {
@@ -19,7 +20,7 @@ export const Footer = () => {
         >
           <Typography variant="body1" textAlign="center">
             {/* TODO: TYLER ADD OTHER LINKS AND THINGS */}
-            <Link href="https://github.com/TylerJang27/Scav_Hunt_Extension">
+            <Link href="https://github.com/TylerJang27/Scav_Hunt_Extension" color={yellow[600]}>
               Scavenger Hunt Extension
             </Link>
           </Typography>

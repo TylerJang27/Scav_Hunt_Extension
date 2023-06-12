@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   Typography,
-  createTheme,
   FormControl,
   TextField,
   Button,
@@ -17,6 +16,7 @@ import { yellow } from "@mui/material/colors";
 import { ClueConfig } from "src/types/hunt_config";
 import { Encrypt } from "../utils/parse";
 import { provider } from "../providers/chrome";
+import { theme } from "./theme";
 
 export interface BeginningPageProps {
   title: React.ReactNode;
@@ -43,17 +43,6 @@ export const CluePage = (props: CluePageProps) => {
 
   const clueNumber = id > 0 ? `: ${id}` : "";
   const title = `${huntName}${clueNumber}`;
-
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: yellow[600],
-      },
-      secondary: {
-        main: "#654eff",
-      },
-    },
-  });
 
   const [inputKey, setInputKey] = useState<string>("");
   const [solved, setSolved] = useState<boolean>(false);
@@ -157,17 +146,6 @@ export const CluePage = (props: CluePageProps) => {
 
 // TODO: TYLER REFACTOR TO MAKE THESE COMMON
 export const BeginningPage = (props: BeginningPageProps) => {
-  // TODO: TYLER FIGURE OUT THEMES
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: yellow[600],
-      },
-      secondary: {
-        main: "#654eff",
-      },
-    },
-  });
 
   return (
     <>

@@ -1,27 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { HuntConfig } from "./types/hunt_config";
-import { Card, CardContent, Container, Grid, TextField, createTheme } from "@mui/material";
+import { Card, CardContent, Container, Grid, TextField } from "@mui/material";
 import { yellow } from "@mui/material/colors";
 import { ThemeProvider } from "@emotion/react";
 import { PageHeaderAndSubtitle } from "./components/PageHeaderAndSubtitle";
 import { Footer } from "./components/Footer";
+import { theme } from "./components/theme";
 
 const Encode = () => {
-  // TODO: TYLER FIGURE OUT THEMES
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: yellow[600],
-      },
-      secondary: {
-        main: "#654eff",
-      },
-    },
-  });
-
-  
-
   const [huntConfig, setHuntConfig] = useState<HuntConfig | any>({});
 
   const sampleJson = `{
