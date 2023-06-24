@@ -1,1 +1,1 @@
-export const provider = chrome;
+export const getProvider = () => chrome;

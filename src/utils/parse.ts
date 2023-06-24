@@ -120,6 +120,10 @@ const ParseHuntOptions = ({
 
 export const ParseConfig = (object: any) => {
   // Parse clues
+  if (!object.clues || object.clues.length === 0) {
+    throw new MissingValueError("clues");
+  }
+
   const [_index, clues, errors] = object.clues.reduce(
     (
       [index, clueAccumulator, errorAccumulator]: [
@@ -172,20 +176,20 @@ export const ParseConfig = (object: any) => {
 
 export const Encrypt = (text: string, encrypted: boolean) => {
   if (encrypted) {
-    var level1 = Buffer.from(text).toString("base64");
-    var level2 = level1.split("");
-    var level3 = "";
+    const level1 = Buffer.from(text).toString("base64");
+    const level2 = level1.split("");
+    let level3 = "";
     for (var k = 0; k < level2.length - 1; k++) {
-      level3 += level1.charAt(k) + Math.random().toString(36).charAt(2);
+      level3 = level3.concat(level1.charAt(k) + Math.random().toString(36).charAt(2));
     }
-    return level3 + level2[level2.length - 1];
+    return level3.concat(level2[level2.length - 1] ?? "");
   }
   return text;
 };
 
 export const Decrypt = (text: string, encrypted: boolean) => {
   if (encrypted) {
-    var level1 = "";
+    let level1 = "";
     for (var k = 0; k < text.length; k += 2) {
       level1 += text.charAt(k);
     }

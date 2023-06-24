@@ -1,0 +1,15 @@
+{
+  "_name": "Test Hunt",
+  "_description": "Test Data",
+  "version": "1.0",
+  "_author": "M. Test",
+  "_encrypted": false,
+  "_beginning": "This is the beginning",
+  "clues": [
+    {
+      "id": 1,
+      "url": "google.com",
+      "text": "The first clue"
+    }
+  ]
+}

@@ -35,10 +35,10 @@ export class MissingFieldError extends ConfigError {
   index?: number;
 
   constructor(fieldName: string, index?: number) {
-    if (index) {
-      super(`Missing field ${fieldName} in clue index ${index}`);
+    if (index !== undefined) {
+      super(`Missing field '${fieldName}' in clue index ${index + 1}`);
     } else {
-      super(`Missing field ${fieldName}`);
+      super(`Missing field '${fieldName}'`);
     }
     this.index = index;
 

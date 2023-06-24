@@ -15,10 +15,10 @@ export interface ClueConfig {
   /* Encrypted fields */
   // URL or regex
   url: string;
-  text?: string;
-  html?: string;
+  text?: string; // TODO: TYLER SANITIZE THIS WHEN WE RENDER THIS
+  html?: string; // TODO: TYLER CHANGE TO MARKDOWN
   // URL or file path
-  image?: string;
+  image?: string; // TODO: TYLER AUDIT/SANITIZE THIS WHEN WE RENDER THIS
   alt?: string;
   interactive?: IntractiveConfig;
 }

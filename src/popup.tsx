@@ -7,13 +7,15 @@ import {
   UNKNOWN_ERROR_RESET_HUNT,
 } from "./types/errors";
 import { DecryptClue } from "./utils/parse";
-import { provider } from "./providers/chrome";
+import { loadStorageValues } from "./providers/storage";
+import { Render } from "./utils/root";
 
 const DEFAULT_LOADING_CLUE = {
   id: -1,
   url: "https://chrome.google.com/webstore/detail/scavenger-hunt/opcgbolmjikeaokbmldpfhemaamnfggf/related?hl=en-US",
   text: "",
 };
+
 
 const loadSolvedClueFromStorage = (
   huntNameCallback: any,
@@ -22,7 +24,7 @@ const loadSolvedClueFromStorage = (
   clueCallback: any,
   errorCallback: any
 ) => {
-  provider.storage.local.get(["huntConfig", "currentProgress"], function (items) {
+  loadStorageValues(["huntConfig", "currentProgress"], (items: any) => {
     if (!items.huntConfig || items.currentProgress === undefined) {
       errorCallback(EMPTY_OR_INVALID_HUNT);
       return;
@@ -87,10 +89,4 @@ const Popup = () => {
   );
 };
 
-const root = createRoot(document.getElementById("root")!);
-
-root.render(
-  <React.StrictMode>
-    <Popup />
-  </React.StrictMode>
-);
+Render(<Popup />);

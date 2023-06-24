@@ -1,6 +1,6 @@
 import { HuntConfig } from "src/types/hunt_config";
-import { DEFAULT_BACKGROUND } from "../utils/parse";
-import { logger } from "../logger";
+import { DEFAULT_BACKGROUND } from "../../utils/parse";
+import { logger } from "../../logger";
 
 logger.warn("Using mocked chrome library");
 
@@ -92,4 +92,4 @@ const runtime = {onMessage: {addListener: addMessageListener}, sendMessage: (msg
 
 const action = {onClicked: {addListener: addClickedListener}, setBadgetText: (contents: chrome.action.BadgeTextDetails) => {logger.info("Setting badge text", contents.text)}};
 
-export const provider = {tabs, storage, runtime, action}
+export const getProvider = () => ({tabs, storage, runtime, action});
