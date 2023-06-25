@@ -53,50 +53,6 @@ const Encode = () => {
     text: "",
   });
 
-  // TODO: TYLER MAKE SURE TO TRIM RESULTS BEFORE DOWNLOADING
-
-  const sampleJson = `{
-    "name": "The Hunt Is On",
-    "description": "A basic scavenger hunt",
-    "version": "1.0",
-    "author": "Tyler Jang",
-    "encrypted": false,
-    "background": "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80",
-    "options": { "silent": false },
-    "beginning": "Welcome to the hunt.\nBegin by navigating to google.com",
-    "clues": [
-      {
-        "id": 1,
-        "url": "google.com",
-        "text": "The hunt begins for pure and brave\nAt education's own conclave.\nYou'll find the treasure that you seek\nUpon Khan's anointed peak.",
-        "image": "res/scav_alt.png",
-        "alt": "Scavenger Hunt Icon"
-      },
-      {
-        "id": 2,
-        "url": "khanacademy.org/",
-        "text": "You found the first clue!",
-        "image": "https://i.pcmag.com/imagery/reviews/07AxdIVbQ63OEkJoPgCybXt-19.1594914797.fit_scale.size_1028x578.png",
-        "alt": "Khan Academy"
-      },
-      {
-        "id": 3,
-        "url": "https://xkcd.com/",
-        "html": "res/xkcd.html"
-      },
-      {
-        "id": 4,
-        "url": "https://www.nytimes.com/*",
-        "text": "You cracked the code!",
-        "interactive": {
-          "prompt": "Enter yolo",
-          "key": "yolo"
-        }
-      }
-    ]
-  }
-  `;
-
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -307,11 +263,6 @@ const Encode = () => {
                           variant="contained"
                           onClick={() => {
                             setCreatedClueIndex(huntConfig.clues.length);
-                            // setCreatedClue({
-                            //   id: huntConfig.clues.length + 1,
-                            //   url: "",
-                            //   text: ""
-                            // });
                             setCreateClueOpen(true);
                           }}>Create New Clue</Button>
                         <Divider></Divider>
@@ -320,6 +271,17 @@ const Encode = () => {
                           color="secondary"
                           variant="contained"
                           onClick={() => {
+                            // TODO: Trim all strings, encrypt all clues if encrypted is true
+                            // TODO: Test line breaks, dump to json string, download json file
+
+
+                            // const json_gen = generateJson();
+                            //         const blob_gen = new Blob([JSON.stringify(json_gen)], {type: 'application/json'});
+                            //         const url_gen = URL.createObjectURL(blob_gen);
+                            //         chrome.downloads.download({
+                            //             url: url_gen
+                            //         });
+
                           }}>Download</Button>
                       </FormControl>
                     </Grid>
