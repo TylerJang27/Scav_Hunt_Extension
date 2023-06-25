@@ -220,28 +220,51 @@ const Encode = () => {
 
                         {/* TODO: RENDER THE LIST OF CLUES IN huntConfig as cards with their own summary and index and edit/delete button */}
                         <List>
-  {huntConfig.clues.map(({ id, url, text }, index) => (
-    <ListItem key={id} divider>
-      <ListItemText
-        primary={`Clue ${index + 1}: ${text}`}
-        secondary={`URL: ${url}`}
-      />
-      <IconButton edge="end" aria-label="edit" onClick={() => {/* TODO: ADD EDIT FUNCTION HERE */}}>
-        <EditIcon />
-      </IconButton>
-      <IconButton edge="end" aria-label="delete" onClick={() => {/* TODO: ADD DELETE FUNCTION HERE */}}>
-        <DeleteIcon />
-      </IconButton>
-    </ListItem>
-  ))}
-</List>
+                          {huntConfig.clues.map(({ id, url, text, image, alt }, index) => (
+                            <ListItem key={id} divider>
+                              <ListItemText
+                                primary={`Clue ${index + 1}: ${text}`}
+                                secondary={`URL: ${url}`}
+                              />
+                              <IconButton edge="end" aria-label="edit" onClick={() => {
+                                setCreatedClueIndex(index);
+                                setCreatedClue({
+                                  id: id,
+                                  url: url,
+                                  text: text,
+                                  image: image,
+                                  alt: alt
+                                });
+                                setCreateClueOpen(true);
+                              }}>
+                                <EditIcon />
+                              </IconButton>
+                              <IconButton edge="end" aria-label="delete" onClick={() => {
+                                // Remove the clue from the list
+                                let currClues = [...huntConfig.clues];
+                                currClues.splice(index, 1);
+
+                                for (let i = index; i < currClues.length; i++) {
+                                  currClues[i].id = i;
+                                }
+
+                                setHuntConfig({
+                                  ...huntConfig,
+                                  clues: currClues
+                                });
+                              }}>
+                                <DeleteIcon />
+                              </IconButton>
+                            </ListItem>
+                          ))}
+                        </List>
 
                         <Button
                           fullWidth
                           color="secondary"
                           variant="contained"
                           onClick={() => {
-                            // setCreatedClueIndex(huntConfig.clues.length);
+                            setCreatedClueIndex(huntConfig.clues.length);
                             // setCreatedClue({
                             //   id: huntConfig.clues.length + 1,
                             //   url: "",
@@ -286,7 +309,16 @@ const Encode = () => {
         <ExitableModal
           open={createClueOpen}
           // TODO: ON SAVE, ADD THE IN PROGRESS CLUE TO THE END OF THE LIST
-          onClose={() => setCreateClueOpen(false)}
+          onClose={() => {
+            setCreateClueOpen(false);
+            setCreatedClue({
+              id: -1,
+              url: '',
+              text: '',
+              image: '',
+              alt: ''
+            });
+          }}
           modalTitle="Create new clue">
           <FormControl>
             <TextField label="URL" variant="outlined" required value={createdClue.url} onChange={(e) => {
@@ -305,18 +337,26 @@ const Encode = () => {
             <Button variant="contained" color="primary" onClick={() => {
               // Add the new clue to the list
               let newClue = {
-                id: huntConfig.clues.length + 1,
+                id: createdClueIndex,
                 url: createdClue.url,
                 text: createdClue.text,
                 image: createdClue.image,
                 alt: createdClue.alt
               };
 
-              setHuntConfig({
-                ...huntConfig,
-                clues: [...huntConfig.clues, newClue]
-              });
-
+              if (createdClueIndex >= huntConfig.clues.length) {
+                setHuntConfig({
+                  ...huntConfig,
+                  clues: [...huntConfig.clues, newClue]
+                });
+              } else {
+                let currClues = [...huntConfig.clues];
+                currClues[createdClueIndex] = newClue;
+                setHuntConfig({
+                  ...huntConfig,
+                  clues: currClues
+                });
+              }
               // Reset the createdClue state
               setCreatedClue({
                 id: -1,
