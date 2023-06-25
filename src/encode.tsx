@@ -125,6 +125,9 @@ const Encode = () => {
                           value={huntConfig.name}
                           label="Name"
                           required
+                          error={
+                            huntConfig.name.trim().length === 0
+                          }
                           variant="outlined"
                           onChange={(e) => {
                             setHuntConfig({ ...huntConfig, name: e.target.value });
@@ -135,6 +138,9 @@ const Encode = () => {
                           value={huntConfig.description}
                           label="Description"
                           required
+                          error={
+                            huntConfig.description.trim().length === 0
+                          }
                           variant="outlined"
                           onChange={(e) => {
                             setHuntConfig({ ...huntConfig, description: e.target.value });
@@ -145,6 +151,9 @@ const Encode = () => {
                           value={huntConfig.author}
                           label="Author"
                           required
+                          error={
+                            huntConfig.author.trim().length === 0
+                          }
                           variant="outlined"
                           onChange={(e) => {
                             setHuntConfig({ ...huntConfig, author: e.target.value });
@@ -152,19 +161,12 @@ const Encode = () => {
                         />
 
                         <TextField
-                          value={huntConfig.version}
-                          label="Version"
-                          required
-                          variant="outlined"
-                          onChange={(e) => {
-                            setHuntConfig({ ...huntConfig, version: e.target.value });
-                          }}
-                        />
-
-                        <TextField
                           value={huntConfig.background}
                           label="Background (URL)"
                           required
+                          error={
+                            huntConfig.background.trim().length === 0 || !/^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/.test(huntConfig.background.trim())
+                          }
                           variant="outlined"
                           type="url"
                           onChange={(e) => {
@@ -176,6 +178,9 @@ const Encode = () => {
                           value={huntConfig.beginning}
                           label="Beginning"
                           required
+                          error={
+                            huntConfig.beginning.trim().length === 0
+                          }
                           variant="outlined"
                           onChange={(e) => {
                             setHuntConfig({ ...huntConfig, beginning: e.target.value });
@@ -257,13 +262,6 @@ const Encode = () => {
                                   </IconButton>
                                 </>
                               }
-
-
-
-
-
-
-
 
                               <ListItemText
                                 primary={`Clue ${index + 1}: ${text}`}
