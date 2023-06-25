@@ -26,6 +26,8 @@ import { Footer } from "./components/Footer";
 import { theme } from "./components/theme";
 import { Render } from "./utils/root";
 import { ExitableModal } from "./components/ExitableModal";
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 const Encode = () => {
   const [huntConfig, setHuntConfig] = useState<HuntConfig>({
@@ -222,6 +224,47 @@ const Encode = () => {
                         <List>
                           {huntConfig.clues.map(({ id, url, text, image, alt }, index) => (
                             <ListItem key={id} divider>
+                              {
+                                huntConfig.clues.length > 1 &&
+                                <>
+                                  <IconButton edge="start" aria-label="move up" disabled={index === 0} onClick={() => {
+                                    let currClues = [...huntConfig.clues];
+                                    let temp = { ...currClues[index], id: index };
+                                    currClues[index] = { ...currClues[index - 1], id: index + 1 };
+
+                                    currClues[index - 1] = temp;
+
+                                    setHuntConfig({
+                                      ...huntConfig,
+                                      clues: currClues
+                                    });
+                                  }}>
+                                    <ArrowUpwardIcon />
+                                  </IconButton>
+
+                                  <IconButton edge="start" aria-label="move down" disabled={index === huntConfig.clues.length - 1} onClick={() => {
+                                    let currClues = [...huntConfig.clues];
+                                    let temp = { ...currClues[index], id: index + 2 };
+                                    currClues[index] = { ...currClues[index + 1], id: index + 1 };
+                                    currClues[index + 1] = temp;
+
+                                    setHuntConfig({
+                                      ...huntConfig,
+                                      clues: currClues
+                                    });
+                                  }}>
+                                    <ArrowDownwardIcon />
+                                  </IconButton>
+                                </>
+                              }
+
+
+
+
+
+
+
+
                               <ListItemText
                                 primary={`Clue ${index + 1}: ${text}`}
                                 secondary={`URL: ${url}`}
@@ -245,7 +288,7 @@ const Encode = () => {
                                 currClues.splice(index, 1);
 
                                 for (let i = index; i < currClues.length; i++) {
-                                  currClues[i].id = i;
+                                  currClues[i].id = i + 1;
                                 }
 
                                 setHuntConfig({
@@ -337,7 +380,7 @@ const Encode = () => {
             <Button variant="contained" color="primary" onClick={() => {
               // Add the new clue to the list
               let newClue = {
-                id: createdClueIndex,
+                id: createdClueIndex + 1,
                 url: createdClue.url,
                 text: createdClue.text,
                 image: createdClue.image,
