@@ -287,13 +287,7 @@ const Encode = () => {
           open={createClueOpen}
           // TODO: ON SAVE, ADD THE IN PROGRESS CLUE TO THE END OF THE LIST
           onClose={() => setCreateClueOpen(false)}
-          modalTitle="Create new clue"
-<<<<<<< HEAD
-          // TODO: TYLER OR EDIT CLUE
-=======
-        // TODO: TYLER OR EDIT CLUE
->>>>>>> 36e2f78 (Finish basic encode page excluding the clue part)
-        >
+          modalTitle="Create new clue">
           <FormControl>
             <TextField label="URL" variant="outlined" required value={createdClue.url} onChange={(e) => {
               setCreatedClue({ ...createdClue, url: e.target.value });
