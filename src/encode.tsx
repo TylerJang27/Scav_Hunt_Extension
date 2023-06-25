@@ -16,6 +16,7 @@ import {
   ListItem,
   ListItemText,
   IconButton,
+  Divider,
 } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -313,8 +314,13 @@ const Encode = () => {
                             // });
                             setCreateClueOpen(true);
                           }}>Create New Clue</Button>
-
-                        {/* TODO: DOWNLOAD BUTTON */}
+                        <Divider></Divider>
+                        <Button
+                          fullWidth
+                          color="secondary"
+                          variant="contained"
+                          onClick={() => {
+                          }}>Download</Button>
                       </FormControl>
                     </Grid>
 
