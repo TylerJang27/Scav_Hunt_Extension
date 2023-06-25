@@ -206,6 +206,13 @@ const wrapDecrypt = (text: string | undefined, encoded: boolean) => {
   return undefined;
 };
 
+const wrapEncrypt = (text: string | undefined, encoded: boolean) => {
+  if (text) {
+    return Encrypt(text, encoded);
+  }
+  return undefined;
+};
+
 export const DecryptClue = (clue: ClueConfig, encrypted: boolean) => ({
   /* Decoded fields */
   id: clue.id,
@@ -218,6 +225,23 @@ export const DecryptClue = (clue: ClueConfig, encrypted: boolean) => ({
   interactive: clue.interactive
     ? {
         prompt: wrapDecrypt(clue.interactive.prompt, encrypted),
+        key: clue.interactive.key,
+      }
+    : undefined,
+});
+
+export const EncryptClue = (clue: ClueConfig, encrypted: boolean) => ({
+  /* Decoded fields */
+  id: clue.id,
+  /* Encoded fields */
+  url: Encrypt(clue.url, encrypted),
+  text: wrapEncrypt(clue.text, encrypted),
+  html: wrapEncrypt(clue.html, encrypted),
+  image: wrapEncrypt(clue.image, encrypted),
+  alt: wrapEncrypt(clue.alt, encrypted),
+  interactive: clue.interactive
+    ? {
+        prompt: wrapEncrypt(clue.interactive.prompt, encrypted),
         key: clue.interactive.key,
       }
     : undefined,
