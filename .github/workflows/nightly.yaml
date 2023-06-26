@@ -4,7 +4,7 @@ on:
     - cron: 0 8 * * 1-5
   workflow_dispatch: {}
 
-permission: read-all
+permissions: read-all
 
 jobs:
   test_extension:
