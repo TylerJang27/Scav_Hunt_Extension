@@ -4,7 +4,6 @@ import {
   setupOnClickedListener,
   setupOnInstalledListener,
 } from "src/background";
-
 import { buildProviderMocks } from "./build_mocks";
 
 jest.mock("src/providers/action");
