@@ -3,7 +3,7 @@ import {
   setupOnClickedListener,
   setupOnInstalledListener,
 } from "src/background";
-import { sampleHunt } from "./create_hunt_config";
+import { sampleHunt } from "src/__tests__/create_hunt_config";
 import { buildProviderMocks } from "./build_mocks";
 
 jest.mock("src/providers/action");

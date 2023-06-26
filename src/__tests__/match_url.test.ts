@@ -3,8 +3,8 @@ import {
   sampleEncryptedHunt,
   sampleHunt,
   sampleSilentHunt,
-} from "./create_hunt_config";
-import { buildProviderMocks } from "./build_mocks";
+} from "src/__tests__/create_hunt_config";
+import { buildProviderMocks } from "src/__tests__/build_mocks";
 
 // TODO: Add additional test coverage for loading an old corrupted hunt once we have multiple config versions. New extension versions should be compatible with older hunts when possible.
 
