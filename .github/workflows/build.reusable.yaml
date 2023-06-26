@@ -1,0 +1,43 @@
+name: Build Extension
+on:
+  workflow_call:
+    inputs:
+      all-builds:
+        required: false
+        default: "false"
+
+
+permission: read-all
+
+jobs:
+  name: Build
+  runs-on: ${{ matrix.os }}
+  strategy:
+    fail-fast: false
+    matrix:
+      os: [ubuntu-latest, macos-latest]
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    
+    - name: Install dependencies
+      run: npm ci
+
+    # Build setup is the primary preparation used to build and then publish the extension.
+    - name: Build extension
+      run: npm run build
+
+    # Dev setup is used to watch changes and rebuild the extension. Dev build also uses a different logging setup.
+    - name: Build dev setup
+      if: inputs.all-builds !== "false"
+      run: npm run dev -- --no-watch
+
+    # Static setup is used to render singular web pages for each of the extension's primary features. Static build relies on mocks being available for all of the relevant Chrome APIs and also uses a different logging setup.
+    - name: Build static setup
+      if: inputs.all-builds !== "false"
+      run: npm run static -- --no-watch

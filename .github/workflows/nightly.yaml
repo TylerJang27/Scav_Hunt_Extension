@@ -1,0 +1,16 @@
+name: Nightly
+on:
+  schedule:
+    - cron: 0 8 * * 1-5
+  workflow_dispatch: {}
+
+permission: read-all
+
+jobs:
+  test_extension:
+    name: Unit and Integration Tests
+    uses: ./.github/workflows/tests.reusable.yaml
+
+  build_extension:
+    name: Build Extension
+    uses: ./.github/workflows/build.reusable.yaml
