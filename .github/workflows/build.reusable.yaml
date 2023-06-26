@@ -5,7 +5,7 @@ on:
       all-builds:
         required: false
         type: boolean
-        default: "false"
+        default: false
 
 permissions: read-all
 
