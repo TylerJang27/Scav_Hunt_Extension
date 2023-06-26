@@ -5,6 +5,7 @@ import { sendMessage } from "./providers/runtime";
 // import { provider } from "./providers/chrome";
 import { loadStorageValues, saveStorageValues } from "./providers/storage";
 import { ClueConfig, HuntConfig } from "./types/hunt_config";
+import { nonNull } from "./utils/helpers";
 import { Decrypt } from "./utils/parse";
 
 /**
@@ -91,7 +92,7 @@ const sendEmptyOrInvalidHunt = () => {
 const loadHuntCallback = (items: any) => {
   logger.info(items);
   try {
-    if (items.huntConfig && items.maxProgress !== undefined) {
+    if (items.huntConfig && nonNull(items.maxProgress)) {
       const urlMatchClue = checkHuntForURLMatch(items.huntConfig as HuntConfig);
       if (urlMatchClue) {
         sendClueFound(items.maxProgress, urlMatchClue);

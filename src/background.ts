@@ -6,10 +6,11 @@ import { addMessageListener } from "./providers/runtime";
 import { loadStorageValues } from "./providers/storage";
 import { createTab } from "./providers/tabs";
 import { EMPTY_OR_INVALID_HUNT } from "./types/errors";
+import { nonNull } from "./utils/helpers";
 
 const openClueCallback = (items: any) => {
   // TODO: TYLER SHOULD WE OPEN THE OPTIONS PAGE WHEN THERES NO HUNT? OR A TUTORIAL?
-  if (items.huntConfig && items.huntConfig.clues && items.currentProgress !== undefined) {
+  if (items.huntConfig && items.huntConfig.clues && nonNull(items.currentProgress)) {
     if (items.currentProgress == 0) {
       return;
     }

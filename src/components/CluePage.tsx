@@ -18,6 +18,7 @@ import { Encrypt } from "../utils/parse";
 // import { provider } from "../providers/chrome";
 import { theme } from "./theme";
 import { getURL } from "../providers/runtime";
+import { nonNull } from "../utils/helpers";
 
 export interface BeginningPageProps {
   title: React.ReactNode;
@@ -120,7 +121,7 @@ export const CluePage = (props: CluePageProps) => {
                         variant="outlined"
                         value={inputKey}
                         onChange={(e) => setInputKey(e.target.value.trim())}
-                        error={interactive === undefined || !solved}
+                        error={!nonNull(interactive) || !solved}
                       />
                       {/* TODO: ADD BETTER ERROR/RESPONSIVENESS SUPPORT (Show message on error) */}
                       <Button

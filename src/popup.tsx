@@ -9,6 +9,7 @@ import {
 import { DecryptClue } from "./utils/parse";
 import { loadStorageValues } from "./providers/storage";
 import { Render } from "./utils/root";
+import { nonNull } from "./utils/helpers";
 
 const DEFAULT_LOADING_CLUE = {
   id: -1,
@@ -25,7 +26,7 @@ const loadSolvedClueFromStorage = (
   errorCallback: any
 ) => {
   loadStorageValues(["huntConfig", "currentProgress"], (items: any) => {
-    if (!items.huntConfig || items.currentProgress === undefined) {
+    if (!items.huntConfig || !nonNull(items.currentProgress)) {
       errorCallback(EMPTY_OR_INVALID_HUNT);
       return;
     }
