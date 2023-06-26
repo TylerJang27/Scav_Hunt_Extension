@@ -33,10 +33,10 @@ jobs:
       - name: Build extension
         run: npm run build
 
-      # Dev setup is used to watch changes and rebuild the extension. Dev build also uses a different logging setup.
+      # Dev/watch setup is used to watch changes and rebuild the extension. Dev build also uses a different logging setup.
       - name: Build dev setup
         if: inputs.all-builds != 'false'
-        run: npm run dev -- --no-watch
+        run: npm run watch -- --no-watch
 
       # Static setup is used to render singular web pages for each of the extension's primary features. Static build relies on mocks being available for all of the relevant Chrome APIs and also uses a different logging setup.
       - name: Build static setup
