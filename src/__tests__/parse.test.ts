@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import path from "path";
-import { ParseConfig } from "../../src/utils/parse";
+import { ParseConfig } from "src/utils/parse";
 
 const PATH_TO_TEST_DATA = "src/__tests__/test_data";
 const PATH_TO_BAD_TEST_DATA = path.join(PATH_TO_TEST_DATA, "bad");

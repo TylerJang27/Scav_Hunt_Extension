@@ -2,16 +2,16 @@ import {
   setupMessageListener,
   setupOnClickedListener,
   setupOnInstalledListener,
-} from "../../src/background";
+} from "src/background";
 import { sampleHunt } from "./create_hunt_config";
 import { buildProviderMocks } from "./build_mocks";
 
-jest.mock("../../src/providers/action");
-jest.mock("../../src/providers/chrome");
-jest.mock("../../src/providers/runtime");
-jest.mock("../../src/providers/storage");
-jest.mock("../../src/providers/tabs");
-jest.mock("../../src/logger/index");
+jest.mock("src/providers/action");
+jest.mock("src/providers/chrome");
+jest.mock("src/providers/runtime");
+jest.mock("src/providers/storage");
+jest.mock("src/providers/tabs");
+jest.mock("src/logger/index");
 
 const {
   addMessageListenerMock,

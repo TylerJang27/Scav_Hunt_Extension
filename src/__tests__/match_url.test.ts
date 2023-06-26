@@ -1,4 +1,4 @@
-import { loadHuntProgress } from "../../src/content_script";
+import { loadHuntProgress } from "src/content_script";
 import {
   sampleEncryptedHunt,
   sampleHunt,
@@ -8,12 +8,12 @@ import { buildProviderMocks } from "./build_mocks";
 
 // TODO: Add additional test coverage for loading an old corrupted hunt once we have multiple config versions. New extension versions should be compatible with older hunts when possible.
 
-jest.mock("../../src/providers/alert");
-jest.mock("../../src/providers/chrome");
-jest.mock("../../src/providers/href");
-jest.mock("../../src/providers/runtime");
-jest.mock("../../src/providers/storage");
-jest.mock("../../src/logger/index");
+jest.mock("src/providers/alert");
+jest.mock("src/providers/chrome");
+jest.mock("src/providers/href");
+jest.mock("src/providers/runtime");
+jest.mock("src/providers/storage");
+jest.mock("src/logger/index");
 
 const { loadMock, saveMock, currentURLMock, alertMock, sendMessageMock } =
   buildProviderMocks();
