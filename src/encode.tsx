@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { createRoot } from "react-dom/client";
-import { ClueConfig, HuntConfig } from "./types/hunt_config";
+import React, { useState } from "react";
+import { ClueConfig, HuntConfig } from "src/types/hunt_config";
 import {
   Button,
   Card,
@@ -20,16 +19,15 @@ import {
 } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { yellow } from "@mui/material/colors";
 import { ThemeProvider } from "@emotion/react";
-import { PageHeaderAndSubtitle } from "./components/PageHeaderAndSubtitle";
-import { Footer } from "./components/Footer";
-import { theme } from "./components/theme";
-import { Render } from "./utils/root";
+import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
+import { Footer } from "src/components/Footer";
+import { theme } from "src/components/theme";
+import { Render } from "src/utils/root";
 import { ExitableModal } from "./components/ExitableModal";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { EncryptClue } from './utils/parse';
+import { EncryptClue } from 'src/utils/parse';
 
 
 const generateJson = (huntConfig:HuntConfig) => {

@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { createRoot } from "react-dom/client";
-import { CluePage } from "./components/CluePage";
-import { ClueConfig } from "./types/hunt_config";
+import { CluePage } from "src/components/CluePage";
+import { ClueConfig } from "src/types/hunt_config";
 import {
   EMPTY_OR_INVALID_HUNT,
   UNKNOWN_ERROR_RESET_HUNT,
-} from "./types/errors";
-import { DecryptClue } from "./utils/parse";
-import { loadStorageValues } from "./providers/storage";
-import { Render } from "./utils/root";
-import { nonNull } from "./utils/helpers";
+} from "src/types/errors";
+import { DecryptClue } from "src/utils/parse";
+import { loadStorageValues } from "src/providers/storage";
+import { Render } from "src/utils/root";
+import { nonNull } from "src/utils/helpers";
 
 const DEFAULT_LOADING_CLUE = {
   id: -1,

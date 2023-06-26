@@ -1,5 +1,5 @@
-import { getProvider } from "./chrome";
-import { StorageKeys, LoadStorageCallback, StorageSaveObject, SaveStorageCallback } from "./types";
+import { getProvider } from "src/providers/chrome";
+import { StorageKeys, LoadStorageCallback, StorageSaveObject, SaveStorageCallback } from "src/providers/types";
 
 export const loadStorageValue = (key: StorageKeys, callback: LoadStorageCallback) => {
     return getProvider().storage.local.get(key, callback);

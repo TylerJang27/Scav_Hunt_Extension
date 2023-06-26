@@ -5,7 +5,6 @@ import {
   Container,
   FormControl,
   FormControlLabel,
-  FormLabel,
   Grid,
   Link,
   Radio,
@@ -16,21 +15,20 @@ import {
 import { yellow } from "@mui/material/colors";
 import React, { ChangeEvent, useState } from "react";
 import { useEffect } from "react";
-import { createRoot } from "react-dom/client";
-import { ExitableModal } from "./components/ExitableModal";
-import { PageHeaderAndSubtitle } from "./components/PageHeaderAndSubtitle";
-import { HuntConfig, SAMPLE_DIR } from "./types/hunt_config";
-import { HuntSource, Progress } from "./types/progress";
-import { ParseConfig } from "./utils/parse";
+import { ExitableModal } from "src/components/ExitableModal";
+import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
+import { HuntConfig, SAMPLE_DIR } from "src/types/hunt_config";
+import { HuntSource, Progress } from "src/types/progress";
+import { ParseConfig } from "src/utils/parse";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import path from "path";
-import { logger } from "./logger";
-import { theme } from "./components/theme";
-import { saveStorageValues } from "./providers/storage";
-import { createTab } from "./providers/tabs";
-import { getLastError, getURL } from "./providers/runtime";
-import { Render } from "./utils/root";
-import { resetStorage } from "./providers/helpers";
+import { logger } from "src/logger";
+import { theme } from "src/components/theme";
+import { saveStorageValues } from "src/providers/storage";
+import { createTab } from "src/providers/tabs";
+import { getLastError, getURL } from "src/providers/runtime";
+import { Render } from "src/utils/root";
+import { resetStorage } from "src/providers/helpers";
 
 interface SourceFormType {
   sourceType: HuntSource;

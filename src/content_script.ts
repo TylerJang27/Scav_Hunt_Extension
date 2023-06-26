@@ -1,11 +1,11 @@
-import { logger } from "./logger";
-import { alertWrapper } from "./providers/alert";
-import { getCurrentURL } from "./providers/href";
-import { sendMessage } from "./providers/runtime";
-import { loadStorageValues, saveStorageValues } from "./providers/storage";
-import { ClueConfig, HuntConfig } from "./types/hunt_config";
-import { nonNull } from "./utils/helpers";
-import { Decrypt } from "./utils/encrypt";
+import { logger } from "src/logger";
+import { alertWrapper } from "src/providers/alert";
+import { getCurrentURL } from "src/providers/href";
+import { sendMessage } from "src/providers/runtime";
+import { loadStorageValues, saveStorageValues } from "src/providers/storage";
+import { ClueConfig, HuntConfig } from "src/types/hunt_config";
+import { nonNull } from "src/utils/helpers";
+import { Decrypt } from "src/utils/encrypt";
 
 /**
  * When a page is loaded:

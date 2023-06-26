@@ -1,4 +1,4 @@
-import { getProvider } from "./chrome";
+import { getProvider } from "src/providers/chrome";
 
 export type OnClickedListenerCallback = () => void;
 

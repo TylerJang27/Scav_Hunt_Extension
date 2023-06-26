@@ -11,14 +11,12 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Footer } from "./Footer";
-import { PageHeaderAndSubtitle } from "./PageHeaderAndSubtitle";
-import { yellow } from "@mui/material/colors";
+import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 import { ClueConfig } from "src/types/hunt_config";
-import { Decrypt } from "../utils/encrypt";
-// import { provider } from "../providers/chrome";
-import { theme } from "./theme";
-import { getURL } from "../providers/runtime";
-import { nonNull } from "../utils/helpers";
+import { Decrypt } from "src/utils/encrypt";
+import { theme } from "src/components/theme";
+import { getURL } from "src/providers/runtime";
+import { nonNull } from "src/utils/helpers";
 
 
 export interface BeginningPageProps {

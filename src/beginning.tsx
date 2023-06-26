@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { createRoot } from "react-dom/client";
-import { BeginningPage } from "./components/CluePage";
-import { logger } from "./logger";
-import { loadStorageValue, LoadStorageCallback } from "./providers/storage";
-import { Render } from "./utils/root";
+import { BeginningPage } from "src/components/CluePage";
+import { logger } from "src/logger";
+import { loadStorageValue, LoadStorageCallback } from "src/providers/storage";
+import { Render } from "src/utils/root";
 
 const loadBeginningFromStorage = (callback: LoadStorageCallback) => {
   logger.debug("Loading beginning from storage");

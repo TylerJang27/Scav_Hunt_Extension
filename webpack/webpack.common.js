@@ -10,7 +10,7 @@ module.exports = {
     encode: path.join(srcDir, "encode.tsx"),
     beginning: path.join(srcDir, "beginning.tsx"),
     background: path.join(srcDir, "background.ts"),
-    content_script: [path.join(srcDir, "content_script.tsx")],
+    content_script: path.join(srcDir, "content_script.ts"),
   },
   output: {
     path: path.join(__dirname, "../dist/js"),
@@ -37,6 +37,9 @@ module.exports = {
     ],
   },
   resolve: {
+    alias: {
+      src: path.resolve(srcDir)
+    },
     extensions: [".ts", ".tsx", ".js"],
     fallback: { path: require.resolve("path-browserify") },
   },
