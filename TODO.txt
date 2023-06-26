@@ -19,3 +19,4 @@ Scope:
 5. Maximum hunt size (10 MB) and relevant permissions
 6. Redirect to options on install
 7. Clean up options page (squishy, make it a big welcome page with a tutorial)
+8. Change background image
