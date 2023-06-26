@@ -409,6 +409,7 @@ const Options = () => {
               {Array.from(sampleHuntOptions.entries()).map(
                 ([samplePath, sampleName]) => (
                   <FormControlLabel
+                    key={sampleName}
                     value={samplePath}
                     control={<Radio />}
                     label={sampleName}

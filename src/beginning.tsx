@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { BeginningPage } from "src/components/CluePage";
 import { logger } from "src/logger";
-import { loadStorageValue, LoadStorageCallback } from "src/providers/storage";
+import { loadStorageValue } from "src/providers/storage";
+import { LoadStorageCallback } from "src/providers/types";
 import { Render } from "src/utils/root";
 
 const loadBeginningFromStorage = (callback: LoadStorageCallback) => {
