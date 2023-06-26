@@ -2,8 +2,14 @@ import { getProvider } from "./chrome";
 
 export type OnMessageListenerCallback = (request: any, sender: any, sendResponse: any) => void;
 
+export type OnInstalledListenerCallback = (details: {reason: string}) => void;
+
 export const addMessageListener = (callback: OnMessageListenerCallback) => {
     return getProvider().runtime.onMessage.addListener(callback);
+}
+
+export const addInstalledListener = (callback: OnInstalledListenerCallback) => {
+    return getProvider().runtime.onInstalled.addListener(callback);
 }
 
 export const sendMessage = (message: Object) => {

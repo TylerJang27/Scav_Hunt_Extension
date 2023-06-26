@@ -2,10 +2,12 @@
 
 import { logger } from "./logger";
 import { addOnClickedListener, setBadgeText } from "./providers/action";
-import { addMessageListener } from "./providers/runtime";
+import { addInstalledListener, addMessageListener } from "./providers/runtime";
 import { loadStorageValues } from "./providers/storage";
 import { createTab } from "./providers/tabs";
 import { EMPTY_OR_INVALID_HUNT } from "./types/errors";
+
+const CHROME_INSTALL_REASON = "install";
 
 const openClueCallback = (items: any) => {
   // TODO: TYLER SHOULD WE OPEN THE OPTIONS PAGE WHEN THERES NO HUNT? OR A TUTORIAL?
@@ -53,5 +55,15 @@ export const setupOnClickedListener = () =>
     loadStorageValues(["huntConfig", "currentProgress"], openClueCallback);
   });
 
+export const setupOnInstalledListener = () => {
+  addInstalledListener((details) => {
+    logger.debug(`Received install event ${details.reason}`);
+    if (details.reason === CHROME_INSTALL_REASON) {
+      createTab("options.html");
+    }
+  });
+};
+
+setupOnInstalledListener();
 setupMessageListener();
 setupOnClickedListener();
