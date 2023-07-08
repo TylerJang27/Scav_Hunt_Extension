@@ -4,7 +4,7 @@
   "version": "0.9.1",
   "manifest_version": 3,
   "options_ui": {
-    "page": "options.html",
+    "page": "landing_page.html",
     "open_in_tab": false
   },
   "icons": {

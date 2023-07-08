@@ -1,5 +1,3 @@
-import { ThemeProvider } from "@emotion/react";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {
   Alert,
   Button,
@@ -18,16 +16,15 @@ import path from "path";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { ExitableModal } from "src/components/ExitableModal";
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
-import { theme } from "src/components/theme";
-import { logger } from "src/logger";
-import { resetStorage } from "src/providers/helpers";
-import { getLastError, getURL } from "src/providers/runtime";
-import { saveStorageValues } from "src/providers/storage";
-import { createTab } from "src/providers/tabs";
 import { HuntConfig, SAMPLE_DIR } from "src/types/hunt_config";
 import { HuntSource, Progress } from "src/types/progress";
 import { ParseConfig } from "src/utils/parse";
-import { Render } from "src/utils/root";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { logger } from "src/logger";
+import { saveStorageValues } from "src/providers/storage";
+import { createTab } from "src/providers/tabs";
+import { getLastError, getURL } from "src/providers/runtime";
+import { resetStorage } from "src/providers/helpers";
 
 interface SourceFormType {
   sourceType: HuntSource;
@@ -89,7 +86,7 @@ const getSampleOptions = () => {
   return sampleHuntOptions;
 };
 
-const Options = () => {
+export const ChooseHunt = () => {
   // TODO: DETERMINE THESE PROGRAMATICALLY
 
   // const sampleHuntOptions = ["Tutorial", "Board Games", "Star Wars"];
@@ -220,11 +217,10 @@ const Options = () => {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
         <Container maxWidth="sm" sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <PageHeaderAndSubtitle header="Choose Your Hunt" />
+              <PageHeaderAndSubtitle header="Begin A Hunt" />
             </Grid>
             <Grid item xs={12}>
               <FormControl>
@@ -424,9 +420,6 @@ const Options = () => {
             </RadioGroup>
           </FormControl>
         </ExitableModal>
-      </ThemeProvider>
     </>
   );
 };
-
-Render(<Options />);

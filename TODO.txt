@@ -4,7 +4,7 @@ Development:
 1. Frontend testing
 2. GH workflows and GH branch protection
 3. Trunk upgrade, linting
-4. Refactor components as necessary (particularly options.tsx and CluePage)
+4. Refactor components as necessary (particularly landing_page.tsx and CluePage)
 5. i18n
 6. Simplify css files
 

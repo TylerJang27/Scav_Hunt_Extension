@@ -102,7 +102,7 @@ const runtime = {
   sendMessage: (msg: any) => {
     logger.info("Sending message", msg);
   },
-  lastError: () => {
+  getLastError: () => {
     logger.info("Returning no error");
     return undefined;
   },
