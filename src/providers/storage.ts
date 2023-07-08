@@ -1,17 +1,14 @@
 import { getProvider } from "./chrome";
+import { StorageKeys, LoadStorageCallback, StorageSaveObject, SaveStorageCallback } from "./types";
 
-export type LoadStorageCallback = (items: any) => void;
-
-export type SaveStorageCallback = () => void;
-
-export const loadStorageValue = (key: string, callback: LoadStorageCallback) => {
+export const loadStorageValue = (key: StorageKeys, callback: LoadStorageCallback) => {
     return getProvider().storage.local.get(key, callback);
 }
 
-export const loadStorageValues = (keys: string[], callback: LoadStorageCallback) => {
+export const loadStorageValues = (keys: StorageKeys[], callback: LoadStorageCallback) => {
     return getProvider().storage.local.get(keys, callback);
 }
 
-export const saveStorageValues = (values: Object, callback: SaveStorageCallback) => {
+export const saveStorageValues = (values: StorageSaveObject, callback: SaveStorageCallback) => {
     return getProvider().storage.local.set(values, callback);
 }

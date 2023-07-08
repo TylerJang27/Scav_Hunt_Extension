@@ -16,5 +16,6 @@ Scope:
     a. Progress bar
     b. Require in-order
     c. Silence on going backwards
-5. Maximum hunt size and relevant permissions
+5. Maximum hunt size (10 MB) and relevant permissions
 6. Redirect to options on install
+7. Clean up options page (squishy, make it a big welcome page with a tutorial)

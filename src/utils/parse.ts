@@ -9,6 +9,7 @@ import {
   XORFieldsError,
 } from "../types/errors";
 import { ClueConfig, HuntConfig } from "../types/hunt_config";
+import { nonNull } from "./helpers";
 
 export const DEFAULT_BACKGROUND =
   "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80";
@@ -18,7 +19,7 @@ const ValidateRequiredField = (
   fieldName: string,
   index?: number
 ) => {
-  if (value === undefined) {
+  if (!nonNull(value)) {
     throw new MissingFieldError(fieldName, index);
   }
   return value;
@@ -29,7 +30,7 @@ const ValidateRequiredNonEmptyField = (
   fieldName: string,
   index?: number
 ) => {
-  if (value === undefined) {
+  if (!nonNull(value)) {
     throw new MissingFieldError(fieldName, index);
   }
   if (value === "") {
@@ -54,7 +55,7 @@ const ValidateXORFields = (
 };
 
 const ValidateVersion = (value: any) => {
-  if (value === undefined) {
+  if (!nonNull(value)) {
     throw new MissingFieldError("version");
   } else if (!SUPPORTED_VERSIONS.includes(value)) {
     throw new UnsupportedVersionError(value);

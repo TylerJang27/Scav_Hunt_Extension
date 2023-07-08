@@ -30,6 +30,7 @@ import { saveStorageValues } from "./providers/storage";
 import { createTab } from "./providers/tabs";
 import { getLastError, getURL } from "./providers/runtime";
 import { Render } from "./utils/root";
+import { resetStorage } from "./providers/helpers";
 
 interface SourceFormType {
   sourceType: HuntSource;
@@ -111,6 +112,8 @@ const Options = () => {
     undefined
   );
   const [sampleModalOpen, setSampleModalOpen] = useState<boolean>(false);
+
+  const [hasReset, setHasReset] = useState<boolean>(false);
 
   const validateSubmitable = () => {
     if (validationError) {
@@ -216,8 +219,7 @@ const Options = () => {
     }
   };
   const onReset = () => {
-    // TODO: TYLER IMPLEMENT
-    logger.error("Reset functionality coming soon!");
+    resetStorage(() => setHasReset(true));
   };
 
   return (
@@ -371,8 +373,8 @@ const Options = () => {
                 >
                   Submit
                 </Button>
-                <Button variant="outlined" size="medium" onClick={onReset} color="secondary">
-                  Reset
+                <Button variant="outlined" size="medium" onClick={onReset} color="secondary" disabled={hasReset}>
+                  Clear Hunt
                 </Button>
               </Grid>
             </Grid>
