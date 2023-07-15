@@ -14,11 +14,12 @@ import { Footer } from "./Footer";
 import { PageHeaderAndSubtitle } from "./PageHeaderAndSubtitle";
 import { yellow } from "@mui/material/colors";
 import { ClueConfig } from "src/types/hunt_config";
-import { Encrypt } from "../utils/parse";
+import { Decrypt } from "../utils/parse";
 // import { provider } from "../providers/chrome";
 import { theme } from "./theme";
 import { getURL } from "../providers/runtime";
 import { nonNull } from "../utils/helpers";
+
 
 export interface BeginningPageProps {
   title: React.ReactNode;
@@ -55,7 +56,7 @@ export const CluePage = (props: CluePageProps) => {
   }, [interactive]);
 
   const validateKey = () => {
-    if (interactive && interactive.key === Encrypt(inputKey, encrypted)) {
+    if (interactive && Decrypt(interactive.key, encrypted, huntName) === inputKey) {
       setSolved(true);
     }
   };

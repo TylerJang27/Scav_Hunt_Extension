@@ -36,7 +36,7 @@ const generateJson = (huntConfig:HuntConfig) => {
   const encryptedHunt = {
     ...huntConfig,
     clues: huntConfig.clues.map((clue) => {
-      return EncryptClue(clue, huntConfig.encrypted)
+      return EncryptClue(clue, huntConfig.encrypted, huntConfig.name)
     })
   };
 

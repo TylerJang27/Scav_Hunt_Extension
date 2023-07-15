@@ -1,10 +1,10 @@
 import { ClueConfig, HuntConfig } from "../../src/types/hunt_config";
 import { DEFAULT_BACKGROUND, Encrypt } from "../../src/utils/parse";
 
+const testHuntName = "Test Hunt";
 /**
  * This file contains helper methods used in testing to create hunts and clues
  */
-
 export const coalesce = (val: any, ret: any) => {
   if (val !== undefined) {
     return ret;
@@ -32,10 +32,10 @@ export const makeEncryptedClue = (
   alt?: string
 ): ClueConfig =>
   makeClue(
-    Encrypt(url, true),
-    Encrypt(text, true),
-    coalesce(image, Encrypt(image ?? "", true)),
-    coalesce(image, Encrypt(alt ?? "", true))
+    Encrypt(url, true, testHuntName),
+    Encrypt(text, true, testHuntName),
+    coalesce(image, Encrypt(image ?? "", true, testHuntName)),
+    coalesce(image, Encrypt(alt ?? "", true, testHuntName))
   );
 
 export const makeInteractiveClue = (
@@ -66,19 +66,19 @@ export const makeEncryptedInteractiveClue = (
   alt?: string
 ): ClueConfig =>
   makeInteractiveClue(
-    Encrypt(url, true),
-    Encrypt(text, true),
-    Encrypt(prompt, true),
-    Encrypt(key, true),
-    coalesce(image, Encrypt(image ?? "", true)),
-    coalesce(image, Encrypt(alt ?? "", true))
+    Encrypt(url, true, testHuntName),
+    Encrypt(text, true, testHuntName),
+    Encrypt(prompt, true, testHuntName),
+    Encrypt(key, true, testHuntName),
+    coalesce(image, Encrypt(image ?? "", true, testHuntName)),
+    coalesce(image, Encrypt(alt ?? "", true, testHuntName))
   );
 
 export const makeHunt = (
   clues: ClueConfig[],
   silent: boolean = false
 ): HuntConfig => ({
-  name: "Test Hunt",
+  name: testHuntName,
   description: "A Test Hunt",
   version: "0.1",
   author: "Tester",
@@ -98,7 +98,7 @@ export const makeEncryptedHunt = (
   clues: ClueConfig[],
   silent: boolean = false
 ): HuntConfig => ({
-  name: "Test Hunt",
+  name: testHuntName,
   description: "A Test Hunt",
   version: "0.1",
   author: "Tester",

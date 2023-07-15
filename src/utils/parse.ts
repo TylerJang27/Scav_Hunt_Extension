@@ -177,16 +177,16 @@ export const ParseConfig = (object: any) => {
   }
 };
 
-const secretKey = 'my_secret_key_12345';
 
-export const Encrypt = (text: string, encrypted: boolean) => {
+
+export const Encrypt = (text: string, encrypted: boolean, secretKey: string) => {
   if (encrypted) {
     return encrypt(text, secretKey).toString();
   }
   return text;
 };
 
-export const Decrypt = (text: string, encrypted: boolean) => {
+export const Decrypt = (text: string, encrypted: boolean, secretKey: string) => {
   if (encrypted) {
     const bytes  = decrypt(text, secretKey);
     return bytes.toString(Utf8);
@@ -194,49 +194,49 @@ export const Decrypt = (text: string, encrypted: boolean) => {
   return text;
 };
 
-const wrapDecrypt = (text: string | undefined, encoded: boolean) => {
+const wrapDecrypt = (text: string | undefined, encoded: boolean, secretKey: string) => {
   if (text) {
-    return Decrypt(text, encoded);
+    return Decrypt(text, encoded, secretKey);
   }
   return undefined;
 };
 
-const wrapEncrypt = (text: string | undefined, encoded: boolean) => {
+const wrapEncrypt = (text: string | undefined, encoded: boolean, secretKey: string) => {
   if (text) {
-    return Encrypt(text, encoded);
+    return Encrypt(text, encoded, secretKey);
   }
   return undefined;
 };
 
-export const DecryptClue = (clue: ClueConfig, encrypted: boolean) => ({
+export const DecryptClue = (clue: ClueConfig, encrypted: boolean, secretKey: string) => ({
   /* Decoded fields */
   id: clue.id,
   /* Encoded fields */
-  url: Decrypt(clue.url, encrypted),
-  text: wrapDecrypt(clue.text, encrypted),
-  html: wrapDecrypt(clue.html, encrypted),
-  image: wrapDecrypt(clue.image, encrypted),
-  alt: wrapDecrypt(clue.alt, encrypted),
+  url: Decrypt(clue.url, encrypted, secretKey),
+  text: wrapDecrypt(clue.text, encrypted, secretKey),
+  html: wrapDecrypt(clue.html, encrypted, secretKey),
+  image: wrapDecrypt(clue.image, encrypted, secretKey),
+  alt: wrapDecrypt(clue.alt, encrypted, secretKey),
   interactive: clue.interactive
     ? {
-        prompt: wrapDecrypt(clue.interactive.prompt, encrypted),
+        prompt: wrapDecrypt(clue.interactive.prompt, encrypted, secretKey),
         key: clue.interactive.key,
       }
     : undefined,
 });
 
-export const EncryptClue = (clue: ClueConfig, encrypted: boolean) => ({
+export const EncryptClue = (clue: ClueConfig, encrypted: boolean, secretKey: string) => ({
   /* Decoded fields */
   id: clue.id,
   /* Encoded fields */
-  url: Encrypt(clue.url, encrypted),
-  text: wrapEncrypt(clue.text, encrypted),
-  html: wrapEncrypt(clue.html, encrypted),
-  image: wrapEncrypt(clue.image, encrypted),
-  alt: wrapEncrypt(clue.alt, encrypted),
+  url: Encrypt(clue.url, encrypted, secretKey),
+  text: wrapEncrypt(clue.text, encrypted, secretKey),
+  html: wrapEncrypt(clue.html, encrypted, secretKey),
+  image: wrapEncrypt(clue.image, encrypted, secretKey),
+  alt: wrapEncrypt(clue.alt, encrypted, secretKey),
   interactive: clue.interactive
     ? {
-        prompt: wrapEncrypt(clue.interactive.prompt, encrypted),
+        prompt: wrapEncrypt(clue.interactive.prompt, encrypted, secretKey),
         key: clue.interactive.key,
       }
     : undefined,

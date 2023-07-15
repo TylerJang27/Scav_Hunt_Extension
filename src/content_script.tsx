@@ -37,7 +37,7 @@ const checkHuntForURLMatch = (
   for (let i = 0; i < clues.length; i++) {
     const clue = clues[i];
 
-    const clueUrl = Decrypt(clue.url, encrypted);
+    const clueUrl = Decrypt(clue.url, encrypted, huntConfig.name);
     const reg = new RegExp(clueUrl);
     const currentUrl = getCurrentURL();
     if (!currentUrl.match(reg) && !currentUrl.includes(clueUrl)) {
