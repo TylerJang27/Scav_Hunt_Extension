@@ -14,7 +14,7 @@ import { Footer } from "./Footer";
 import { PageHeaderAndSubtitle } from "./PageHeaderAndSubtitle";
 import { yellow } from "@mui/material/colors";
 import { ClueConfig } from "src/types/hunt_config";
-import { Decrypt } from "../utils/parse";
+import { Decrypt } from "../utils/encrypt";
 // import { provider } from "../providers/chrome";
 import { theme } from "./theme";
 import { getURL } from "../providers/runtime";

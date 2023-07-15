@@ -15,11 +15,7 @@
   "minimum_chrome_version": "46",
   "content_scripts": [
     {
-      "matches": ["http://*/*"],
-      "js": ["js/content_script.js"]
-    },
-    {
-      "matches": ["https://*/*"],
+      "matches": ["http://*/*", "https://*/*"],
       "js": ["js/content_script.js"]
     }
   ],

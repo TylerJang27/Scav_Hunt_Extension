@@ -1,4 +1,4 @@
-import { Decrypt, Encrypt } from "../../src/utils/parse";
+import { Decrypt, Encrypt } from "../../src/utils/encrypt";
 
 const secretKey = "secretKey";
 

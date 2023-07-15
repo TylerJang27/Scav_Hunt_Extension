@@ -10,10 +10,8 @@ import {
 } from "../types/errors";
 import { ClueConfig, HuntConfig } from "../types/hunt_config";
 import { nonNull } from "./helpers";
-import {encrypt, decrypt} from "crypto-js/aes";
-import Utf8 from "crypto-js/enc-utf8";
+import { Decrypt, Encrypt, wrapDecrypt, wrapEncrypt } from "./encrypt";
 
-export const DEFAULT_BACKGROUND =
   "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80";
 
 const ValidateRequiredField = (
@@ -175,37 +173,6 @@ export const ParseConfig = (object: any) => {
     }
     throw error;
   }
-};
-
-
-
-export const Encrypt = (text: string, encrypted: boolean, secretKey: string) => {
-  if (encrypted) {
-    return encrypt(text, secretKey).toString();
-  }
-  return text;
-};
-
-export const Decrypt = (text: string, encrypted: boolean, secretKey: string) => {
-  if (encrypted) {
-    const bytes  = decrypt(text, secretKey);
-    return bytes.toString(Utf8);
-  }
-  return text;
-};
-
-const wrapDecrypt = (text: string | undefined, encoded: boolean, secretKey: string) => {
-  if (text) {
-    return Decrypt(text, encoded, secretKey);
-  }
-  return undefined;
-};
-
-const wrapEncrypt = (text: string | undefined, encoded: boolean, secretKey: string) => {
-  if (text) {
-    return Encrypt(text, encoded, secretKey);
-  }
-  return undefined;
 };
 
 export const DecryptClue = (clue: ClueConfig, encrypted: boolean, secretKey: string) => ({
