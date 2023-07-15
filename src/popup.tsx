@@ -16,7 +16,6 @@ const DEFAULT_LOADING_CLUE = {
   text: "",
 };
 
-
 const loadSolvedClueFromStorage = (
   huntNameCallback: any,
   encryptedCallback: any,

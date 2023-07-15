@@ -115,7 +115,9 @@ it("Install and open tab", () => {
   // Avoid the call to setup the listeners themselves.
   // First install event
   jest.resetAllMocks();
-  addInstalledListenerMock.mockImplementation((callback) => callback({reason: "install"}));
+  addInstalledListenerMock.mockImplementation((callback) =>
+    callback({ reason: "install" })
+  );
 
   setupOnInstalledListener();
   expect(createTabMock).toBeCalledTimes(1);
@@ -123,7 +125,9 @@ it("Install and open tab", () => {
 
   // Update event
   jest.resetAllMocks();
-  addInstalledListenerMock.mockImplementation((callback) => callback({reason: "update"}));
+  addInstalledListenerMock.mockImplementation((callback) =>
+    callback({ reason: "update" })
+  );
 
   setupOnInstalledListener();
   expect(createTabMock).not.toBeCalled();

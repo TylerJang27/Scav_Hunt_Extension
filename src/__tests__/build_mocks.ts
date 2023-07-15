@@ -1,7 +1,4 @@
-import {
-  loadStorageValues,
-  saveStorageValues,
-} from "src/providers/storage";
+import { loadStorageValues, saveStorageValues } from "src/providers/storage";
 import {
   addInstalledListener,
   addMessageListener,

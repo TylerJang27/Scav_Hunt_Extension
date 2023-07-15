@@ -2,7 +2,10 @@
 
 import { logger } from "src/logger";
 import { addOnClickedListener, setBadgeText } from "src/providers/action";
-import { addInstalledListener, addMessageListener } from "src/providers/runtime";
+import {
+  addInstalledListener,
+  addMessageListener,
+} from "src/providers/runtime";
 import { loadStorageValues } from "src/providers/storage";
 import { createTab } from "src/providers/tabs";
 import { EMPTY_OR_INVALID_HUNT } from "src/types/errors";
@@ -12,7 +15,11 @@ const CHROME_INSTALL_REASON = "install";
 
 const openClueCallback = (items: any) => {
   // TODO: TYLER SHOULD WE OPEN THE OPTIONS PAGE WHEN THERES NO HUNT? OR A TUTORIAL?
-  if (items.huntConfig && items.huntConfig.clues && nonNull(items.currentProgress)) {
+  if (
+    items.huntConfig &&
+    items.huntConfig.clues &&
+    nonNull(items.currentProgress)
+  ) {
     if (items.currentProgress == 0) {
       return;
     }
@@ -20,7 +27,9 @@ const openClueCallback = (items: any) => {
     const foundClue = clues[items.currentProgress - 1];
     // TODO: TYLER REMOVE THIS FUNCTIONALITY AND USE MARKDOWN
     if (foundClue.html) {
-      logger.error("HTML functionality is deprecated. Please adjust your hunt.");
+      logger.error(
+        "HTML functionality is deprecated. Please adjust your hunt."
+      );
       // createTab(Decrypt(foundClue.html, encrypted));
       return;
     }
@@ -50,7 +59,7 @@ export const setupMessageListener = () =>
     logger.warn("Invalid request", request);
   });
 
-export const setupOnClickedListener = () => 
+export const setupOnClickedListener = () =>
   addOnClickedListener(() => {
     setBadgeText("");
     loadStorageValues(["huntConfig", "currentProgress"], openClueCallback);

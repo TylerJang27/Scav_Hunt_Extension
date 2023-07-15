@@ -18,7 +18,6 @@ import { theme } from "src/components/theme";
 import { getURL } from "src/providers/runtime";
 import { nonNull } from "src/utils/helpers";
 
-
 export interface BeginningPageProps {
   title: React.ReactNode;
   message: React.ReactNode;
@@ -39,8 +38,7 @@ export const CluePage = (props: CluePageProps) => {
     clue: { id, text, image, alt, interactive },
     error,
   } = props;
-  const imageURL =
-    image && !image.startsWith("http") ? getURL(image) : image;
+  const imageURL = image && !image.startsWith("http") ? getURL(image) : image;
 
   const clueNumber = id > 0 ? `: ${id}` : "";
   const title = `${huntName}${clueNumber}`;
@@ -54,7 +52,10 @@ export const CluePage = (props: CluePageProps) => {
   }, [interactive]);
 
   const validateKey = () => {
-    if (interactive && Decrypt(interactive.key, encrypted, huntName) === inputKey) {
+    if (
+      interactive &&
+      Decrypt(interactive.key, encrypted, huntName) === inputKey
+    ) {
       setSolved(true);
     }
   };
@@ -147,7 +148,6 @@ export const CluePage = (props: CluePageProps) => {
 
 // TODO: TYLER REFACTOR TO MAKE THESE COMMON
 export const BeginningPage = (props: BeginningPageProps) => {
-
   return (
     <>
       <ThemeProvider theme={theme}>

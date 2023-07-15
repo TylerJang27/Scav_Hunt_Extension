@@ -20,7 +20,10 @@ export const Footer = () => {
         >
           <Typography variant="body1" textAlign="center">
             {/* TODO: TYLER ADD OTHER LINKS AND THINGS */}
-            <Link href="https://github.com/TylerJang27/Scav_Hunt_Extension" color={yellow[600]}>
+            <Link
+              href="https://github.com/TylerJang27/Scav_Hunt_Extension"
+              color={yellow[600]}
+            >
               Scavenger Hunt Extension
             </Link>
           </Typography>

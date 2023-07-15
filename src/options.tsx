@@ -371,7 +371,13 @@ const Options = () => {
                 >
                   Submit
                 </Button>
-                <Button variant="outlined" size="medium" onClick={onReset} color="secondary" disabled={hasReset}>
+                <Button
+                  variant="outlined"
+                  size="medium"
+                  onClick={onReset}
+                  color="secondary"
+                  disabled={hasReset}
+                >
                   Clear Hunt
                 </Button>
               </Grid>
@@ -425,5 +431,4 @@ const Options = () => {
   );
 };
 
-Render(<Options />)
-
+Render(<Options />);

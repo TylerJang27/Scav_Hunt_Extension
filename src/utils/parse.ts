@@ -176,7 +176,11 @@ export const ParseConfig = (object: any) => {
   }
 };
 
-export const DecryptClue = (clue: ClueConfig, encrypted: boolean, secretKey: string) => ({
+export const DecryptClue = (
+  clue: ClueConfig,
+  encrypted: boolean,
+  secretKey: string
+) => ({
   /* Decoded fields */
   id: clue.id,
   /* Encoded fields */
@@ -193,7 +197,11 @@ export const DecryptClue = (clue: ClueConfig, encrypted: boolean, secretKey: str
     : undefined,
 });
 
-export const EncryptClue = (clue: ClueConfig, encrypted: boolean, secretKey: string) => ({
+export const EncryptClue = (
+  clue: ClueConfig,
+  encrypted: boolean,
+  secretKey: string
+) => ({
   /* Decoded fields */
   id: clue.id,
   /* Encoded fields */

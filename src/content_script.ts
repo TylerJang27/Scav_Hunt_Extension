@@ -33,7 +33,7 @@ const checkHuntForURLMatch = (
     options: { silent },
   } = huntConfig;
   logger.info(`checking for match among ${clues.length} clues`);
-  
+
   for (let i = 0; i < clues.length; i++) {
     const clue = clues[i];
     // We could check for url earlier, but this is useful for testing fidelity without much cost.

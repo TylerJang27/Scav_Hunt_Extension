@@ -1,5 +1,5 @@
 import { getProvider } from "src/providers/chrome";
 
 export const createTab = (url: string) => {
-    return getProvider().tabs.create({url});
-}
+  return getProvider().tabs.create({ url });
+};

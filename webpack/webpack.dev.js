@@ -13,6 +13,6 @@ module.exports = merge(common, {
     }),
 
     // Use additional logging. Debug and Info are silenced for production.
-    new webpack.NormalModuleReplacementPlugin(/logger\/index.ts/, "./debug.ts")
+    new webpack.NormalModuleReplacementPlugin(/logger\/index.ts/, "./debug.ts"),
   ],
 });

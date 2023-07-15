@@ -3,7 +3,8 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const srcDir = path.join(__dirname, "..", "src");
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
   entry: {
@@ -17,15 +18,20 @@ module.exports = {
   output: {
     path: path.join(__dirname, "../dist/js"),
     filename: "[name].js",
-    clean: true
+    clean: true,
   },
   optimization: {
     splitChunks: {
       name: "vendor",
       chunks(chunk) {
-        return !["background", "popup", "beginning", "encode", "options", "content_script"].includes(
-          chunk.name
-        );
+        return ![
+          "background",
+          "popup",
+          "beginning",
+          "encode",
+          "options",
+          "content_script",
+        ].includes(chunk.name);
       },
     },
   },
@@ -40,7 +46,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      src: path.resolve(srcDir)
+      src: path.resolve(srcDir),
     },
     extensions: [".ts", ".tsx", ".js"],
     fallback: { path: require.resolve("path-browserify") },
