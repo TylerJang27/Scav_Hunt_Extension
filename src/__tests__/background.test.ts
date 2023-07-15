@@ -1,9 +1,10 @@
+import { sampleHunt } from "src/__tests__/create_hunt_config";
 import {
   setupMessageListener,
   setupOnClickedListener,
   setupOnInstalledListener,
 } from "src/background";
-import { sampleHunt } from "src/__tests__/create_hunt_config";
+
 import { buildProviderMocks } from "./build_mocks";
 
 jest.mock("src/providers/action");
@@ -30,24 +31,24 @@ it("Receive messages", () => {
     callback({ status: "Found" }, undefined, undefined),
   );
   setupMessageListener();
-  expect(setBadgeMock).toBeCalledTimes(1);
-  expect(setBadgeMock).toBeCalledWith("1");
+  expect(setBadgeMock).toHaveBeenCalledTimes(1);
+  expect(setBadgeMock).toHaveBeenCalledWith("1");
 
   setBadgeMock.mockReset();
   addMessageListenerMock.mockImplementation((callback) =>
     callback({ status: "Not Found" }, undefined, undefined),
   );
   setupMessageListener();
-  expect(setBadgeMock).toBeCalledTimes(1);
-  expect(setBadgeMock).toBeCalledWith("");
+  expect(setBadgeMock).toHaveBeenCalledTimes(1);
+  expect(setBadgeMock).toHaveBeenCalledWith("");
 
   setBadgeMock.mockReset();
   addMessageListenerMock.mockImplementation((callback) =>
     callback({ status: "Invalid" }, undefined, undefined),
   );
   setupMessageListener();
-  expect(setBadgeMock).toBeCalledTimes(1);
-  expect(setBadgeMock).toBeCalledWith("X");
+  expect(setBadgeMock).toHaveBeenCalledTimes(1);
+  expect(setBadgeMock).toHaveBeenCalledWith("X");
 
   setBadgeMock.mockReset();
   addMessageListenerMock.mockImplementation((callback) =>
@@ -70,9 +71,9 @@ it("Click no progress", () => {
 
   setupOnClickedListener();
 
-  expect(setBadgeMock).toBeCalledTimes(1);
-  expect(setBadgeMock).toBeCalledWith("");
-  expect(createTabMock).not.toBeCalled();
+  expect(setBadgeMock).toHaveBeenCalledTimes(1);
+  expect(setBadgeMock).toHaveBeenCalledWith("");
+  expect(createTabMock).not.toHaveBeenCalled();
 });
 
 it("Click well-formed config", () => {
@@ -88,9 +89,9 @@ it("Click well-formed config", () => {
 
   setupOnClickedListener();
 
-  expect(setBadgeMock).toBeCalledTimes(1);
-  expect(setBadgeMock).toBeCalledWith("");
-  expect(createTabMock).toBeCalledTimes(1);
+  expect(setBadgeMock).toHaveBeenCalledTimes(1);
+  expect(setBadgeMock).toHaveBeenCalledWith("");
+  expect(createTabMock).toHaveBeenCalledTimes(1);
 });
 
 it("Click malformed config", () => {
@@ -106,9 +107,9 @@ it("Click malformed config", () => {
 
   setupOnClickedListener();
 
-  expect(setBadgeMock).toBeCalledTimes(1);
-  expect(setBadgeMock).toBeCalledWith("");
-  expect(createTabMock).not.toBeCalled();
+  expect(setBadgeMock).toHaveBeenCalledTimes(1);
+  expect(setBadgeMock).toHaveBeenCalledWith("");
+  expect(createTabMock).not.toHaveBeenCalled();
 });
 
 it("Install and open tab", () => {
@@ -120,8 +121,8 @@ it("Install and open tab", () => {
   );
 
   setupOnInstalledListener();
-  expect(createTabMock).toBeCalledTimes(1);
-  expect(createTabMock).toBeCalledWith("options.html");
+  expect(createTabMock).toHaveBeenCalledTimes(1);
+  expect(createTabMock).toHaveBeenCalledWith("options.html");
 
   // Update event
   jest.resetAllMocks();
@@ -130,5 +131,5 @@ it("Install and open tab", () => {
   );
 
   setupOnInstalledListener();
-  expect(createTabMock).not.toBeCalled();
+  expect(createTabMock).not.toHaveBeenCalled();
 });

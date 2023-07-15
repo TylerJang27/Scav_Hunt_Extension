@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@emotion/react";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {
   Alert,
   Button,
@@ -13,22 +14,20 @@ import {
   Typography,
 } from "@mui/material";
 import { yellow } from "@mui/material/colors";
-import React, { ChangeEvent, useState } from "react";
-import { useEffect } from "react";
+import path from "path";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { ExitableModal } from "src/components/ExitableModal";
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
+import { theme } from "src/components/theme";
+import { logger } from "src/logger";
+import { resetStorage } from "src/providers/helpers";
+import { getLastError, getURL } from "src/providers/runtime";
+import { saveStorageValues } from "src/providers/storage";
+import { createTab } from "src/providers/tabs";
 import { HuntConfig, SAMPLE_DIR } from "src/types/hunt_config";
 import { HuntSource, Progress } from "src/types/progress";
 import { ParseConfig } from "src/utils/parse";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import path from "path";
-import { logger } from "src/logger";
-import { theme } from "src/components/theme";
-import { saveStorageValues } from "src/providers/storage";
-import { createTab } from "src/providers/tabs";
-import { getLastError, getURL } from "src/providers/runtime";
 import { Render } from "src/utils/root";
-import { resetStorage } from "src/providers/helpers";
 
 interface SourceFormType {
   sourceType: HuntSource;
@@ -43,11 +42,10 @@ interface SourceFormType {
   uploadedError?: Error;
 }
 
-const fetchFromUrl = async (url: string) => {
-  return await fetch(url, {
+const fetchFromUrl = async (url: string) =>
+  await fetch(url, {
     mode: "cors",
   }).then((res) => res.json());
-};
 
 const fetchFromSample = async (samplePath: string) => {
   const url = getURL(path.join(SAMPLE_DIR, samplePath));
@@ -80,7 +78,7 @@ export const saveConfigAndLaunch = (
 
 const getSampleOptions = () => {
   // TODO: TYLER POPULATE THIS WITH MORE DEFAULTS
-  let sampleHuntOptions = new Map<string, string>();
+  const sampleHuntOptions = new Map<string, string>();
   const files = ["hunt.json"];
   files
     .filter((file) => file.endsWith(".json"))
@@ -162,7 +160,7 @@ const Options = () => {
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
       try {
-        var huntData = JSON.parse(event.target?.result as string);
+        const huntData = JSON.parse(event.target?.result as string);
         validateAndSetUploadedConfig(huntData, name);
       } catch (error) {
         setSourceFormState({

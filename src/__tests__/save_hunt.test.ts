@@ -1,5 +1,5 @@
-import { sampleHunt } from "src/__tests__/create_hunt_config";
 import { buildProviderMocks } from "src/__tests__/build_mocks";
+import { sampleHunt } from "src/__tests__/create_hunt_config";
 import { saveConfigAndLaunch } from "src/options";
 import { resetStorage } from "src/providers/helpers";
 
@@ -33,9 +33,9 @@ it("Save config", () => {
   getLastErrorMock.mockReturnValue(undefined);
 
   saveConfigAndLaunch(sampleHunt, "Sample");
-  expect(saveMock).toBeCalledTimes(1);
-  expect(createTabMock).toBeCalledTimes(1);
-  expect(createTabMock).toBeCalledWith("beginning.html");
+  expect(saveMock).toHaveBeenCalledTimes(1);
+  expect(createTabMock).toHaveBeenCalledTimes(1);
+  expect(createTabMock).toHaveBeenCalledWith("beginning.html");
 });
 
 it("Reset config", () => {
@@ -54,5 +54,5 @@ it("Reset config", () => {
   });
 
   resetStorage(() => {});
-  expect(saveMock).toBeCalledTimes(1);
+  expect(saveMock).toHaveBeenCalledTimes(1);
 });

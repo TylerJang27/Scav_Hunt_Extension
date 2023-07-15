@@ -1,40 +1,41 @@
-import React, { useState } from "react";
-import { ClueConfig, HuntConfig } from "src/types/hunt_config";
+import { ThemeProvider } from "@emotion/react";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Button,
   Card,
   CardContent,
   Container,
+  createTheme,
+  Divider,
   FormControl,
   Grid,
-  TextField,
-  createTheme,
-  Select,
-  MenuItem,
+  IconButton,
   List,
   ListItem,
   ListItemText,
-  IconButton,
-  Divider,
+  MenuItem,
+  Select,
+  TextField,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { ThemeProvider } from "@emotion/react";
-import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
+import React, { useState } from "react";
 import { Footer } from "src/components/Footer";
+import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 import { theme } from "src/components/theme";
-import { Render } from "src/utils/root";
-import { ExitableModal } from "./components/ExitableModal";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { ClueConfig, HuntConfig } from "src/types/hunt_config";
 import { EncryptClue } from "src/utils/parse";
+import { Render } from "src/utils/root";
+
+import { ExitableModal } from "./components/ExitableModal";
 
 const generateJson = (huntConfig: HuntConfig) => {
   const encryptedHunt = {
     ...huntConfig,
-    clues: huntConfig.clues.map((clue) => {
-      return EncryptClue(clue, huntConfig.encrypted, huntConfig.name);
-    }),
+    clues: huntConfig.clues.map((clue) =>
+      EncryptClue(clue, huntConfig.encrypted, huntConfig.name),
+    ),
   };
 
   const outputString = JSON.stringify(encryptedHunt, null, "  ");
@@ -226,8 +227,8 @@ const Encode = () => {
                                       aria-label="move up"
                                       disabled={index === 0}
                                       onClick={() => {
-                                        let currClues = [...huntConfig.clues];
-                                        let temp = {
+                                        const currClues = [...huntConfig.clues];
+                                        const temp = {
                                           ...currClues[index],
                                           id: index,
                                         };
@@ -254,8 +255,8 @@ const Encode = () => {
                                         index === huntConfig.clues.length - 1
                                       }
                                       onClick={() => {
-                                        let currClues = [...huntConfig.clues];
-                                        let temp = {
+                                        const currClues = [...huntConfig.clues];
+                                        const temp = {
                                           ...currClues[index],
                                           id: index + 2,
                                         };
@@ -302,7 +303,7 @@ const Encode = () => {
                                   aria-label="delete"
                                   onClick={() => {
                                     // Remove the clue from the list
-                                    let currClues = [...huntConfig.clues];
+                                    const currClues = [...huntConfig.clues];
                                     currClues.splice(index, 1);
 
                                     for (
@@ -445,7 +446,7 @@ const Encode = () => {
               color="primary"
               onClick={() => {
                 // Add the new clue to the list
-                let newClue = {
+                const newClue = {
                   id: createdClueIndex + 1,
                   url: createdClue.url,
                   text: createdClue.text,
@@ -459,7 +460,7 @@ const Encode = () => {
                     clues: [...huntConfig.clues, newClue],
                   });
                 } else {
-                  let currClues = [...huntConfig.clues];
+                  const currClues = [...huntConfig.clues];
                   currClues[createdClueIndex] = newClue;
                   setHuntConfig({
                     ...huntConfig,

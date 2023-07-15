@@ -1,6 +1,6 @@
 import { ClueConfig, HuntConfig } from "src/types/hunt_config";
-import { DEFAULT_BACKGROUND } from "src/utils/parse";
 import { Encrypt } from "src/utils/encrypt";
+import { DEFAULT_BACKGROUND } from "src/utils/parse";
 
 const testHuntName = "Test Hunt";
 /**
@@ -88,9 +88,8 @@ export const makeHunt = (
   options: { silent },
   beginning: "The beginning clue",
   clues: clues.reduce(
-    (ret: ClueConfig[], current: ClueConfig, index: number) => {
-      return ret.concat({ ...current, id: index + 1 });
-    },
+    (ret: ClueConfig[], current: ClueConfig, index: number) =>
+      ret.concat({ ...current, id: index + 1 }),
     [],
   ),
 });
@@ -108,9 +107,8 @@ export const makeEncryptedHunt = (
   options: { silent },
   beginning: "The beginning clue",
   clues: clues.reduce(
-    (ret: ClueConfig[], current: ClueConfig, index: number) => {
-      return ret.concat({ ...current, id: index + 1 });
-    },
+    (ret: ClueConfig[], current: ClueConfig, index: number) =>
+      ret.concat({ ...current, id: index + 1 }),
     [],
   ),
 });

@@ -4,8 +4,8 @@ import { getCurrentURL } from "src/providers/href";
 import { sendMessage } from "src/providers/runtime";
 import { loadStorageValues, saveStorageValues } from "src/providers/storage";
 import { ClueConfig, HuntConfig } from "src/types/hunt_config";
-import { nonNull } from "src/utils/helpers";
 import { Decrypt } from "src/utils/encrypt";
+import { nonNull } from "src/utils/helpers";
 
 /**
  * When a page is loaded:

@@ -1,4 +1,6 @@
-import { loadStorageValues, saveStorageValues } from "src/providers/storage";
+import { addOnClickedListener, setBadgeText } from "src/providers/action";
+import { alertWrapper } from "src/providers/alert";
+import { getCurrentURL } from "src/providers/href";
 import {
   addInstalledListener,
   addMessageListener,
@@ -6,9 +8,7 @@ import {
   getURL,
   sendMessage,
 } from "src/providers/runtime";
-import { getCurrentURL } from "src/providers/href";
-import { alertWrapper } from "src/providers/alert";
-import { addOnClickedListener, setBadgeText } from "src/providers/action";
+import { loadStorageValues, saveStorageValues } from "src/providers/storage";
 import { createTab } from "src/providers/tabs";
 
 export const buildProviderMocks = () => ({

@@ -9,8 +9,8 @@ import {
   XORFieldsError,
 } from "src/types/errors";
 import { ClueConfig, HuntConfig } from "src/types/hunt_config";
-import { nonNull } from "src/utils/helpers";
 import { Decrypt, Encrypt, wrapDecrypt, wrapEncrypt } from "src/utils/encrypt";
+import { nonNull } from "src/utils/helpers";
 
 export const DEFAULT_BACKGROUND =
   "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80";
@@ -47,10 +47,7 @@ const ValidateXORFields = (
   fieldName2: string,
   index?: number,
 ) => {
-  if (
-    (!Boolean(value1) && !Boolean(value2)) ||
-    (Boolean(value1) && Boolean(value2))
-  ) {
+  if ((!value1 && !value2) || (Boolean(value1) && Boolean(value2))) {
     throw new XORFieldsError(value1, fieldName1, value2, fieldName2, index);
   }
 };

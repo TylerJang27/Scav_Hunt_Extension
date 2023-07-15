@@ -8,22 +8,15 @@ export type OnMessageListenerCallback = (
 
 export type OnInstalledListenerCallback = (details: { reason: string }) => void;
 
-export const addMessageListener = (callback: OnMessageListenerCallback) => {
-  return getProvider().runtime.onMessage.addListener(callback);
-};
+export const addMessageListener = (callback: OnMessageListenerCallback) =>
+  getProvider().runtime.onMessage.addListener(callback);
 
-export const addInstalledListener = (callback: OnInstalledListenerCallback) => {
-  return getProvider().runtime.onInstalled.addListener(callback);
-};
+export const addInstalledListener = (callback: OnInstalledListenerCallback) =>
+  getProvider().runtime.onInstalled.addListener(callback);
 
-export const sendMessage = (message: Object) => {
-  return getProvider().runtime.sendMessage(message);
-};
+export const sendMessage = (message: Object) =>
+  getProvider().runtime.sendMessage(message);
 
-export const getURL = (url: string) => {
-  return getProvider().runtime.getURL(url);
-};
+export const getURL = (url: string) => getProvider().runtime.getURL(url);
 
-export const getLastError = () => {
-  return getProvider().runtime.lastError;
-};
+export const getLastError = () => getProvider().runtime.lastError;

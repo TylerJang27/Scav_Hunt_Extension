@@ -1,6 +1,6 @@
+import { logger } from "src/logger";
 import { HuntConfig } from "src/types/hunt_config";
 import { DEFAULT_BACKGROUND } from "src/utils/parse";
-import { logger } from "src/logger";
 
 logger.warn("Using mocked chrome library");
 

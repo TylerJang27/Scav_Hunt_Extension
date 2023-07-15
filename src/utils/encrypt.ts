@@ -1,4 +1,4 @@
-import { encrypt, decrypt } from "crypto-js/aes";
+import { decrypt, encrypt } from "crypto-js/aes";
 import Utf8 from "crypto-js/enc-utf8";
 
 export const Encrypt = (
