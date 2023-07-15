@@ -33,10 +33,11 @@ const checkHuntForURLMatch = (
     options: { silent },
   } = huntConfig;
   logger.info(`checking for match among ${clues.length} clues`);
-  const currentUrl = getCurrentURL();
-
+  
   for (let i = 0; i < clues.length; i++) {
     const clue = clues[i];
+    // We could check for url earlier, but this is useful for testing fidelity without much cost.
+    const currentUrl = getCurrentURL();
     const clueUrl = Decrypt(clue.url, encrypted, huntConfig.name);
     const reg = new RegExp(clueUrl);
     logger.info(`checking ${currentUrl} against ${clueUrl}`);
