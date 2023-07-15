@@ -10,6 +10,8 @@ import {
 } from "../types/errors";
 import { ClueConfig, HuntConfig } from "../types/hunt_config";
 import { nonNull } from "./helpers";
+import {encrypt, decrypt} from "crypto-js/aes";
+import Utf8 from "crypto-js/enc-utf8";
 
 export const DEFAULT_BACKGROUND =
   "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80";
@@ -175,26 +177,19 @@ export const ParseConfig = (object: any) => {
   }
 };
 
+const secretKey = 'my_secret_key_12345';
+
 export const Encrypt = (text: string, encrypted: boolean) => {
   if (encrypted) {
-    const level1 = Buffer.from(text).toString("base64");
-    const level2 = level1.split("");
-    let level3 = "";
-    for (var k = 0; k < level2.length - 1; k++) {
-      level3 = level3.concat(level1.charAt(k) + Math.random().toString(36).charAt(2));
-    }
-    return level3.concat(level2[level2.length - 1] ?? "");
+    return encrypt(text, secretKey).toString();
   }
   return text;
 };
 
 export const Decrypt = (text: string, encrypted: boolean) => {
   if (encrypted) {
-    let level1 = "";
-    for (var k = 0; k < text.length; k += 2) {
-      level1 += text.charAt(k);
-    }
-    return Buffer.from(level1, "base64").toString();
+    const bytes  = decrypt(text, secretKey);
+    return bytes.toString(Utf8);
   }
   return text;
 };

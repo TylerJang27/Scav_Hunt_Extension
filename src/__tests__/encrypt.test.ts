@@ -11,11 +11,7 @@ const inputStrings = [
 it("Encrypt and decrypt", () => {
   inputStrings.forEach((input) => {
     const encrypted = Encrypt(input, true);
-    if (input === "") {
-      expect(encrypted).toEqual(input);
-    } else {
-      expect(encrypted).not.toEqual(input);
-    }
+    expect(encrypted).not.toEqual(input);
     const decrypted = Decrypt(encrypted, true);
     expect(decrypted).toEqual(input);
   });

@@ -29,6 +29,28 @@ import { Render } from "./utils/root";
 import { ExitableModal } from "./components/ExitableModal";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { EncryptClue } from './utils/parse';
+
+
+const generateJson = (huntConfig:HuntConfig) => {
+  const encryptedHunt = {
+    ...huntConfig,
+    clues: huntConfig.clues.map((clue) => {
+      return EncryptClue(clue, huntConfig.encrypted)
+    })
+  };
+
+  const outputString = JSON.stringify(encryptedHunt, null, "  ");
+
+  const blob_gen = new Blob([outputString], {type: 'application/json'});
+  const url_gen = URL.createObjectURL(blob_gen);
+  chrome.downloads.download({
+      url: url_gen,
+      filename: `${huntConfig.name}.json`
+  });
+}
+
+
 
 const Encode = () => {
   const [huntConfig, setHuntConfig] = useState<HuntConfig>({
@@ -273,6 +295,8 @@ const Encode = () => {
                           onClick={() => {
                             // TODO: Trim all strings, encrypt all clues if encrypted is true
                             // TODO: Test line breaks, dump to json string, download json file
+
+                            generateJson(huntConfig);
 
 
                             // const json_gen = generateJson();
