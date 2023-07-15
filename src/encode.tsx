@@ -141,7 +141,7 @@ const Encode = () => {
                           error={
                             huntConfig.background.trim().length === 0 ||
                             !/^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/.test(
-                              huntConfig.background.trim()
+                              huntConfig.background.trim(),
                             )
                           }
                           variant="outlined"
@@ -205,7 +205,7 @@ const Encode = () => {
                             });
                             if (selectedValue === "false") {
                               window.alert(
-                                "The downloaded file will NOT be encrypted and the clues will be displayed as plain text."
+                                "The downloaded file will NOT be encrypted and the clues will be displayed as plain text.",
                               );
                             }
                           }}
@@ -322,7 +322,7 @@ const Encode = () => {
                                   <DeleteIcon />
                                 </IconButton>
                               </ListItem>
-                            )
+                            ),
                           )}
                         </List>
                         <Button

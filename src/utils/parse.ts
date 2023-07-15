@@ -18,7 +18,7 @@ export const DEFAULT_BACKGROUND =
 const ValidateRequiredField = (
   value: any,
   fieldName: string,
-  index?: number
+  index?: number,
 ) => {
   if (!nonNull(value)) {
     throw new MissingFieldError(fieldName, index);
@@ -29,7 +29,7 @@ const ValidateRequiredField = (
 const ValidateRequiredNonEmptyField = (
   value: any,
   fieldName: string,
-  index?: number
+  index?: number,
 ) => {
   if (!nonNull(value)) {
     throw new MissingFieldError(fieldName, index);
@@ -45,7 +45,7 @@ const ValidateXORFields = (
   fieldName1: string,
   value2: any,
   fieldName2: string,
-  index?: number
+  index?: number,
 ) => {
   if (
     (!Boolean(value1) && !Boolean(value2)) ||
@@ -66,7 +66,7 @@ const ValidateVersion = (value: any) => {
 
 const ParseClue = (
   { id, url, text, html, image, alt, interactive }: ClueConfig,
-  index: number
+  index: number,
 ): ClueConfig => {
   const ret = {
     id: ValidateRequiredNonEmptyField(id, "id", index),
@@ -131,9 +131,9 @@ export const ParseConfig = (object: any) => {
       [index, clueAccumulator, errorAccumulator]: [
         number,
         ClueConfig[],
-        ConfigError[]
+        ConfigError[],
       ],
-      clue: any
+      clue: any,
     ) => {
       try {
         return [
@@ -148,7 +148,7 @@ export const ParseConfig = (object: any) => {
         throw error;
       }
     },
-    [0, [], []]
+    [0, [], []],
   );
 
   // Errors at this point are high enough priority that we throw so users can resolve them.
@@ -179,7 +179,7 @@ export const ParseConfig = (object: any) => {
 export const DecryptClue = (
   clue: ClueConfig,
   encrypted: boolean,
-  secretKey: string
+  secretKey: string,
 ) => ({
   /* Decoded fields */
   id: clue.id,
@@ -200,7 +200,7 @@ export const DecryptClue = (
 export const EncryptClue = (
   clue: ClueConfig,
   encrypted: boolean,
-  secretKey: string
+  secretKey: string,
 ) => ({
   /* Decoded fields */
   id: clue.id,

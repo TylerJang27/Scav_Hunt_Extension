@@ -27,7 +27,7 @@ it("Receive messages", () => {
   jest.resetAllMocks();
 
   addMessageListenerMock.mockImplementation((callback) =>
-    callback({ status: "Found" }, undefined, undefined)
+    callback({ status: "Found" }, undefined, undefined),
   );
   setupMessageListener();
   expect(setBadgeMock).toBeCalledTimes(1);
@@ -35,7 +35,7 @@ it("Receive messages", () => {
 
   setBadgeMock.mockReset();
   addMessageListenerMock.mockImplementation((callback) =>
-    callback({ status: "Not Found" }, undefined, undefined)
+    callback({ status: "Not Found" }, undefined, undefined),
   );
   setupMessageListener();
   expect(setBadgeMock).toBeCalledTimes(1);
@@ -43,7 +43,7 @@ it("Receive messages", () => {
 
   setBadgeMock.mockReset();
   addMessageListenerMock.mockImplementation((callback) =>
-    callback({ status: "Invalid" }, undefined, undefined)
+    callback({ status: "Invalid" }, undefined, undefined),
   );
   setupMessageListener();
   expect(setBadgeMock).toBeCalledTimes(1);
@@ -51,7 +51,7 @@ it("Receive messages", () => {
 
   setBadgeMock.mockReset();
   addMessageListenerMock.mockImplementation((callback) =>
-    callback(undefined, undefined, undefined)
+    callback(undefined, undefined, undefined),
   );
   setupMessageListener();
   expect(setBadgeMock).not.toHaveBeenCalled();
@@ -116,7 +116,7 @@ it("Install and open tab", () => {
   // First install event
   jest.resetAllMocks();
   addInstalledListenerMock.mockImplementation((callback) =>
-    callback({ reason: "install" })
+    callback({ reason: "install" }),
   );
 
   setupOnInstalledListener();
@@ -126,7 +126,7 @@ it("Install and open tab", () => {
   // Update event
   jest.resetAllMocks();
   addInstalledListenerMock.mockImplementation((callback) =>
-    callback({ reason: "update" })
+    callback({ reason: "update" }),
   );
 
   setupOnInstalledListener();

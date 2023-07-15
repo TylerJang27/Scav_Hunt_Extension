@@ -8,21 +8,21 @@ import {
 
 export const loadStorageValue = (
   key: StorageKeys,
-  callback: LoadStorageCallback
+  callback: LoadStorageCallback,
 ) => {
   return getProvider().storage.local.get(key, callback);
 };
 
 export const loadStorageValues = (
   keys: StorageKeys[],
-  callback: LoadStorageCallback
+  callback: LoadStorageCallback,
 ) => {
   return getProvider().storage.local.get(keys, callback);
 };
 
 export const saveStorageValues = (
   values: StorageSaveObject,
-  callback: SaveStorageCallback
+  callback: SaveStorageCallback,
 ) => {
   return getProvider().storage.local.set(values, callback);
 };

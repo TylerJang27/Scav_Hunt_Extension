@@ -4,7 +4,7 @@ import Utf8 from "crypto-js/enc-utf8";
 export const Encrypt = (
   text: string,
   encrypted: boolean,
-  secretKey: string
+  secretKey: string,
 ) => {
   if (encrypted) {
     return encrypt(text, secretKey).toString();
@@ -15,7 +15,7 @@ export const Encrypt = (
 export const Decrypt = (
   text: string,
   encrypted: boolean,
-  secretKey: string
+  secretKey: string,
 ) => {
   if (encrypted) {
     const bytes = decrypt(text, secretKey);
@@ -27,7 +27,7 @@ export const Decrypt = (
 export const wrapDecrypt = (
   text: string | undefined,
   encoded: boolean,
-  secretKey: string
+  secretKey: string,
 ) => {
   if (text) {
     return Decrypt(text, encoded, secretKey);
@@ -38,7 +38,7 @@ export const wrapDecrypt = (
 export const wrapEncrypt = (
   text: string | undefined,
   encoded: boolean,
-  secretKey: string
+  secretKey: string,
 ) => {
   if (text) {
     return Encrypt(text, encoded, secretKey);

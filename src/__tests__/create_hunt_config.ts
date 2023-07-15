@@ -17,7 +17,7 @@ export const makeClue = (
   url: string,
   text: string,
   image?: string,
-  alt?: string
+  alt?: string,
 ): ClueConfig => ({
   id: -1,
   url,
@@ -30,13 +30,13 @@ export const makeEncryptedClue = (
   url: string,
   text: string,
   image?: string,
-  alt?: string
+  alt?: string,
 ): ClueConfig =>
   makeClue(
     Encrypt(url, true, testHuntName),
     Encrypt(text, true, testHuntName),
     coalesce(image, Encrypt(image ?? "", true, testHuntName)),
-    coalesce(image, Encrypt(alt ?? "", true, testHuntName))
+    coalesce(image, Encrypt(alt ?? "", true, testHuntName)),
   );
 
 export const makeInteractiveClue = (
@@ -45,7 +45,7 @@ export const makeInteractiveClue = (
   prompt: string,
   key: string,
   image?: string,
-  alt?: string
+  alt?: string,
 ): ClueConfig => ({
   id: -1,
   url,
@@ -64,7 +64,7 @@ export const makeEncryptedInteractiveClue = (
   prompt: string,
   key: string,
   image?: string,
-  alt?: string
+  alt?: string,
 ): ClueConfig =>
   makeInteractiveClue(
     Encrypt(url, true, testHuntName),
@@ -72,12 +72,12 @@ export const makeEncryptedInteractiveClue = (
     Encrypt(prompt, true, testHuntName),
     Encrypt(key, true, testHuntName),
     coalesce(image, Encrypt(image ?? "", true, testHuntName)),
-    coalesce(image, Encrypt(alt ?? "", true, testHuntName))
+    coalesce(image, Encrypt(alt ?? "", true, testHuntName)),
   );
 
 export const makeHunt = (
   clues: ClueConfig[],
-  silent: boolean = false
+  silent: boolean = false,
 ): HuntConfig => ({
   name: testHuntName,
   description: "A Test Hunt",
@@ -91,13 +91,13 @@ export const makeHunt = (
     (ret: ClueConfig[], current: ClueConfig, index: number) => {
       return ret.concat({ ...current, id: index + 1 });
     },
-    []
+    [],
   ),
 });
 
 export const makeEncryptedHunt = (
   clues: ClueConfig[],
-  silent: boolean = false
+  silent: boolean = false,
 ): HuntConfig => ({
   name: testHuntName,
   description: "A Test Hunt",
@@ -111,7 +111,7 @@ export const makeEncryptedHunt = (
     (ret: ClueConfig[], current: ClueConfig, index: number) => {
       return ret.concat({ ...current, id: index + 1 });
     },
-    []
+    [],
   ),
 });
 
@@ -126,7 +126,7 @@ export const sampleClues = [
     "Enter five",
     "five",
     "clue_5_url",
-    "alt_text_5"
+    "alt_text_5",
   ),
 ];
 
@@ -138,7 +138,7 @@ export const sampleEncryptedClues = [
     "google.com/4",
     "Fourth clue",
     "Enter four",
-    "four"
+    "four",
   ),
   makeEncryptedInteractiveClue(
     "google.com/5",
@@ -146,7 +146,7 @@ export const sampleEncryptedClues = [
     "Enter five",
     "five",
     "clue_5_url",
-    "alt_text_5"
+    "alt_text_5",
   ),
 ];
 

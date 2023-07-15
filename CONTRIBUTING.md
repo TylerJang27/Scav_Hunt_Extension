@@ -27,7 +27,7 @@ There are 3 main ways to build and run the Chrome Extension.
 
 To build and run as end users will experience it, simply run:
 
-```
+```bash
 npm install
 npm run build
 ```
@@ -38,7 +38,7 @@ and load the Chrome extension "Load Unpacked" from the `dist/` directory.
 
 To build and run the Chrome Extension, with some additional tooling for development, run:
 
-```
+```bash
 npm install
 npm run watch
 ```
@@ -52,7 +52,7 @@ This provides 2 main differences from the [Build](#build) setup:
 
 To build individual changes and keep track of your changes (such as for UI development), run:
 
-```
+```bash
 npm install
 npm run static
 

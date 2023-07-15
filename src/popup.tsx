@@ -21,7 +21,7 @@ const loadSolvedClueFromStorage = (
   encryptedCallback: any,
   huntBackgroundCallback: any,
   clueCallback: any,
-  errorCallback: any
+  errorCallback: any,
 ) => {
   loadStorageValues(["huntConfig", "currentProgress"], (items: any) => {
     if (!items.huntConfig || !nonNull(items.currentProgress)) {
@@ -39,7 +39,7 @@ const loadSolvedClueFromStorage = (
     const decryptedClue = DecryptClue(
       clues[items.currentProgress - 1],
       encrypted,
-      name
+      name,
     );
 
     huntNameCallback(name);
@@ -63,7 +63,7 @@ const Popup = () => {
       "body { ,height: 100%; background: url('" +
         background +
         "') no-repeat center; background-size: cover; background-position: cover;}",
-      0
+      0,
     );
   };
 
@@ -75,9 +75,9 @@ const Popup = () => {
         setEncrypted,
         backgroundCallback,
         setDecryptedClue,
-        setError
+        setError,
       ),
-    []
+    [],
   );
   return (
     <CluePage

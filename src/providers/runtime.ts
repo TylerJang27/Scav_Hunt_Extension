@@ -3,7 +3,7 @@ import { getProvider } from "src/providers/chrome";
 export type OnMessageListenerCallback = (
   request: any,
   sender: any,
-  sendResponse: any
+  sendResponse: any,
 ) => void;
 
 export type OnInstalledListenerCallback = (details: { reason: string }) => void;

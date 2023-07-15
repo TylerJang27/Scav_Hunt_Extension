@@ -35,7 +35,7 @@ it("Check URL for match", () => {
   });
 
   currentURLMock.mockReturnValue(
-    `http://padding.${sampleHunt.clues[1].url}/padding`
+    `http://padding.${sampleHunt.clues[1].url}/padding`,
   );
 
   // Run the script triggered when a page is loaded.
@@ -65,7 +65,7 @@ it("Check URL for match from in-progress hunt", () => {
   });
 
   currentURLMock.mockReturnValue(
-    `http://padding.${sampleHunt.clues[0].url}/padding`
+    `http://padding.${sampleHunt.clues[0].url}/padding`,
   );
 
   // Run the script triggered when a page is loaded.
@@ -95,7 +95,7 @@ it("Check URL for match from silent hunt", () => {
   });
 
   currentURLMock.mockReturnValue(
-    `http://padding.${sampleSilentHunt.clues[3].url}/padding`
+    `http://padding.${sampleSilentHunt.clues[3].url}/padding`,
   );
 
   // Run the script triggered when a page is loaded.
@@ -125,7 +125,7 @@ it("Check encoded URL for match from in-progress hunt", () => {
   });
 
   currentURLMock.mockReturnValue(
-    `http://padding.${sampleHunt.clues[2].url}/padding`
+    `http://padding.${sampleHunt.clues[2].url}/padding`,
   );
 
   // Run the script triggered when a page is loaded.
@@ -151,7 +151,7 @@ it("Check URL for no match", () => {
   });
 
   currentURLMock.mockReturnValue(
-    "http://random_string_of_not_the_right_url.com"
+    "http://random_string_of_not_the_right_url.com",
   );
 
   // Run the script triggered when a page is loaded.

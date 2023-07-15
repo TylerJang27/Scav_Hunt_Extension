@@ -7,6 +7,6 @@ export const resetStorage = (callback: SaveStorageCallback) => {
       ret[storageKey] = null;
       return ret;
     }, {}),
-    callback
+    callback,
   );
 };

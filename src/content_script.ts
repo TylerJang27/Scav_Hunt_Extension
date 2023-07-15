@@ -25,7 +25,7 @@ const CLUE_FOUND_TEXT =
 /* Parse hunt config and current page */
 
 const checkHuntForURLMatch = (
-  huntConfig: HuntConfig
+  huntConfig: HuntConfig,
 ): ClueConfig | undefined => {
   const {
     encrypted,
@@ -72,7 +72,7 @@ const sendClueFound = (maxProgress: number, solvedClue: ClueConfig) => {
         currentProgress > maxProgress ? currentProgress : maxProgress,
       currentProgress,
     },
-    sendClueFoundMessage
+    sendClueFoundMessage,
   );
 };
 

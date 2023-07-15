@@ -8,7 +8,7 @@ export interface PageHeaderAndSubtitleProps {
 }
 
 export const PageHeaderAndSubtitle: React.FC<PageHeaderAndSubtitleProps> = (
-  props: PageHeaderAndSubtitleProps
+  props: PageHeaderAndSubtitleProps,
 ) => {
   const theme = useTheme();
   return (

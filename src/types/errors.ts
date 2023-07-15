@@ -15,8 +15,8 @@ export class UnsupportedVersionError extends ConfigError {
   constructor(version: string) {
     super(
       `Supplied version ${version}. Version must be one of [${SUPPORTED_VERSIONS.join(
-        ", "
-      )}]`
+        ", ",
+      )}]`,
     );
 
     Object.setPrototypeOf(this, UnsupportedVersionError.prototype);
@@ -54,15 +54,15 @@ export class XORFieldsError extends ConfigError {
     fieldName1: string,
     value2: any,
     fieldName2: string,
-    index?: number
+    index?: number,
   ) {
     if (index) {
       super(
-        `Only one of ${fieldName1} and ${fieldName2} can be set in clue index ${index}. Got ${value1} and ${value2}`
+        `Only one of ${fieldName1} and ${fieldName2} can be set in clue index ${index}. Got ${value1} and ${value2}`,
       );
     } else {
       super(
-        `Only one of ${fieldName1} and ${fieldName2}. Got ${value1} and ${value2}`
+        `Only one of ${fieldName1} and ${fieldName2}. Got ${value1} and ${value2}`,
       );
     }
     this.index = index;
@@ -90,10 +90,10 @@ export class TooFewObjectsError extends ConfigError {
   constructor(
     fieldName: string,
     minimumSize: number = 1,
-    provided: number = 0
+    provided: number = 0,
   ) {
     super(
-      `Field ${fieldName} requires at least ${minimumSize} objects. Received ${provided}`
+      `Field ${fieldName} requires at least ${minimumSize} objects. Received ${provided}`,
     );
 
     Object.setPrototypeOf(this, TooFewObjectsError.prototype);
@@ -106,7 +106,7 @@ export const MAXIMUM_SIZE = 200;
 export class FileTooLargeError extends ConfigError {
   constructor(size: number) {
     super(
-      `Provided config of size ${size} exceeds maximum size ${MAXIMUM_SIZE}`
+      `Provided config of size ${size} exceeds maximum size ${MAXIMUM_SIZE}`,
     );
 
     Object.setPrototypeOf(this, FileTooLargeError.prototype);

@@ -17,7 +17,7 @@ module.exports = merge(common, {
     // https://webpack.js.org/plugins/normal-module-replacement-plugin/#advanced-example
     new webpack.NormalModuleReplacementPlugin(
       /providers\/chrome.ts/,
-      "./__mocks__/chrome.ts"
+      "./__mocks__/chrome.ts",
     ),
     new webpack.NormalModuleReplacementPlugin(/logger\/index.ts/, "./debug.ts"),
   ],

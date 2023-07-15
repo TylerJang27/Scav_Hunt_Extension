@@ -13,7 +13,7 @@ const loadBeginningFromStorage = (callback: LoadStorageCallback) => {
 const Beginning = () => {
   const [huntName, setHuntName] = useState<string>("Scavenger Hunt");
   const [beginningText, setBeginningText] = useState<string>(
-    "Empty beginning text. Please reset the hunt."
+    "Empty beginning text. Please reset the hunt.",
   );
 
   useEffect(
@@ -27,7 +27,7 @@ const Beginning = () => {
             "body { ,height: 100%; background: url('" +
               background +
               "') no-repeat center; background-size: cover; background-position: cover;}",
-            0
+            0,
           );
           // Set beginning text
           setBeginningText(beginning);
@@ -36,7 +36,7 @@ const Beginning = () => {
           logger.warn("No hunt information found. Please reset the hunt.");
         }
       }),
-    []
+    [],
   );
 
   return <BeginningPage title={huntName} message={beginningText} />;

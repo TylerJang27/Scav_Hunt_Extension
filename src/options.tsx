@@ -56,7 +56,7 @@ const fetchFromSample = async (samplePath: string) => {
 
 export const saveConfigAndLaunch = (
   huntConfig: HuntConfig,
-  sourceType: HuntSource
+  sourceType: HuntSource,
 ) => {
   // Save config and hunt progress to local storage
   const progress: Progress = {
@@ -107,7 +107,7 @@ const Options = () => {
 
   // TODO: TYLER RENDER ERRORS
   const [validationError, setValidationError] = useState<Error | undefined>(
-    undefined
+    undefined,
   );
   const [sampleModalOpen, setSampleModalOpen] = useState<boolean>(false);
 
@@ -127,7 +127,7 @@ const Options = () => {
     } else {
       logger.warn(
         "Error: unknown condition reached. Please refresh the page.",
-        sourceFormState.sourceType
+        sourceFormState.sourceType,
       );
     }
     return false;
@@ -209,7 +209,7 @@ const Options = () => {
       } else {
         logger.warn(
           "Error: unknown condition reached. Please refresh the page.",
-          sourceType
+          sourceType,
         );
       }
     } catch (error) {
@@ -270,7 +270,7 @@ const Options = () => {
                           >
                             <>
                               {sampleHuntOptions.get(
-                                sourceFormState.samplePath
+                                sourceFormState.samplePath,
                               ) ?? "Unknown name"}
                               <ArrowDropDownIcon />
                               {/* TODO: TYLER ADD DROPDOWN ICON */}
@@ -421,7 +421,7 @@ const Options = () => {
                     label={sampleName}
                     sx={{ textTransform: "capitalize" }}
                   />
-                )
+                ),
               )}
             </RadioGroup>
           </FormControl>

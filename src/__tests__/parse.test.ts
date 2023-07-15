@@ -34,7 +34,7 @@ fs.readdirSync(PATH_TO_BAD_TEST_DATA).forEach((version) => {
         const testName = path.parse(testFile).name;
         const testFilePath = path.join(testDataVersionPath, testFile);
         const huntConfigInput = JSON.parse(
-          fs.readFileSync(testFilePath).toString()
+          fs.readFileSync(testFilePath).toString(),
         );
 
         const expectedMessage = failureMessages.get(testName);
@@ -60,7 +60,7 @@ fs.readdirSync(PATH_TO_GOOD_TEST_DATA).forEach((version) => {
       it(testFile, () => {
         const testFilePath = path.join(testDataVersionPath, testFile);
         const huntConfigInput = JSON.parse(
-          fs.readFileSync(testFilePath).toString()
+          fs.readFileSync(testFilePath).toString(),
         );
 
         expect(ParseConfig(huntConfigInput)).toMatchSnapshot();

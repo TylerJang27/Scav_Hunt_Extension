@@ -28,7 +28,7 @@ const openClueCallback = (items: any) => {
     // TODO: TYLER REMOVE THIS FUNCTIONALITY AND USE MARKDOWN
     if (foundClue.html) {
       logger.error(
-        "HTML functionality is deprecated. Please adjust your hunt."
+        "HTML functionality is deprecated. Please adjust your hunt.",
       );
       // createTab(Decrypt(foundClue.html, encrypted));
       return;
