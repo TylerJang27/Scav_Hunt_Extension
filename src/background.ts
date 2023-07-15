@@ -1,22 +1,12 @@
 // Chrome manifest v3 migrated from a background worker to service worker
 
-<<<<<<< HEAD
-import { logger } from "./logger";
-import { addOnClickedListener, setBadgeText } from "./providers/action";
-import { addInstalledListener, addMessageListener } from "./providers/runtime";
-import { loadStorageValues } from "./providers/storage";
-import { createTab } from "./providers/tabs";
-import { EMPTY_OR_INVALID_HUNT } from "./types/errors";
-import { nonNull } from "./utils/helpers";
-=======
 import { logger } from "src/logger";
 import { addOnClickedListener, setBadgeText } from "src/providers/action";
-import { addMessageListener } from "src/providers/runtime";
+import { addInstalledListener, addMessageListener } from "src/providers/runtime";
 import { loadStorageValues } from "src/providers/storage";
 import { createTab } from "src/providers/tabs";
 import { EMPTY_OR_INVALID_HUNT } from "src/types/errors";
 import { nonNull } from "src/utils/helpers";
->>>>>>> 705c25b... absolute paths for webpack things, not yet for tests
 
 const CHROME_INSTALL_REASON = "install";
 
