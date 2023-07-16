@@ -4,6 +4,7 @@ import { getCurrentURL } from "src/providers/href";
 import { sendMessage } from "src/providers/runtime";
 import { loadStorageValues, saveStorageValues } from "src/providers/storage";
 import { ClueConfig, HuntConfig } from "src/types/hunt_config";
+import { SomeProgress } from "src/types/progress";
 import { Decrypt } from "src/utils/encrypt";
 import { nonNull } from "src/utils/helpers";
 
@@ -90,13 +91,13 @@ const sendEmptyOrInvalidHunt = () => {
 
 /* Handle storage and page */
 
-const loadHuntCallback = (items: any) => {
+const loadHuntCallback = (items: SomeProgress) => {
   logger.info(items);
   try {
     if (items.huntConfig && nonNull(items.maxProgress)) {
-      const urlMatchClue = checkHuntForURLMatch(items.huntConfig as HuntConfig);
+      const urlMatchClue = checkHuntForURLMatch(items.huntConfig);
       if (urlMatchClue) {
-        sendClueFound(items.maxProgress, urlMatchClue);
+        sendClueFound(items.maxProgress!, urlMatchClue);
       } else {
         sendClueNotFound();
       }

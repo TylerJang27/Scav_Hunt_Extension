@@ -1,3 +1,4 @@
+// trunk-ignore-all(eslint/@typescript-eslint/ban-types)
 import { logger } from "src/logger";
 import { HuntConfig } from "src/types/hunt_config";
 import { DEFAULT_BACKGROUND } from "src/utils/parse";
@@ -56,6 +57,7 @@ const storageGetter = (items: string | string[], callback: Function) => {
     let k: keyof typeof defaultReturnValues;
     for (k in defaultReturnValues) {
       if (k == items) {
+        // trunk-ignore(eslint/@typescript-eslint/no-unsafe-member-access)
         ret[k] = defaultReturnValues[k];
         break;
       }
@@ -64,6 +66,7 @@ const storageGetter = (items: string | string[], callback: Function) => {
     let k: keyof typeof defaultReturnValues;
     for (k in defaultReturnValues) {
       if (items.includes(k)) {
+        // trunk-ignore(eslint/@typescript-eslint/no-unsafe-member-access)
         ret[k] = defaultReturnValues[k];
       }
     }

@@ -19,7 +19,7 @@ const ValidateRequiredField = (
   value: any,
   fieldName: string,
   index?: number,
-) => {
+): any => {
   if (!nonNull(value)) {
     throw new MissingFieldError(fieldName, index);
   }
@@ -30,7 +30,7 @@ const ValidateRequiredNonEmptyField = (
   value: any,
   fieldName: string,
   index?: number,
-) => {
+): any => {
   if (!nonNull(value)) {
     throw new MissingFieldError(fieldName, index);
   }
@@ -52,7 +52,7 @@ const ValidateXORFields = (
   }
 };
 
-const ValidateVersion = (value: any) => {
+const ValidateVersion = (value: string): string => {
   if (!nonNull(value)) {
     throw new MissingFieldError("version");
   } else if (!SUPPORTED_VERSIONS.includes(value)) {
@@ -66,8 +66,8 @@ const ParseClue = (
   index: number,
 ): ClueConfig => {
   const ret = {
-    id: ValidateRequiredNonEmptyField(id, "id", index),
-    url: ValidateRequiredNonEmptyField(url, "url", index),
+    id: ValidateRequiredNonEmptyField(id, "id", index) as number,
+    url: ValidateRequiredNonEmptyField(url, "url", index) as string,
     text: text,
     html: html,
     image: image,
@@ -106,36 +106,38 @@ const ParseHuntOptions = ({
   options = { silent: false },
   beginning,
 }: HuntConfig): HuntConfig => ({
-  name: ValidateRequiredNonEmptyField(name, "name"),
-  description: ValidateRequiredField(description, "description"),
+  name: ValidateRequiredNonEmptyField(name, "name") as string,
+  description: ValidateRequiredField(description, "description") as string,
   version: ValidateVersion(version),
-  author: ValidateRequiredField(author, "author"),
+  author: ValidateRequiredField(author, "author") as string,
   encrypted: encrypted,
   background: background,
   options: options,
-  beginning: ValidateRequiredNonEmptyField(beginning, "beginning"),
+  beginning: ValidateRequiredNonEmptyField(beginning, "beginning") as string,
   clues: [],
 });
 
 export const ParseConfig = (object: any) => {
   // Parse clues
+  // trunk-ignore(eslint/@typescript-eslint/no-unsafe-member-access)
   if (!object.clues || object.clues.length === 0) {
     throw new MissingValueError("clues");
   }
 
-  const [_index, clues, errors] = object.clues.reduce(
+  // trunk-ignore(eslint)
+  const [_, clues, errors] = object.clues.reduce(
     (
       [index, clueAccumulator, errorAccumulator]: [
         number,
         ClueConfig[],
         ConfigError[],
       ],
-      clue: any,
+      clue: ClueConfig,
     ) => {
       try {
         return [
           index + 1,
-          clueAccumulator.concat(ParseClue(clue, index++)),
+          clueAccumulator.concat(ParseClue(clue, index)),
           errorAccumulator,
         ];
       } catch (error) {
@@ -145,29 +147,31 @@ export const ParseConfig = (object: any) => {
         throw error;
       }
     },
-    [0, [], []],
+    [0, [] as ClueConfig[], [] as ConfigError[]],
   );
+  const parsedClues = clues as ClueConfig[];
+  const parsedErrors = errors as ConfigError[];
 
   // Errors at this point are high enough priority that we throw so users can resolve them.
-  if (errors.length) {
-    throw new BulkError(errors);
+  if (parsedErrors.length) {
+    throw new BulkError(parsedErrors);
   }
 
   try {
     // Parse hunt config
-    const huntConfig: HuntConfig = ParseHuntOptions(object);
-    ValidateClues(clues);
-    huntConfig.clues = clues;
+    const huntConfig: HuntConfig = ParseHuntOptions(object as HuntConfig);
+    ValidateClues(parsedClues);
+    huntConfig.clues = parsedClues;
 
     // Throw bulk error, config errors first
-    if (errors.length) {
-      throw new BulkError(errors);
+    if (parsedErrors.length) {
+      throw new BulkError(parsedErrors);
     }
     return huntConfig;
   } catch (error) {
     // Throw bulk error with clue config errors
     if (error instanceof ConfigError) {
-      throw new BulkError([error].concat(errors));
+      throw new BulkError([error].concat(parsedErrors));
     }
     throw error;
   }

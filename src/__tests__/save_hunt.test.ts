@@ -1,5 +1,6 @@
 import { buildProviderMocks } from "src/__tests__/build_mocks";
 import { sampleHunt } from "src/__tests__/create_hunt_config";
+// trunk-ignore(eslint/import/extensions)
 import { saveConfigAndLaunch } from "src/options";
 import { resetStorage } from "src/providers/helpers";
 

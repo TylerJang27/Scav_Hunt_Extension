@@ -9,7 +9,7 @@ const PATH_TO_GOOD_TEST_DATA = path.join(PATH_TO_TEST_DATA, "good");
 const failureMessages = new Map<string, string | RegExp>([
   [
     "bad_version",
-    /Supplied version 0.\d. Version must be one of \[((1.\d)(\, )?)+\]/,
+    /Supplied version 0.\d. Version must be one of \[((1.\d)(, )?)+\]/,
   ],
   ["bad_index", "1"],
   ["duplicate_index", "1"],
@@ -30,9 +30,11 @@ fs.readdirSync(PATH_TO_BAD_TEST_DATA).forEach((version) => {
       .filter((value) => value.endsWith(".json"));
 
     testFiles.forEach((testFile) => {
+      // trunk-ignore(eslint/jest/valid-title)
       it(testFile, () => {
         const testName = path.parse(testFile).name;
         const testFilePath = path.join(testDataVersionPath, testFile);
+        // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
         const huntConfigInput = JSON.parse(
           fs.readFileSync(testFilePath).toString(),
         );
@@ -57,8 +59,10 @@ fs.readdirSync(PATH_TO_GOOD_TEST_DATA).forEach((version) => {
       .filter((value) => value.endsWith(".json"));
 
     testFiles.forEach((testFile) => {
+      // trunk-ignore(eslint/jest/valid-title)
       it(testFile, () => {
         const testFilePath = path.join(testDataVersionPath, testFile);
+        // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
         const huntConfigInput = JSON.parse(
           fs.readFileSync(testFilePath).toString(),
         );

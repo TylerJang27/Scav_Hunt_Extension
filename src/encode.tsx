@@ -8,7 +8,6 @@ import {
   Card,
   CardContent,
   Container,
-  createTheme,
   Divider,
   FormControl,
   Grid,
@@ -21,14 +20,17 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
+// trunk-ignore(eslint/import/extensions)
+import { ExitableModal } from "src/components/ExitableModal";
+// trunk-ignore(eslint/import/extensions)
 import { Footer } from "src/components/Footer";
+// trunk-ignore(eslint/import/extensions)
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 import { theme } from "src/components/theme";
 import { ClueConfig, HuntConfig } from "src/types/hunt_config";
 import { EncryptClue } from "src/utils/parse";
+// trunk-ignore(eslint/import/extensions)
 import { Render } from "src/utils/root";
-
-import { ExitableModal } from "./components/ExitableModal";
 
 const generateJson = (huntConfig: HuntConfig) => {
   const encryptedHunt = {
@@ -141,7 +143,7 @@ const Encode = () => {
                           required
                           error={
                             huntConfig.background.trim().length === 0 ||
-                            !/^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/.test(
+                            !/^https?:\/\/[\w-]+(\.[\w-]+)+[/#?]?.*$/.test(
                               huntConfig.background.trim(),
                             )
                           }
@@ -215,7 +217,6 @@ const Encode = () => {
                           <MenuItem value="false">False</MenuItem>
                         </Select>
                         <br />
-                        {/* TODO: RENDER THE LIST OF CLUES IN huntConfig as cards with their own summary and index and edit/delete button */}
                         <List>
                           {huntConfig.clues.map(
                             ({ id, url, text, image, alt }, index) => (

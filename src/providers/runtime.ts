@@ -14,7 +14,7 @@ export const addMessageListener = (callback: OnMessageListenerCallback) =>
 export const addInstalledListener = (callback: OnInstalledListenerCallback) =>
   getProvider().runtime.onInstalled.addListener(callback);
 
-export const sendMessage = (message: Object) =>
+export const sendMessage = (message: unknown) =>
   getProvider().runtime.sendMessage(message);
 
 export const getURL = (url: string) => getProvider().runtime.getURL(url);

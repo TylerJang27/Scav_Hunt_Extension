@@ -6,7 +6,7 @@ const testHuntName = "Test Hunt";
 /**
  * This file contains helper methods used in testing to create hunts and clues
  */
-export const coalesce = (val: any, ret: any) => {
+export const coalesce = (val: any, ret: any): any => {
   if (val !== undefined) {
     return ret;
   }
@@ -35,8 +35,10 @@ export const makeEncryptedClue = (
   makeClue(
     Encrypt(url, true, testHuntName),
     Encrypt(text, true, testHuntName),
+    // trunk-ignore-begin(eslint/@typescript-eslint/no-unsafe-argument)
     coalesce(image, Encrypt(image ?? "", true, testHuntName)),
     coalesce(image, Encrypt(alt ?? "", true, testHuntName)),
+    // trunk-ignore-end(eslint/@typescript-eslint/no-unsafe-argument)
   );
 
 export const makeInteractiveClue = (
@@ -71,8 +73,10 @@ export const makeEncryptedInteractiveClue = (
     Encrypt(text, true, testHuntName),
     Encrypt(prompt, true, testHuntName),
     Encrypt(key, true, testHuntName),
+    // trunk-ignore-begin(eslint/@typescript-eslint/no-unsafe-argument)
     coalesce(image, Encrypt(image ?? "", true, testHuntName)),
     coalesce(image, Encrypt(alt ?? "", true, testHuntName)),
+    // trunk-ignore-end(eslint/@typescript-eslint/no-unsafe-argument)
   );
 
 export const makeHunt = (

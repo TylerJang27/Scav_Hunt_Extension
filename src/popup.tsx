@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+// trunk-ignore(eslint/import/extensions)
 import { CluePage } from "src/components/CluePage";
 import { loadStorageValues } from "src/providers/storage";
 import {
@@ -6,8 +7,10 @@ import {
   UNKNOWN_ERROR_RESET_HUNT,
 } from "src/types/errors";
 import { ClueConfig } from "src/types/hunt_config";
+import { SomeProgress } from "src/types/progress";
 import { nonNull } from "src/utils/helpers";
 import { DecryptClue } from "src/utils/parse";
+// trunk-ignore(eslint/import/extensions)
 import { Render } from "src/utils/root";
 
 const DEFAULT_LOADING_CLUE = {
@@ -17,36 +20,39 @@ const DEFAULT_LOADING_CLUE = {
 };
 
 const loadSolvedClueFromStorage = (
-  huntNameCallback: any,
-  encryptedCallback: any,
-  huntBackgroundCallback: any,
-  clueCallback: any,
-  errorCallback: any,
+  huntNameCallback: (item: string) => void,
+  encryptedCallback: (item: boolean) => void,
+  huntBackgroundCallback: (item: string) => void,
+  clueCallback: (item: ClueConfig) => void,
+  errorCallback: (item: string) => void,
 ) => {
-  loadStorageValues(["huntConfig", "currentProgress"], (items: any) => {
-    if (!items.huntConfig || !nonNull(items.currentProgress)) {
-      errorCallback(EMPTY_OR_INVALID_HUNT);
-      return;
-    }
+  loadStorageValues(
+    ["huntConfig", "currentProgress"],
+    (items: SomeProgress) => {
+      if (!items.huntConfig || !nonNull(items.currentProgress)) {
+        errorCallback(EMPTY_OR_INVALID_HUNT);
+        return;
+      }
 
-    if (items.currentProgress === 0) {
-      // TODO: TYLER SHOULD WE OPEN THE OPTIONS PAGE? OR A TUTORIAL?
-      errorCallback(UNKNOWN_ERROR_RESET_HUNT);
-      return;
-    }
+      if (items.currentProgress === 0) {
+        // TODO: TYLER SHOULD WE OPEN THE OPTIONS PAGE? OR A TUTORIAL?
+        errorCallback(UNKNOWN_ERROR_RESET_HUNT);
+        return;
+      }
 
-    const { name, encrypted, background, clues } = items.huntConfig;
-    const decryptedClue = DecryptClue(
-      clues[items.currentProgress - 1],
-      encrypted,
-      name,
-    );
+      const { name, encrypted, background, clues } = items.huntConfig;
+      const decryptedClue = DecryptClue(
+        clues[items.currentProgress! - 1],
+        encrypted,
+        name,
+      );
 
-    huntNameCallback(name);
-    encryptedCallback(encrypted);
-    huntBackgroundCallback(background);
-    clueCallback(decryptedClue);
-  });
+      huntNameCallback(name);
+      encryptedCallback(encrypted);
+      huntBackgroundCallback(background);
+      clueCallback(decryptedClue);
+    },
+  );
 };
 
 const Popup = () => {

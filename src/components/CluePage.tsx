@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+// trunk-ignore(eslint/import/extensions)
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 import { theme } from "src/components/theme";
 import { getURL } from "src/providers/runtime";
@@ -17,6 +18,7 @@ import { ClueConfig } from "src/types/hunt_config";
 import { Decrypt } from "src/utils/encrypt";
 import { nonNull } from "src/utils/helpers";
 
+// trunk-ignore(eslint/import/extensions)
 import { Footer } from "./Footer";
 
 export interface BeginningPageProps {

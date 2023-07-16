@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+// trunk-ignore(eslint/import/extensions)
 import { BeginningPage } from "src/components/CluePage";
 import { logger } from "src/logger";
 import { loadStorageValue } from "src/providers/storage";
 import { LoadStorageCallback } from "src/providers/types";
+import { SomeProgress } from "src/types/progress";
+// trunk-ignore(eslint/import/extensions)
 import { Render } from "src/utils/root";
 
 const loadBeginningFromStorage = (callback: LoadStorageCallback) => {
@@ -18,7 +21,7 @@ const Beginning = () => {
 
   useEffect(
     () =>
-      loadBeginningFromStorage((items: any) => {
+      loadBeginningFromStorage((items: SomeProgress) => {
         if (items.huntConfig) {
           const { background, beginning, name } = items.huntConfig;
           // Set background image

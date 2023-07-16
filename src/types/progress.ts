@@ -10,6 +10,14 @@ export interface Progress {
   // TODO: TYLER DOES THIS NEED A SOURCEUPDATES?
 }
 
+export interface SomeProgress {
+  sourceType?: HuntSource;
+  huntConfig?: HuntConfig;
+  maxProgress?: number;
+  currentProgress?: number;
+  // TODO: TYLER DOES THIS NEED A SOURCEUPDATES?
+}
+
 export interface SolvedOptions {
   encrypted: boolean;
   background: string;
