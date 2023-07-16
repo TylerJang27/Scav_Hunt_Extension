@@ -1,5 +1,5 @@
 {
-  "name": "Scavenger Hunt Chrome Extension",
+  "name": "scavenger-hunt-chrome-extension",
   "version": "0.9.1",
   "description": "Create and Run Chrome Extension Scavenger Hunts",
   "repository": {
@@ -57,6 +57,9 @@
     "webpack-cli": "^4.0.0",
     "webpack-merge": "^5.0.0"
   },
+  "bundleDependencies": [
+    "scavenger-hunt-chrome-extension"
+  ],
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
     "build": "webpack --config webpack/webpack.prod.js",
