@@ -1,0 +1,143 @@
+module.exports = {
+  root: true,
+
+  env: { node: true },
+
+  plugins: ["prefer-arrow-functions", "simple-import-sort"],
+
+  extends: [
+    // Order matters
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:node/recommended",
+    "prettier",
+  ],
+
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: "tsconfig.json",
+  },
+
+  ignorePatterns: ["webpack/**", "jest.config.js", "jest_setup.ts"],
+
+  rules: {
+    // Turn off base eslint rules in lieu of @typescript-eslint rules
+    "no-return-await": "off",
+    "no-shadow": "off",
+    "no-unused-expressions": "off",
+    "no-unused-vars": "off",
+    "no-use-before-define": "off",
+    "no-useless-constructor": "off",
+    "react/jsx-pascal-case": "error",
+    "@typescript-eslint/lines-between-class-members": [
+      "error",
+      "always",
+      { exceptAfterSingleLine: true },
+    ],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      { selector: "typeLike", format: ["PascalCase"] },
+      { selector: "function", format: ["camelCase"] },
+      {
+        selector: "variable",
+        modifiers: ["global", "const"],
+        // The plugin can't differentiate between:
+        // - values, which should be UPPER_CASE
+        // - arrow functions, which should be camelCase
+        // - react components, which should be PascalCase
+        format: ["UPPER_CASE", "camelCase", "PascalCase"],
+      },
+    ],
+    "@typescript-eslint/no-shadow": "error",
+    "@typescript-eslint/no-unused-expressions": ["error"],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+    ],
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/no-useless-constructor": ["error"],
+    "@typescript-eslint/no-explicit-any": "off",
+    "class-methods-use-this": "off",
+    curly: "error",
+    "func-names": ["error", "as-needed"],
+    "func-style": ["error", "expression", { allowArrowFunctions: true }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      { js: "never", ts: "never", jsx: "never", tsx: "never" },
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        devDependencies: ["**/*.test.ts", "**/__tests__/**", "jest.config.js"],
+      },
+    ],
+    "import/no-unresolved": "off",
+    "import/prefer-default-export": "off",
+    "lines-between-class-members": "off",
+    "max-len": [
+      "error",
+      {
+        code: 120,
+        comments: 130,
+        tabWidth: 2,
+        ignoreComments: false,
+        ignoreTrailingComments: false,
+        ignoreUrls: true,
+        ignoreStrings: true,
+        ignoreTemplateLiterals: true,
+        ignoreRegExpLiterals: true,
+      },
+    ],
+    "no-continue": "off",
+    "no-param-reassign": ["error", { props: false }],
+    "no-restricted-syntax": "off",
+    "node/no-extraneous-import": [
+      "error",
+      { allowModules: ["scavenger-hunt-chrome-extension"] },
+    ],
+    "node/no-unpublished-import": "off",
+    "node/no-missing-import": "off",
+    "node/no-unsupported-features/es-syntax": [
+      "error",
+      { ignores: ["modules", "dynamicImport"] },
+    ],
+    "prefer-arrow-functions/prefer-arrow-functions": [
+      "error", // only allow arrow functions
+      { returnStyle: "implicit" }, // required to be set for autofixes
+    ],
+    "simple-import-sort/exports": "error",
+    "simple-import-sort/imports": "error",
+  },
+
+  settings: {
+    "import/resolver": {
+      node: {
+        preserveSymlinks: true,
+        realPath: function (a) {
+          return a;
+        },
+        // preserveSymlinksMain: true
+        // realPath: true
+      },
+      typescript: {
+        alwaysTryTypes: true,
+        project: "<root>",
+      },
+    },
+  },
+
+  overrides: [
+    {
+      files: ["**/*test.ts"],
+      env: { jest: true },
+      plugins: ["jest"],
+      extends: ["plugin:jest/recommended"],
+    },
+  ],
+};
