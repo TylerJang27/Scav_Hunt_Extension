@@ -1,6 +1,7 @@
 import {
   setupMessageListener,
   setupOnClickedListener,
+  setupOnInstalledListener,
 } from "../../src/background";
 import { sampleHunt } from "./create_hunt_config";
 import { buildProviderMocks } from "./build_mocks";
@@ -14,6 +15,7 @@ jest.mock("../../src/logger/index");
 
 const {
   addMessageListenerMock,
+  addInstalledListenerMock,
   addOnClickedListenerMock,
   setBadgeMock,
   createTabMock,
@@ -106,5 +108,23 @@ it("Click malformed config", () => {
 
   expect(setBadgeMock).toBeCalledTimes(1);
   expect(setBadgeMock).toBeCalledWith("");
+  expect(createTabMock).not.toBeCalled();
+});
+
+it("Install and open tab", () => {
+  // Avoid the call to setup the listeners themselves.
+  // First install event
+  jest.resetAllMocks();
+  addInstalledListenerMock.mockImplementation((callback) => callback({reason: "install"}));
+
+  setupOnInstalledListener();
+  expect(createTabMock).toBeCalledTimes(1);
+  expect(createTabMock).toBeCalledWith("options.html");
+
+  // Update event
+  jest.resetAllMocks();
+  addInstalledListenerMock.mockImplementation((callback) => callback({reason: "update"}));
+
+  setupOnInstalledListener();
   expect(createTabMock).not.toBeCalled();
 });

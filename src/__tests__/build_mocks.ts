@@ -3,6 +3,7 @@ import {
   saveStorageValues,
 } from "../../src/providers/storage";
 import {
+  addInstalledListener,
   addMessageListener,
   getLastError,
   getURL,
@@ -16,6 +17,7 @@ import { createTab } from "../../src/providers/tabs";
 export const buildProviderMocks = () => ({
   alertMock: jest.mocked(alertWrapper),
   addMessageListenerMock: jest.mocked(addMessageListener),
+  addInstalledListenerMock: jest.mocked(addInstalledListener),
   addOnClickedListenerMock: jest.mocked(addOnClickedListener),
   createTabMock: jest.mocked(createTab),
   currentURLMock: jest.mocked(getCurrentURL),
