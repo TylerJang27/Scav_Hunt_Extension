@@ -10,17 +10,18 @@ module.exports = {
     encode: path.join(srcDir, "encode.tsx"),
     beginning: path.join(srcDir, "beginning.tsx"),
     background: path.join(srcDir, "background.ts"),
-    content_script: path.join(srcDir, "content_script.tsx"),
+    content_script: [path.join(srcDir, "content_script.tsx")],
   },
   output: {
     path: path.join(__dirname, "../dist/js"),
     filename: "[name].js",
+    clean: true
   },
   optimization: {
     splitChunks: {
       name: "vendor",
       chunks(chunk) {
-        return !["background", "popup", "beginning", "encode", "options"].includes(
+        return !["background", "popup", "beginning", "encode", "options", "content_script"].includes(
           chunk.name
         );
       },

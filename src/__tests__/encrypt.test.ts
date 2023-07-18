@@ -1,4 +1,6 @@
-import { Decrypt, Encrypt } from "../../src/utils/parse";
+import { Decrypt, Encrypt } from "../../src/utils/encrypt";
+
+const secretKey = "secretKey";
 
 const inputStrings = [
   "1",
@@ -10,22 +12,18 @@ const inputStrings = [
 
 it("Encrypt and decrypt", () => {
   inputStrings.forEach((input) => {
-    const encrypted = Encrypt(input, true);
-    if (input === "") {
-      expect(encrypted).toEqual(input);
-    } else {
-      expect(encrypted).not.toEqual(input);
-    }
-    const decrypted = Decrypt(encrypted, true);
+    const encrypted = Encrypt(input, true, secretKey);
+    expect(encrypted).not.toEqual(input);
+    const decrypted = Decrypt(encrypted, true, secretKey);
     expect(decrypted).toEqual(input);
   });
 });
 
 it("Encrypt and decrypt no encryption", () => {
   inputStrings.forEach((input) => {
-    const encrypted = Encrypt(input, false);
+    const encrypted = Encrypt(input, false, secretKey);
     expect(encrypted).toEqual(input);
-    const decrypted = Decrypt(encrypted, false);
+    const decrypted = Decrypt(encrypted, false, secretKey);
     expect(decrypted).toEqual(input);
   });
 });

@@ -10,6 +10,7 @@ import {
 } from "../types/errors";
 import { ClueConfig, HuntConfig } from "../types/hunt_config";
 import { nonNull } from "./helpers";
+import { Decrypt, Encrypt, wrapDecrypt, wrapEncrypt } from "./encrypt";
 
 export const DEFAULT_BACKGROUND =
   "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80";
@@ -175,49 +176,35 @@ export const ParseConfig = (object: any) => {
   }
 };
 
-export const Encrypt = (text: string, encrypted: boolean) => {
-  if (encrypted) {
-    const level1 = Buffer.from(text).toString("base64");
-    const level2 = level1.split("");
-    let level3 = "";
-    for (var k = 0; k < level2.length - 1; k++) {
-      level3 = level3.concat(level1.charAt(k) + Math.random().toString(36).charAt(2));
-    }
-    return level3.concat(level2[level2.length - 1] ?? "");
-  }
-  return text;
-};
-
-export const Decrypt = (text: string, encrypted: boolean) => {
-  if (encrypted) {
-    let level1 = "";
-    for (var k = 0; k < text.length; k += 2) {
-      level1 += text.charAt(k);
-    }
-    return Buffer.from(level1, "base64").toString();
-  }
-  return text;
-};
-
-const wrapDecrypt = (text: string | undefined, encoded: boolean) => {
-  if (text) {
-    return Decrypt(text, encoded);
-  }
-  return undefined;
-};
-
-export const DecryptClue = (clue: ClueConfig, encrypted: boolean) => ({
+export const DecryptClue = (clue: ClueConfig, encrypted: boolean, secretKey: string) => ({
   /* Decoded fields */
   id: clue.id,
   /* Encoded fields */
-  url: Decrypt(clue.url, encrypted),
-  text: wrapDecrypt(clue.text, encrypted),
-  html: wrapDecrypt(clue.html, encrypted),
-  image: wrapDecrypt(clue.image, encrypted),
-  alt: wrapDecrypt(clue.alt, encrypted),
+  url: Decrypt(clue.url, encrypted, secretKey),
+  text: wrapDecrypt(clue.text, encrypted, secretKey),
+  html: wrapDecrypt(clue.html, encrypted, secretKey),
+  image: wrapDecrypt(clue.image, encrypted, secretKey),
+  alt: wrapDecrypt(clue.alt, encrypted, secretKey),
   interactive: clue.interactive
     ? {
-        prompt: wrapDecrypt(clue.interactive.prompt, encrypted),
+        prompt: wrapDecrypt(clue.interactive.prompt, encrypted, secretKey),
+        key: clue.interactive.key,
+      }
+    : undefined,
+});
+
+export const EncryptClue = (clue: ClueConfig, encrypted: boolean, secretKey: string) => ({
+  /* Decoded fields */
+  id: clue.id,
+  /* Encoded fields */
+  url: Encrypt(clue.url, encrypted, secretKey),
+  text: wrapEncrypt(clue.text, encrypted, secretKey),
+  html: wrapEncrypt(clue.html, encrypted, secretKey),
+  image: wrapEncrypt(clue.image, encrypted, secretKey),
+  alt: wrapEncrypt(clue.alt, encrypted, secretKey),
+  interactive: clue.interactive
+    ? {
+        prompt: wrapEncrypt(clue.interactive.prompt, encrypted, secretKey),
         key: clue.interactive.key,
       }
     : undefined,

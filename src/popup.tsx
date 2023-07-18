@@ -40,7 +40,8 @@ const loadSolvedClueFromStorage = (
     const { name, encrypted, background, clues } = items.huntConfig;
     const decryptedClue = DecryptClue(
       clues[items.currentProgress - 1],
-      encrypted
+      encrypted,
+      name
     );
 
     huntNameCallback(name);

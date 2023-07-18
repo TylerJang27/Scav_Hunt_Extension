@@ -2,11 +2,10 @@ import { logger } from "./logger";
 import { alertWrapper } from "./providers/alert";
 import { getCurrentURL } from "./providers/href";
 import { sendMessage } from "./providers/runtime";
-// import { provider } from "./providers/chrome";
 import { loadStorageValues, saveStorageValues } from "./providers/storage";
 import { ClueConfig, HuntConfig } from "./types/hunt_config";
 import { nonNull } from "./utils/helpers";
-import { Decrypt } from "./utils/parse";
+import { Decrypt } from "./utils/encrypt";
 
 /**
  * When a page is loaded:
@@ -28,18 +27,20 @@ const CLUE_FOUND_TEXT =
 const checkHuntForURLMatch = (
   huntConfig: HuntConfig
 ): ClueConfig | undefined => {
-  logger.info("checking for match!");
   const {
     encrypted,
     clues,
     options: { silent },
   } = huntConfig;
+  logger.info(`checking for match among ${clues.length} clues`);
+  
   for (let i = 0; i < clues.length; i++) {
     const clue = clues[i];
-
-    const clueUrl = Decrypt(clue.url, encrypted);
-    const reg = new RegExp(clueUrl);
+    // We could check for url earlier, but this is useful for testing fidelity without much cost.
     const currentUrl = getCurrentURL();
+    const clueUrl = Decrypt(clue.url, encrypted, huntConfig.name);
+    const reg = new RegExp(clueUrl);
+    logger.info(`checking ${currentUrl} against ${clueUrl}`);
     if (!currentUrl.match(reg) && !currentUrl.includes(clueUrl)) {
       continue;
     }
