@@ -20,16 +20,12 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
-// trunk-ignore(eslint/import/extensions)
 import { ExitableModal } from "src/components/ExitableModal";
-// trunk-ignore(eslint/import/extensions)
 import { Footer } from "src/components/Footer";
-// trunk-ignore(eslint/import/extensions)
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 import { theme } from "src/components/theme";
 import { ClueConfig, HuntConfig } from "src/types/hunt_config";
 import { EncryptClue } from "src/utils/parse";
-// trunk-ignore(eslint/import/extensions)
 import { Render } from "src/utils/root";
 
 const generateJson = (huntConfig: HuntConfig) => {

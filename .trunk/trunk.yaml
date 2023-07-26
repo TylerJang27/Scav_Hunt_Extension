@@ -7,11 +7,6 @@ plugins:
       ref: v0.0.21
       uri: https://github.com/trunk-io/plugins
 lint:
-  definitions:
-    - name: eslint
-      commands:
-        - name: lint
-          sandbox_type: copy_targets
   enabled:
     - actionlint@1.6.25
     - checkov@2.3.327
