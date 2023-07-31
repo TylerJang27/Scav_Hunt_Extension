@@ -1,7 +1,8 @@
 // trunk-ignore-all(eslint/@typescript-eslint/ban-types)
 import { logger } from "src/logger";
-import { DEFAULT_BACKGROUND } from "src/providers/helpers";
 import { HuntConfig } from "src/types/hunt_config";
+
+const MOCKED_DEFAULT_BACKGROUND = "../graphics/background.png";
 
 logger.warn("Using mocked chrome library");
 
@@ -19,7 +20,7 @@ const storageGetter = (items: string | string[], callback: Function) => {
     author: "Author",
     version: "1.0",
     encrypted: false,
-    background: DEFAULT_BACKGROUND,
+    background: MOCKED_DEFAULT_BACKGROUND,
     options: {
       silent: false,
     },
@@ -118,7 +119,5 @@ const action = {
     logger.info("Setting badge text", contents.text);
   },
 };
-
-console.log("test");
 
 export const getProvider = () => ({ tabs, storage, runtime, action });

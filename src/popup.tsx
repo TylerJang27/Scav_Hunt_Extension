@@ -64,7 +64,7 @@ const Popup = () => {
 
   // TODO: TYLER MAKE THIS MORE REACT-IVE
   const backgroundCallback = (background: string) => {
-    const sheet = document.styleSheets[4];
+    const sheet = document.styleSheets[5];
     sheet.insertRule(
       "body { ,height: 100%; background: url('" +
         background +

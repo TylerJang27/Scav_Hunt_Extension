@@ -25,7 +25,7 @@ const Beginning = () => {
         if (items.huntConfig) {
           const { background, beginning, name } = items.huntConfig;
           // Set background image
-          const sheet = document.styleSheets[3];
+          const sheet = document.styleSheets[4];
           sheet.insertRule(
             "body { ,height: 100%; background: url('" +
               background +
