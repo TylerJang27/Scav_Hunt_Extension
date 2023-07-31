@@ -1,3 +1,4 @@
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {
   Alert,
   Button,
@@ -16,15 +17,14 @@ import path from "path";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { ExitableModal } from "src/components/ExitableModal";
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
+import { logger } from "src/logger";
+import { resetStorage } from "src/providers/helpers";
+import { getLastError, getURL } from "src/providers/runtime";
+import { saveStorageValues } from "src/providers/storage";
+import { createTab } from "src/providers/tabs";
 import { HuntConfig, SAMPLE_DIR } from "src/types/hunt_config";
 import { HuntSource, Progress } from "src/types/progress";
 import { ParseConfig } from "src/utils/parse";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { logger } from "src/logger";
-import { saveStorageValues } from "src/providers/storage";
-import { createTab } from "src/providers/tabs";
-import { getLastError, getURL } from "src/providers/runtime";
-import { resetStorage } from "src/providers/helpers";
 
 interface SourceFormType {
   sourceType: HuntSource;

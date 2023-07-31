@@ -1,5 +1,5 @@
-import { sampleHunt } from "src/__tests__/create_hunt_config";
 import { buildProviderMocks } from "src/__tests__/build_mocks";
+import { sampleHunt } from "src/__tests__/create_hunt_config";
 import { saveConfigAndLaunch } from "src/components/landing_page/ChooseHunt";
 import { resetStorage } from "src/providers/helpers";
 
