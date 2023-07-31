@@ -4,14 +4,25 @@ import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 
 export const CreateYourOwn = () => (
   <>
-    <Container maxWidth="sm" sx={{ mt: 3 }}>
-      <Grid container spacing={2}>
+    <Container maxWidth="sm" sx={{ mt: 1 }}>
+      <Grid container>
         <Grid item xs={12}>
           <PageHeaderAndSubtitle header="Create Your Own" />
         </Grid>
-        <Grid item xs={12}>
-          <Typography>Link to encode here</Typography>
-        </Grid>
+        <Link href="../encode.html">
+          <img
+            src={"../graphics/encode_teaser.png"}
+            alt={"Coming"}
+            loading="lazy"
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+              width: "100%",
+              objectFit: "cover",
+              display: "flex",
+            }}
+          />
+        </Link>
       </Grid>
     </Container>
   </>

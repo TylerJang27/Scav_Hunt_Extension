@@ -1,3 +1,4 @@
+import { DEFAULT_BACKGROUND } from "src/providers/helpers";
 import {
   BulkError,
   ConfigError,
@@ -11,9 +12,6 @@ import {
 import { ClueConfig, HuntConfig } from "src/types/hunt_config";
 import { Decrypt, Encrypt, wrapDecrypt, wrapEncrypt } from "src/utils/encrypt";
 import { nonNull } from "src/utils/helpers";
-
-export const DEFAULT_BACKGROUND =
-  "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80";
 
 const ValidateRequiredField = (
   value: any,

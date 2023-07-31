@@ -1,6 +1,6 @@
+import { DEFAULT_BACKGROUND } from "src/providers/helpers";
 import { ClueConfig, HuntConfig } from "src/types/hunt_config";
 import { Encrypt } from "src/utils/encrypt";
-import { DEFAULT_BACKGROUND } from "src/utils/parse";
 
 const testHuntName = "Test Hunt";
 /**

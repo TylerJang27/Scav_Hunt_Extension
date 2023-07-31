@@ -4,8 +4,8 @@ import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 
 export const Feedback = () => (
   <>
-    <Container maxWidth="sm" sx={{ mt: 3 }}>
-      <Grid container spacing={2}>
+    <Container maxWidth="sm" sx={{ mt: 1 }}>
+      <Grid container>
         <Grid item xs={12}>
           <PageHeaderAndSubtitle header="Feedback" />
         </Grid>

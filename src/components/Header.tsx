@@ -9,7 +9,7 @@ export const Header = () => (
         sx={{
           width: "100%",
           height: "auto",
-          backgroundColor: "#a8a8a8",
+          backgroundColor: "#A5C2DF",
           paddingTop: "1rem",
           paddingBottom: "1rem",
           position: "fixed",
@@ -17,6 +17,7 @@ export const Header = () => (
           left: "0",
         }}
       >
+        {/* TODO: TYLER ADD LOGO */}
         <PageHeaderAndSubtitle header="Scavenger Hunt" />
       </Box>
     </header>

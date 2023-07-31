@@ -1,7 +1,7 @@
 // trunk-ignore-all(eslint/@typescript-eslint/ban-types)
 import { logger } from "src/logger";
+import { DEFAULT_BACKGROUND } from "src/providers/helpers";
 import { HuntConfig } from "src/types/hunt_config";
-import { DEFAULT_BACKGROUND } from "src/utils/parse";
 
 logger.warn("Using mocked chrome library");
 
@@ -118,5 +118,7 @@ const action = {
     logger.info("Setting badge text", contents.text);
   },
 };
+
+console.log("test");
 
 export const getProvider = () => ({ tabs, storage, runtime, action });

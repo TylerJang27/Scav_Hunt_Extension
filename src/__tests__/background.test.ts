@@ -122,7 +122,7 @@ it("Install and open tab", () => {
 
   setupOnInstalledListener();
   expect(createTabMock).toHaveBeenCalledTimes(1);
-  expect(createTabMock).toHaveBeenCalledWith("options.html");
+  expect(createTabMock).toHaveBeenCalledWith("landing_page.html");
 
   // Update event
   jest.resetAllMocks();

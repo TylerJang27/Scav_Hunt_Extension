@@ -217,7 +217,7 @@ export const ChooseHunt = () => {
 
   return (
     <>
-      <Container maxWidth="sm" sx={{ mt: 3 }}>
+      <Container maxWidth="sm" sx={{ mt: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <PageHeaderAndSubtitle header="Begin A Hunt" />
