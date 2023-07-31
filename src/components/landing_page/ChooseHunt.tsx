@@ -217,209 +217,209 @@ export const ChooseHunt = () => {
 
   return (
     <>
-        <Container maxWidth="sm" sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <PageHeaderAndSubtitle header="Begin A Hunt" />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl>
-                <RadioGroup
-                  name="source-type-group"
+      <Container maxWidth="sm" sx={{ mt: 3 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <PageHeaderAndSubtitle header="Begin A Hunt" />
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl>
+              <RadioGroup
+                name="source-type-group"
+                sx={{ display: "flex" }}
+                value={sourceFormState.sourceType}
+                onChange={(e) => {
+                  setSourceFormState({
+                    ...sourceFormState,
+                    sourceType: e.target.value as HuntSource,
+                  });
+                  logger.info("Source type", e.target.value); // TODO: REMOVE
+                }}
+              >
+                <FormControlLabel
+                  value="Sample"
                   sx={{ display: "flex" }}
-                  value={sourceFormState.sourceType}
-                  onChange={(e) => {
-                    setSourceFormState({
-                      ...sourceFormState,
-                      sourceType: e.target.value as HuntSource,
-                    });
-                    logger.info("Source type", e.target.value); // TODO: REMOVE
-                  }}
-                >
-                  <FormControlLabel
-                    value="Sample"
-                    sx={{ display: "flex" }}
-                    control={<Radio />}
-                    label={
-                      <Grid container direction="row" spacing={1}>
-                        <Grid
-                          item
-                          xs={4}
-                          sx={{ display: "flex", alignItems: "center" }}
-                        >
-                          <Typography>Sample</Typography>
-                        </Grid>
-                        <Grid item xs={8}>
-                          <Button
-                            fullWidth
-                            color="primary"
-                            variant="contained"
-                            onClick={() => {
-                              setSourceFormState({
-                                ...sourceFormState,
-                                sourceType: "Sample",
-                              });
-                              setSampleModalOpen(true);
-                            }}
-                          >
-                            <>
-                              {sampleHuntOptions.get(
-                                sourceFormState.samplePath,
-                              ) ?? "Unknown name"}
-                              <ArrowDropDownIcon />
-                              {/* TODO: TYLER ADD DROPDOWN ICON */}
-                            </>
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    }
-                  />
-                  <FormControlLabel
-                    value="URL"
-                    control={<Radio />}
-                    label={
-                      <Grid container direction="row" spacing={0}>
-                        <Grid
-                          item
-                          xs={2}
-                          sx={{ display: "flex", alignItems: "center" }}
-                        >
-                          <Typography>URL</Typography>
-                        </Grid>
-                        <Grid item xs={10}>
-                          <TextField
-                            fullWidth
-                            color="secondary"
-                            variant="outlined"
-                            onChange={(e) => {
-                              setSourceFormState({
-                                ...sourceFormState,
-                                sourceURL: e.target.value.trim(),
-                              });
-                            }}
-                            value={sourceFormState.sourceURL ?? ""}
-                            error={
-                              sourceFormState.sourceType === "URL" &&
-                              (sourceFormState.sourceURL ?? "") === ""
-                            }
-                          />
-                        </Grid>
-                      </Grid>
-                    }
-                  />
-                  <FormControlLabel
-                    value="Upload"
-                    control={<Radio />}
-                    label="Upload"
-                  />
-                  <Grid
-                    container
-                    direction="row"
-                    spacing={1}
-                    sx={{ display: "flex", alignItems: "center" }}
-                  >
-                    <Grid item xs={6}>
-                      <Button
-                        variant="contained"
-                        size="medium"
-                        component="label"
-                        color="secondary"
+                  control={<Radio />}
+                  label={
+                    <Grid container direction="row" spacing={1}>
+                      <Grid
+                        item
+                        xs={4}
+                        sx={{ display: "flex", alignItems: "center" }}
                       >
-                        Choose File
-                        <input
-                          type="file"
-                          accept=".json,jsn,.json5"
+                        <Typography>Sample</Typography>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Button
+                          fullWidth
+                          color="primary"
+                          variant="contained"
+                          onClick={() => {
+                            setSourceFormState({
+                              ...sourceFormState,
+                              sourceType: "Sample",
+                            });
+                            setSampleModalOpen(true);
+                          }}
+                        >
+                          <>
+                            {sampleHuntOptions.get(
+                              sourceFormState.samplePath,
+                            ) ?? "Unknown name"}
+                            <ArrowDropDownIcon />
+                            {/* TODO: TYLER ADD DROPDOWN ICON */}
+                          </>
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  }
+                />
+                <FormControlLabel
+                  value="URL"
+                  control={<Radio />}
+                  label={
+                    <Grid container direction="row" spacing={0}>
+                      <Grid
+                        item
+                        xs={2}
+                        sx={{ display: "flex", alignItems: "center" }}
+                      >
+                        <Typography>URL</Typography>
+                      </Grid>
+                      <Grid item xs={10}>
+                        <TextField
+                          fullWidth
+                          color="secondary"
+                          variant="outlined"
                           onChange={(e) => {
                             setSourceFormState({
                               ...sourceFormState,
-                              sourceType: "Upload",
+                              sourceURL: e.target.value.trim(),
                             });
-                            onUpload(e);
                           }}
-                          hidden
+                          value={sourceFormState.sourceURL ?? ""}
+                          error={
+                            sourceFormState.sourceType === "URL" &&
+                            (sourceFormState.sourceURL ?? "") === ""
+                          }
                         />
-                      </Button>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                      <Typography>
-                        {sourceFormState.fileName ?? "No file chosen"}
-                      </Typography>
-                    </Grid>
+                  }
+                />
+                <FormControlLabel
+                  value="Upload"
+                  control={<Radio />}
+                  label="Upload"
+                />
+                <Grid
+                  container
+                  direction="row"
+                  spacing={1}
+                  sx={{ display: "flex", alignItems: "center" }}
+                >
+                  <Grid item xs={6}>
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      component="label"
+                      color="secondary"
+                    >
+                      Choose File
+                      <input
+                        type="file"
+                        accept=".json,jsn,.json5"
+                        onChange={(e) => {
+                          setSourceFormState({
+                            ...sourceFormState,
+                            sourceType: "Upload",
+                          });
+                          onUpload(e);
+                        }}
+                        hidden
+                      />
+                    </Button>
                   </Grid>
-                </RadioGroup>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid
-                container
-                direction="row"
-                spacing={1}
-                sx={{ display: "flex", alignItems: "center" }}
+                  <Grid item xs={6}>
+                    <Typography>
+                      {sourceFormState.fileName ?? "No file chosen"}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid
+              container
+              direction="row"
+              spacing={1}
+              sx={{ display: "flex", alignItems: "center" }}
+            >
+              <Button
+                variant="outlined"
+                size="medium"
+                disabled={!submitable}
+                onClick={onSubmit}
+                color="secondary"
               >
-                <Button
-                  variant="outlined"
-                  size="medium"
-                  disabled={!submitable}
-                  onClick={onSubmit}
-                  color="secondary"
-                >
-                  Submit
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="medium"
-                  onClick={onReset}
-                  color="secondary"
-                  disabled={hasReset}
-                >
-                  Clear Hunt
-                </Button>
-              </Grid>
-            </Grid>
-            {validationError && (
-              <Alert severity="error">{validationError.message}</Alert>
-            )}
-            <Grid item xs={4} justifyContent="center">
-              <Typography>
-                <Link href="encode.html" target="_blank" color={yellow[600]}>
-                  Generate Hunt
-                </Link>
-              </Typography>
+                Submit
+              </Button>
+              <Button
+                variant="outlined"
+                size="medium"
+                onClick={onReset}
+                color="secondary"
+                disabled={hasReset}
+              >
+                Clear Hunt
+              </Button>
             </Grid>
           </Grid>
-        </Container>
-        <ExitableModal
-          open={sampleModalOpen}
-          onClose={() => setSampleModalOpen(false)}
-          modalTitle="Select Sample Hunt"
-        >
-          {/* TODO: TYLER ADD SUBMIT AND CANCEL BUTTONS TO MODAL */}
-          <FormControl>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              name="sample-hunt-group"
-              value={sourceFormState.samplePath}
-              onChange={(e) => {
-                setSourceFormState({
-                  ...sourceFormState,
-                  samplePath: e.target.value as HuntSource,
-                });
-              }}
-            >
-              {Array.from(sampleHuntOptions.entries()).map(
-                ([samplePath, sampleName]) => (
-                  <FormControlLabel
-                    key={sampleName}
-                    value={samplePath}
-                    control={<Radio />}
-                    label={sampleName}
-                    sx={{ textTransform: "capitalize" }}
-                  />
-                ),
-              )}
-            </RadioGroup>
-          </FormControl>
-        </ExitableModal>
+          {validationError && (
+            <Alert severity="error">{validationError.message}</Alert>
+          )}
+          <Grid item xs={4} justifyContent="center">
+            <Typography>
+              <Link href="encode.html" target="_blank" color={yellow[600]}>
+                Generate Hunt
+              </Link>
+            </Typography>
+          </Grid>
+        </Grid>
+      </Container>
+      <ExitableModal
+        open={sampleModalOpen}
+        onClose={() => setSampleModalOpen(false)}
+        modalTitle="Select Sample Hunt"
+      >
+        {/* TODO: TYLER ADD SUBMIT AND CANCEL BUTTONS TO MODAL */}
+        <FormControl>
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            name="sample-hunt-group"
+            value={sourceFormState.samplePath}
+            onChange={(e) => {
+              setSourceFormState({
+                ...sourceFormState,
+                samplePath: e.target.value as HuntSource,
+              });
+            }}
+          >
+            {Array.from(sampleHuntOptions.entries()).map(
+              ([samplePath, sampleName]) => (
+                <FormControlLabel
+                  key={sampleName}
+                  value={samplePath}
+                  control={<Radio />}
+                  label={sampleName}
+                  sx={{ textTransform: "capitalize" }}
+                />
+              ),
+            )}
+          </RadioGroup>
+        </FormControl>
+      </ExitableModal>
     </>
   );
 };

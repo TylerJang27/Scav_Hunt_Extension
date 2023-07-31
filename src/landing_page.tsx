@@ -22,7 +22,7 @@ export const LandingPage = () => {
       <ThemeProvider theme={theme}>
         <Header />
         <Container maxWidth="lg" sx={{ mt: 3, "&::after": { flex: "auto" } }}>
-            <Divider/>
+          <Divider />
           <Grid
             container
             spacing={2}

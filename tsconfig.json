@@ -11,7 +11,7 @@
     "incremental": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
+    "baseUrl": "."
     // "paths": {
     //   "src/*": ["./src/*"]
     // }
