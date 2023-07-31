@@ -379,13 +379,6 @@ export const ChooseHunt = () => {
           {validationError && (
             <Alert severity="error">{validationError.message}</Alert>
           )}
-          <Grid item xs={4} justifyContent="center">
-            <Typography>
-              <Link href="encode.html" target="_blank" color={yellow[600]}>
-                Generate Hunt
-              </Link>
-            </Typography>
-          </Grid>
         </Grid>
       </Container>
       <ExitableModal
