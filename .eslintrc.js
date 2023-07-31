@@ -3,7 +3,7 @@ module.exports = {
 
   env: { node: true },
 
-  plugins: ["prefer-arrow-functions", "simple-import-sort"],
+  plugins: ["prefer-arrow-functions", "simple-import-sort", "import"],
 
   extends: [
     // Order matters
@@ -117,19 +117,25 @@ module.exports = {
 
   settings: {
     "import/resolver": {
-      node: {
-        preserveSymlinks: true,
-        realPath: function (a) {
-          return a;
-        },
-        // preserveSymlinksMain: true
-        // realPath: true
-      },
+      // node: {
+      //   preserveSymlinks: true,
+      //   // realPath: function (a) {
+      //   //   console.log(a);
+      //   //   return fs.realPath(a);
+      //   // },
+      //   // preserveSymlinksMain: true
+      //   // realPath: true
+      //   project: "<root>",
+      // },
       typescript: {
         alwaysTryTypes: true,
         project: "<root>",
       },
     },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"],
+    },
+    // "import/internal-regex": "^scavenger-hunt-chrome-extension",
   },
 
   overrides: [
