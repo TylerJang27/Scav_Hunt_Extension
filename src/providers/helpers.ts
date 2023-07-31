@@ -15,4 +15,5 @@ export const resetStorage = (callback: SaveStorageCallback) =>
     callback,
   );
 
+// TODO: TYLER MAKE SURE THIS WORKS
 export const DEFAULT_BACKGROUND = getURL("graphics/background.png");
