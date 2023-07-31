@@ -18,7 +18,7 @@ export const CreateYourOwn = () => {
             </Grid>
             <Grid item xs={12}>
               <Typography>
-                Welcome!!!
+                Link to encode here
               </Typography>
             </Grid>
           </Grid>

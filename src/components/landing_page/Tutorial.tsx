@@ -18,7 +18,8 @@ export const Tutorial = () => {
             </Grid>
             <Grid item xs={12}>
               <Typography>
-                Welcome!!!
+                Short blurb here
+                Embedded youtube video
               </Typography>
             </Grid>
           </Grid>

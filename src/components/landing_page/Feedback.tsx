@@ -18,7 +18,7 @@ import {
               </Grid>
               <Grid item xs={12}>
                 <Typography>
-                  Yeet
+                  Short blurb about coming soon and a google form link
                 </Typography>
               </Grid>
             </Grid>
