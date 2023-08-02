@@ -8,22 +8,20 @@ export interface FormModalProps {
   modalTitle: React.ReactNode;
 }
 
-export const ExitableModal = (props: PropsWithChildren<FormModalProps>) => {
-  return (
-    <Dialog open={props.open} fullWidth>
-      <DialogTitle sx={{ p: 2, m: 0 }}>
-        {props.modalTitle}
-        <IconButton
-          size="small"
-          onClick={props.onClose}
-          sx={{
-            float: "right",
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
-      <DialogContent dividers>{props.children}</DialogContent>
-    </Dialog>
-  );
-};
+export const ExitableModal = (props: PropsWithChildren<FormModalProps>) => (
+  <Dialog open={props.open} fullWidth>
+    <DialogTitle sx={{ p: 2, m: 0 }}>
+      {props.modalTitle}
+      <IconButton
+        size="small"
+        onClick={props.onClose}
+        sx={{
+          float: "right",
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
+    </DialogTitle>
+    <DialogContent dividers>{props.children}</DialogContent>
+  </Dialog>
+);

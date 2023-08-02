@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { createRoot } from "react-dom/client";
-import { CluePage } from "./components/CluePage";
-import { ClueConfig } from "./types/hunt_config";
+// trunk-ignore(eslint/import/extensions)
+import { CluePage } from "src/components/CluePage";
+import { loadStorageValues } from "src/providers/storage";
 import {
   EMPTY_OR_INVALID_HUNT,
   UNKNOWN_ERROR_RESET_HUNT,
-} from "./types/errors";
-import { DecryptClue } from "./utils/parse";
-import { loadStorageValues } from "./providers/storage";
-import { Render } from "./utils/root";
-import { nonNull } from "./utils/helpers";
+} from "src/types/errors";
+import { ClueConfig } from "src/types/hunt_config";
+import { SomeProgress } from "src/types/progress";
+import { nonNull } from "src/utils/helpers";
+import { DecryptClue } from "src/utils/parse";
+// trunk-ignore(eslint/import/extensions)
+import { Render } from "src/utils/root";
 
 const DEFAULT_LOADING_CLUE = {
   id: -1,
@@ -17,38 +19,40 @@ const DEFAULT_LOADING_CLUE = {
   text: "",
 };
 
-
 const loadSolvedClueFromStorage = (
-  huntNameCallback: any,
-  encryptedCallback: any,
-  huntBackgroundCallback: any,
-  clueCallback: any,
-  errorCallback: any
+  huntNameCallback: (item: string) => void,
+  encryptedCallback: (item: boolean) => void,
+  huntBackgroundCallback: (item: string) => void,
+  clueCallback: (item: ClueConfig) => void,
+  errorCallback: (item: string) => void,
 ) => {
-  loadStorageValues(["huntConfig", "currentProgress"], (items: any) => {
-    if (!items.huntConfig || !nonNull(items.currentProgress)) {
-      errorCallback(EMPTY_OR_INVALID_HUNT);
-      return;
-    }
+  loadStorageValues(
+    ["huntConfig", "currentProgress"],
+    (items: SomeProgress) => {
+      if (!items.huntConfig || !nonNull(items.currentProgress)) {
+        errorCallback(EMPTY_OR_INVALID_HUNT);
+        return;
+      }
 
-    if (items.currentProgress === 0) {
-      // TODO: TYLER SHOULD WE OPEN THE OPTIONS PAGE? OR A TUTORIAL?
-      errorCallback(UNKNOWN_ERROR_RESET_HUNT);
-      return;
-    }
+      if (items.currentProgress === 0) {
+        // TODO: TYLER SHOULD WE OPEN THE OPTIONS PAGE? OR A TUTORIAL?
+        errorCallback(UNKNOWN_ERROR_RESET_HUNT);
+        return;
+      }
 
-    const { name, encrypted, background, clues } = items.huntConfig;
-    const decryptedClue = DecryptClue(
-      clues[items.currentProgress - 1],
-      encrypted,
-      name
-    );
+      const { name, encrypted, background, clues } = items.huntConfig;
+      const decryptedClue = DecryptClue(
+        clues[items.currentProgress! - 1],
+        encrypted,
+        name,
+      );
 
-    huntNameCallback(name);
-    encryptedCallback(encrypted);
-    huntBackgroundCallback(background);
-    clueCallback(decryptedClue);
-  });
+      huntNameCallback(name);
+      encryptedCallback(encrypted);
+      huntBackgroundCallback(background);
+      clueCallback(decryptedClue);
+    },
+  );
 };
 
 const Popup = () => {
@@ -65,7 +69,7 @@ const Popup = () => {
       "body { ,height: 100%; background: url('" +
         background +
         "') no-repeat center; background-size: cover; background-position: cover;}",
-      0
+      0,
     );
   };
 
@@ -77,9 +81,9 @@ const Popup = () => {
         setEncrypted,
         backgroundCallback,
         setDecryptedClue,
-        setError
+        setError,
       ),
-    []
+    [],
   );
   return (
     <CluePage

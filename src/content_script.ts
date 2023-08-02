@@ -1,11 +1,12 @@
-import { logger } from "./logger";
-import { alertWrapper } from "./providers/alert";
-import { getCurrentURL } from "./providers/href";
-import { sendMessage } from "./providers/runtime";
-import { loadStorageValues, saveStorageValues } from "./providers/storage";
-import { ClueConfig, HuntConfig } from "./types/hunt_config";
-import { nonNull } from "./utils/helpers";
-import { Decrypt } from "./utils/encrypt";
+import { logger } from "src/logger";
+import { alertWrapper } from "src/providers/alert";
+import { getCurrentURL } from "src/providers/href";
+import { sendMessage } from "src/providers/runtime";
+import { loadStorageValues, saveStorageValues } from "src/providers/storage";
+import { ClueConfig, HuntConfig } from "src/types/hunt_config";
+import { SomeProgress } from "src/types/progress";
+import { Decrypt } from "src/utils/encrypt";
+import { nonNull } from "src/utils/helpers";
 
 /**
  * When a page is loaded:
@@ -25,7 +26,7 @@ const CLUE_FOUND_TEXT =
 /* Parse hunt config and current page */
 
 const checkHuntForURLMatch = (
-  huntConfig: HuntConfig
+  huntConfig: HuntConfig,
 ): ClueConfig | undefined => {
   const {
     encrypted,
@@ -33,7 +34,7 @@ const checkHuntForURLMatch = (
     options: { silent },
   } = huntConfig;
   logger.info(`checking for match among ${clues.length} clues`);
-  
+
   for (let i = 0; i < clues.length; i++) {
     const clue = clues[i];
     // We could check for url earlier, but this is useful for testing fidelity without much cost.
@@ -72,7 +73,7 @@ const sendClueFound = (maxProgress: number, solvedClue: ClueConfig) => {
         currentProgress > maxProgress ? currentProgress : maxProgress,
       currentProgress,
     },
-    sendClueFoundMessage
+    sendClueFoundMessage,
   );
 };
 
@@ -90,13 +91,13 @@ const sendEmptyOrInvalidHunt = () => {
 
 /* Handle storage and page */
 
-const loadHuntCallback = (items: any) => {
+const loadHuntCallback = (items: SomeProgress) => {
   logger.info(items);
   try {
     if (items.huntConfig && nonNull(items.maxProgress)) {
-      const urlMatchClue = checkHuntForURLMatch(items.huntConfig as HuntConfig);
+      const urlMatchClue = checkHuntForURLMatch(items.huntConfig);
       if (urlMatchClue) {
-        sendClueFound(items.maxProgress, urlMatchClue);
+        sendClueFound(items.maxProgress!, urlMatchClue);
       } else {
         sendClueNotFound();
       }

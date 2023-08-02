@@ -7,10 +7,10 @@ import {
   SUPPORTED_VERSIONS,
   UnsupportedVersionError,
   XORFieldsError,
-} from "../types/errors";
-import { ClueConfig, HuntConfig } from "../types/hunt_config";
-import { nonNull } from "./helpers";
-import { Decrypt, Encrypt, wrapDecrypt, wrapEncrypt } from "./encrypt";
+} from "src/types/errors";
+import { ClueConfig, HuntConfig } from "src/types/hunt_config";
+import { Decrypt, Encrypt, wrapDecrypt, wrapEncrypt } from "src/utils/encrypt";
+import { nonNull } from "src/utils/helpers";
 
 export const DEFAULT_BACKGROUND =
   "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80";
@@ -18,8 +18,8 @@ export const DEFAULT_BACKGROUND =
 const ValidateRequiredField = (
   value: any,
   fieldName: string,
-  index?: number
-) => {
+  index?: number,
+): any => {
   if (!nonNull(value)) {
     throw new MissingFieldError(fieldName, index);
   }
@@ -29,8 +29,8 @@ const ValidateRequiredField = (
 const ValidateRequiredNonEmptyField = (
   value: any,
   fieldName: string,
-  index?: number
-) => {
+  index?: number,
+): any => {
   if (!nonNull(value)) {
     throw new MissingFieldError(fieldName, index);
   }
@@ -45,17 +45,14 @@ const ValidateXORFields = (
   fieldName1: string,
   value2: any,
   fieldName2: string,
-  index?: number
+  index?: number,
 ) => {
-  if (
-    (!Boolean(value1) && !Boolean(value2)) ||
-    (Boolean(value1) && Boolean(value2))
-  ) {
+  if ((!value1 && !value2) || (Boolean(value1) && Boolean(value2))) {
     throw new XORFieldsError(value1, fieldName1, value2, fieldName2, index);
   }
 };
 
-const ValidateVersion = (value: any) => {
+const ValidateVersion = (value: string): string => {
   if (!nonNull(value)) {
     throw new MissingFieldError("version");
   } else if (!SUPPORTED_VERSIONS.includes(value)) {
@@ -66,11 +63,11 @@ const ValidateVersion = (value: any) => {
 
 const ParseClue = (
   { id, url, text, html, image, alt, interactive }: ClueConfig,
-  index: number
+  index: number,
 ): ClueConfig => {
   const ret = {
-    id: ValidateRequiredNonEmptyField(id, "id", index),
-    url: ValidateRequiredNonEmptyField(url, "url", index),
+    id: ValidateRequiredNonEmptyField(id, "id", index) as number,
+    url: ValidateRequiredNonEmptyField(url, "url", index) as string,
     text: text,
     html: html,
     image: image,
@@ -109,36 +106,38 @@ const ParseHuntOptions = ({
   options = { silent: false },
   beginning,
 }: HuntConfig): HuntConfig => ({
-  name: ValidateRequiredNonEmptyField(name, "name"),
-  description: ValidateRequiredField(description, "description"),
+  name: ValidateRequiredNonEmptyField(name, "name") as string,
+  description: ValidateRequiredField(description, "description") as string,
   version: ValidateVersion(version),
-  author: ValidateRequiredField(author, "author"),
+  author: ValidateRequiredField(author, "author") as string,
   encrypted: encrypted,
   background: background,
   options: options,
-  beginning: ValidateRequiredNonEmptyField(beginning, "beginning"),
+  beginning: ValidateRequiredNonEmptyField(beginning, "beginning") as string,
   clues: [],
 });
 
 export const ParseConfig = (object: any) => {
   // Parse clues
+  // trunk-ignore(eslint/@typescript-eslint/no-unsafe-member-access)
   if (!object.clues || object.clues.length === 0) {
     throw new MissingValueError("clues");
   }
 
-  const [_index, clues, errors] = object.clues.reduce(
+  // trunk-ignore(eslint)
+  const [_, clues, errors] = object.clues.reduce(
     (
       [index, clueAccumulator, errorAccumulator]: [
         number,
         ClueConfig[],
-        ConfigError[]
+        ConfigError[],
       ],
-      clue: any
+      clue: ClueConfig,
     ) => {
       try {
         return [
           index + 1,
-          clueAccumulator.concat(ParseClue(clue, index++)),
+          clueAccumulator.concat(ParseClue(clue, index)),
           errorAccumulator,
         ];
       } catch (error) {
@@ -148,35 +147,41 @@ export const ParseConfig = (object: any) => {
         throw error;
       }
     },
-    [0, [], []]
+    [0, [] as ClueConfig[], [] as ConfigError[]],
   );
+  const parsedClues = clues as ClueConfig[];
+  const parsedErrors = errors as ConfigError[];
 
   // Errors at this point are high enough priority that we throw so users can resolve them.
-  if (errors.length) {
-    throw new BulkError(errors);
+  if (parsedErrors.length) {
+    throw new BulkError(parsedErrors);
   }
 
   try {
     // Parse hunt config
-    const huntConfig: HuntConfig = ParseHuntOptions(object);
-    ValidateClues(clues);
-    huntConfig.clues = clues;
+    const huntConfig: HuntConfig = ParseHuntOptions(object as HuntConfig);
+    ValidateClues(parsedClues);
+    huntConfig.clues = parsedClues;
 
     // Throw bulk error, config errors first
-    if (errors.length) {
-      throw new BulkError(errors);
+    if (parsedErrors.length) {
+      throw new BulkError(parsedErrors);
     }
     return huntConfig;
   } catch (error) {
     // Throw bulk error with clue config errors
     if (error instanceof ConfigError) {
-      throw new BulkError([error].concat(errors));
+      throw new BulkError([error].concat(parsedErrors));
     }
     throw error;
   }
 };
 
-export const DecryptClue = (clue: ClueConfig, encrypted: boolean, secretKey: string) => ({
+export const DecryptClue = (
+  clue: ClueConfig,
+  encrypted: boolean,
+  secretKey: string,
+) => ({
   /* Decoded fields */
   id: clue.id,
   /* Encoded fields */
@@ -193,7 +198,11 @@ export const DecryptClue = (clue: ClueConfig, encrypted: boolean, secretKey: str
     : undefined,
 });
 
-export const EncryptClue = (clue: ClueConfig, encrypted: boolean, secretKey: string) => ({
+export const EncryptClue = (
+  clue: ClueConfig,
+  encrypted: boolean,
+  secretKey: string,
+) => ({
   /* Decoded fields */
   id: clue.id,
   /* Encoded fields */

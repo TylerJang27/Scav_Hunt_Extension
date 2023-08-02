@@ -116,7 +116,7 @@ The following key-value pairs are expected as part of clue objects.
 - interact (String) [2=always]
   - always: The clue will always be viewable as long as the user is at the correct URL
   - submit: The clue will require a user-submitted key in order to unlock
-  - clickable: _WORK IN PROGRESS_
+  - clickable: WORK IN PROGRESS
 - prompt (String) [2=Enter key:]
   - A prompt for what the user should enter in the key box
 - key (String) [1 if interact]

@@ -1,5 +1,3 @@
-import { getProvider } from "./chrome";
+import { getProvider } from "src/providers/chrome";
 
-export const createTab = (url: string) => {
-    return getProvider().tabs.create({url});
-}
+export const createTab = (url: string) => getProvider().tabs.create({ url });

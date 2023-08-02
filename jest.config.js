@@ -1,5 +1,6 @@
 module.exports = {
   preset: "ts-jest",
+  moduleDirectories: ["node_modules", "<rootDir>"],
   roots: ["<rootDir>/src/__tests__"],
   setupFilesAfterEnv: ["<rootDir>/jest_setup.ts"],
   snapshotFormat: {

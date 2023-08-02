@@ -1,5 +1,5 @@
 {
-  "name": "loadstone-server",
+  "name": "scavenger-hunt-chrome-extension",
   "version": "0.9.1",
   "description": "Create and Run Chrome Extension Scavenger Hunts",
   "repository": {
@@ -9,6 +9,9 @@
   "author": "TylerJang27",
   "license": "MIT",
   "private": true,
+  "engines": {
+    "node": ">=16"
+  },
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -28,7 +31,18 @@
     "@types/node": "^18.15.11",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/parser": "^6.1.0",
     "copy-webpack-plugin": "^9.0.1",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jest": "^27.2.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prefer-arrow-functions": "^3.1.4",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
     "glob": "^7.1.6",
     "html-webpack-plugin": "^5.5.1",
     "jest": "^27.2.1",
@@ -39,9 +53,13 @@
     "ts-loader": "^8.0.0",
     "typescript": "^4.4.3 ",
     "webpack": "^5.76.0",
+    "webpack-bundle-analyzer": "^4.9.0",
     "webpack-cli": "^4.0.0",
     "webpack-merge": "^5.0.0"
   },
+  "bundleDependencies": [
+    "scavenger-hunt-chrome-extension"
+  ],
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
     "build": "webpack --config webpack/webpack.prod.js",

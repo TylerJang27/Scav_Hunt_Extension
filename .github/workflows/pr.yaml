@@ -8,7 +8,7 @@ permissions: read-all
 
 jobs:
   trunk_check:
-    name: Trunk Check
+    name: Trunk Check Runner
     runs-on: ubuntu-latest
     permissions:
       checks: write # Trunk
@@ -19,3 +19,11 @@ jobs:
 
       - name: Run Trunk Check
         uses: trunk-io/trunk-action@v1
+
+  test_extension:
+    name: Unit and Integration Tests
+    uses: ./.github/workflows/tests.reusable.yaml
+
+  build_extension:
+    name: Build Extension
+    uses: ./.github/workflows/build.reusable.yaml

@@ -1,18 +1,15 @@
-import {
-  loadStorageValues,
-  saveStorageValues,
-} from "../../src/providers/storage";
+import { addOnClickedListener, setBadgeText } from "src/providers/action";
+import { alertWrapper } from "src/providers/alert";
+import { getCurrentURL } from "src/providers/href";
 import {
   addInstalledListener,
   addMessageListener,
   getLastError,
   getURL,
   sendMessage,
-} from "../../src/providers/runtime";
-import { getCurrentURL } from "../../src/providers/href";
-import { alertWrapper } from "../../src/providers/alert";
-import { addOnClickedListener, setBadgeText } from "../../src/providers/action";
-import { createTab } from "../../src/providers/tabs";
+} from "src/providers/runtime";
+import { loadStorageValues, saveStorageValues } from "src/providers/storage";
+import { createTab } from "src/providers/tabs";
 
 export const buildProviderMocks = () => ({
   alertMock: jest.mocked(alertWrapper),

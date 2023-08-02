@@ -1,11 +1,11 @@
 import { ThemeProvider } from "@emotion/react";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {
   Alert,
   Button,
   Container,
   FormControl,
   FormControlLabel,
-  FormLabel,
   Grid,
   Link,
   Radio,
@@ -14,23 +14,20 @@ import {
   Typography,
 } from "@mui/material";
 import { yellow } from "@mui/material/colors";
-import React, { ChangeEvent, useState } from "react";
-import { useEffect } from "react";
-import { createRoot } from "react-dom/client";
-import { ExitableModal } from "./components/ExitableModal";
-import { PageHeaderAndSubtitle } from "./components/PageHeaderAndSubtitle";
-import { HuntConfig, SAMPLE_DIR } from "./types/hunt_config";
-import { HuntSource, Progress } from "./types/progress";
-import { ParseConfig } from "./utils/parse";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import path from "path";
-import { logger } from "./logger";
-import { theme } from "./components/theme";
-import { saveStorageValues } from "./providers/storage";
-import { createTab } from "./providers/tabs";
-import { getLastError, getURL } from "./providers/runtime";
-import { Render } from "./utils/root";
-import { resetStorage } from "./providers/helpers";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { ExitableModal } from "src/components/ExitableModal";
+import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
+import { theme } from "src/components/theme";
+import { logger } from "src/logger";
+import { resetStorage } from "src/providers/helpers";
+import { getLastError, getURL } from "src/providers/runtime";
+import { saveStorageValues } from "src/providers/storage";
+import { createTab } from "src/providers/tabs";
+import { HuntConfig, SAMPLE_DIR } from "src/types/hunt_config";
+import { HuntSource, Progress } from "src/types/progress";
+import { ParseConfig } from "src/utils/parse";
+import { Render } from "src/utils/root";
 
 interface SourceFormType {
   sourceType: HuntSource;
@@ -45,11 +42,10 @@ interface SourceFormType {
   uploadedError?: Error;
 }
 
-const fetchFromUrl = async (url: string) => {
-  return await fetch(url, {
+const fetchFromUrl = async (url: string) =>
+  await fetch(url, {
     mode: "cors",
   }).then((res) => res.json());
-};
 
 const fetchFromSample = async (samplePath: string) => {
   const url = getURL(path.join(SAMPLE_DIR, samplePath));
@@ -58,7 +54,7 @@ const fetchFromSample = async (samplePath: string) => {
 
 export const saveConfigAndLaunch = (
   huntConfig: HuntConfig,
-  sourceType: HuntSource
+  sourceType: HuntSource,
 ) => {
   // Save config and hunt progress to local storage
   const progress: Progress = {
@@ -82,7 +78,7 @@ export const saveConfigAndLaunch = (
 
 const getSampleOptions = () => {
   // TODO: TYLER POPULATE THIS WITH MORE DEFAULTS
-  let sampleHuntOptions = new Map<string, string>();
+  const sampleHuntOptions = new Map<string, string>();
   const files = ["hunt.json"];
   files
     .filter((file) => file.endsWith(".json"))
@@ -109,7 +105,7 @@ const Options = () => {
 
   // TODO: TYLER RENDER ERRORS
   const [validationError, setValidationError] = useState<Error | undefined>(
-    undefined
+    undefined,
   );
   const [sampleModalOpen, setSampleModalOpen] = useState<boolean>(false);
 
@@ -129,7 +125,7 @@ const Options = () => {
     } else {
       logger.warn(
         "Error: unknown condition reached. Please refresh the page.",
-        sourceFormState.sourceType
+        sourceFormState.sourceType,
       );
     }
     return false;
@@ -164,7 +160,7 @@ const Options = () => {
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
       try {
-        var huntData = JSON.parse(event.target?.result as string);
+        const huntData = JSON.parse(event.target?.result as string);
         validateAndSetUploadedConfig(huntData, name);
       } catch (error) {
         setSourceFormState({
@@ -211,7 +207,7 @@ const Options = () => {
       } else {
         logger.warn(
           "Error: unknown condition reached. Please refresh the page.",
-          sourceType
+          sourceType,
         );
       }
     } catch (error) {
@@ -272,7 +268,7 @@ const Options = () => {
                           >
                             <>
                               {sampleHuntOptions.get(
-                                sourceFormState.samplePath
+                                sourceFormState.samplePath,
                               ) ?? "Unknown name"}
                               <ArrowDropDownIcon />
                               {/* TODO: TYLER ADD DROPDOWN ICON */}
@@ -373,7 +369,13 @@ const Options = () => {
                 >
                   Submit
                 </Button>
-                <Button variant="outlined" size="medium" onClick={onReset} color="secondary" disabled={hasReset}>
+                <Button
+                  variant="outlined"
+                  size="medium"
+                  onClick={onReset}
+                  color="secondary"
+                  disabled={hasReset}
+                >
                   Clear Hunt
                 </Button>
               </Grid>
@@ -411,12 +413,13 @@ const Options = () => {
               {Array.from(sampleHuntOptions.entries()).map(
                 ([samplePath, sampleName]) => (
                   <FormControlLabel
+                    key={sampleName}
                     value={samplePath}
                     control={<Radio />}
                     label={sampleName}
                     sx={{ textTransform: "capitalize" }}
                   />
-                )
+                ),
               )}
             </RadioGroup>
           </FormControl>
@@ -426,5 +429,4 @@ const Options = () => {
   );
 };
 
-Render(<Options />)
-
+Render(<Options />);

@@ -1,25 +1,25 @@
 import { ThemeProvider } from "@emotion/react";
 import {
-  Container,
-  Grid,
+  Button,
   Card,
   CardContent,
-  Typography,
+  Container,
   FormControl,
+  Grid,
   TextField,
-  Button,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Footer } from "./Footer";
-import { PageHeaderAndSubtitle } from "./PageHeaderAndSubtitle";
-import { yellow } from "@mui/material/colors";
+// trunk-ignore(eslint/import/extensions)
+import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
+import { theme } from "src/components/theme";
+import { getURL } from "src/providers/runtime";
 import { ClueConfig } from "src/types/hunt_config";
-import { Decrypt } from "../utils/encrypt";
-// import { provider } from "../providers/chrome";
-import { theme } from "./theme";
-import { getURL } from "../providers/runtime";
-import { nonNull } from "../utils/helpers";
+import { Decrypt } from "src/utils/encrypt";
+import { nonNull } from "src/utils/helpers";
 
+// trunk-ignore(eslint/import/extensions)
+import { Footer } from "./Footer";
 
 export interface BeginningPageProps {
   title: React.ReactNode;
@@ -41,8 +41,7 @@ export const CluePage = (props: CluePageProps) => {
     clue: { id, text, image, alt, interactive },
     error,
   } = props;
-  const imageURL =
-    image && !image.startsWith("http") ? getURL(image) : image;
+  const imageURL = image && !image.startsWith("http") ? getURL(image) : image;
 
   const clueNumber = id > 0 ? `: ${id}` : "";
   const title = `${huntName}${clueNumber}`;
@@ -56,7 +55,10 @@ export const CluePage = (props: CluePageProps) => {
   }, [interactive]);
 
   const validateKey = () => {
-    if (interactive && Decrypt(interactive.key, encrypted, huntName) === inputKey) {
+    if (
+      interactive &&
+      Decrypt(interactive.key, encrypted, huntName) === inputKey
+    ) {
       setSolved(true);
     }
   };
@@ -148,40 +150,32 @@ export const CluePage = (props: CluePageProps) => {
 };
 
 // TODO: TYLER REFACTOR TO MAKE THESE COMMON
-export const BeginningPage = (props: BeginningPageProps) => {
-
-  return (
-    <>
-      <ThemeProvider theme={theme}>
-        <Container maxWidth="sm" sx={{ mt: 3, "&::after": { flex: "auto" } }}>
-          <Grid
-            container
-            spacing={2}
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Grid item xs={12}>
-              <Card sx={{ mt: 4, backgroundColor: "#333" }}>
-                <CardContent>
-                  <PageHeaderAndSubtitle header={props.title} />
-                  <Typography
-                    variant="body1"
-                    textAlign="center"
-                    color="white"
-                    mt={1}
-                  >
-                    {/* TODO: TYLER DO LINE REPLACEMENT */}
-                    {props.message}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12}>
-              <Footer />
-            </Grid>
+export const BeginningPage = (props: BeginningPageProps) => (
+  <>
+    <ThemeProvider theme={theme}>
+      <Container maxWidth="sm" sx={{ mt: 3, "&::after": { flex: "auto" } }}>
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          <Grid item xs={12}>
+            <Card sx={{ mt: 4, backgroundColor: "#333" }}>
+              <CardContent>
+                <PageHeaderAndSubtitle header={props.title} />
+                <Typography
+                  variant="body1"
+                  textAlign="center"
+                  color="white"
+                  mt={1}
+                >
+                  {/* TODO: TYLER DO LINE REPLACEMENT */}
+                  {props.message}
+                </Typography>
+              </CardContent>
+            </Card>
           </Grid>
-        </Container>
-      </ThemeProvider>
-    </>
-  );
-};
+          <Grid item xs={12}>
+            <Footer />
+          </Grid>
+        </Grid>
+      </Container>
+    </ThemeProvider>
+  </>
+);

@@ -1,19 +1,20 @@
-import { loadHuntProgress } from "../../src/content_script";
+import { buildProviderMocks } from "src/__tests__/build_mocks";
 import {
   sampleEncryptedHunt,
   sampleHunt,
   sampleSilentHunt,
-} from "./create_hunt_config";
-import { buildProviderMocks } from "./build_mocks";
+} from "src/__tests__/create_hunt_config";
+import { loadHuntProgress } from "src/content_script";
 
-// TODO: Add additional test coverage for loading an old corrupted hunt once we have multiple config versions. New extension versions should be compatible with older hunts when possible.
+// TODO: Add additional test coverage for loading an old corrupted hunt once we have multiple config versions.
+// New extension versions should be compatible with older hunts when possible.
 
-jest.mock("../../src/providers/alert");
-jest.mock("../../src/providers/chrome");
-jest.mock("../../src/providers/href");
-jest.mock("../../src/providers/runtime");
-jest.mock("../../src/providers/storage");
-jest.mock("../../src/logger/index");
+jest.mock("src/providers/alert");
+jest.mock("src/providers/chrome");
+jest.mock("src/providers/href");
+jest.mock("src/providers/runtime");
+jest.mock("src/providers/storage");
+jest.mock("src/logger/index");
 
 const { loadMock, saveMock, currentURLMock, alertMock, sendMessageMock } =
   buildProviderMocks();
@@ -35,7 +36,7 @@ it("Check URL for match", () => {
   });
 
   currentURLMock.mockReturnValue(
-    `http://padding.${sampleHunt.clues[1].url}/padding`
+    `http://padding.${sampleHunt.clues[1].url}/padding`,
   );
 
   // Run the script triggered when a page is loaded.
@@ -65,7 +66,7 @@ it("Check URL for match from in-progress hunt", () => {
   });
 
   currentURLMock.mockReturnValue(
-    `http://padding.${sampleHunt.clues[0].url}/padding`
+    `http://padding.${sampleHunt.clues[0].url}/padding`,
   );
 
   // Run the script triggered when a page is loaded.
@@ -95,7 +96,7 @@ it("Check URL for match from silent hunt", () => {
   });
 
   currentURLMock.mockReturnValue(
-    `http://padding.${sampleSilentHunt.clues[3].url}/padding`
+    `http://padding.${sampleSilentHunt.clues[3].url}/padding`,
   );
 
   // Run the script triggered when a page is loaded.
@@ -125,7 +126,7 @@ it("Check encoded URL for match from in-progress hunt", () => {
   });
 
   currentURLMock.mockReturnValue(
-    `http://padding.${sampleHunt.clues[2].url}/padding`
+    `http://padding.${sampleHunt.clues[2].url}/padding`,
   );
 
   // Run the script triggered when a page is loaded.
@@ -151,7 +152,7 @@ it("Check URL for no match", () => {
   });
 
   currentURLMock.mockReturnValue(
-    "http://random_string_of_not_the_right_url.com"
+    "http://random_string_of_not_the_right_url.com",
   );
 
   // Run the script triggered when a page is loaded.
