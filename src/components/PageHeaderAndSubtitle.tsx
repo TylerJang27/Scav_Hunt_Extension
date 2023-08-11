@@ -18,7 +18,7 @@ export const PageHeaderAndSubtitle: React.FC<PageHeaderAndSubtitleProps> = (
         fontWeight={theme.typography.fontWeightBold}
         textAlign="center"
         color="white"
-        fontFamily="Chakra Petch"
+        fontFamily="Dosis"
       >
         {props.headerPrefix}
         {props.headerPrefix && ": "}

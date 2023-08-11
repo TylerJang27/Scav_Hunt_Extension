@@ -1,5 +1,5 @@
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { Container, Grid, Link, Typography } from "@mui/material";
+import { CardMedia, Container, Grid, Link, Typography } from "@mui/material";
 import React from "react";
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 
@@ -11,10 +11,12 @@ export const LearnMore = () => (
           <PageHeaderAndSubtitle header="Learn More" />
         </Grid>
         <Grid item xs={12}>
+          {/* TODO: INCLUDE THIS IN PART OF THE IMAGE */}
           <Typography textAlign={"center"}>Browse Hunts</Typography>
-          <img
-            src={"../graphics/coming_soon.png"}
-            alt={"Coming"}
+          <CardMedia
+            component="img"
+            image="../graphics/coming_soon.png"
+            alt="Coming Soon"
             loading="lazy"
             width="75%"
             height="75%"
@@ -22,6 +24,7 @@ export const LearnMore = () => (
               marginLeft: "auto",
               marginRight: "auto",
               display: "flex",
+              paddingTop: "1",
             }}
           />
           <Link

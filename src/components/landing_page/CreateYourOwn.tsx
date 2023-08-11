@@ -1,4 +1,4 @@
-import { Container, Grid, Link, Typography } from "@mui/material";
+import { CardMedia, Container, Grid, Link, Typography } from "@mui/material";
 import React from "react";
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 
@@ -9,10 +9,11 @@ export const CreateYourOwn = () => (
         <Grid item xs={12}>
           <PageHeaderAndSubtitle header="Create Your Own" />
         </Grid>
-        <Link href="../encode.html">
-          <img
-            src={"../graphics/encode_teaser.png"}
-            alt={"Coming"}
+        <Link href="../encode.html" sx={{ paddingTop: 1 }}>
+          <CardMedia
+            component="img"
+            image="../graphics/encode_teaser.png"
+            alt="Encrypt Hunt Teaser"
             loading="lazy"
             style={{
               marginLeft: "auto",

@@ -1,6 +1,7 @@
 import {
   Card,
   CardContent,
+  CardMedia,
   Container,
   Grid,
   ThemeProvider,
@@ -28,27 +29,45 @@ export const LandingPage = () => (
           columns={14}
           spacing={2}
           justifyContent="center"
-          alignItems="center"
+          alignItems="baseline"
         >
           {/* TODO: TYLER DRAW A BOX AROUND THE TOP ROW */}
           <Grid item xs={6}>
-            <Card sx={{ mt: 4, backgroundColor: "#333" }}>
+            <Card sx={{ mt: 4, backgroundColor: "#383d5bdd" }}>
               <CardContent>
                 <ChooseHunt />
               </CardContent>
             </Card>
           </Grid>
 
-          <Grid item xs={2}>
-            <Card sx={{ mt: 4, backgroundColor: "#333" }}>
-              <CardContent>
+          <Grid item xs={2} sx={{ alignSelf: "center" }}>
+            <Card sx={{ mt: 4, backgroundColor: "#383d5bdd" }}>
+              <CardMedia
+                component="img"
+                image="../graphics/or.png"
+                alt="OR"
+                sx={{
+                  root: {
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    height: "100%",
+                    width: "100%",
+                  },
+                }}
+              />
+              {/* <CardContent sx={{root: {
+    position: "relative",
+    backgroundColor: "transparent"
+  }}}>
+              
                 <PageHeaderAndSubtitle header="OR" />
-              </CardContent>
+              </CardContent> */}
             </Card>
           </Grid>
 
           <Grid item xs={6}>
-            <Card sx={{ mt: 4, backgroundColor: "#333" }}>
+            <Card sx={{ mt: 4, backgroundColor: "#383d5bdd" }}>
               <CardContent>
                 <CreateYourOwn />
               </CardContent>
@@ -56,7 +75,7 @@ export const LandingPage = () => (
           </Grid>
 
           <Grid item xs={6}>
-            <Card sx={{ mt: 4, backgroundColor: "#333" }}>
+            <Card sx={{ mt: 4, backgroundColor: "#383d5bdd" }}>
               <CardContent>
                 <Tutorial />
               </CardContent>
@@ -66,7 +85,7 @@ export const LandingPage = () => (
           <Grid item xs={2}></Grid>
 
           <Grid item xs={6}>
-            <Card sx={{ mt: 4, backgroundColor: "#333" }}>
+            <Card sx={{ mt: 4, backgroundColor: "#383d5bdd" }}>
               <CardContent>
                 <LearnMore />
               </CardContent>
