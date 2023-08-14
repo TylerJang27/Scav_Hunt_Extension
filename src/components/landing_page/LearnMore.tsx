@@ -11,9 +11,8 @@ export const LearnMore = () => (
           <PageHeaderAndSubtitle header="Learn More" />
         </Grid>
         <Grid item xs={12}>
-          {/* TODO: INCLUDE THIS IN PART OF THE IMAGE */}
-          <Typography textAlign={"center"} sx={{ pt: 2, pb: 1 }}>
-            Browse Hunts
+          <Typography textAlign={"center"}>
+            Discover new scavenger hunts to solve made by other hunt creators!
           </Typography>
           <CardMedia
             component="img"
