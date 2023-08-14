@@ -1,4 +1,4 @@
-import { CardMedia, Container, Grid, Link, Typography } from "@mui/material";
+import { CardMedia, Container, Grid, Link } from "@mui/material";
 import React from "react";
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 

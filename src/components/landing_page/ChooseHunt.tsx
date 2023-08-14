@@ -8,13 +8,12 @@ import {
   Grid,
   Radio,
   RadioGroup,
-  Stack,
   TextField,
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import MuiToggleButton from "@mui/material/ToggleButton";
 import { styled } from "@mui/material/styles";
+import MuiToggleButton from "@mui/material/ToggleButton";
 import path from "path";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { ExitableModal } from "src/components/ExitableModal";
@@ -57,12 +56,12 @@ const ToggleButton = styled(MuiToggleButton)({
   textTransform: "inherit",
 });
 
-const fetchFromUrl = async (url: string) =>
+const fetchFromUrl = async (url: string): Promise<any> =>
   await fetch(url, {
     mode: "cors",
   }).then((res) => res.json());
 
-const fetchFromPresets = async (presetPath: string) => {
+const fetchFromPresets = async (presetPath: string): Promise<any> => {
   const url = getURL(path.join(SAMPLE_DIR, presetPath));
   return await fetchFromUrl(url);
 };

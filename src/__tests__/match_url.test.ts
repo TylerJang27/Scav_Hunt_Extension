@@ -1,7 +1,7 @@
 import { buildProviderMocks } from "src/__tests__/build_mocks";
 import {
-  sampleEncryptedHunt,
   presetHunt,
+  sampleEncryptedHunt,
   sampleSilentHunt,
 } from "src/__tests__/create_hunt_config";
 import { loadHuntProgress } from "src/content_script";
