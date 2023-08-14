@@ -9,6 +9,8 @@ import {
   Radio,
   RadioGroup,
   TextField,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from "@mui/material";
 import path from "path";
@@ -104,6 +106,7 @@ export const ChooseHunt = () => {
   );
   const [sampleModalOpen, setSampleModalOpen] = useState<boolean>(false);
 
+  // TODO: TYLER INITIALIZE THIS TO THE ACTUAL VALUE OF WHETHER OR NOT WE HAVE A HUNT OR NOT
   const [hasReset, setHasReset] = useState<boolean>(false);
 
   const validateSubmitable = () => {
@@ -222,7 +225,123 @@ export const ChooseHunt = () => {
           </Grid>
           <Grid item xs={12}>
             <FormControl>
-              <RadioGroup
+              {/* TODO: TYLER CHANGE THE STYLING FOR WHEN IT'S SELECTED */}
+              <ToggleButtonGroup
+                orientation="vertical"
+                value={sourceFormState.sourceType}
+                exclusive
+                onChange={(
+                  _: React.MouseEvent<HTMLElement>,
+                  nextView: string,
+                ) => {
+                  setSourceFormState({
+                    ...sourceFormState,
+                    sourceType: nextView as HuntSource,
+                  });
+                  logger.info("Source type", nextView); // TODO: REMOVE
+                }}
+              >
+                <ToggleButton value="Sample" aria-label="Sample">
+                  <Grid container direction="row" spacing={1}>
+                    <Grid
+                      item
+                      xs={4}
+                      sx={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography>Sample</Typography>
+                    </Grid>
+                    <Grid item xs={8}>
+                      <Button
+                        fullWidth
+                        color="primary"
+                        variant="contained"
+                        onClick={() => {
+                          setSourceFormState({
+                            ...sourceFormState,
+                            sourceType: "Sample",
+                          });
+                          setSampleModalOpen(true);
+                        }}
+                      >
+                        <>
+                          {sampleHuntOptions.get(sourceFormState.samplePath) ??
+                            "Unknown name"}
+                          <ArrowDropDownIcon />
+                          {/* TODO: TYLER ADD DROPDOWN ICON */}
+                        </>
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </ToggleButton>
+
+                <ToggleButton value="URL" aria-label="URL">
+                  <Grid container direction="row" spacing={0}>
+                    <Grid
+                      item
+                      xs={2}
+                      sx={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography>URL</Typography>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <TextField
+                        fullWidth
+                        color="secondary"
+                        variant="outlined"
+                        onChange={(e) => {
+                          setSourceFormState({
+                            ...sourceFormState,
+                            sourceURL: e.target.value.trim(),
+                          });
+                        }}
+                        value={sourceFormState.sourceURL ?? ""}
+                        error={
+                          sourceFormState.sourceType === "URL" &&
+                          (sourceFormState.sourceURL ?? "") === ""
+                        }
+                      />
+                    </Grid>
+                  </Grid>
+                </ToggleButton>
+
+                <ToggleButton value="Upload" aria-label="Upload">
+                  <Grid
+                    container
+                    direction="row"
+                    spacing={1}
+                    sx={{ display: "flex", alignItems: "center" }}
+                  >
+                    <Grid item xs={6}>
+                      <Button
+                        variant="contained"
+                        size="medium"
+                        component="label"
+                        color="secondary"
+                      >
+                        Choose File
+                        <input
+                          type="file"
+                          accept=".json,jsn,.json5"
+                          onChange={(e) => {
+                            setSourceFormState({
+                              ...sourceFormState,
+                              sourceType: "Upload",
+                            });
+                            onUpload(e);
+                          }}
+                          hidden
+                        />
+                      </Button>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography>
+                        {sourceFormState.fileName ?? "No file chosen"}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </ToggleButton>
+              </ToggleButtonGroup>
+              {/* <RadioGroup
                 name="source-type-group"
                 sx={{ display: "flex" }}
                 value={sourceFormState.sourceType}
@@ -265,7 +384,6 @@ export const ChooseHunt = () => {
                               sourceFormState.samplePath,
                             ) ?? "Unknown name"}
                             <ArrowDropDownIcon />
-                            {/* TODO: TYLER ADD DROPDOWN ICON */}
                           </>
                         </Button>
                       </Grid>
@@ -344,7 +462,8 @@ export const ChooseHunt = () => {
                     </Typography>
                   </Grid>
                 </Grid>
-              </RadioGroup>
+              </RadioGroup> 
+              */}
             </FormControl>
           </Grid>
           <Grid item xs={12}>
@@ -354,6 +473,7 @@ export const ChooseHunt = () => {
               spacing={1}
               sx={{ display: "flex", alignItems: "center" }}
             >
+              {/* TODO: TYLER SUBMIT BUTTON SHOULD BE MORE PROMINENT */}
               <Button
                 variant="outlined"
                 size="medium"
@@ -370,7 +490,7 @@ export const ChooseHunt = () => {
                 color="secondary"
                 disabled={hasReset}
               >
-                Clear Hunt
+                Remove Current Hunt
               </Button>
             </Grid>
           </Grid>
