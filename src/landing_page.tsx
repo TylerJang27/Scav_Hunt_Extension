@@ -1,10 +1,10 @@
 import {
   Card,
   CardContent,
-  CardMedia,
   Container,
   Grid,
   ThemeProvider,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import { Header } from "src/components/Header";
@@ -21,7 +21,7 @@ export const LandingPage = () => (
       <Header />
       <Container
         maxWidth="lg"
-        sx={{ pt: 4, mt: 3, "&::after": { flex: "auto" } }}
+        sx={{ pb: 2, pt: 6, mt: 3, "&::after": { flex: "auto" } }}
       >
         <Grid
           container
@@ -39,29 +39,16 @@ export const LandingPage = () => (
           </Grid>
 
           <Grid item xs={2} sx={{ alignSelf: "center" }}>
-            <Card sx={{ mt: 4, backgroundColor: "#383d5bdd" }}>
-              <CardMedia
-                component="img"
-                image="../graphics/or.png"
-                alt="OR"
-                sx={{
-                  root: {
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    height: "100%",
-                    width: "100%",
-                  },
-                }}
-              />
-              {/* <CardContent sx={{root: {
-    position: "relative",
-    backgroundColor: "transparent"
-  }}}>
-              
-                <PageHeaderAndSubtitle header="OR" />
-              </CardContent> */}
-            </Card>
+            <Typography
+              variant="h2"
+              fontWeight={theme.typography.fontWeightBold}
+              textAlign="center"
+              color="white"
+              fontFamily={"ADLaM Display"}
+              fontSize="4.5rem"
+            >
+              OR
+            </Typography>
           </Grid>
 
           <Grid item xs={6} sx={{ display: "flex" }}>

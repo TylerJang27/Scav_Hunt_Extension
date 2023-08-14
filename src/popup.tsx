@@ -66,7 +66,7 @@ const Popup = () => {
   const backgroundCallback = (background: string) => {
     const sheet = document.styleSheets[5];
     sheet.insertRule(
-      "body { ,height: 100%; background: url('" +
+      "body { background: url('" +
         background +
         "') no-repeat center; background-size: cover; background-position: cover;}",
       0,

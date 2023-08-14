@@ -27,6 +27,7 @@ export const LearnMore = () => (
               marginRight: "auto",
               display: "flex",
               paddingTop: "1",
+              objectFit: "scale-down",
             }}
           />
           <Link
