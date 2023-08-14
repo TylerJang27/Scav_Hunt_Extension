@@ -154,6 +154,6 @@ export const sampleEncryptedClues = [
 
 // TODO: TYLER MAKE MORE CLUES WITH REGEX URLS TOO
 
-export const sampleHunt = makeHunt(sampleClues);
+export const presetHunt = makeHunt(sampleClues);
 export const sampleEncryptedHunt = makeEncryptedHunt(sampleEncryptedClues);
 export const sampleSilentHunt = makeHunt(sampleClues, true);
