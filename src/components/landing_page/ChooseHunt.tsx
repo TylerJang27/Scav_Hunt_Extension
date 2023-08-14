@@ -1,6 +1,6 @@
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
-  Alert,
   Button,
   Container,
   FormControl,
@@ -10,6 +10,7 @@ import {
   RadioGroup,
   TextField,
   ToggleButtonGroup,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -57,12 +58,14 @@ const ToggleButton = styled(MuiToggleButton)({
 });
 
 const fetchFromUrl = async (url: string): Promise<any> =>
+  // trunk-ignore(eslint/@typescript-eslint/no-unsafe-return)
   await fetch(url, {
     mode: "cors",
   }).then((res) => res.json());
 
 const fetchFromPresets = async (presetPath: string): Promise<any> => {
   const url = getURL(path.join(SAMPLE_DIR, presetPath));
+  // trunk-ignore(eslint/@typescript-eslint/no-unsafe-return)
   return await fetchFromUrl(url);
 };
 
@@ -117,10 +120,12 @@ export const ChooseHunt = () => {
     presetPath: Array.from(presetHuntOptions.keys())[0],
   });
 
-  // TODO: TYLER RENDER ERRORS
   const [validationError, setValidationError] = useState<Error | undefined>(
     undefined,
   );
+  const [missingInputMessage, setMissingInputMessage] = useState<
+    string | undefined
+  >();
   const [presetModalOpen, setPresetModalOpen] = useState<boolean>(false);
 
   // TODO: TYLER INITIALIZE THIS TO THE ACTUAL VALUE OF WHETHER OR NOT WE HAVE A HUNT OR NOT
@@ -132,11 +137,29 @@ export const ChooseHunt = () => {
     }
 
     if (sourceFormState.sourceType == "Preset") {
-      return Boolean(sourceFormState.presetPath);
+      if (sourceFormState.presetPath) {
+        setMissingInputMessage(undefined);
+        return true;
+      } else {
+        setMissingInputMessage("Please specify a preset hunt");
+        return false;
+      }
     } else if (sourceFormState.sourceType == "URL") {
-      return Boolean(sourceFormState.sourceURL);
+      if (sourceFormState.sourceURL) {
+        setMissingInputMessage(undefined);
+        return true;
+      } else {
+        setMissingInputMessage("Please specify a URL");
+        return false;
+      }
     } else if (sourceFormState.sourceType == "Upload") {
-      return Boolean(sourceFormState.uploadedConfig);
+      if (sourceFormState.uploadedConfig) {
+        setMissingInputMessage(undefined);
+        return true;
+      } else {
+        setMissingInputMessage("Please specify an upload file");
+        return false;
+      }
     } else {
       logger.warn(
         "Error: unknown condition reached. Please refresh the page.",
@@ -175,6 +198,7 @@ export const ChooseHunt = () => {
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
       try {
+        // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
         const huntData = JSON.parse(event.target?.result as string);
         validateAndSetUploadedConfig(huntData, name);
       } catch (error) {
@@ -209,10 +233,12 @@ export const ChooseHunt = () => {
       const { sourceType, presetPath, sourceURL, uploadedConfig } =
         sourceFormState;
       if (sourceType == "Preset") {
+        // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
         const presetJson = await fetchFromPresets(presetPath);
         const parsedConfig = ParseConfig(presetJson);
         saveConfigAndLaunch(parsedConfig, sourceType);
       } else if (sourceType == "URL" && sourceURL) {
+        // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
         const fetchedJson = await fetchFromUrl(sourceURL);
         const parsedConfig = ParseConfig(fetchedJson);
         saveConfigAndLaunch(parsedConfig, sourceType);
@@ -306,6 +332,8 @@ export const ChooseHunt = () => {
                         fullWidth
                         color="secondary"
                         variant="outlined"
+                        label="Specify URL"
+                        size="small"
                         onChange={(e) => {
                           setSourceFormState({
                             ...sourceFormState,
@@ -372,24 +400,44 @@ export const ChooseHunt = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                paddingTop: 2,
               }}
             >
-              {/* TODO: TYLER SHOULD HAVE A HIDDEN INFO ICON HERE PLACED ABSOLUTELY THAT CAN HOVER TO GIVE ERROR DETAILS */}
-              <Button
-                variant="contained"
-                size="medium"
-                disabled={!submitable}
-                onClick={onSubmit}
-                color="primary"
-                sx={{
-                  ".MuiButton-contained, :disabled": {
-                    backgroundColor: "#e5a9a988",
-                    color: "black",
-                  },
-                }}
+              <Tooltip
+                title={validationError?.message ?? missingInputMessage}
+                followCursor
+                leaveDelay={200}
               >
-                Submit
-              </Button>
+                <span>
+                  {!submitable && (
+                    <InfoOutlinedIcon
+                      htmlColor="#ff99a9"
+                      id="submit-disable-tooltip"
+                      sx={{
+                        position: "absolute",
+                        transform: "translate(-100%, 25%)",
+                      }}
+                    />
+                  )}
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    aria-disabled={!submitable}
+                    aria-describedby="submit-disable-tooltip"
+                    disabled={!submitable}
+                    onClick={onSubmit}
+                    color="primary"
+                    sx={{
+                      ".MuiButton-contained, :disabled": {
+                        backgroundColor: "#e5a9a988",
+                        color: "black",
+                      },
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </span>
+              </Tooltip>
               <Button
                 variant="outlined"
                 size="medium"
@@ -401,9 +449,6 @@ export const ChooseHunt = () => {
               </Button>
             </Grid>
           </Grid>
-          {validationError && (
-            <Alert severity="error">{validationError.message}</Alert>
-          )}
         </Grid>
       </Container>
       <ExitableModal

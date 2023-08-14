@@ -30,7 +30,7 @@ export const LandingPage = () => (
           justifyContent="center"
           alignItems="stretch"
         >
-          <Grid item xs={6}>
+          <Grid item xs={6} sx={{ display: "flex" }}>
             <Card sx={{ mt: 4, backgroundColor: "#383d5bdd" }}>
               <CardContent>
                 <ChooseHunt />

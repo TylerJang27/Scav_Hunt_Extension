@@ -12,7 +12,9 @@ export const LearnMore = () => (
         </Grid>
         <Grid item xs={12}>
           {/* TODO: INCLUDE THIS IN PART OF THE IMAGE */}
-          <Typography textAlign={"center"}>Browse Hunts</Typography>
+          <Typography textAlign={"center"} sx={{ pt: 2, pb: 1 }}>
+            Browse Hunts
+          </Typography>
           <CardMedia
             component="img"
             image="../graphics/coming_soon.png"
