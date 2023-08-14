@@ -15,6 +15,7 @@ export const Header = () => (
           position: "fixed",
           top: "0",
           left: "0",
+          zIndex: 99,
         }}
       >
         {/* TODO: TYLER ADD LOGO */}

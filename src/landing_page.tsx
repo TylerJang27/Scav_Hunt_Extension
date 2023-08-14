@@ -12,7 +12,6 @@ import { ChooseHunt } from "src/components/landing_page/ChooseHunt";
 import { CreateYourOwn } from "src/components/landing_page/CreateYourOwn";
 import { LearnMore } from "src/components/landing_page/LearnMore";
 import { Tutorial } from "src/components/landing_page/Tutorial";
-import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 import { theme } from "src/components/theme";
 import { Render } from "src/utils/root";
 
@@ -29,9 +28,8 @@ export const LandingPage = () => (
           columns={14}
           spacing={2}
           justifyContent="center"
-          alignItems="baseline"
+          alignItems="stretch"
         >
-          {/* TODO: TYLER DRAW A BOX AROUND THE TOP ROW */}
           <Grid item xs={6}>
             <Card sx={{ mt: 4, backgroundColor: "#383d5bdd" }}>
               <CardContent>
@@ -66,7 +64,7 @@ export const LandingPage = () => (
             </Card>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={6} sx={{ display: "flex" }}>
             <Card sx={{ mt: 4, backgroundColor: "#383d5bdd" }}>
               <CardContent>
                 <CreateYourOwn />
@@ -84,7 +82,7 @@ export const LandingPage = () => (
 
           <Grid item xs={2}></Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={6} sx={{ display: "flex" }}>
             <Card sx={{ mt: 4, backgroundColor: "#383d5bdd" }}>
               <CardContent>
                 <LearnMore />

@@ -375,7 +375,7 @@ export const ChooseHunt = () => {
                 justifyContent: "center",
               }}
             >
-              {/* TODO: TYLER SUBMIT BUTTON SHOULD BE MORE PROMINENT */}
+              {/* TODO: TYLER SHOULD HAVE A HIDDEN INFO ICON HERE PLACED ABSOLUTELY THAT CAN HOVER TO GIVE ERROR DETAILS */}
               <Button
                 variant="contained"
                 size="medium"
@@ -384,7 +384,7 @@ export const ChooseHunt = () => {
                 color="primary"
                 sx={{
                   ".MuiButton-contained, :disabled": {
-                    backgroundColor: "#e5a9a9",
+                    backgroundColor: "#e5a9a988",
                     color: "black",
                   },
                 }}
