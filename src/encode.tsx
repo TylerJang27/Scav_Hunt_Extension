@@ -99,7 +99,7 @@ const Encode = () => {
                     justifyContent="center"
                     alignItems="center"
                     direction="row"
-                    sx={{ pt: 2 }}
+                    sx={{ mt: 2 }}
                   >
                     {/* Input pane */}
                     <Grid
@@ -123,7 +123,7 @@ const Encode = () => {
                               name: e.target.value,
                             });
                           }}
-                          sx={{ pt: 1 }}
+                          sx={{ mt: 1 }}
                         />
                         <TextField
                           value={huntConfig.description}
@@ -140,7 +140,7 @@ const Encode = () => {
                               description: e.target.value,
                             });
                           }}
-                          sx={{ pt: 1 }}
+                          sx={{ mt: 1 }}
                         />
                         <TextField
                           value={huntConfig.author}
@@ -157,7 +157,7 @@ const Encode = () => {
                               author: e.target.value,
                             });
                           }}
-                          sx={{ pt: 1 }}
+                          sx={{ mt: 1 }}
                         />
                         <TextField
                           value={huntConfig.background}
@@ -178,7 +178,7 @@ const Encode = () => {
                               background: e.target.value,
                             });
                           }}
-                          sx={{ pt: 1 }}
+                          sx={{ mt: 1 }}
                         />
                         <TextField
                           value={huntConfig.beginning}
@@ -195,9 +195,9 @@ const Encode = () => {
                               beginning: e.target.value,
                             });
                           }}
-                          sx={{ pt: 1, pb: 4 }}
+                          sx={{ mt: 1, mb: 4 }}
                         />
-                        <FormControl sx={{ pb: 2 }}>
+                        <FormControl sx={{ mb: 2 }}>
                           <InputLabel id="silent-select-label">
                             Silent
                           </InputLabel>
@@ -417,7 +417,7 @@ const Encode = () => {
                           fontFamily: "system-ui",
                           fontSize: "0.9rem",
                           color: "white",
-                          pt: 1,
+                          mt: 1,
                         }}
                       />
                     </Grid>
@@ -444,9 +444,9 @@ const Encode = () => {
               alt: "",
             });
           }}
-          modalTitle="Create new clue"
+          modalTitle="Create New Clue"
         >
-          <FormControl>
+          <FormControl sx={{ display: "flex" }}>
             <TextField
               label="URL"
               variant="outlined"
@@ -455,6 +455,7 @@ const Encode = () => {
               onChange={(e) => {
                 setCreatedClue({ ...createdClue, url: e.target.value });
               }}
+              sx={{ mt: 1 }}
             />
             <TextField
               label="Text"
@@ -464,6 +465,7 @@ const Encode = () => {
               onChange={(e) => {
                 setCreatedClue({ ...createdClue, text: e.target.value });
               }}
+              sx={{ mt: 1 }}
             />
             <TextField
               label="Image URL"
@@ -472,6 +474,7 @@ const Encode = () => {
               onChange={(e) => {
                 setCreatedClue({ ...createdClue, image: e.target.value });
               }}
+              sx={{ mt: 1 }}
             />
             <TextField
               label="Image Alt"
@@ -480,6 +483,7 @@ const Encode = () => {
               onChange={(e) => {
                 setCreatedClue({ ...createdClue, alt: e.target.value });
               }}
+              sx={{ mt: 1, mb: 2 }}
             />
 
             <Button
