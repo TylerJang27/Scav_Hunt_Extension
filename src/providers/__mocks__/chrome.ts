@@ -120,4 +120,21 @@ const action = {
   },
 };
 
-export const getProvider = () => ({ tabs, storage, runtime, action });
+const downloads = {
+  download: ({ url, filename }: { url: string; filename: string }) => {
+    const tempElement = document.createElement("a");
+    tempElement.href = url;
+    tempElement.download = filename;
+    document.body.appendChild(tempElement);
+    tempElement.click();
+    document.body.removeChild(tempElement);
+  },
+};
+
+export const getProvider = () => ({
+  tabs,
+  storage,
+  runtime,
+  action,
+  downloads,
+});

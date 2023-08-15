@@ -8,10 +8,10 @@ import {
   Card,
   CardContent,
   Container,
-  Divider,
   FormControl,
   Grid,
   IconButton,
+  InputLabel,
   List,
   ListItem,
   ListItemText,
@@ -27,10 +27,13 @@ import { Footer } from "src/components/Footer";
 // trunk-ignore(eslint/import/extensions)
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 import { theme } from "src/components/theme";
+import { download } from "src/providers/downloads";
 import { ClueConfig, HuntConfig } from "src/types/hunt_config";
 import { EncryptClue } from "src/utils/parse";
 // trunk-ignore(eslint/import/extensions)
 import { Render } from "src/utils/root";
+
+// TODO: TYLER ADD THE ABILITY TO UPLOAD A DRAFT NON-ENCRYPTED
 
 const generateJson = (huntConfig: HuntConfig) => {
   const encryptedHunt = {
@@ -44,13 +47,15 @@ const generateJson = (huntConfig: HuntConfig) => {
 
   const blob_gen = new Blob([outputString], { type: "application/json" });
   const url_gen = URL.createObjectURL(blob_gen);
-  chrome.downloads.download({
+
+  download({
     url: url_gen,
     filename: `${huntConfig.name}.json`,
   });
 };
 
 const Encode = () => {
+  const [submittedEver, setSubmittedEver] = useState<boolean>(false);
   const [huntConfig, setHuntConfig] = useState<HuntConfig>({
     name: "",
     description: "",
@@ -94,15 +99,23 @@ const Encode = () => {
                     justifyContent="center"
                     alignItems="center"
                     direction="row"
+                    sx={{ pt: 2 }}
                   >
                     {/* Input pane */}
-                    <Grid item xs={6} display={"grid"}>
+                    <Grid
+                      item
+                      xs={6}
+                      display={"grid"}
+                      sx={{ alignSelf: "flex-start" }}
+                    >
                       <FormControl>
                         <TextField
                           value={huntConfig.name}
                           label="Name"
                           required
-                          error={huntConfig.name.trim().length === 0}
+                          error={
+                            submittedEver && huntConfig.name.trim().length === 0
+                          }
                           variant="outlined"
                           onChange={(e) => {
                             setHuntConfig({
@@ -110,12 +123,16 @@ const Encode = () => {
                               name: e.target.value,
                             });
                           }}
+                          sx={{ pt: 1 }}
                         />
                         <TextField
                           value={huntConfig.description}
                           label="Description"
                           required
-                          error={huntConfig.description.trim().length === 0}
+                          error={
+                            submittedEver &&
+                            huntConfig.description.trim().length === 0
+                          }
                           variant="outlined"
                           onChange={(e) => {
                             setHuntConfig({
@@ -123,12 +140,16 @@ const Encode = () => {
                               description: e.target.value,
                             });
                           }}
+                          sx={{ pt: 1 }}
                         />
                         <TextField
                           value={huntConfig.author}
                           label="Author"
                           required
-                          error={huntConfig.author.trim().length === 0}
+                          error={
+                            submittedEver &&
+                            huntConfig.author.trim().length === 0
+                          }
                           variant="outlined"
                           onChange={(e) => {
                             setHuntConfig({
@@ -136,16 +157,18 @@ const Encode = () => {
                               author: e.target.value,
                             });
                           }}
+                          sx={{ pt: 1 }}
                         />
                         <TextField
                           value={huntConfig.background}
                           label="Background (URL)"
                           required
                           error={
-                            huntConfig.background.trim().length === 0 ||
-                            !/^https?:\/\/[\w-]+(\.[\w-]+)+[/#?]?.*$/.test(
-                              huntConfig.background.trim(),
-                            )
+                            submittedEver &&
+                            (huntConfig.background.trim().length === 0 ||
+                              !/^https?:\/\/[\w-]+(\.[\w-]+)+[/#?]?.*$/.test(
+                                huntConfig.background.trim(),
+                              ))
                           }
                           variant="outlined"
                           type="url"
@@ -155,12 +178,16 @@ const Encode = () => {
                               background: e.target.value,
                             });
                           }}
+                          sx={{ pt: 1 }}
                         />
                         <TextField
                           value={huntConfig.beginning}
                           label="Beginning"
                           required
-                          error={huntConfig.beginning.trim().length === 0}
+                          error={
+                            submittedEver &&
+                            huntConfig.beginning.trim().length === 0
+                          }
                           variant="outlined"
                           onChange={(e) => {
                             setHuntConfig({
@@ -168,59 +195,72 @@ const Encode = () => {
                               beginning: e.target.value,
                             });
                           }}
+                          sx={{ pt: 1, pb: 4 }}
                         />
-                        <br />
-                        Silent:
-                        <br />
-                        <Select
-                          value={huntConfig.options.silent}
-                          label="Silent"
-                          required
-                          variant="outlined"
-                          onChange={(e) => {
-                            setHuntConfig({
-                              ...huntConfig,
-                              options: {
-                                ...huntConfig.options,
-                                silent: e.target.value === "true",
-                              },
-                            });
-                          }}
-                        >
-                          <MenuItem value="false">
-                            False (Popping up alerts)
-                          </MenuItem>
-                          <MenuItem value="true">True (Icon alerts)</MenuItem>
-                        </Select>
-                        <br />
-                        Encrypted:
-                        <br />
-                        <Select
-                          value={huntConfig.encrypted}
-                          label="Encrypted"
-                          required
-                          variant="outlined"
-                          onChange={(e) => {
-                            const selectedValue = e.target.value;
-                            setHuntConfig({
-                              ...huntConfig,
-                              encrypted: selectedValue === "true",
-                            });
-                            if (selectedValue === "false") {
-                              window.alert(
-                                "The downloaded file will NOT be encrypted and the clues will be displayed as plain text.",
-                              );
-                            }
-                          }}
-                        >
-                          <MenuItem value="true">True (Default)</MenuItem>
-                          <MenuItem value="false">False</MenuItem>
-                        </Select>
-                        <br />
+                        <FormControl sx={{ pb: 2 }}>
+                          <InputLabel id="silent-select-label">
+                            Silent
+                          </InputLabel>
+                          <Select
+                            value={huntConfig.options.silent}
+                            label="Silent"
+                            labelId="silent-select-label"
+                            required
+                            variant="outlined"
+                            onChange={(e) => {
+                              setHuntConfig({
+                                ...huntConfig,
+                                options: {
+                                  ...huntConfig.options,
+                                  silent: e.target.value === "true",
+                                },
+                              });
+                            }}
+                          >
+                            <MenuItem value="false">
+                              False (Popping up alerts)
+                            </MenuItem>
+                            <MenuItem value="true">True (Icon alerts)</MenuItem>
+                          </Select>
+                        </FormControl>
+                        <FormControl>
+                          <InputLabel id="encrypted-select-label">
+                            Encrypted
+                          </InputLabel>
+                          <Select
+                            value={huntConfig.encrypted}
+                            label="Encrypted"
+                            labelId="encrypted-select-label"
+                            required
+                            variant="outlined"
+                            onChange={(e) => {
+                              const selectedValue = e.target.value;
+                              setHuntConfig({
+                                ...huntConfig,
+                                encrypted: selectedValue === "true",
+                              });
+                              if (selectedValue === "false") {
+                                window.alert(
+                                  "The downloaded file will NOT be encrypted and the clues will be displayed as plain text.",
+                                );
+                              }
+                            }}
+                          >
+                            <MenuItem value="true">True (For Sharing)</MenuItem>
+                            <MenuItem value="false">
+                              False (For Drafts)
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+
                         <List>
                           {huntConfig.clues.map(
                             ({ id, url, text, image, alt }, index) => (
-                              <ListItem key={id} divider>
+                              <ListItem
+                                key={id}
+                                className="clue-list-item"
+                                divider
+                              >
                                 {huntConfig.clues.length > 1 && (
                                   <>
                                     <IconButton
@@ -338,24 +378,19 @@ const Encode = () => {
                         >
                           Create New Clue
                         </Button>
-                        <Divider></Divider>
                         <Button
                           fullWidth
-                          color="secondary"
+                          color="primary"
                           variant="contained"
                           onClick={() => {
-                            // TODO: Trim all strings, encrypt all clues if encrypted is true
-                            // TODO: Test line breaks, dump to json string, download json file
+                            // TODO: TYLER Test line breaks, dump to json string, download json file
+                            // TODO: TYLER WE NEED TO VALIDATE AND RENDER ERROR INFORMATION
+
+                            setSubmittedEver(true);
 
                             generateJson(huntConfig);
-
-                            // const json_gen = generateJson();
-                            //         const blob_gen = new Blob([JSON.stringify(json_gen)], {type: 'application/json'});
-                            //         const url_gen = URL.createObjectURL(blob_gen);
-                            //         chrome.downloads.download({
-                            //             url: url_gen
-                            //         });
                           }}
+                          sx={{ mt: 1 }}
                         >
                           Download
                         </Button>
@@ -363,20 +398,26 @@ const Encode = () => {
                     </Grid>
 
                     {/* Preview pane */}
-                    {/*  TODO: Figure out how to set the color while also making disabled */}
-                    <Grid item xs={6} display={"grid"}>
+                    <Grid
+                      item
+                      xs={6}
+                      display={"grid"}
+                      sx={{ alignSelf: "flex-start" }}
+                    >
                       <TextField
                         variant="outlined"
                         InputProps={{
                           inputProps: { style: { color: "#fff" } },
                         }}
-                        maxRows={30}
+                        minRows={23}
+                        maxRows={23}
                         multiline
                         value={JSON.stringify(huntConfig, null, "  ")}
                         sx={{
                           fontFamily: "system-ui",
                           fontSize: "0.9rem",
                           color: "white",
+                          pt: 1,
                         }}
                       />
                     </Grid>
@@ -393,7 +434,6 @@ const Encode = () => {
         {/* Create clue modal */}
         <ExitableModal
           open={createClueOpen}
-          // TODO: ON SAVE, ADD THE IN PROGRESS CLUE TO THE END OF THE LIST
           onClose={() => {
             setCreateClueOpen(false);
             setCreatedClue({
@@ -446,6 +486,8 @@ const Encode = () => {
               variant="contained"
               color="primary"
               onClick={() => {
+                // TODO: TYLER WE NEED TO VALIDATE THE NEW CLUE FIRST
+
                 // Add the new clue to the list
                 const newClue = {
                   id: createdClueIndex + 1,
