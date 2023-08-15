@@ -23,11 +23,8 @@ import {
   Tooltip,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-// trunk-ignore(eslint/import/extensions)
 import { ExitableModal } from "src/components/ExitableModal";
-// trunk-ignore(eslint/import/extensions)
 import { Footer } from "src/components/Footer";
-// trunk-ignore(eslint/import/extensions)
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 import { theme } from "src/components/theme";
 import { download } from "src/providers/downloads";
@@ -37,7 +34,6 @@ import {
   IntractiveConfig,
 } from "src/types/hunt_config";
 import { EncryptClue, ParseClue, ParseConfig } from "src/utils/parse";
-// trunk-ignore(eslint/import/extensions)
 import { Render } from "src/utils/root";
 
 // TODO: TYLER ADD THE ABILITY TO UPLOAD A DRAFT NON-ENCRYPTED
