@@ -65,6 +65,7 @@ const generateJson = (
       filename: `${huntConfig.name}.json`,
     });
   } catch (err: any) {
+    // trunk-ignore(eslint)
     setErrorTooltip(err.message);
   }
 };
@@ -421,7 +422,6 @@ const Encode = () => {
                             variant="contained"
                             onClick={() => {
                               // TODO: TYLER Test line breaks, dump to json string, download json file
-                              // TODO: TYLER WE NEED TO VALIDATE AND RENDER ERROR INFORMATION
 
                               setSubmittedEver(true);
 
