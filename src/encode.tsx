@@ -2,9 +2,13 @@ import { ThemeProvider } from "@emotion/react";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import UploadIcon from "@mui/icons-material/Upload";
 import {
   Alert,
+  Box,
   Button,
   Card,
   CardContent,
@@ -22,7 +26,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { ExitableModal } from "src/components/ExitableModal";
 import { Footer } from "src/components/Footer";
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
@@ -35,8 +39,6 @@ import {
 } from "src/types/hunt_config";
 import { EncryptClue, ParseClue, ParseConfig } from "src/utils/parse";
 import { Render } from "src/utils/root";
-
-// TODO: TYLER ADD THE ABILITY TO UPLOAD A DRAFT NON-ENCRYPTED
 
 const generateJson = (
   huntConfig: HuntConfig,
@@ -67,6 +69,37 @@ const generateJson = (
   }
 };
 
+const onUpload = (
+  e: ChangeEvent<HTMLInputElement>,
+  setHuntConfig: (huntConfig: HuntConfig) => void,
+  setUploadError: (error: string | undefined) => void,
+) => {
+  if (!e.target.files) {
+    return;
+  }
+  const file = e.target.files[0];
+  const reader = new FileReader();
+  reader.addEventListener("load", (event) => {
+    try {
+      // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
+      const huntData = JSON.parse(event.target?.result as string);
+      const huntConfig = ParseConfig(huntData);
+      if (huntConfig.encrypted) {
+        setUploadError(
+          "Can only upload draft hunts that have encrypted: false",
+        );
+      } else {
+        setUploadError(undefined);
+        setHuntConfig(huntConfig);
+      }
+    } catch (err: any) {
+      // trunk-ignore(eslint)
+      setUploadError(err.message);
+    }
+  });
+  reader.readAsText(file);
+};
+
 const Encode = () => {
   const [submittedEver, setSubmittedEver] = useState<boolean>(false);
   const [errorTooltip, setErrorTooltip] = useState<string | undefined>(
@@ -85,6 +118,7 @@ const Encode = () => {
     beginning: "",
     clues: [],
   });
+  const [uploadError, setUploadError] = useState<string | undefined>(undefined);
 
   const [createClueOpen, setCreateClueOpen] = useState<boolean>(false);
   const [createdClueIndex, setCreatedClueIndex] = useState<number>(0);
@@ -115,7 +149,40 @@ const Encode = () => {
           >
             <Grid item xs={12}>
               <Card sx={{ mt: 4, backgroundColor: "#333" }}>
-                <CardContent>
+                <CardContent sx={{ position: "relative" }}>
+                  <Box sx={{ position: "absolute", right: "16px" }}>
+                    <Tooltip title={uploadError} followCursor leaveDelay={200}>
+                      <span>
+                        {uploadError && (
+                          <InfoOutlinedIcon
+                            htmlColor="#ff99a9"
+                            id="submit-disable-tooltip"
+                            sx={{
+                              position: "absolute",
+                              transform: "translate(-100%, 25%)",
+                            }}
+                          />
+                        )}
+                        <Button
+                          color="secondary"
+                          variant="contained"
+                          component="label"
+                          startIcon={<UploadIcon />}
+                        >
+                          Upload Draft
+                          <input
+                            type="file"
+                            accept=".json,jsn,.json5"
+                            onChange={(e) => {
+                              onUpload(e, setHuntConfig, setUploadError);
+                            }}
+                            hidden
+                          />
+                        </Button>
+                      </span>
+                    </Tooltip>
+                  </Box>
+
                   <PageHeaderAndSubtitle header={"Make Your Own Hunt"} />
 
                   <Grid
@@ -425,6 +492,7 @@ const Encode = () => {
                               generateJson(huntConfig, setErrorTooltip);
                             }}
                             sx={{ mt: 1 }}
+                            startIcon={<DownloadIcon />}
                           >
                             Download
                           </Button>
