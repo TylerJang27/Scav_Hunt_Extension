@@ -4,6 +4,7 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
+  Alert,
   Button,
   Card,
   CardContent,
@@ -18,8 +19,9 @@ import {
   MenuItem,
   Select,
   TextField,
+  Tooltip,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // trunk-ignore(eslint/import/extensions)
 import { ExitableModal } from "src/components/ExitableModal";
 // trunk-ignore(eslint/import/extensions)
@@ -28,14 +30,21 @@ import { Footer } from "src/components/Footer";
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 import { theme } from "src/components/theme";
 import { download } from "src/providers/downloads";
-import { ClueConfig, HuntConfig } from "src/types/hunt_config";
-import { EncryptClue } from "src/utils/parse";
+import {
+  ClueConfig,
+  HuntConfig,
+  IntractiveConfig,
+} from "src/types/hunt_config";
+import { EncryptClue, ParseClue, ParseConfig } from "src/utils/parse";
 // trunk-ignore(eslint/import/extensions)
 import { Render } from "src/utils/root";
 
 // TODO: TYLER ADD THE ABILITY TO UPLOAD A DRAFT NON-ENCRYPTED
 
-const generateJson = (huntConfig: HuntConfig) => {
+const generateJson = (
+  huntConfig: HuntConfig,
+  setErrorTooltip: (message: string) => void,
+) => {
   const encryptedHunt = {
     ...huntConfig,
     clues: huntConfig.clues.map((clue) =>
@@ -43,19 +52,28 @@ const generateJson = (huntConfig: HuntConfig) => {
     ),
   };
 
-  const outputString = JSON.stringify(encryptedHunt, null, "  ");
+  try {
+    ParseConfig(encryptedHunt);
 
-  const blob_gen = new Blob([outputString], { type: "application/json" });
-  const url_gen = URL.createObjectURL(blob_gen);
+    const outputString = JSON.stringify(encryptedHunt, null, "  ");
 
-  download({
-    url: url_gen,
-    filename: `${huntConfig.name}.json`,
-  });
+    const blob_gen = new Blob([outputString], { type: "application/json" });
+    const url_gen = URL.createObjectURL(blob_gen);
+
+    download({
+      url: url_gen,
+      filename: `${huntConfig.name}.json`,
+    });
+  } catch (err: any) {
+    setErrorTooltip(err.message);
+  }
 };
 
 const Encode = () => {
   const [submittedEver, setSubmittedEver] = useState<boolean>(false);
+  const [errorTooltip, setErrorTooltip] = useState<string | undefined>(
+    undefined,
+  );
   const [huntConfig, setHuntConfig] = useState<HuntConfig>({
     name: "",
     description: "",
@@ -76,7 +94,16 @@ const Encode = () => {
     id: -1,
     url: "",
     text: "",
+    interactive: undefined,
   });
+  const [createdClueError, setCreatedClueError] = useState<
+    string | undefined
+  >();
+
+  // Whenever any input is changed, reset the error tooltip.
+  useEffect(() => {
+    setErrorTooltip(undefined);
+  }, [huntConfig]);
 
   return (
     <>
@@ -217,10 +244,10 @@ const Encode = () => {
                               });
                             }}
                           >
+                            <MenuItem value="true">True (Icon alerts)</MenuItem>
                             <MenuItem value="false">
                               False (Popping up alerts)
                             </MenuItem>
-                            <MenuItem value="true">True (Icon alerts)</MenuItem>
                           </Select>
                         </FormControl>
                         <FormControl>
@@ -255,7 +282,10 @@ const Encode = () => {
 
                         <List>
                           {huntConfig.clues.map(
-                            ({ id, url, text, image, alt }, index) => (
+                            (
+                              { id, url, text, image, alt, interactive },
+                              index,
+                            ) => (
                               <ListItem
                                 key={id}
                                 className="clue-list-item"
@@ -328,13 +358,15 @@ const Encode = () => {
                                   onClick={() => {
                                     setCreatedClueIndex(index);
                                     setCreatedClue({
-                                      id: id,
-                                      url: url,
-                                      text: text,
-                                      image: image,
-                                      alt: alt,
+                                      id,
+                                      url,
+                                      text,
+                                      image,
+                                      alt,
+                                      interactive,
                                     });
                                     setCreateClueOpen(true);
+                                    setCreatedClueError(undefined);
                                   }}
                                 >
                                   <EditIcon />
@@ -378,22 +410,28 @@ const Encode = () => {
                         >
                           Create New Clue
                         </Button>
-                        <Button
-                          fullWidth
-                          color="primary"
-                          variant="contained"
-                          onClick={() => {
-                            // TODO: TYLER Test line breaks, dump to json string, download json file
-                            // TODO: TYLER WE NEED TO VALIDATE AND RENDER ERROR INFORMATION
-
-                            setSubmittedEver(true);
-
-                            generateJson(huntConfig);
-                          }}
-                          sx={{ mt: 1 }}
+                        <Tooltip
+                          title={errorTooltip}
+                          followCursor
+                          leaveDelay={200}
                         >
-                          Download
-                        </Button>
+                          <Button
+                            fullWidth
+                            color="primary"
+                            variant="contained"
+                            onClick={() => {
+                              // TODO: TYLER Test line breaks, dump to json string, download json file
+                              // TODO: TYLER WE NEED TO VALIDATE AND RENDER ERROR INFORMATION
+
+                              setSubmittedEver(true);
+
+                              generateJson(huntConfig, setErrorTooltip);
+                            }}
+                            sx={{ mt: 1 }}
+                          >
+                            Download
+                          </Button>
+                        </Tooltip>
                       </FormControl>
                     </Grid>
 
@@ -443,6 +481,7 @@ const Encode = () => {
               image: "",
               alt: "",
             });
+            setCreatedClueError(undefined);
           }}
           modalTitle="Create New Clue"
         >
@@ -451,6 +490,9 @@ const Encode = () => {
               label="URL"
               variant="outlined"
               required
+              error={
+                Boolean(createdClueError) && createdClue.url.trim().length === 0
+              }
               value={createdClue.url}
               onChange={(e) => {
                 setCreatedClue({ ...createdClue, url: e.target.value });
@@ -461,6 +503,10 @@ const Encode = () => {
               label="Text"
               variant="outlined"
               required
+              error={
+                Boolean(createdClueError) &&
+                (createdClue.text ?? "").trim().length === 0
+              }
               value={createdClue.text}
               onChange={(e) => {
                 setCreatedClue({ ...createdClue, text: e.target.value });
@@ -483,6 +529,42 @@ const Encode = () => {
               onChange={(e) => {
                 setCreatedClue({ ...createdClue, alt: e.target.value });
               }}
+              sx={{ mt: 1 }}
+            />
+            <TextField
+              label="Interactive Prompt"
+              variant="outlined"
+              value={createdClue.interactive?.prompt}
+              onChange={(e) => {
+                setCreatedClue({
+                  ...createdClue,
+                  interactive: {
+                    ...createdClue.interactive,
+                    prompt: e.target.value,
+                  } as IntractiveConfig,
+                });
+              }}
+              sx={{ mt: 1 }}
+            />
+            <TextField
+              label="Interactive Key"
+              variant="outlined"
+              value={createdClue.interactive?.key}
+              onChange={(e) => {
+                setCreatedClue({
+                  ...createdClue,
+                  interactive: {
+                    ...createdClue.interactive,
+                    key: e.target.value,
+                  },
+                });
+              }}
+              required={Boolean(createdClue.interactive?.prompt) ?? false}
+              error={
+                Boolean(createdClueError) &&
+                Boolean(createdClue.interactive?.prompt) &&
+                (createdClue.interactive?.prompt ?? "").trim().length === 0
+              }
               sx={{ mt: 1, mb: 2 }}
             />
 
@@ -490,45 +572,58 @@ const Encode = () => {
               variant="contained"
               color="primary"
               onClick={() => {
-                // TODO: TYLER WE NEED TO VALIDATE THE NEW CLUE FIRST
-
                 // Add the new clue to the list
-                const newClue = {
+                const newClue: ClueConfig = {
                   id: createdClueIndex + 1,
                   url: createdClue.url,
                   text: createdClue.text,
                   image: createdClue.image,
                   alt: createdClue.alt,
                 };
-
-                if (createdClueIndex >= huntConfig.clues.length) {
-                  setHuntConfig({
-                    ...huntConfig,
-                    clues: [...huntConfig.clues, newClue],
-                  });
-                } else {
-                  const currClues = [...huntConfig.clues];
-                  currClues[createdClueIndex] = newClue;
-                  setHuntConfig({
-                    ...huntConfig,
-                    clues: currClues,
-                  });
+                if (createdClue.interactive) {
+                  newClue.interactive = createdClue.interactive;
                 }
-                // Reset the createdClue state
-                setCreatedClue({
-                  id: -1,
-                  url: "",
-                  text: "",
-                  image: "",
-                  alt: "",
-                });
 
-                // Close the modal
-                setCreateClueOpen(false);
+                try {
+                  ParseClue(createdClue);
+
+                  if (createdClueIndex >= huntConfig.clues.length) {
+                    setHuntConfig({
+                      ...huntConfig,
+                      clues: [...huntConfig.clues, newClue],
+                    });
+                  } else {
+                    const currClues = [...huntConfig.clues];
+                    currClues[createdClueIndex] = newClue;
+                    setHuntConfig({
+                      ...huntConfig,
+                      clues: currClues,
+                    });
+                  }
+                  // Reset the createdClue state
+                  setCreatedClue({
+                    id: -1,
+                    url: "",
+                    text: "",
+                    image: "",
+                    alt: "",
+                    interactive: undefined,
+                  });
+
+                  // Close the modal
+                  setCreateClueOpen(false);
+                  setCreatedClueError(undefined);
+                } catch (err: any) {
+                  // trunk-ignore(eslint)
+                  setCreatedClueError(err.message);
+                }
               }}
             >
               Save
             </Button>
+            {createdClueError && (
+              <Alert severity="error">{createdClueError}</Alert>
+            )}
           </FormControl>
         </ExitableModal>
       </ThemeProvider>
