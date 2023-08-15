@@ -10,6 +10,7 @@ import {
   CardContent,
   Container,
   FormControl,
+  FormHelperText,
   Grid,
   IconButton,
   InputLabel,
@@ -486,91 +487,130 @@ const Encode = () => {
           modalTitle="Create New Clue"
         >
           <FormControl sx={{ display: "flex" }}>
-            <TextField
-              label="URL"
-              variant="outlined"
-              required
-              error={
-                Boolean(createdClueError) && createdClue.url.trim().length === 0
-              }
-              value={createdClue.url}
-              onChange={(e) => {
-                setCreatedClue({ ...createdClue, url: e.target.value });
-              }}
-              sx={{ mt: 1 }}
-            />
-            <TextField
-              label="Text"
-              variant="outlined"
-              required
-              error={
-                Boolean(createdClueError) &&
-                (createdClue.text ?? "").trim().length === 0
-              }
-              value={createdClue.text}
-              onChange={(e) => {
-                setCreatedClue({ ...createdClue, text: e.target.value });
-              }}
-              sx={{ mt: 1 }}
-            />
-            <TextField
-              label="Image URL"
-              variant="outlined"
-              value={createdClue.image}
-              onChange={(e) => {
-                setCreatedClue({ ...createdClue, image: e.target.value });
-              }}
-              sx={{ mt: 1 }}
-            />
-            <TextField
-              label="Image Alt"
-              variant="outlined"
-              value={createdClue.alt}
-              onChange={(e) => {
-                setCreatedClue({ ...createdClue, alt: e.target.value });
-              }}
-              sx={{ mt: 1 }}
-            />
-            <TextField
-              label="Interactive Prompt"
-              variant="outlined"
-              value={createdClue.interactive?.prompt}
-              onChange={(e) => {
-                setCreatedClue({
-                  ...createdClue,
-                  interactive: {
-                    ...createdClue.interactive,
-                    prompt: e.target.value,
-                  } as IntractiveConfig,
-                });
-              }}
-              sx={{ mt: 1 }}
-            />
-            <TextField
-              label="Interactive Key"
-              variant="outlined"
-              value={createdClue.interactive?.key}
-              onChange={(e) => {
-                setCreatedClue({
-                  ...createdClue,
-                  interactive: {
-                    ...createdClue.interactive,
-                    key: e.target.value,
-                  },
-                });
-              }}
-              required={Boolean(createdClue.interactive?.prompt) ?? false}
-              error={
-                Boolean(createdClueError) &&
-                Boolean(createdClue.interactive?.prompt) &&
-                (createdClue.interactive?.prompt ?? "").trim().length === 0
-              }
-              sx={{ mt: 1, mb: 2 }}
-            />
+            <FormControl>
+              <TextField
+                label="URL"
+                variant="outlined"
+                required
+                error={
+                  Boolean(createdClueError) &&
+                  createdClue.url.trim().length === 0
+                }
+                value={createdClue.url}
+                onChange={(e) => {
+                  setCreatedClue({ ...createdClue, url: e.target.value });
+                }}
+                sx={{ mt: 1 }}
+                aria-describedby="url-helper-text"
+              />
+              <FormHelperText id="url-helper-text">
+                Regex or substring match
+              </FormHelperText>
+            </FormControl>
+            <FormControl>
+              <TextField
+                label="Text"
+                variant="outlined"
+                required
+                error={
+                  Boolean(createdClueError) &&
+                  (createdClue.text ?? "").trim().length === 0
+                }
+                value={createdClue.text}
+                onChange={(e) => {
+                  setCreatedClue({ ...createdClue, text: e.target.value });
+                }}
+                sx={{ mt: 1 }}
+                aria-describedby="text-helper-text"
+              />
+              <FormHelperText id="text-helper-text">
+                Clue to display when this URL is visited
+              </FormHelperText>
+            </FormControl>
+            <FormControl>
+              <TextField
+                label="Image URL"
+                variant="outlined"
+                value={createdClue.image}
+                onChange={(e) => {
+                  setCreatedClue({ ...createdClue, image: e.target.value });
+                }}
+                sx={{ mt: 1 }}
+                aria-describedby="image-url-helper-text"
+              />
+              <FormHelperText id="image-url-helper-text">
+                Optional image to display when this URL is visited
+              </FormHelperText>
+            </FormControl>
+            <FormControl>
+              <TextField
+                label="Image Alt"
+                variant="outlined"
+                value={createdClue.alt}
+                onChange={(e) => {
+                  setCreatedClue({ ...createdClue, alt: e.target.value });
+                }}
+                sx={{ mt: 1 }}
+                aria-describedby="image-alt-helper-text"
+              />
+              <FormHelperText id="image-alt-helper-text">
+                Alt text for the above image
+              </FormHelperText>
+            </FormControl>
+            <FormControl>
+              <TextField
+                label="Interactive Prompt"
+                variant="outlined"
+                value={createdClue.interactive?.prompt}
+                onChange={(e) => {
+                  setCreatedClue({
+                    ...createdClue,
+                    interactive: {
+                      ...createdClue.interactive,
+                      prompt: e.target.value,
+                    } as IntractiveConfig,
+                  });
+                }}
+                sx={{ mt: 1 }}
+                aria-describedby="prompt-helper-text"
+              />
+              <FormHelperText id="prompt-helper-text">
+                An optional question the user must answer before viewing the
+                clue text
+              </FormHelperText>
+            </FormControl>
+            <FormControl>
+              <TextField
+                label="Interactive Key"
+                variant="outlined"
+                value={createdClue.interactive?.key}
+                onChange={(e) => {
+                  setCreatedClue({
+                    ...createdClue,
+                    interactive: {
+                      ...createdClue.interactive,
+                      key: e.target.value,
+                    },
+                  });
+                }}
+                required={Boolean(createdClue.interactive?.prompt) ?? false}
+                error={
+                  Boolean(createdClueError) &&
+                  Boolean(createdClue.interactive?.prompt) &&
+                  (createdClue.interactive?.prompt ?? "").trim().length === 0
+                }
+                sx={{ mt: 1 }}
+                aria-describedby="key-helper-text"
+              />
+              <FormHelperText id="key-helper-text">
+                Case-sensitive answer to the prompt
+              </FormHelperText>
+            </FormControl>
 
             <Button
               variant="contained"
               color="primary"
+              sx={{ mt: 2 }}
               onClick={() => {
                 // Add the new clue to the list
                 const newClue: ClueConfig = {
