@@ -54,7 +54,7 @@ export const CluePage = (props: CluePageProps) => {
   const [solved, setSolved] = useState<boolean>(false);
 
   const previewStyles = previewOnly
-    ? { transform: "scale(0.5, 0.5)", "-webkit-transform-origin-y": "top" }
+    ? { transform: "scale(0.5, 0.5)", WebkitTransformOriginY: "top" }
     : {};
   const previewScale = previewOnly ? "30" : undefined;
   const previewButtonStyles = previewOnly

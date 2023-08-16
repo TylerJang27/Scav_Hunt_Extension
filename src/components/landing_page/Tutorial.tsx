@@ -14,6 +14,7 @@ export const Tutorial = () => (
           <Typography textAlign={"center"}>
             Follow the clues, visit the matching websites, and solve the hunt!
           </Typography>
+          {/* TODO: TYLER FIX THE CSP ERROR FOR YOUTUBE IFRAME */}
           <YouTube videoId="yBkaL08VXWs" style={{ display: "flex" }} />
         </Grid>
       </Grid>

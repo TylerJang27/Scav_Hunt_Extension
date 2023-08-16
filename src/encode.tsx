@@ -33,6 +33,7 @@ import { Footer } from "src/components/Footer";
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 import { theme } from "src/components/theme";
 import { download } from "src/providers/downloads";
+import { getURL } from "src/providers/runtime";
 import {
   ClueConfig,
   HuntConfig,
@@ -373,7 +374,11 @@ const Encode = () => {
                                       interactive,
                                     }}
                                     previewOnly={true}
-                                    backgroundURL={huntConfig.background}
+                                    backgroundURL={
+                                      huntConfig.background.length
+                                        ? huntConfig.background
+                                        : getURL("graphics/background.png")
+                                    }
                                   />
                                 }
                               >
