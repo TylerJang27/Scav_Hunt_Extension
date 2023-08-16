@@ -358,7 +358,11 @@ const Encode = () => {
                                 title={
                                   <CluePage
                                     key={"preview" + id}
-                                    huntName={"Preview"}
+                                    huntName={
+                                      huntConfig.name.length
+                                        ? huntConfig.name
+                                        : "Preview"
+                                    }
                                     encrypted={false}
                                     clue={{
                                       id,
