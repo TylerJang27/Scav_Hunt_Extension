@@ -1,4 +1,4 @@
-import { presetHunt } from "src/__tests__/create_hunt_config";
+import { presetHunt } from "src/__tests__/unit_tests/create_hunt_config";
 import {
   setupMessageListener,
   setupOnClickedListener,
