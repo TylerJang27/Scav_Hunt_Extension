@@ -6,6 +6,7 @@ import {
   Container,
   FormControl,
   Grid,
+  styled,
   TextField,
   Typography,
 } from "@mui/material";
@@ -56,6 +57,14 @@ export const CluePage = (props: CluePageProps) => {
     ? { transform: "scale(0.5, 0.5)", "-webkit-transform-origin-y": "top" }
     : {};
   const previewScale = previewOnly ? "30" : undefined;
+  const previewButtonStyles = previewOnly
+    ? {
+        "&.Mui-disabled": {
+          color: "#fdd835",
+        },
+      }
+    : {};
+  const StyledButton = styled(Button)(previewButtonStyles);
 
   // It will take a second to load, so assume not solved until we know for sure the value of interactive
   useEffect(() => {
@@ -139,13 +148,15 @@ export const CluePage = (props: CluePageProps) => {
                           error={!nonNull(interactive) || !solved}
                         />
                         {/* TODO: ADD BETTER ERROR/RESPONSIVENESS SUPPORT (Show message on error) */}
-                        <Button
+                        <StyledButton
                           variant="outlined"
                           size="medium"
+                          color="primary"
                           onClick={validateKey}
+                          disabled={previewOnly || solved}
                         >
                           Submit
-                        </Button>
+                        </StyledButton>
                       </FormControl>
                     )}
                   </CardContent>
