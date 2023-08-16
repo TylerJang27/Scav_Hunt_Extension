@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { BackgroundWrapper } from "src/components/BackgroundWrapper";
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 import { theme } from "src/components/theme";
 import { getURL } from "src/providers/runtime";
@@ -22,6 +23,7 @@ import { Footer } from "./Footer";
 export interface BeginningPageProps {
   title: React.ReactNode;
   message: React.ReactNode;
+  backgroundURL: string;
 }
 
 export interface CluePageProps {
@@ -29,15 +31,18 @@ export interface CluePageProps {
   encrypted: boolean;
   clue: ClueConfig;
   error?: string;
+  previewOnly?: boolean;
+  backgroundURL: string;
 }
 
 export const CluePage = (props: CluePageProps) => {
-  // TODO: TYLER FIGURE OUT THEMES
   const {
     huntName,
     encrypted,
     clue: { id, text, image, alt, interactive },
     error,
+    previewOnly,
+    backgroundURL,
   } = props;
   const imageURL = image && !image.startsWith("http") ? getURL(image) : image;
 
@@ -46,6 +51,11 @@ export const CluePage = (props: CluePageProps) => {
 
   const [inputKey, setInputKey] = useState<string>("");
   const [solved, setSolved] = useState<boolean>(false);
+
+  const previewStyles = previewOnly
+    ? { transform: "scale(0.5, 0.5)", "-webkit-transform-origin-y": "top" }
+    : {};
+  const previewScale = previewOnly ? "30" : undefined;
 
   // It will take a second to load, so assume not solved until we know for sure the value of interactive
   useEffect(() => {
@@ -75,6 +85,86 @@ export const CluePage = (props: CluePageProps) => {
 
   return (
     <>
+      <BackgroundWrapper backgroundURL={backgroundURL} scale={previewScale}>
+        <ThemeProvider theme={theme}>
+          <Container
+            maxWidth="sm"
+            sx={{ mt: 3, "&::after": { flex: "auto" }, ...previewStyles }}
+          >
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Grid item xs={12}>
+                <Card sx={{ mt: 4, backgroundColor: "#333" }}>
+                  <CardContent>
+                    <PageHeaderAndSubtitle header={title} />
+                    {solved && (
+                      <Typography
+                        variant="body1"
+                        textAlign="center"
+                        color="white"
+                        mt={1}
+                      >
+                        {/* TODO: TYLER DO LINE REPLACEMENT */}
+                        {error ?? text}
+                      </Typography>
+                    )}
+                    {image && (
+                      <img
+                        src={imageURL}
+                        alt={alt}
+                        loading="lazy"
+                        width="75%"
+                        height="75%"
+                        style={{
+                          marginLeft: "auto",
+                          marginRight: "auto",
+                          display: "block",
+                        }}
+                      />
+                    )}
+                    {interactive && (
+                      // TODO: ADD STYLING
+                      <FormControl sx={{ minWidth: "100%" }}>
+                        {interactive.prompt && (
+                          <Typography>{interactive.prompt}</Typography>
+                        )}
+                        <TextField
+                          variant="outlined"
+                          value={inputKey}
+                          onChange={(e) => setInputKey(e.target.value.trim())}
+                          error={!nonNull(interactive) || !solved}
+                        />
+                        {/* TODO: ADD BETTER ERROR/RESPONSIVENESS SUPPORT (Show message on error) */}
+                        <Button
+                          variant="outlined"
+                          size="medium"
+                          onClick={validateKey}
+                        >
+                          Submit
+                        </Button>
+                      </FormControl>
+                    )}
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12}></Grid>
+              {!previewOnly && <Footer />}
+            </Grid>
+          </Container>
+        </ThemeProvider>
+      </BackgroundWrapper>
+    </>
+  );
+};
+
+// TODO: TYLER REFACTOR TO MAKE THESE COMMON
+export const BeginningPage = (props: BeginningPageProps) => (
+  <>
+    <BackgroundWrapper backgroundURL={props.backgroundURL}>
       <ThemeProvider theme={theme}>
         <Container maxWidth="sm" sx={{ mt: 3, "&::after": { flex: "auto" } }}>
           <Grid
@@ -86,54 +176,16 @@ export const CluePage = (props: CluePageProps) => {
             <Grid item xs={12}>
               <Card sx={{ mt: 4, backgroundColor: "#333" }}>
                 <CardContent>
-                  <PageHeaderAndSubtitle header={title} />
-                  {solved && (
-                    <Typography
-                      variant="body1"
-                      textAlign="center"
-                      color="white"
-                      mt={1}
-                    >
-                      {/* TODO: TYLER DO LINE REPLACEMENT */}
-                      {error ?? text}
-                    </Typography>
-                  )}
-                  {image && (
-                    <img
-                      src={imageURL}
-                      alt={alt}
-                      loading="lazy"
-                      width="75%"
-                      height="75%"
-                      style={{
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                        display: "block",
-                      }}
-                    />
-                  )}
-                  {interactive && (
-                    // TODO: ADD STYLING
-                    <FormControl sx={{ minWidth: "100%" }}>
-                      {interactive.prompt && (
-                        <Typography>{interactive.prompt}</Typography>
-                      )}
-                      <TextField
-                        variant="outlined"
-                        value={inputKey}
-                        onChange={(e) => setInputKey(e.target.value.trim())}
-                        error={!nonNull(interactive) || !solved}
-                      />
-                      {/* TODO: ADD BETTER ERROR/RESPONSIVENESS SUPPORT (Show message on error) */}
-                      <Button
-                        variant="outlined"
-                        size="medium"
-                        onClick={validateKey}
-                      >
-                        Submit
-                      </Button>
-                    </FormControl>
-                  )}
+                  <PageHeaderAndSubtitle header={props.title} />
+                  <Typography
+                    variant="body1"
+                    textAlign="center"
+                    color="white"
+                    mt={1}
+                  >
+                    {/* TODO: TYLER DO LINE REPLACEMENT */}
+                    {props.message}
+                  </Typography>
                 </CardContent>
               </Card>
             </Grid>
@@ -143,37 +195,6 @@ export const CluePage = (props: CluePageProps) => {
           </Grid>
         </Container>
       </ThemeProvider>
-    </>
-  );
-};
-
-// TODO: TYLER REFACTOR TO MAKE THESE COMMON
-export const BeginningPage = (props: BeginningPageProps) => (
-  <>
-    <ThemeProvider theme={theme}>
-      <Container maxWidth="sm" sx={{ mt: 3, "&::after": { flex: "auto" } }}>
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
-          <Grid item xs={12}>
-            <Card sx={{ mt: 4, backgroundColor: "#333" }}>
-              <CardContent>
-                <PageHeaderAndSubtitle header={props.title} />
-                <Typography
-                  variant="body1"
-                  textAlign="center"
-                  color="white"
-                  mt={1}
-                >
-                  {/* TODO: TYLER DO LINE REPLACEMENT */}
-                  {props.message}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12}>
-            <Footer />
-          </Grid>
-        </Grid>
-      </Container>
-    </ThemeProvider>
+    </BackgroundWrapper>
   </>
 );

@@ -27,6 +27,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import React, { ChangeEvent, useEffect, useState } from "react";
+import { CluePage } from "src/components/CluePage";
 import { ExitableModal } from "src/components/ExitableModal";
 import { Footer } from "src/components/Footer";
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
@@ -351,116 +352,142 @@ const Encode = () => {
                               { id, url, text, image, alt, interactive },
                               index,
                             ) => (
-                              <ListItem
-                                key={id}
-                                className="clue-list-item"
-                                divider
-                              >
-                                {huntConfig.clues.length > 1 && (
-                                  <>
-                                    <IconButton
-                                      edge="start"
-                                      aria-label="move up"
-                                      disabled={index === 0}
-                                      onClick={() => {
-                                        const currClues = [...huntConfig.clues];
-                                        const temp = {
-                                          ...currClues[index],
-                                          id: index,
-                                        };
-                                        currClues[index] = {
-                                          ...currClues[index - 1],
-                                          id: index + 1,
-                                        };
-
-                                        currClues[index - 1] = temp;
-
-                                        setHuntConfig({
-                                          ...huntConfig,
-                                          clues: currClues,
-                                        });
-                                      }}
-                                    >
-                                      <ArrowUpwardIcon />
-                                    </IconButton>
-
-                                    <IconButton
-                                      edge="start"
-                                      aria-label="move down"
-                                      disabled={
-                                        index === huntConfig.clues.length - 1
-                                      }
-                                      onClick={() => {
-                                        const currClues = [...huntConfig.clues];
-                                        const temp = {
-                                          ...currClues[index],
-                                          id: index + 2,
-                                        };
-                                        currClues[index] = {
-                                          ...currClues[index + 1],
-                                          id: index + 1,
-                                        };
-                                        currClues[index + 1] = temp;
-
-                                        setHuntConfig({
-                                          ...huntConfig,
-                                          clues: currClues,
-                                        });
-                                      }}
-                                    >
-                                      <ArrowDownwardIcon />
-                                    </IconButton>
-                                  </>
-                                )}
-
-                                <ListItemText
-                                  primary={`Clue ${index + 1}: ${text}`}
-                                  secondary={`URL: ${url}`}
-                                />
-                                <IconButton
-                                  edge="end"
-                                  aria-label="edit"
-                                  onClick={() => {
-                                    setCreatedClueIndex(index);
-                                    setCreatedClue({
+                              <Tooltip
+                                key={"tooltip" + id}
+                                placement="right"
+                                title={
+                                  <CluePage
+                                    key={"preview" + id}
+                                    huntName={"Preview"}
+                                    encrypted={false}
+                                    clue={{
                                       id,
                                       url,
                                       text,
                                       image,
                                       alt,
                                       interactive,
-                                    });
-                                    setCreateClueOpen(true);
-                                    setCreatedClueError(undefined);
-                                  }}
+                                    }}
+                                    previewOnly={true}
+                                    backgroundURL={huntConfig.background}
+                                  />
+                                }
+                              >
+                                <ListItem
+                                  key={id}
+                                  className="clue-list-item"
+                                  divider
                                 >
-                                  <EditIcon />
-                                </IconButton>
-                                <IconButton
-                                  edge="end"
-                                  aria-label="delete"
-                                  onClick={() => {
-                                    // Remove the clue from the list
-                                    const currClues = [...huntConfig.clues];
-                                    currClues.splice(index, 1);
+                                  {huntConfig.clues.length > 1 && (
+                                    <>
+                                      <IconButton
+                                        edge="start"
+                                        aria-label="move up"
+                                        disabled={index === 0}
+                                        onClick={() => {
+                                          const currClues = [
+                                            ...huntConfig.clues,
+                                          ];
+                                          const temp = {
+                                            ...currClues[index],
+                                            id: index,
+                                          };
+                                          currClues[index] = {
+                                            ...currClues[index - 1],
+                                            id: index + 1,
+                                          };
 
-                                    for (
-                                      let i = index;
-                                      i < currClues.length;
-                                      i++
-                                    ) {
-                                      currClues[i].id = i + 1;
-                                    }
+                                          currClues[index - 1] = temp;
 
-                                    setHuntConfig({
-                                      ...huntConfig,
-                                      clues: currClues,
-                                    });
-                                  }}
-                                >
-                                  <DeleteIcon />
-                                </IconButton>
-                              </ListItem>
+                                          setHuntConfig({
+                                            ...huntConfig,
+                                            clues: currClues,
+                                          });
+                                        }}
+                                      >
+                                        <ArrowUpwardIcon />
+                                      </IconButton>
+
+                                      <IconButton
+                                        edge="start"
+                                        aria-label="move down"
+                                        disabled={
+                                          index === huntConfig.clues.length - 1
+                                        }
+                                        onClick={() => {
+                                          const currClues = [
+                                            ...huntConfig.clues,
+                                          ];
+                                          const temp = {
+                                            ...currClues[index],
+                                            id: index + 2,
+                                          };
+                                          currClues[index] = {
+                                            ...currClues[index + 1],
+                                            id: index + 1,
+                                          };
+                                          currClues[index + 1] = temp;
+
+                                          setHuntConfig({
+                                            ...huntConfig,
+                                            clues: currClues,
+                                          });
+                                        }}
+                                      >
+                                        <ArrowDownwardIcon />
+                                      </IconButton>
+                                    </>
+                                  )}
+
+                                  <ListItemText
+                                    primary={`Clue ${index + 1}: ${text}`}
+                                    secondary={`URL: ${url}`}
+                                  />
+                                  <IconButton
+                                    edge="end"
+                                    aria-label="edit"
+                                    onClick={() => {
+                                      setCreatedClueIndex(index);
+                                      setCreatedClue({
+                                        id,
+                                        url,
+                                        text,
+                                        image,
+                                        alt,
+                                        interactive,
+                                      });
+                                      setCreateClueOpen(true);
+                                      setCreatedClueError(undefined);
+                                    }}
+                                  >
+                                    <EditIcon />
+                                  </IconButton>
+                                  <IconButton
+                                    edge="end"
+                                    aria-label="delete"
+                                    onClick={() => {
+                                      // Remove the clue from the list
+                                      const currClues = [...huntConfig.clues];
+                                      currClues.splice(index, 1);
+
+                                      for (
+                                        let i = index;
+                                        i < currClues.length;
+                                        i++
+                                      ) {
+                                        currClues[i].id = i + 1;
+                                      }
+
+                                      setHuntConfig({
+                                        ...huntConfig,
+                                        clues: currClues,
+                                      });
+                                    }}
+                                  >
+                                    <DeleteIcon />
+                                  </IconButton>
+                                </ListItem>
+                              </Tooltip>
                             ),
                           )}
                         </List>

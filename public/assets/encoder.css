@@ -9,3 +9,8 @@ body {
 .clue-list-item {
   background-color: #555;
 }
+
+.MuiTooltip-tooltipPlacementRight {
+  /* Avoid showing empty tooltip box because of rendered float clue preview */
+  background-color: transparent !important;
+}
