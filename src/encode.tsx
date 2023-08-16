@@ -359,11 +359,7 @@ const Encode = () => {
                                 title={
                                   <CluePage
                                     key={"preview" + id}
-                                    huntName={
-                                      huntConfig.name.length
-                                        ? huntConfig.name
-                                        : "Preview"
-                                    }
+                                    huntName={huntConfig.name || "Preview"}
                                     encrypted={false}
                                     clue={{
                                       id,
@@ -375,9 +371,8 @@ const Encode = () => {
                                     }}
                                     previewOnly={true}
                                     backgroundURL={
-                                      huntConfig.background.length
-                                        ? huntConfig.background
-                                        : getURL("graphics/background.png")
+                                      huntConfig.background ||
+                                      getURL("graphics/background.png")
                                     }
                                   />
                                 }
