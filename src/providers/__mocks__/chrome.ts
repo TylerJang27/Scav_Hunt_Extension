@@ -1,7 +1,8 @@
 // trunk-ignore-all(eslint/@typescript-eslint/ban-types)
 import { logger } from "src/logger";
 import { HuntConfig } from "src/types/hunt_config";
-import { DEFAULT_BACKGROUND } from "src/utils/parse";
+
+const MOCKED_DEFAULT_BACKGROUND = "../graphics/background.png";
 
 logger.warn("Using mocked chrome library");
 
@@ -19,7 +20,7 @@ const storageGetter = (items: string | string[], callback: Function) => {
     author: "Author",
     version: "1.0",
     encrypted: false,
-    background: DEFAULT_BACKGROUND,
+    background: MOCKED_DEFAULT_BACKGROUND,
     options: {
       silent: false,
     },
@@ -102,7 +103,7 @@ const runtime = {
   sendMessage: (msg: any) => {
     logger.info("Sending message", msg);
   },
-  lastError: () => {
+  getLastError: () => {
     logger.info("Returning no error");
     return undefined;
   },

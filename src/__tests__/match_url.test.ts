@@ -1,7 +1,7 @@
 import { buildProviderMocks } from "src/__tests__/build_mocks";
 import {
+  presetHunt,
   sampleEncryptedHunt,
-  sampleHunt,
   sampleSilentHunt,
 } from "src/__tests__/create_hunt_config";
 import { loadHuntProgress } from "src/content_script";
@@ -25,7 +25,7 @@ it("Check URL for match", () => {
   loadMock.mockImplementation((items, callback) => {
     expect(items).toEqual(["huntConfig", "maxProgress"]);
     // Provide sample hunt, with no progress made yet
-    callback({ huntConfig: sampleHunt, maxProgress: 0 });
+    callback({ huntConfig: presetHunt, maxProgress: 0 });
   });
   sendMessageMock.mockImplementation((message) => {
     expect(message).toEqual({ status: "Found" });
@@ -36,7 +36,7 @@ it("Check URL for match", () => {
   });
 
   currentURLMock.mockReturnValue(
-    `http://padding.${sampleHunt.clues[1].url}/padding`,
+    `http://padding.${presetHunt.clues[1].url}/padding`,
   );
 
   // Run the script triggered when a page is loaded.
@@ -55,7 +55,7 @@ it("Check URL for match from in-progress hunt", () => {
   loadMock.mockImplementation((items, callback) => {
     expect(items).toEqual(["huntConfig", "maxProgress"]);
     // Provide sample hunt, with some progress made
-    callback({ huntConfig: sampleHunt, maxProgress: 3 });
+    callback({ huntConfig: presetHunt, maxProgress: 3 });
   });
   sendMessageMock.mockImplementation((message) => {
     expect(message).toEqual({ status: "Found" });
@@ -66,7 +66,7 @@ it("Check URL for match from in-progress hunt", () => {
   });
 
   currentURLMock.mockReturnValue(
-    `http://padding.${sampleHunt.clues[0].url}/padding`,
+    `http://padding.${presetHunt.clues[0].url}/padding`,
   );
 
   // Run the script triggered when a page is loaded.
@@ -126,7 +126,7 @@ it("Check encoded URL for match from in-progress hunt", () => {
   });
 
   currentURLMock.mockReturnValue(
-    `http://padding.${sampleHunt.clues[2].url}/padding`,
+    `http://padding.${presetHunt.clues[2].url}/padding`,
   );
 
   // Run the script triggered when a page is loaded.
@@ -145,7 +145,7 @@ it("Check URL for no match", () => {
   loadMock.mockImplementation((items, callback) => {
     expect(items).toEqual(["huntConfig", "maxProgress"]);
     // Provide sample hunt, with no progress made yet
-    callback({ huntConfig: sampleHunt, maxProgress: 0 });
+    callback({ huntConfig: presetHunt, maxProgress: 0 });
   });
   sendMessageMock.mockImplementation((message) => {
     expect(message).toEqual({ status: "Not Found" });

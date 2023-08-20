@@ -1,7 +1,6 @@
 import { buildProviderMocks } from "src/__tests__/build_mocks";
-import { sampleHunt } from "src/__tests__/create_hunt_config";
-// trunk-ignore(eslint/import/extensions)
-import { saveConfigAndLaunch } from "src/options";
+import { presetHunt } from "src/__tests__/create_hunt_config";
+import { saveConfigAndLaunch } from "src/components/landing_page/ChooseHunt";
 import { resetStorage } from "src/providers/helpers";
 
 // TODO: Add additional logic and testing for reseting/clearing the hunt.
@@ -22,18 +21,18 @@ it("Save config", () => {
 
   saveMock.mockImplementation((items, callback) => {
     expect(items).toEqual({
-      sourceType: "Sample",
-      huntConfig: sampleHunt,
+      sourceType: "Preset",
+      huntConfig: presetHunt,
       maxProgress: 0,
       currentProgress: 0,
     });
-    // Provide sample hunt, with no progress made yet
+    // Provide preset hunt, with no progress made yet
     callback();
   });
 
   getLastErrorMock.mockReturnValue(undefined);
 
-  saveConfigAndLaunch(sampleHunt, "Sample");
+  saveConfigAndLaunch(presetHunt, "Preset");
   expect(saveMock).toHaveBeenCalledTimes(1);
   expect(createTabMock).toHaveBeenCalledTimes(1);
   expect(createTabMock).toHaveBeenCalledWith("beginning.html");

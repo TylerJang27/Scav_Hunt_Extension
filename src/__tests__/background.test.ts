@@ -1,4 +1,4 @@
-import { sampleHunt } from "src/__tests__/create_hunt_config";
+import { presetHunt } from "src/__tests__/create_hunt_config";
 import {
   setupMessageListener,
   setupOnClickedListener,
@@ -65,7 +65,7 @@ it("Click no progress", () => {
   loadMock.mockImplementation((items, callback) => {
     expect(items).toEqual(["huntConfig", "currentProgress"]);
     // Provide sample hunt, with no progress made yet
-    callback({ huntConfig: sampleHunt, currentProgress: 0 });
+    callback({ huntConfig: presetHunt, currentProgress: 0 });
   });
   addOnClickedListenerMock.mockImplementation((callback) => callback());
 
@@ -83,7 +83,7 @@ it("Click well-formed config", () => {
   loadMock.mockImplementation((items, callback) => {
     expect(items).toEqual(["huntConfig", "currentProgress"]);
     // Provide sample hunt, with progress made
-    callback({ huntConfig: sampleHunt, currentProgress: 1 });
+    callback({ huntConfig: presetHunt, currentProgress: 1 });
   });
   addOnClickedListenerMock.mockImplementation((callback) => callback());
 
@@ -122,7 +122,7 @@ it("Install and open tab", () => {
 
   setupOnInstalledListener();
   expect(createTabMock).toHaveBeenCalledTimes(1);
-  expect(createTabMock).toHaveBeenCalledWith("options.html");
+  expect(createTabMock).toHaveBeenCalledWith("landing_page.html");
 
   // Update event
   jest.resetAllMocks();

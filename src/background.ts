@@ -76,7 +76,7 @@ export const setupOnInstalledListener = () => {
     logger.debug(`Received install event ${details.reason}`);
     if (details.reason === CHROME_INSTALL_REASON) {
       // trunk-ignore(eslint/@typescript-eslint/no-floating-promises)
-      createTab("options.html");
+      createTab("landing_page.html");
     }
   });
 };

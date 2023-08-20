@@ -14,10 +14,11 @@ export const PageHeaderAndSubtitle: React.FC<PageHeaderAndSubtitleProps> = (
   return (
     <>
       <Typography
-        variant="h4"
+        variant="h3"
         fontWeight={theme.typography.fontWeightBold}
         textAlign="center"
         color="white"
+        fontFamily="Dosis"
       >
         {props.headerPrefix}
         {props.headerPrefix && ": "}

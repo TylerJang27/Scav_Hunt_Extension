@@ -139,3 +139,4 @@ The following resources were used to create this extension. Thank You :)
 - [HTML Tables](<https://www.w3schools.com/jsref/met_tablerow_insertcell.asp#:~:text=Insert%20new%20row(s)%20at,cells%20in%20the%20new%20row.>)
 - [Chrome Extension Downloads](https://stackoverflow.com/questions/4845215/making-a-chrome-extension-download-a-file/24162238)
 - [Typescript Starter Setup](https://github.com/chibat/chrome-extension-typescript-starter/tree/master)
+- Some images were created with the assistance of DALL·E 2

@@ -21,6 +21,8 @@ const failureMessages = new Map<string, string | RegExp>([
   ["unordered", "Parsed invalid index 2. Expected 1"],
 ]);
 
+jest.mock("src/providers/chrome");
+
 // This test presumes that the input file is well-formed JSON but malformed JSON.
 fs.readdirSync(PATH_TO_BAD_TEST_DATA).forEach((version) => {
   describe(`Parse malformed ${version} hunt config`, () => {

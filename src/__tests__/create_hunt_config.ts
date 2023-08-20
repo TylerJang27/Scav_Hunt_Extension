@@ -1,6 +1,6 @@
+import { DEFAULT_BACKGROUND } from "src/providers/helpers";
 import { ClueConfig, HuntConfig } from "src/types/hunt_config";
 import { Encrypt } from "src/utils/encrypt";
-import { DEFAULT_BACKGROUND } from "src/utils/parse";
 
 const testHuntName = "Test Hunt";
 /**
@@ -154,6 +154,6 @@ export const sampleEncryptedClues = [
 
 // TODO: TYLER MAKE MORE CLUES WITH REGEX URLS TOO
 
-export const sampleHunt = makeHunt(sampleClues);
+export const presetHunt = makeHunt(sampleClues);
 export const sampleEncryptedHunt = makeEncryptedHunt(sampleEncryptedClues);
 export const sampleSilentHunt = makeHunt(sampleClues, true);

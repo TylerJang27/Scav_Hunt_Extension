@@ -1,6 +1,6 @@
 import { ClueConfig, HuntConfig } from "src/types/hunt_config";
 
-export type HuntSource = "Sample" | "Upload" | "URL";
+export type HuntSource = "Preset" | "Upload" | "URL";
 
 export interface Progress {
   sourceType: HuntSource;

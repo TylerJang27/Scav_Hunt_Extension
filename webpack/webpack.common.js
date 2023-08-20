@@ -9,7 +9,7 @@ const BundleAnalyzerPlugin =
 module.exports = {
   entry: {
     popup: path.join(srcDir, "popup.tsx"),
-    options: path.join(srcDir, "options.tsx"),
+    landing_page: path.join(srcDir, "landing_page.tsx"),
     encode: path.join(srcDir, "encode.tsx"),
     beginning: path.join(srcDir, "beginning.tsx"),
     background: path.join(srcDir, "background.ts"),
@@ -29,7 +29,7 @@ module.exports = {
           "popup",
           "beginning",
           "encode",
-          "options",
+          "landing_page",
           "content_script",
         ].includes(chunk.name);
       },
