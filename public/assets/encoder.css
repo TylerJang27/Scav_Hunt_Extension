@@ -1,7 +1,11 @@
 html,
 body {
   background: url("../graphics/background.png");
-  background-repeat: no-repeat;
+  background-repeat: repeat-y;
   background-size: cover;
   background-position: center center;
+}
+
+.clue-list-item {
+  background-color: #555;
 }

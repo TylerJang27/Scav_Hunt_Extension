@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// trunk-ignore(eslint/import/extensions)
 import { CluePage } from "src/components/CluePage";
 import { loadStorageValues } from "src/providers/storage";
 import {
@@ -10,7 +9,6 @@ import { ClueConfig } from "src/types/hunt_config";
 import { SomeProgress } from "src/types/progress";
 import { nonNull } from "src/utils/helpers";
 import { DecryptClue } from "src/utils/parse";
-// trunk-ignore(eslint/import/extensions)
 import { Render } from "src/utils/root";
 
 const DEFAULT_LOADING_CLUE = {

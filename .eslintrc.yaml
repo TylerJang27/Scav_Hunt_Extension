@@ -64,6 +64,7 @@ rules:
     - ignorePackages
     - js: never
       ts: never
+      tsx: never
       jsx: never
   import/no-extraneous-dependencies:
     - error

@@ -2,37 +2,48 @@ import { ThemeProvider } from "@emotion/react";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import UploadIcon from "@mui/icons-material/Upload";
 import {
+  Alert,
+  Box,
   Button,
   Card,
   CardContent,
   Container,
-  Divider,
   FormControl,
+  FormHelperText,
   Grid,
   IconButton,
+  InputLabel,
   List,
   ListItem,
   ListItemText,
   MenuItem,
   Select,
   TextField,
+  Tooltip,
 } from "@mui/material";
-import React, { useState } from "react";
-// trunk-ignore(eslint/import/extensions)
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { ExitableModal } from "src/components/ExitableModal";
-// trunk-ignore(eslint/import/extensions)
 import { Footer } from "src/components/Footer";
-// trunk-ignore(eslint/import/extensions)
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 import { theme } from "src/components/theme";
-import { ClueConfig, HuntConfig } from "src/types/hunt_config";
-import { EncryptClue } from "src/utils/parse";
-// trunk-ignore(eslint/import/extensions)
+import { download } from "src/providers/downloads";
+import {
+  ClueConfig,
+  HuntConfig,
+  IntractiveConfig,
+} from "src/types/hunt_config";
+import { EncryptClue, ParseClue, ParseConfig } from "src/utils/parse";
 import { Render } from "src/utils/root";
 
-const generateJson = (huntConfig: HuntConfig) => {
+const generateJson = (
+  huntConfig: HuntConfig,
+  setErrorTooltip: (message: string) => void,
+) => {
   const encryptedHunt = {
     ...huntConfig,
     clues: huntConfig.clues.map((clue) =>
@@ -40,17 +51,60 @@ const generateJson = (huntConfig: HuntConfig) => {
     ),
   };
 
-  const outputString = JSON.stringify(encryptedHunt, null, "  ");
+  try {
+    ParseConfig(encryptedHunt);
 
-  const blob_gen = new Blob([outputString], { type: "application/json" });
-  const url_gen = URL.createObjectURL(blob_gen);
-  chrome.downloads.download({
-    url: url_gen,
-    filename: `${huntConfig.name}.json`,
+    const outputString = JSON.stringify(encryptedHunt, null, "  ");
+
+    const blob_gen = new Blob([outputString], { type: "application/json" });
+    const url_gen = URL.createObjectURL(blob_gen);
+
+    download({
+      url: url_gen,
+      filename: `${huntConfig.name}.json`,
+    });
+  } catch (err: any) {
+    // trunk-ignore(eslint)
+    setErrorTooltip(err.message);
+  }
+};
+
+const onUpload = (
+  e: ChangeEvent<HTMLInputElement>,
+  setHuntConfig: (huntConfig: HuntConfig) => void,
+  setUploadError: (error: string | undefined) => void,
+) => {
+  if (!e.target.files) {
+    return;
+  }
+  const file = e.target.files[0];
+  const reader = new FileReader();
+  reader.addEventListener("load", (event) => {
+    try {
+      // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
+      const huntData = JSON.parse(event.target?.result as string);
+      const huntConfig = ParseConfig(huntData);
+      if (huntConfig.encrypted) {
+        setUploadError(
+          "Can only upload draft hunts that have encrypted: false",
+        );
+      } else {
+        setUploadError(undefined);
+        setHuntConfig(huntConfig);
+      }
+    } catch (err: any) {
+      // trunk-ignore(eslint)
+      setUploadError(err.message);
+    }
   });
+  reader.readAsText(file);
 };
 
 const Encode = () => {
+  const [submittedEver, setSubmittedEver] = useState<boolean>(false);
+  const [errorTooltip, setErrorTooltip] = useState<string | undefined>(
+    undefined,
+  );
   const [huntConfig, setHuntConfig] = useState<HuntConfig>({
     name: "",
     description: "",
@@ -64,6 +118,7 @@ const Encode = () => {
     beginning: "",
     clues: [],
   });
+  const [uploadError, setUploadError] = useState<string | undefined>(undefined);
 
   const [createClueOpen, setCreateClueOpen] = useState<boolean>(false);
   const [createdClueIndex, setCreatedClueIndex] = useState<number>(0);
@@ -71,7 +126,16 @@ const Encode = () => {
     id: -1,
     url: "",
     text: "",
+    interactive: undefined,
   });
+  const [createdClueError, setCreatedClueError] = useState<
+    string | undefined
+  >();
+
+  // Whenever any input is changed, reset the error tooltip.
+  useEffect(() => {
+    setErrorTooltip(undefined);
+  }, [huntConfig]);
 
   return (
     <>
@@ -85,7 +149,40 @@ const Encode = () => {
           >
             <Grid item xs={12}>
               <Card sx={{ mt: 4, backgroundColor: "#333" }}>
-                <CardContent>
+                <CardContent sx={{ position: "relative" }}>
+                  <Box sx={{ position: "absolute", right: "16px" }}>
+                    <Tooltip title={uploadError} followCursor leaveDelay={200}>
+                      <span>
+                        {uploadError && (
+                          <InfoOutlinedIcon
+                            htmlColor="#ff99a9"
+                            id="submit-disable-tooltip"
+                            sx={{
+                              position: "absolute",
+                              transform: "translate(-100%, 25%)",
+                            }}
+                          />
+                        )}
+                        <Button
+                          color="secondary"
+                          variant="contained"
+                          component="label"
+                          startIcon={<UploadIcon />}
+                        >
+                          Upload Draft
+                          <input
+                            type="file"
+                            accept=".json,jsn,.json5"
+                            onChange={(e) => {
+                              onUpload(e, setHuntConfig, setUploadError);
+                            }}
+                            hidden
+                          />
+                        </Button>
+                      </span>
+                    </Tooltip>
+                  </Box>
+
                   <PageHeaderAndSubtitle header={"Make Your Own Hunt"} />
 
                   <Grid
@@ -94,15 +191,23 @@ const Encode = () => {
                     justifyContent="center"
                     alignItems="center"
                     direction="row"
+                    sx={{ mt: 2 }}
                   >
                     {/* Input pane */}
-                    <Grid item xs={6} display={"grid"}>
+                    <Grid
+                      item
+                      xs={6}
+                      display={"grid"}
+                      sx={{ alignSelf: "flex-start" }}
+                    >
                       <FormControl>
                         <TextField
                           value={huntConfig.name}
                           label="Name"
                           required
-                          error={huntConfig.name.trim().length === 0}
+                          error={
+                            submittedEver && huntConfig.name.trim().length === 0
+                          }
                           variant="outlined"
                           onChange={(e) => {
                             setHuntConfig({
@@ -110,12 +215,16 @@ const Encode = () => {
                               name: e.target.value,
                             });
                           }}
+                          sx={{ mt: 1 }}
                         />
                         <TextField
                           value={huntConfig.description}
                           label="Description"
                           required
-                          error={huntConfig.description.trim().length === 0}
+                          error={
+                            submittedEver &&
+                            huntConfig.description.trim().length === 0
+                          }
                           variant="outlined"
                           onChange={(e) => {
                             setHuntConfig({
@@ -123,12 +232,16 @@ const Encode = () => {
                               description: e.target.value,
                             });
                           }}
+                          sx={{ mt: 1 }}
                         />
                         <TextField
                           value={huntConfig.author}
                           label="Author"
                           required
-                          error={huntConfig.author.trim().length === 0}
+                          error={
+                            submittedEver &&
+                            huntConfig.author.trim().length === 0
+                          }
                           variant="outlined"
                           onChange={(e) => {
                             setHuntConfig({
@@ -136,16 +249,18 @@ const Encode = () => {
                               author: e.target.value,
                             });
                           }}
+                          sx={{ mt: 1 }}
                         />
                         <TextField
                           value={huntConfig.background}
                           label="Background (URL)"
                           required
                           error={
-                            huntConfig.background.trim().length === 0 ||
-                            !/^https?:\/\/[\w-]+(\.[\w-]+)+[/#?]?.*$/.test(
-                              huntConfig.background.trim(),
-                            )
+                            submittedEver &&
+                            (huntConfig.background.trim().length === 0 ||
+                              !/^https?:\/\/[\w-]+(\.[\w-]+)+[/#?]?.*$/.test(
+                                huntConfig.background.trim(),
+                              ))
                           }
                           variant="outlined"
                           type="url"
@@ -155,12 +270,16 @@ const Encode = () => {
                               background: e.target.value,
                             });
                           }}
+                          sx={{ mt: 1 }}
                         />
                         <TextField
                           value={huntConfig.beginning}
                           label="Beginning"
                           required
-                          error={huntConfig.beginning.trim().length === 0}
+                          error={
+                            submittedEver &&
+                            huntConfig.beginning.trim().length === 0
+                          }
                           variant="outlined"
                           onChange={(e) => {
                             setHuntConfig({
@@ -168,59 +287,75 @@ const Encode = () => {
                               beginning: e.target.value,
                             });
                           }}
+                          sx={{ mt: 1, mb: 4 }}
                         />
-                        <br />
-                        Silent:
-                        <br />
-                        <Select
-                          value={huntConfig.options.silent}
-                          label="Silent"
-                          required
-                          variant="outlined"
-                          onChange={(e) => {
-                            setHuntConfig({
-                              ...huntConfig,
-                              options: {
-                                ...huntConfig.options,
-                                silent: e.target.value === "true",
-                              },
-                            });
-                          }}
-                        >
-                          <MenuItem value="false">
-                            False (Popping up alerts)
-                          </MenuItem>
-                          <MenuItem value="true">True (Icon alerts)</MenuItem>
-                        </Select>
-                        <br />
-                        Encrypted:
-                        <br />
-                        <Select
-                          value={huntConfig.encrypted}
-                          label="Encrypted"
-                          required
-                          variant="outlined"
-                          onChange={(e) => {
-                            const selectedValue = e.target.value;
-                            setHuntConfig({
-                              ...huntConfig,
-                              encrypted: selectedValue === "true",
-                            });
-                            if (selectedValue === "false") {
-                              window.alert(
-                                "The downloaded file will NOT be encrypted and the clues will be displayed as plain text.",
-                              );
-                            }
-                          }}
-                        >
-                          <MenuItem value="true">True (Default)</MenuItem>
-                          <MenuItem value="false">False</MenuItem>
-                        </Select>
-                        <br />
+                        <FormControl sx={{ mb: 2 }}>
+                          <InputLabel id="silent-select-label">
+                            Silent
+                          </InputLabel>
+                          <Select
+                            value={huntConfig.options.silent}
+                            label="Silent"
+                            labelId="silent-select-label"
+                            required
+                            variant="outlined"
+                            onChange={(e) => {
+                              setHuntConfig({
+                                ...huntConfig,
+                                options: {
+                                  ...huntConfig.options,
+                                  silent: e.target.value === "true",
+                                },
+                              });
+                            }}
+                          >
+                            <MenuItem value="true">True (Icon alerts)</MenuItem>
+                            <MenuItem value="false">
+                              False (Popping up alerts)
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+                        <FormControl>
+                          <InputLabel id="encrypted-select-label">
+                            Encrypted
+                          </InputLabel>
+                          <Select
+                            value={huntConfig.encrypted}
+                            label="Encrypted"
+                            labelId="encrypted-select-label"
+                            required
+                            variant="outlined"
+                            onChange={(e) => {
+                              const selectedValue = e.target.value;
+                              setHuntConfig({
+                                ...huntConfig,
+                                encrypted: selectedValue === "true",
+                              });
+                              if (selectedValue === "false") {
+                                window.alert(
+                                  "The downloaded file will NOT be encrypted and the clues will be displayed as plain text.",
+                                );
+                              }
+                            }}
+                          >
+                            <MenuItem value="true">True (For Sharing)</MenuItem>
+                            <MenuItem value="false">
+                              False (For Drafts)
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+
                         <List>
                           {huntConfig.clues.map(
-                            ({ id, url, text, image, alt }, index) => (
-                              <ListItem key={id} divider>
+                            (
+                              { id, url, text, image, alt, interactive },
+                              index,
+                            ) => (
+                              <ListItem
+                                key={id}
+                                className="clue-list-item"
+                                divider
+                              >
                                 {huntConfig.clues.length > 1 && (
                                   <>
                                     <IconButton
@@ -288,13 +423,15 @@ const Encode = () => {
                                   onClick={() => {
                                     setCreatedClueIndex(index);
                                     setCreatedClue({
-                                      id: id,
-                                      url: url,
-                                      text: text,
-                                      image: image,
-                                      alt: alt,
+                                      id,
+                                      url,
+                                      text,
+                                      image,
+                                      alt,
+                                      interactive,
                                     });
                                     setCreateClueOpen(true);
+                                    setCreatedClueError(undefined);
                                   }}
                                 >
                                   <EditIcon />
@@ -338,45 +475,52 @@ const Encode = () => {
                         >
                           Create New Clue
                         </Button>
-                        <Divider></Divider>
-                        <Button
-                          fullWidth
-                          color="secondary"
-                          variant="contained"
-                          onClick={() => {
-                            // TODO: Trim all strings, encrypt all clues if encrypted is true
-                            // TODO: Test line breaks, dump to json string, download json file
-
-                            generateJson(huntConfig);
-
-                            // const json_gen = generateJson();
-                            //         const blob_gen = new Blob([JSON.stringify(json_gen)], {type: 'application/json'});
-                            //         const url_gen = URL.createObjectURL(blob_gen);
-                            //         chrome.downloads.download({
-                            //             url: url_gen
-                            //         });
-                          }}
+                        <Tooltip
+                          title={errorTooltip}
+                          followCursor
+                          leaveDelay={200}
                         >
-                          Download
-                        </Button>
+                          <Button
+                            fullWidth
+                            color="primary"
+                            variant="contained"
+                            onClick={() => {
+                              // TODO: TYLER Test line breaks, dump to json string, download json file
+
+                              setSubmittedEver(true);
+
+                              generateJson(huntConfig, setErrorTooltip);
+                            }}
+                            sx={{ mt: 1 }}
+                            startIcon={<DownloadIcon />}
+                          >
+                            Download
+                          </Button>
+                        </Tooltip>
                       </FormControl>
                     </Grid>
 
                     {/* Preview pane */}
-                    {/*  TODO: Figure out how to set the color while also making disabled */}
-                    <Grid item xs={6} display={"grid"}>
+                    <Grid
+                      item
+                      xs={6}
+                      display={"grid"}
+                      sx={{ alignSelf: "flex-start" }}
+                    >
                       <TextField
                         variant="outlined"
                         InputProps={{
                           inputProps: { style: { color: "#fff" } },
                         }}
-                        maxRows={30}
+                        minRows={23}
+                        maxRows={23}
                         multiline
                         value={JSON.stringify(huntConfig, null, "  ")}
                         sx={{
                           fontFamily: "system-ui",
                           fontSize: "0.9rem",
                           color: "white",
+                          mt: 1,
                         }}
                       />
                     </Grid>
@@ -393,7 +537,6 @@ const Encode = () => {
         {/* Create clue modal */}
         <ExitableModal
           open={createClueOpen}
-          // TODO: ON SAVE, ADD THE IN PROGRESS CLUE TO THE END OF THE LIST
           onClose={() => {
             setCreateClueOpen(false);
             setCreatedClue({
@@ -403,86 +546,188 @@ const Encode = () => {
               image: "",
               alt: "",
             });
+            setCreatedClueError(undefined);
           }}
-          modalTitle="Create new clue"
+          modalTitle="Create New Clue"
         >
-          <FormControl>
-            <TextField
-              label="URL"
-              variant="outlined"
-              required
-              value={createdClue.url}
-              onChange={(e) => {
-                setCreatedClue({ ...createdClue, url: e.target.value });
-              }}
-            />
-            <TextField
-              label="Text"
-              variant="outlined"
-              required
-              value={createdClue.text}
-              onChange={(e) => {
-                setCreatedClue({ ...createdClue, text: e.target.value });
-              }}
-            />
-            <TextField
-              label="Image URL"
-              variant="outlined"
-              value={createdClue.image}
-              onChange={(e) => {
-                setCreatedClue({ ...createdClue, image: e.target.value });
-              }}
-            />
-            <TextField
-              label="Image Alt"
-              variant="outlined"
-              value={createdClue.alt}
-              onChange={(e) => {
-                setCreatedClue({ ...createdClue, alt: e.target.value });
-              }}
-            />
+          <FormControl sx={{ display: "flex" }}>
+            <FormControl>
+              <TextField
+                label="URL"
+                variant="outlined"
+                required
+                error={
+                  Boolean(createdClueError) &&
+                  createdClue.url.trim().length === 0
+                }
+                value={createdClue.url}
+                onChange={(e) => {
+                  setCreatedClue({ ...createdClue, url: e.target.value });
+                }}
+                sx={{ mt: 1 }}
+                aria-describedby="url-helper-text"
+              />
+              <FormHelperText id="url-helper-text">
+                Regex or substring match
+              </FormHelperText>
+            </FormControl>
+            <FormControl>
+              <TextField
+                label="Text"
+                variant="outlined"
+                required
+                error={
+                  Boolean(createdClueError) &&
+                  (createdClue.text ?? "").trim().length === 0
+                }
+                value={createdClue.text}
+                onChange={(e) => {
+                  setCreatedClue({ ...createdClue, text: e.target.value });
+                }}
+                sx={{ mt: 1 }}
+                aria-describedby="text-helper-text"
+              />
+              <FormHelperText id="text-helper-text">
+                Clue to display when this URL is visited
+              </FormHelperText>
+            </FormControl>
+            <FormControl>
+              <TextField
+                label="Image URL"
+                variant="outlined"
+                value={createdClue.image}
+                onChange={(e) => {
+                  setCreatedClue({ ...createdClue, image: e.target.value });
+                }}
+                sx={{ mt: 1 }}
+                aria-describedby="image-url-helper-text"
+              />
+              <FormHelperText id="image-url-helper-text">
+                Optional image to display when this URL is visited
+              </FormHelperText>
+            </FormControl>
+            <FormControl>
+              <TextField
+                label="Image Alt"
+                variant="outlined"
+                value={createdClue.alt}
+                onChange={(e) => {
+                  setCreatedClue({ ...createdClue, alt: e.target.value });
+                }}
+                sx={{ mt: 1 }}
+                aria-describedby="image-alt-helper-text"
+              />
+              <FormHelperText id="image-alt-helper-text">
+                Alt text for the above image
+              </FormHelperText>
+            </FormControl>
+            <FormControl>
+              <TextField
+                label="Interactive Prompt"
+                variant="outlined"
+                value={createdClue.interactive?.prompt}
+                onChange={(e) => {
+                  setCreatedClue({
+                    ...createdClue,
+                    interactive: {
+                      ...createdClue.interactive,
+                      prompt: e.target.value,
+                    } as IntractiveConfig,
+                  });
+                }}
+                sx={{ mt: 1 }}
+                aria-describedby="prompt-helper-text"
+              />
+              <FormHelperText id="prompt-helper-text">
+                An optional question the user must answer before viewing the
+                clue text
+              </FormHelperText>
+            </FormControl>
+            <FormControl>
+              <TextField
+                label="Interactive Key"
+                variant="outlined"
+                value={createdClue.interactive?.key}
+                onChange={(e) => {
+                  setCreatedClue({
+                    ...createdClue,
+                    interactive: {
+                      ...createdClue.interactive,
+                      key: e.target.value,
+                    },
+                  });
+                }}
+                required={Boolean(createdClue.interactive?.prompt) ?? false}
+                error={
+                  Boolean(createdClueError) &&
+                  Boolean(createdClue.interactive?.prompt) &&
+                  (createdClue.interactive?.prompt ?? "").trim().length === 0
+                }
+                sx={{ mt: 1 }}
+                aria-describedby="key-helper-text"
+              />
+              <FormHelperText id="key-helper-text">
+                Case-sensitive answer to the prompt
+              </FormHelperText>
+            </FormControl>
 
             <Button
               variant="contained"
               color="primary"
+              sx={{ mt: 2 }}
               onClick={() => {
                 // Add the new clue to the list
-                const newClue = {
+                const newClue: ClueConfig = {
                   id: createdClueIndex + 1,
                   url: createdClue.url,
                   text: createdClue.text,
                   image: createdClue.image,
                   alt: createdClue.alt,
                 };
-
-                if (createdClueIndex >= huntConfig.clues.length) {
-                  setHuntConfig({
-                    ...huntConfig,
-                    clues: [...huntConfig.clues, newClue],
-                  });
-                } else {
-                  const currClues = [...huntConfig.clues];
-                  currClues[createdClueIndex] = newClue;
-                  setHuntConfig({
-                    ...huntConfig,
-                    clues: currClues,
-                  });
+                if (createdClue.interactive) {
+                  newClue.interactive = createdClue.interactive;
                 }
-                // Reset the createdClue state
-                setCreatedClue({
-                  id: -1,
-                  url: "",
-                  text: "",
-                  image: "",
-                  alt: "",
-                });
 
-                // Close the modal
-                setCreateClueOpen(false);
+                try {
+                  ParseClue(createdClue);
+
+                  if (createdClueIndex >= huntConfig.clues.length) {
+                    setHuntConfig({
+                      ...huntConfig,
+                      clues: [...huntConfig.clues, newClue],
+                    });
+                  } else {
+                    const currClues = [...huntConfig.clues];
+                    currClues[createdClueIndex] = newClue;
+                    setHuntConfig({
+                      ...huntConfig,
+                      clues: currClues,
+                    });
+                  }
+                  // Reset the createdClue state
+                  setCreatedClue({
+                    id: -1,
+                    url: "",
+                    text: "",
+                    image: "",
+                    alt: "",
+                    interactive: undefined,
+                  });
+
+                  // Close the modal
+                  setCreateClueOpen(false);
+                  setCreatedClueError(undefined);
+                } catch (err: any) {
+                  // trunk-ignore(eslint)
+                  setCreatedClueError(err.message);
+                }
               }}
             >
               Save
             </Button>
+            {createdClueError && (
+              <Alert severity="error">{createdClueError}</Alert>
+            )}
           </FormControl>
         </ExitableModal>
       </ThemeProvider>

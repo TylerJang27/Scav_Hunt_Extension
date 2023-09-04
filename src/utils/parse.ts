@@ -38,6 +38,7 @@ const ValidateRequiredNonEmptyField = (
   return value;
 };
 
+// trunk-ignore(eslint/@typescript-eslint/no-unused-vars)
 const ValidateXORFields = (
   value1: any,
   fieldName1: string,
@@ -59,21 +60,22 @@ const ValidateVersion = (value: string): string => {
   return value;
 };
 
-const ParseClue = (
+export const ParseClue = (
   { id, url, text, html, image, alt, interactive }: ClueConfig,
-  index: number,
+  index?: number,
 ): ClueConfig => {
   const ret = {
     id: ValidateRequiredNonEmptyField(id, "id", index) as number,
     url: ValidateRequiredNonEmptyField(url, "url", index) as string,
-    text: text,
+    text: ValidateRequiredNonEmptyField(text, "text", index) as string,
     html: html,
     image: image,
     alt: alt,
     interactive: interactive,
   };
 
-  ValidateXORFields(text, "text", html, "html", index);
+  // TODO: TYLER ONCE WE ADD MARKDOWN SUPPORT, WE SHOULD USE XOR HERE AND REMOVE text VALIDATION
+  // ValidateXORFields(text, "text", html, "html", index);
 
   // Validate clue config
   if (interactive) {
@@ -105,7 +107,10 @@ const ParseHuntOptions = ({
   beginning,
 }: HuntConfig): HuntConfig => ({
   name: ValidateRequiredNonEmptyField(name, "name") as string,
-  description: ValidateRequiredField(description, "description") as string,
+  description: ValidateRequiredNonEmptyField(
+    description,
+    "description",
+  ) as string,
   version: ValidateVersion(version),
   author: ValidateRequiredField(author, "author") as string,
   encrypted: encrypted,
