@@ -291,7 +291,7 @@ export const ChooseHunt = () => {
                   }
                 }}
               >
-                <ToggleButton value="Preset" aria-label="Preset">
+                <ToggleButton value="Preset" aria-label="Preset" data-testid="hunt-preset-toggle">
                   <Grid container direction="row" spacing={1}>
                     <Grid
                       item
@@ -305,6 +305,7 @@ export const ChooseHunt = () => {
                         fullWidth
                         color="secondary"
                         variant="contained"
+                        data-testid="hunt-preset-button"
                         onClick={() => {
                           setSourceFormState({
                             ...sourceFormState,
@@ -334,6 +335,7 @@ export const ChooseHunt = () => {
                     </Grid>
                     <Grid item xs={9}>
                       <TextField
+                        data-testid="hunt-url-textfield"
                         fullWidth
                         color="secondary"
                         variant="outlined"
@@ -409,6 +411,7 @@ export const ChooseHunt = () => {
               }}
             >
               <Tooltip
+                data-testid="hunt-submit-tooltip"
                 title={validationError?.message ?? missingInputMessage}
                 followCursor
                 leaveDelay={200}
@@ -438,6 +441,7 @@ export const ChooseHunt = () => {
                         color: "black",
                       },
                     }}
+                    data-testid= "hunt-submit-button"
                   >
                     Submit
                   </Button>
