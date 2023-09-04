@@ -15,6 +15,7 @@ extends:
   - plugin:@typescript-eslint/recommended-requiring-type-checking
   - plugin:import/recommended
   - plugin:node/recommended
+  - plugin:playwright/recommended
   - prettier
 
 parserOptions:
