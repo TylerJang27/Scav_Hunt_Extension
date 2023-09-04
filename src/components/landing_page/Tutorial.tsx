@@ -1,6 +1,5 @@
 import { Container, Grid, Typography } from "@mui/material";
 import React from "react";
-import YouTube from "react-youtube";
 import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
 
 export const Tutorial = () => (
@@ -14,7 +13,17 @@ export const Tutorial = () => (
           <Typography textAlign={"center"}>
             Follow the clues, visit the matching websites, and solve the hunt!
           </Typography>
-          <YouTube videoId="yBkaL08VXWs" style={{ display: "flex" }} />
+          {/* YouTube embedder based on https://dev.to/bravemaster619/simplest-way-to-embed-a-youtube-video-in-your-react-app-3bk2 */}
+          <div className="video-responsive">
+            <iframe
+              width="853"
+              height="480"
+              src={`https://www.youtube.com/embed/yBkaL08VXWs`}
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="Embedded youtube"
+            />
+          </div>
         </Grid>
       </Grid>
     </Container>

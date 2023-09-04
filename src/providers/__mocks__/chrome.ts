@@ -43,7 +43,8 @@ const storageGetter = (items: string | string[], callback: Function) => {
     ],
   };
 
-  const defaultCurrentProgress = 1;
+  // Change this to change which clue is rendered when visiting popup
+  const defaultCurrentProgress = 2;
 
   const defaultMaxProgress = 2;
 
