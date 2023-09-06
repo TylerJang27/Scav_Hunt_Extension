@@ -5,7 +5,7 @@
   "manifest_version": 3,
   "options_ui": {
     "page": "landing_page.html",
-    "open_in_tab": false
+    "open_in_tab": true
   },
   "icons": {
     "16": "graphics/scav16.png",
