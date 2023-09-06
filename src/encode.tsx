@@ -7,14 +7,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import UploadIcon from "@mui/icons-material/Upload";
 import {
-  Alert,
   Box,
   Button,
   Card,
   CardContent,
   Container,
   FormControl,
-  FormHelperText,
   Grid,
   IconButton,
   InputLabel,
@@ -27,19 +25,15 @@ import {
   Tooltip,
 } from "@mui/material";
 import React, { ChangeEvent, useEffect, useState } from "react";
+import { CreateClueModal } from "src/components/encode/CreateClueModal";
 import { CluePage } from "src/components/reusable/CluePage";
-import { ExitableModal } from "src/components/reusable/ExitableModal";
 import { Footer } from "src/components/reusable/Footer";
 import { PageHeaderAndSubtitle } from "src/components/reusable/PageHeaderAndSubtitle";
 import { theme } from "src/components/reusable/theme";
 import { download } from "src/providers/downloads";
 import { getURL } from "src/providers/runtime";
-import {
-  ClueConfig,
-  HuntConfig,
-  IntractiveConfig,
-} from "src/types/hunt_config";
-import { EncryptClue, ParseClue, ParseConfig } from "src/utils/parse";
+import { ClueConfig, HuntConfig } from "src/types/hunt_config";
+import { EncryptClue, ParseConfig } from "src/utils/parse";
 import { Render } from "src/utils/root";
 
 const generateJson = (
@@ -130,9 +124,55 @@ const Encode = () => {
     text: "",
     interactive: undefined,
   });
-  const [createdClueError, setCreatedClueError] = useState<
-    string | undefined
-  >();
+
+  const onCreatedClueClose = () => {
+    setCreateClueOpen(false);
+    setCreatedClue({
+      id: -1,
+      url: "",
+      text: "",
+      image: "",
+      alt: "",
+    });
+  };
+  const onCreatedClueSave = () => {
+    // Add the new clue to the list
+    const newClue: ClueConfig = {
+      id: createdClueIndex + 1,
+      url: createdClue.url,
+      text: createdClue.text,
+      image: createdClue.image,
+      alt: createdClue.alt,
+    };
+    if (createdClue.interactive) {
+      newClue.interactive = createdClue.interactive;
+    }
+    if (createdClueIndex >= huntConfig.clues.length) {
+      setHuntConfig({
+        ...huntConfig,
+        clues: [...huntConfig.clues, newClue],
+      });
+    } else {
+      const currClues = [...huntConfig.clues];
+      currClues[createdClueIndex] = newClue;
+      setHuntConfig({
+        ...huntConfig,
+        clues: currClues,
+      });
+    }
+    // Reset the createdClue state
+    setCreatedClue({
+      id: -1,
+      url: "",
+      text: "",
+      image: "",
+      alt: "",
+      interactive: undefined,
+    });
+
+    // Close the modal
+    setCreateClueOpen(false);
+  };
 
   // Whenever any input is changed, reset the error tooltip.
   useEffect(() => {
@@ -461,7 +501,6 @@ const Encode = () => {
                                         interactive,
                                       });
                                       setCreateClueOpen(true);
-                                      setCreatedClueError(undefined);
                                     }}
                                   >
                                     <EditIcon />
@@ -565,202 +604,13 @@ const Encode = () => {
           </Grid>
         </Container>
 
-        {/* Create clue modal */}
-        <ExitableModal
-          open={createClueOpen}
-          onClose={() => {
-            setCreateClueOpen(false);
-            setCreatedClue({
-              id: -1,
-              url: "",
-              text: "",
-              image: "",
-              alt: "",
-            });
-            setCreatedClueError(undefined);
-          }}
-          modalTitle="Create New Clue"
-        >
-          <FormControl sx={{ display: "flex" }}>
-            <FormControl>
-              <TextField
-                label="URL"
-                variant="outlined"
-                required
-                error={
-                  Boolean(createdClueError) &&
-                  createdClue.url.trim().length === 0
-                }
-                value={createdClue.url}
-                onChange={(e) => {
-                  setCreatedClue({ ...createdClue, url: e.target.value });
-                }}
-                sx={{ mt: 1 }}
-                aria-describedby="url-helper-text"
-              />
-              <FormHelperText id="url-helper-text">
-                Regex or substring match
-              </FormHelperText>
-            </FormControl>
-            <FormControl>
-              <TextField
-                label="Text"
-                variant="outlined"
-                required
-                error={
-                  Boolean(createdClueError) &&
-                  (createdClue.text ?? "").trim().length === 0
-                }
-                value={createdClue.text}
-                onChange={(e) => {
-                  setCreatedClue({ ...createdClue, text: e.target.value });
-                }}
-                sx={{ mt: 1 }}
-                aria-describedby="text-helper-text"
-              />
-              <FormHelperText id="text-helper-text">
-                Clue to display when this URL is visited
-              </FormHelperText>
-            </FormControl>
-            <FormControl>
-              <TextField
-                label="Image URL"
-                variant="outlined"
-                value={createdClue.image}
-                onChange={(e) => {
-                  setCreatedClue({ ...createdClue, image: e.target.value });
-                }}
-                sx={{ mt: 1 }}
-                aria-describedby="image-url-helper-text"
-              />
-              <FormHelperText id="image-url-helper-text">
-                Optional image to display when this URL is visited
-              </FormHelperText>
-            </FormControl>
-            <FormControl>
-              <TextField
-                label="Image Alt"
-                variant="outlined"
-                value={createdClue.alt}
-                onChange={(e) => {
-                  setCreatedClue({ ...createdClue, alt: e.target.value });
-                }}
-                sx={{ mt: 1 }}
-                aria-describedby="image-alt-helper-text"
-              />
-              <FormHelperText id="image-alt-helper-text">
-                Alt text for the above image
-              </FormHelperText>
-            </FormControl>
-            <FormControl>
-              <TextField
-                label="Interactive Prompt"
-                variant="outlined"
-                value={createdClue.interactive?.prompt}
-                onChange={(e) => {
-                  setCreatedClue({
-                    ...createdClue,
-                    interactive: {
-                      ...createdClue.interactive,
-                      prompt: e.target.value,
-                    } as IntractiveConfig,
-                  });
-                }}
-                sx={{ mt: 1 }}
-                aria-describedby="prompt-helper-text"
-              />
-              <FormHelperText id="prompt-helper-text">
-                An optional question the user must answer before viewing the
-                clue text
-              </FormHelperText>
-            </FormControl>
-            <FormControl>
-              <TextField
-                label="Interactive Key"
-                variant="outlined"
-                value={createdClue.interactive?.key}
-                onChange={(e) => {
-                  setCreatedClue({
-                    ...createdClue,
-                    interactive: {
-                      ...createdClue.interactive,
-                      key: e.target.value,
-                    },
-                  });
-                }}
-                required={Boolean(createdClue.interactive?.prompt) ?? false}
-                error={
-                  Boolean(createdClueError) &&
-                  Boolean(createdClue.interactive?.prompt) &&
-                  (createdClue.interactive?.prompt ?? "").trim().length === 0
-                }
-                sx={{ mt: 1 }}
-                aria-describedby="key-helper-text"
-              />
-              <FormHelperText id="key-helper-text">
-                Case-sensitive answer to the prompt
-              </FormHelperText>
-            </FormControl>
-
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{ mt: 2 }}
-              onClick={() => {
-                // Add the new clue to the list
-                const newClue: ClueConfig = {
-                  id: createdClueIndex + 1,
-                  url: createdClue.url,
-                  text: createdClue.text,
-                  image: createdClue.image,
-                  alt: createdClue.alt,
-                };
-                if (createdClue.interactive) {
-                  newClue.interactive = createdClue.interactive;
-                }
-
-                try {
-                  ParseClue(createdClue);
-
-                  if (createdClueIndex >= huntConfig.clues.length) {
-                    setHuntConfig({
-                      ...huntConfig,
-                      clues: [...huntConfig.clues, newClue],
-                    });
-                  } else {
-                    const currClues = [...huntConfig.clues];
-                    currClues[createdClueIndex] = newClue;
-                    setHuntConfig({
-                      ...huntConfig,
-                      clues: currClues,
-                    });
-                  }
-                  // Reset the createdClue state
-                  setCreatedClue({
-                    id: -1,
-                    url: "",
-                    text: "",
-                    image: "",
-                    alt: "",
-                    interactive: undefined,
-                  });
-
-                  // Close the modal
-                  setCreateClueOpen(false);
-                  setCreatedClueError(undefined);
-                } catch (err: any) {
-                  // trunk-ignore(eslint)
-                  setCreatedClueError(err.message);
-                }
-              }}
-            >
-              Save
-            </Button>
-            {createdClueError && (
-              <Alert severity="error">{createdClueError}</Alert>
-            )}
-          </FormControl>
-        </ExitableModal>
+        <CreateClueModal
+          isOpen={createClueOpen}
+          createdClue={createdClue}
+          setCreatedClue={setCreatedClue}
+          onSave={onCreatedClueSave}
+          onClose={onCreatedClueClose}
+        />
       </ThemeProvider>
     </>
   );

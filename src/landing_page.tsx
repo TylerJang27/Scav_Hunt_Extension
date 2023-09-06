@@ -7,11 +7,11 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { Header } from "src/components/reusable/Header";
 import { ChooseHunt } from "src/components/landing_page/ChooseHunt";
 import { CreateYourOwn } from "src/components/landing_page/CreateYourOwn";
 import { LearnMore } from "src/components/landing_page/LearnMore";
 import { Tutorial } from "src/components/landing_page/Tutorial";
+import { Header } from "src/components/reusable/Header";
 import { theme } from "src/components/reusable/theme";
 import { Render } from "src/utils/root";
 
