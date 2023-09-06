@@ -1,16 +1,21 @@
 {
   "name": "scavenger-hunt-chrome-extension",
   "version": "0.9.1",
+  "private": true,
   "description": "Create and Run Chrome Extension Scavenger Hunts",
   "repository": {
     "type": "git",
     "url": "https://github.com/TylerJang27/Scav_Hunt_Extension"
   },
-  "author": "TylerJang27",
   "license": "MIT",
-  "private": true,
-  "engines": {
-    "node": ">=16"
+  "author": "TylerJang27",
+  "scripts": {
+    "build": "webpack --config webpack/webpack.prod.js",
+    "clean": "rimraf dist",
+    "serve": "serve dist",
+    "static": "webpack --config webpack/webpack.static.js --watch",
+    "test": "npx jest",
+    "watch": "webpack --config webpack/webpack.dev.js --watch"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -22,7 +27,10 @@
     "path-browserify": "^1.0.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "ts-node": "^10.9.1"
+    "semver": "^7.5.4",
+    "tough-cookie": "^4.1.3",
+    "ts-node": "^10.9.1",
+    "word-wrap": "^1.2.5"
   },
   "devDependencies": {
     "@types/chrome": "0.0.158",
@@ -60,12 +68,7 @@
   "bundleDependencies": [
     "scavenger-hunt-chrome-extension"
   ],
-  "scripts": {
-    "watch": "webpack --config webpack/webpack.dev.js --watch",
-    "build": "webpack --config webpack/webpack.prod.js",
-    "clean": "rimraf dist",
-    "serve": "serve dist",
-    "static": "webpack --config webpack/webpack.static.js --watch",
-    "test": "npx jest"
+  "engines": {
+    "node": ">=16"
   }
 }
