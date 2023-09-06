@@ -1,11 +1,9 @@
 TODOs before next release
 
 Development:
-1. Frontend testing
-2. Trunk upgrade, linting
-3. Refactor components as necessary (particularly encode.tsx)
-4. i18n
-5. Simplify css files
+1. Refactor components as necessary (particularly encode.tsx)
+2. i18n
+3. Simplify css files
 
 Scope:
 1. Replace HTML support with markdown and sanitize
