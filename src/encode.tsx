@@ -2,7 +2,6 @@ import { ThemeProvider } from "@emotion/react";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DeleteIcon from "@mui/icons-material/Delete";
-import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
@@ -25,45 +24,16 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { CreateClueModal } from "src/components/encode/CreateClueModal";
+import { DownloadHuntButton } from "src/components/encode/DownloadHuntButton";
+import { PreviewHuntJson } from "src/components/encode/PreviewHuntJson";
 import { UploadDraftButton } from "src/components/encode/UploadDraftButton";
 import { CluePage } from "src/components/reusable/CluePage";
 import { Footer } from "src/components/reusable/Footer";
 import { PageHeaderAndSubtitle } from "src/components/reusable/PageHeaderAndSubtitle";
 import { theme } from "src/components/reusable/theme";
-import { download } from "src/providers/downloads";
 import { getURL } from "src/providers/runtime";
 import { ClueConfig, HuntConfig } from "src/types/hunt_config";
-import { EncryptClue, ParseConfig } from "src/utils/parse";
 import { Render } from "src/utils/root";
-
-const generateJson = (
-  huntConfig: HuntConfig,
-  setErrorTooltip: (message: string) => void,
-) => {
-  const encryptedHunt = {
-    ...huntConfig,
-    clues: huntConfig.clues.map((clue) =>
-      EncryptClue(clue, huntConfig.encrypted, huntConfig.name),
-    ),
-  };
-
-  try {
-    ParseConfig(encryptedHunt);
-
-    const outputString = JSON.stringify(encryptedHunt, null, "  ");
-
-    const blob_gen = new Blob([outputString], { type: "application/json" });
-    const url_gen = URL.createObjectURL(blob_gen);
-
-    download({
-      url: url_gen,
-      filename: `${huntConfig.name}.json`,
-    });
-  } catch (err: any) {
-    // trunk-ignore(eslint)
-    setErrorTooltip(err.message);
-  }
-};
 
 const Encode = () => {
   const [submittedEver, setSubmittedEver] = useState<boolean>(false);
@@ -507,22 +477,11 @@ const Encode = () => {
                           followCursor
                           leaveDelay={200}
                         >
-                          <Button
-                            fullWidth
-                            color="primary"
-                            variant="contained"
-                            onClick={() => {
-                              // TODO: TYLER Test line breaks, dump to json string, download json file
-
-                              setSubmittedEver(true);
-
-                              generateJson(huntConfig, setErrorTooltip);
-                            }}
-                            sx={{ mt: 1 }}
-                            startIcon={<DownloadIcon />}
-                          >
-                            Download
-                          </Button>
+                          <DownloadHuntButton
+                            huntConfig={huntConfig}
+                            setSubmittedEver={setSubmittedEver}
+                            setErrorTooltip={setErrorTooltip}
+                          />
                         </Tooltip>
                       </FormControl>
                     </Grid>
@@ -534,22 +493,7 @@ const Encode = () => {
                       display={"grid"}
                       sx={{ alignSelf: "flex-start" }}
                     >
-                      <TextField
-                        variant="outlined"
-                        InputProps={{
-                          inputProps: { style: { color: "#fff" } },
-                        }}
-                        minRows={23}
-                        maxRows={23}
-                        multiline
-                        value={JSON.stringify(huntConfig, null, "  ")}
-                        sx={{
-                          fontFamily: "system-ui",
-                          fontSize: "0.9rem",
-                          color: "white",
-                          mt: 1,
-                        }}
-                      />
+                      <PreviewHuntJson huntConfig={huntConfig} />
                     </Grid>
                   </Grid>
                 </CardContent>

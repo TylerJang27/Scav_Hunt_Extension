@@ -1,9 +1,8 @@
 TODOs before next release
 
 Development:
-1. Refactor components as necessary (particularly encode.tsx)
-2. i18n
-3. Simplify css files
+1. i18n
+2. Simplify css files
 
 Scope:
 1. Replace HTML support with markdown and sanitize
