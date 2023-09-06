@@ -23,7 +23,8 @@ parserOptions:
   sourceType: module
   project: tsconfig.json
 
-ignorePatterns: [webpack/**, jest.config.js, jest_setup.ts]
+ignorePatterns:
+  [webpack/**, jest.config.js, jest_setup.ts, playwright.config.ts]
 
 rules:
   # Turn off base eslint rules in lieu of @typescript-eslint rules

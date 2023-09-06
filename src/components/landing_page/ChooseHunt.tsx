@@ -291,7 +291,11 @@ export const ChooseHunt = () => {
                   }
                 }}
               >
-                <ToggleButton value="Preset" aria-label="Preset" data-testid="hunt-preset-toggle">
+                <ToggleButton
+                  value="Preset"
+                  aria-label="Preset"
+                  data-testid="hunt-preset-toggle"
+                >
                   <Grid container direction="row" spacing={1}>
                     <Grid
                       item
@@ -324,7 +328,11 @@ export const ChooseHunt = () => {
                   </Grid>
                 </ToggleButton>
 
-                <ToggleButton value="URL" aria-label="URL"  data-testid="hunt-url-toggle">
+                <ToggleButton
+                  value="URL"
+                  aria-label="URL"
+                  data-testid="hunt-url-toggle"
+                >
                   <Grid container direction="row" spacing={0}>
                     <Grid
                       item
@@ -357,7 +365,11 @@ export const ChooseHunt = () => {
                   </Grid>
                 </ToggleButton>
 
-                <ToggleButton value="Upload" aria-label="Upload" data-testid="hunt-upload-toggle">
+                <ToggleButton
+                  value="Upload"
+                  aria-label="Upload"
+                  data-testid="hunt-upload-toggle"
+                >
                   <Grid
                     container
                     direction="row"
@@ -442,7 +454,7 @@ export const ChooseHunt = () => {
                         color: "black",
                       },
                     }}
-                    data-testid= "hunt-submit-button"
+                    data-testid="hunt-submit-button"
                   >
                     Submit
                   </Button>

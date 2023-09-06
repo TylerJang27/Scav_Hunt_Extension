@@ -12,12 +12,12 @@
   "scripts": {
     "build": "webpack --config webpack/webpack.prod.js",
     "clean": "rimraf dist",
+    "preintegration": "webpack --config webpack/webpack.dev.js",
+    "integration": "npx playwright test",
     "serve": "serve dist",
     "static": "webpack --config webpack/webpack.static.js --watch",
     "test": "npx jest",
-    "watch": "webpack --config webpack/webpack.dev.js --watch",
-    "integration": "npx playwright test",
-    "preintegration": "webpack --config webpack/webpack.dev.js"
+    "watch": "webpack --config webpack/webpack.dev.js --watch"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
