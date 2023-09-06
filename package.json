@@ -11,8 +11,8 @@
   "author": "TylerJang27",
   "scripts": {
     "build": "webpack --config webpack/webpack.prod.js",
-    "clean": "rimraf dist",
-    "preintegration": "webpack --config webpack/webpack.dev.js",
+    "clean": "rimraf dist dist_test",
+    "preintegration": "webpack --config webpack/webpack.test.js",
     "integration": "npx playwright test",
     "serve": "serve dist",
     "static": "webpack --config webpack/webpack.static.js --watch",
