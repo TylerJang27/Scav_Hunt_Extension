@@ -140,6 +140,7 @@ export const CluePage = (props: CluePageProps) => {
                           value={inputKey}
                           onChange={(e) => setInputKey(e.target.value.trim())}
                           error={!nonNull(interactive) || !solved}
+                          data-testid="interactive-input-field"
                         />
                         {/* TODO: ADD BETTER ERROR/RESPONSIVENESS SUPPORT (Show message on error) */}
                         <StyledButton
@@ -148,6 +149,7 @@ export const CluePage = (props: CluePageProps) => {
                           color="primary"
                           onClick={validateKey}
                           disabled={previewOnly || solved}
+                          data-testid="interactive-submit-button"
                         >
                           Submit
                         </StyledButton>
