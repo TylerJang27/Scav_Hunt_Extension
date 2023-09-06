@@ -27,11 +27,11 @@ import {
   Tooltip,
 } from "@mui/material";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { CluePage } from "src/components/CluePage";
-import { ExitableModal } from "src/components/ExitableModal";
-import { Footer } from "src/components/Footer";
-import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
-import { theme } from "src/components/theme";
+import { CluePage } from "src/components/reusable/CluePage";
+import { ExitableModal } from "src/components/reusable/ExitableModal";
+import { Footer } from "src/components/reusable/Footer";
+import { PageHeaderAndSubtitle } from "src/components/reusable/PageHeaderAndSubtitle";
+import { theme } from "src/components/reusable/theme";
 import { download } from "src/providers/downloads";
 import { getURL } from "src/providers/runtime";
 import {

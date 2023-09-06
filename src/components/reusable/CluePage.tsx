@@ -11,9 +11,9 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { BackgroundWrapper } from "src/components/BackgroundWrapper";
-import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
-import { theme } from "src/components/theme";
+import { BackgroundWrapper } from "src/components/reusable/BackgroundWrapper";
+import { PageHeaderAndSubtitle } from "src/components/reusable/PageHeaderAndSubtitle";
+import { theme } from "src/components/reusable/theme";
 import { getURL } from "src/providers/runtime";
 import { ClueConfig } from "src/types/hunt_config";
 import { Decrypt } from "src/utils/encrypt";

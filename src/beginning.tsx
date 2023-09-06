@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CluePage } from "src/components/CluePage";
+import { CluePage } from "src/components/reusable/CluePage";
 import { logger } from "src/logger";
 import { loadStorageValue } from "src/providers/storage";
 import { LoadStorageCallback } from "src/providers/types";
