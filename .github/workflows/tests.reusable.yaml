@@ -31,7 +31,7 @@ jobs:
       - name: Run unit tests
         run: npm test --ci ${{ inputs.filters }}
 
-      - name: Set up playwright
+      - name: Setup playwright
         run: npx playwright install
 
       - name: Run frontend/integration tests

@@ -324,7 +324,7 @@ export const ChooseHunt = () => {
                   </Grid>
                 </ToggleButton>
 
-                <ToggleButton value="URL" aria-label="URL">
+                <ToggleButton value="URL" aria-label="URL"  data-testid="hunt-url-toggle">
                   <Grid container direction="row" spacing={0}>
                     <Grid
                       item
@@ -357,7 +357,7 @@ export const ChooseHunt = () => {
                   </Grid>
                 </ToggleButton>
 
-                <ToggleButton value="Upload" aria-label="Upload">
+                <ToggleButton value="Upload" aria-label="Upload" data-testid="hunt-upload-toggle">
                   <Grid
                     container
                     direction="row"
@@ -377,6 +377,7 @@ export const ChooseHunt = () => {
                         component="label"
                         color="secondary"
                         sx={{ display: "flex" }}
+                        data-testid="hunt-upload-button"
                       >
                         {sourceFormState.fileName ?? "Choose File"}
                         <input
