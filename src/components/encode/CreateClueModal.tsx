@@ -64,6 +64,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
           <TextField
             label="Text"
             variant="outlined"
+            multiline
             required
             error={
               Boolean(createdClueError) &&
@@ -125,6 +126,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
               });
             }}
             sx={{ mt: 1 }}
+            multiline
             aria-describedby="prompt-helper-text"
           />
           <FormHelperText id="prompt-helper-text">

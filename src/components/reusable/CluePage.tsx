@@ -110,6 +110,7 @@ export const CluePage = (props: CluePageProps) => {
                         textAlign="center"
                         color="white"
                         mt={1}
+                        sx={{ whiteSpace: "break-spaces" }}
                       >
                         {/* TODO: TYLER DO LINE REPLACEMENT */}
                         {error ?? text}
@@ -133,7 +134,9 @@ export const CluePage = (props: CluePageProps) => {
                       // TODO: ADD STYLING
                       <FormControl sx={{ minWidth: "100%" }}>
                         {interactive.prompt && (
-                          <Typography>{interactive.prompt}</Typography>
+                          <Typography sx={{ whiteSpace: "break-spaces" }}>
+                            {interactive.prompt}
+                          </Typography>
                         )}
                         <TextField
                           variant="outlined"
