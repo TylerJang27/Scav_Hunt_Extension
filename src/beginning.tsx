@@ -16,6 +16,7 @@ const Beginning = () => {
   const [beginningText, setBeginningText] = useState<string>(
     "Empty beginning text. Please reset the hunt.",
   );
+  const [backgroundURL, setBackgroundURL] = useState<string>("");
 
   useEffect(
     () =>
@@ -23,13 +24,7 @@ const Beginning = () => {
         if (items.huntConfig) {
           const { background, beginning, name } = items.huntConfig;
           // Set background image
-          const sheet = document.styleSheets[4];
-          sheet.insertRule(
-            "body { background: url('" +
-              background +
-              "') no-repeat center; background-size: cover; background-position: cover;}",
-            0,
-          );
+          setBackgroundURL(background);
           // Set beginning text
           setBeginningText(beginning);
           setHuntName(name);
@@ -40,7 +35,13 @@ const Beginning = () => {
     [],
   );
 
-  return <BeginningPage title={huntName} message={beginningText} />;
+  return (
+    <BeginningPage
+      title={huntName}
+      message={beginningText}
+      backgroundURL={backgroundURL}
+    />
+  );
 };
 
 Render(<Beginning />);

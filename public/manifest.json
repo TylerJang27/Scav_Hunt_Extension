@@ -19,6 +19,10 @@
       "js": ["js/content_script.js"]
     }
   ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; script-src-elem 'self' 'unsafe-inline' https://www.youtube.com/iframe_api;",
+    "sandbox": "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com/iframe_api; child-src 'self';"
+  },
   "action": {
     "default_title": "Scavenger Hunt",
     "default_icon": "graphics/scav.png"

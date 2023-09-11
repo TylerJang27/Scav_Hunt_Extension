@@ -59,17 +59,7 @@ const Popup = () => {
   const [decryptedClue, setDecryptedClue] =
     useState<ClueConfig>(DEFAULT_LOADING_CLUE);
   const [error, setError] = useState<string | undefined>();
-
-  // TODO: TYLER MAKE THIS MORE REACT-IVE
-  const backgroundCallback = (background: string) => {
-    const sheet = document.styleSheets[5];
-    sheet.insertRule(
-      "body { background: url('" +
-        background +
-        "') no-repeat center; background-size: cover; background-position: cover;}",
-      0,
-    );
-  };
+  const [backgroundURL, setBackgroundURL] = useState<string>("");
 
   // TODO: TYLER MAKE SURE EVERYWHERE ELSE HAS THE USE EFFECT IT NEEDS
   useEffect(
@@ -77,7 +67,7 @@ const Popup = () => {
       loadSolvedClueFromStorage(
         setHuntName,
         setEncrypted,
-        backgroundCallback,
+        setBackgroundURL,
         setDecryptedClue,
         setError,
       ),
@@ -89,6 +79,7 @@ const Popup = () => {
       encrypted={encrypted}
       clue={decryptedClue}
       error={error}
+      backgroundURL={backgroundURL}
     />
   );
 };

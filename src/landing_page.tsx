@@ -59,7 +59,7 @@ export const LandingPage = () => (
             </Card>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={6} sx={{ display: "flex" }}>
             <Card sx={{ mt: 4, backgroundColor: "#383d5bdd" }}>
               <CardContent>
                 <Tutorial />
