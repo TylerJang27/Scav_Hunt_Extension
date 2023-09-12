@@ -17,8 +17,8 @@ import { styled } from "@mui/material/styles";
 import MuiToggleButton from "@mui/material/ToggleButton";
 import path from "path";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { ExitableModal } from "src/components/ExitableModal";
-import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
+import { ExitableModal } from "src/components/reusable/ExitableModal";
+import { PageHeaderAndSubtitle } from "src/components/reusable/PageHeaderAndSubtitle";
 import { logger } from "src/logger";
 import { resetStorage } from "src/providers/helpers";
 import { getLastError, getURL } from "src/providers/runtime";
@@ -82,14 +82,17 @@ export const saveConfigAndLaunch = (
   };
 
   saveStorageValues(progress, () => {
-    const error = getLastError();
-    if (error) {
-      logger.error("Error saving initial progress", error);
-    } else {
-      // Popup beginnining of hunt
-      logger.info("Saved initial progress", progress); // TODO: TYLER REMOVE PROGRESS FROM LOG
-      createTab("beginning.html");
-    }
+    // https://stackoverflow.com/questions/63488141/promise-returned-in-function-argument-where-a-void-return-was-expected
+    void (async () => {
+      const error = getLastError();
+      if (error) {
+        logger.error("Error saving initial progress", error);
+      } else {
+        // Popup beginnining of hunt
+        logger.info("Saved initial progress", progress); // TODO: TYLER REMOVE PROGRESS FROM LOG
+        await createTab("beginning.html");
+      }
+    })();
   });
 };
 
@@ -228,32 +231,34 @@ export const ChooseHunt = () => {
     setSubmitable(validateSubmitable());
   }, [sourceFormState, validationError]);
 
-  const onSubmit = async () => {
-    try {
-      const { sourceType, presetPath, sourceURL, uploadedConfig } =
-        sourceFormState;
-      if (sourceType == "Preset") {
-        // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
-        const presetJson = await fetchFromPresets(presetPath);
-        const parsedConfig = ParseConfig(presetJson);
-        saveConfigAndLaunch(parsedConfig, sourceType);
-      } else if (sourceType == "URL" && sourceURL) {
-        // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
-        const fetchedJson = await fetchFromUrl(sourceURL);
-        const parsedConfig = ParseConfig(fetchedJson);
-        saveConfigAndLaunch(parsedConfig, sourceType);
-      } else if (sourceType == "Upload" && uploadedConfig) {
-        // huntConfig will have already been parsed
-        saveConfigAndLaunch(uploadedConfig, sourceType);
-      } else {
-        logger.warn(
-          "Error: unknown condition reached. Please refresh the page.",
-          sourceType,
-        );
+  const onSubmit = () => {
+    void (async () => {
+      try {
+        const { sourceType, presetPath, sourceURL, uploadedConfig } =
+          sourceFormState;
+        if (sourceType == "Preset") {
+          // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
+          const presetJson = await fetchFromPresets(presetPath);
+          const parsedConfig = ParseConfig(presetJson);
+          saveConfigAndLaunch(parsedConfig, sourceType);
+        } else if (sourceType == "URL" && sourceURL) {
+          // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
+          const fetchedJson = await fetchFromUrl(sourceURL);
+          const parsedConfig = ParseConfig(fetchedJson);
+          saveConfigAndLaunch(parsedConfig, sourceType);
+        } else if (sourceType == "Upload" && uploadedConfig) {
+          // huntConfig will have already been parsed
+          saveConfigAndLaunch(uploadedConfig, sourceType);
+        } else {
+          logger.warn(
+            "Error: unknown condition reached. Please refresh the page.",
+            sourceType,
+          );
+        }
+      } catch (error) {
+        setValidationError(error as Error);
       }
-    } catch (error) {
-      setValidationError(error as Error);
-    }
+    })();
   };
   const onReset = () => {
     resetStorage(() => setHasReset(true));

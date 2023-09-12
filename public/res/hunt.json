@@ -24,11 +24,6 @@
     },
     {
       "id": 3,
-      "url": "https://xkcd.com/",
-      "html": "res/xkcd.html"
-    },
-    {
-      "id": 4,
       "url": "https://www.nytimes.com/*",
       "text": "You cracked the code!",
       "interactive": {

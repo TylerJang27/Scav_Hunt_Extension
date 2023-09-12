@@ -1,7 +1,7 @@
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { CardMedia, Container, Grid, Link, Typography } from "@mui/material";
 import React from "react";
-import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
+import { PageHeaderAndSubtitle } from "src/components/reusable/PageHeaderAndSubtitle";
 
 export const LearnMore = () => (
   <>

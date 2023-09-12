@@ -11,21 +11,15 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { BackgroundWrapper } from "src/components/BackgroundWrapper";
-import { PageHeaderAndSubtitle } from "src/components/PageHeaderAndSubtitle";
-import { theme } from "src/components/theme";
+import { BackgroundWrapper } from "src/components/reusable/BackgroundWrapper";
+import { PageHeaderAndSubtitle } from "src/components/reusable/PageHeaderAndSubtitle";
+import { theme } from "src/components/reusable/theme";
 import { getURL } from "src/providers/runtime";
 import { ClueConfig } from "src/types/hunt_config";
 import { Decrypt } from "src/utils/encrypt";
 import { nonNull } from "src/utils/helpers";
 
 import { Footer } from "./Footer";
-
-export interface BeginningPageProps {
-  title: React.ReactNode;
-  message: React.ReactNode;
-  backgroundURL: string;
-}
 
 export interface CluePageProps {
   huntName: string;
@@ -171,41 +165,3 @@ export const CluePage = (props: CluePageProps) => {
     </>
   );
 };
-
-// TODO: TYLER REFACTOR TO MAKE THESE COMMON
-export const BeginningPage = (props: BeginningPageProps) => (
-  <>
-    <BackgroundWrapper backgroundURL={props.backgroundURL}>
-      <ThemeProvider theme={theme}>
-        <Container maxWidth="sm" sx={{ mt: 3, "&::after": { flex: "auto" } }}>
-          <Grid
-            container
-            spacing={2}
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Grid item xs={12}>
-              <Card sx={{ mt: 4, backgroundColor: "#333" }}>
-                <CardContent>
-                  <PageHeaderAndSubtitle header={props.title} />
-                  <Typography
-                    variant="body1"
-                    textAlign="center"
-                    color="white"
-                    mt={1}
-                  >
-                    {/* TODO: TYLER DO LINE REPLACEMENT */}
-                    {props.message}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12}>
-              <Footer />
-            </Grid>
-          </Grid>
-        </Container>
-      </ThemeProvider>
-    </BackgroundWrapper>
-  </>
-);

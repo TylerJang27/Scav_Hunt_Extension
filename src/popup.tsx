@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CluePage } from "src/components/CluePage";
+import { CluePage } from "src/components/reusable/CluePage";
 import { loadStorageValues } from "src/providers/storage";
 import {
   EMPTY_OR_INVALID_HUNT,

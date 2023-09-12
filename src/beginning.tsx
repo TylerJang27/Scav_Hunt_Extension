@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BeginningPage } from "src/components/CluePage";
+import { CluePage } from "src/components/reusable/CluePage";
 import { logger } from "src/logger";
 import { loadStorageValue } from "src/providers/storage";
 import { LoadStorageCallback } from "src/providers/types";
@@ -36,9 +36,14 @@ const Beginning = () => {
   );
 
   return (
-    <BeginningPage
-      title={huntName}
-      message={beginningText}
+    <CluePage
+      huntName={huntName}
+      encrypted={false}
+      clue={{
+        id: 0,
+        url: "",
+        text: beginningText,
+      }}
       backgroundURL={backgroundURL}
     />
   );
