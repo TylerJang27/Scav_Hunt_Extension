@@ -19,6 +19,7 @@ export const Header = () => (
         }}
       >
         {/* TODO: TYLER ADD LOGO */}
+
         <PageHeaderAndSubtitle header="Scavenger Hunt" />
       </Box>
     </header>
