@@ -133,4 +133,5 @@ The following resources were used to create this extension. Thank You :)
 - kunal-mandalia's [Let's Write Code](https://github.com/shama/letswritecode/tree/master/how-to-make-chrome-extensions)
 - Tomofumi Chiba's [Typescript Starter Setup](https://github.com/chibat/chrome-extension-typescript-starter/tree/master)
 - bravemaster619's [YouTube Video Embedder](https://dev.to/bravemaster619/simplest-way-to-embed-a-youtube-video-in-your-react-app-3bk2)
+- Some babel code based on caniuse.com
 - Some images were created with the assistance of DALL·E 2
