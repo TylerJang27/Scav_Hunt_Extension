@@ -1,5 +1,5 @@
-import path from "path";
 import * as fs from "fs";
+import path from "path";
 import { expect, test } from "src/__tests__/integration_tests/fixtures";
 
 const PATH_TO_TEST_DATA = "src/__tests__/integration_tests/test_data";
