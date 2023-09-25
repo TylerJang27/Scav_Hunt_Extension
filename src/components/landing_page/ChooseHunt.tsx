@@ -466,6 +466,7 @@ export const ChooseHunt = () => {
                 onClick={onReset}
                 color="primary"
                 disabled={hasReset}
+                data-testid="hunt-reset-button"
               >
                 Remove Current Hunt
               </Button>
