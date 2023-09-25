@@ -185,6 +185,7 @@ const Encode = () => {
                             });
                           }}
                           sx={{ mt: 1 }}
+                          data-testid="hunt-name-field"
                         />
                         <TextField
                           value={huntConfig.description}
@@ -202,6 +203,7 @@ const Encode = () => {
                             });
                           }}
                           sx={{ mt: 1 }}
+                          data-testid="hunt-description-field"
                         />
                         <TextField
                           value={huntConfig.author}
@@ -219,6 +221,7 @@ const Encode = () => {
                             });
                           }}
                           sx={{ mt: 1 }}
+                          data-testid="hunt-author-field"
                         />
                         <TextField
                           value={huntConfig.background}
@@ -240,6 +243,7 @@ const Encode = () => {
                             });
                           }}
                           sx={{ mt: 1 }}
+                          data-testid="hunt-background-field"
                         />
                         <TextField
                           value={huntConfig.beginning}
@@ -257,6 +261,7 @@ const Encode = () => {
                             });
                           }}
                           sx={{ mt: 1, mb: 4 }}
+                          data-testid="hunt-beginning-field"
                         />
                         <FormControl sx={{ mb: 2 }}>
                           <InputLabel id="silent-select-label">
@@ -277,8 +282,14 @@ const Encode = () => {
                                 },
                               });
                             }}
+                            data-testid="hunt-silent-field"
                           >
-                            <MenuItem value="true">True (Icon alerts)</MenuItem>
+                            <MenuItem
+                              value="true"
+                              data-testid="hunt-silent-true"
+                            >
+                              True (Icon alerts)
+                            </MenuItem>
                             <MenuItem value="false">
                               False (Popping up alerts)
                             </MenuItem>
@@ -306,9 +317,13 @@ const Encode = () => {
                                 );
                               }
                             }}
+                            data-testid="hunt-encrypted-field"
                           >
                             <MenuItem value="true">True (For Sharing)</MenuItem>
-                            <MenuItem value="false">
+                            <MenuItem
+                              value="false"
+                              data-testid="hunt-encrypted-false"
+                            >
                               False (For Drafts)
                             </MenuItem>
                           </Select>
@@ -469,6 +484,7 @@ const Encode = () => {
                             setCreatedClueIndex(huntConfig.clues.length);
                             setCreateClueOpen(true);
                           }}
+                          data-testid="hunt-create-button"
                         >
                           Create New Clue
                         </Button>

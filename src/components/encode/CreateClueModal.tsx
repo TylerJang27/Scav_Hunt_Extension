@@ -55,6 +55,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
             }}
             sx={{ mt: 1 }}
             aria-describedby="url-helper-text"
+            data-testid="clue-url-field"
           />
           <FormHelperText id="url-helper-text">
             Regex or substring match
@@ -75,6 +76,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
             }}
             sx={{ mt: 1 }}
             aria-describedby="text-helper-text"
+            data-testid="clue-text-field"
           />
           <FormHelperText id="text-helper-text">
             Clue to display when this URL is visited
@@ -126,6 +128,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
             }}
             sx={{ mt: 1 }}
             aria-describedby="prompt-helper-text"
+            data-testid="clue-prompt-field"
           />
           <FormHelperText id="prompt-helper-text">
             An optional question the user must answer before viewing the clue
@@ -154,6 +157,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
             }
             sx={{ mt: 1 }}
             aria-describedby="key-helper-text"
+            data-testid="clue-key-field"
           />
           <FormHelperText id="key-helper-text">
             Case-sensitive answer to the prompt
@@ -175,6 +179,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
               setCreatedClueError(err.message);
             }
           }}
+          data-testid="clue-save-button"
         >
           Save
         </Button>

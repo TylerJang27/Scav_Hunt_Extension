@@ -46,6 +46,7 @@ export const UploadDraftButton = (props: UploadDraftButtonProps) => (
     variant="contained"
     component="label"
     startIcon={<UploadIcon />}
+    data-testid="draft-upload-button"
   >
     Upload Draft
     <input

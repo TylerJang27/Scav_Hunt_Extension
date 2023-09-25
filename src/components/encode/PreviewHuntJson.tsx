@@ -22,5 +22,6 @@ export const PreviewHuntJson = (props: PreviewHuntJsonProps) => (
       color: "white",
       mt: 1,
     }}
+    data-testid="hunt-preview-pane"
   />
 );
