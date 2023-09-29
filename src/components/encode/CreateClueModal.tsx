@@ -87,9 +87,12 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
           <TextField
             label="Image URL"
             variant="outlined"
-            value={createdClue.image}
+            value={createdClue.image ?? ""}
             onChange={(e) => {
-              setCreatedClue({ ...createdClue, image: e.target.value });
+              setCreatedClue({
+                ...createdClue,
+                image: e.target.value.length > 0 ? e.target.value : undefined,
+              });
             }}
             sx={{ mt: 1 }}
             aria-describedby="image-url-helper-text"
@@ -102,9 +105,12 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
           <TextField
             label="Image Alt"
             variant="outlined"
-            value={createdClue.alt}
+            value={createdClue.alt ?? ""}
             onChange={(e) => {
-              setCreatedClue({ ...createdClue, alt: e.target.value });
+              setCreatedClue({
+                ...createdClue,
+                alt: e.target.value.length > 0 ? e.target.value : undefined,
+              });
             }}
             sx={{ mt: 1 }}
             aria-describedby="image-alt-helper-text"
@@ -117,7 +123,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
           <TextField
             label="Interactive Prompt"
             variant="outlined"
-            value={createdClue.interactive?.prompt}
+            value={createdClue.interactive?.prompt ?? ""}
             onChange={(e) => {
               let newInteractive: IntractiveConfig | undefined = {
                 ...createdClue.interactive,
@@ -150,7 +156,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
           <TextField
             label="Interactive Key"
             variant="outlined"
-            value={createdClue.interactive?.key}
+            value={createdClue.interactive?.key ?? ""}
             onChange={(e) => {
               setCreatedClue({
                 ...createdClue,

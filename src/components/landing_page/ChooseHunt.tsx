@@ -429,36 +429,38 @@ export const ChooseHunt = () => {
                 followCursor
                 leaveDelay={200}
               >
-                <span>
-                  {!submitable && (
-                    <InfoOutlinedIcon
-                      htmlColor="#ff99a9"
-                      id="submit-disable-tooltip"
+                <div>
+                  <span>
+                    {!submitable && (
+                      <InfoOutlinedIcon
+                        htmlColor="#ff99a9"
+                        id="submit-disable-tooltip"
+                        sx={{
+                          position: "absolute",
+                          transform: "translate(-100%, 25%)",
+                        }}
+                      />
+                    )}
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      aria-disabled={!submitable}
+                      aria-describedby="submit-disable-tooltip"
+                      disabled={!submitable}
+                      onClick={onSubmit}
+                      color="primary"
                       sx={{
-                        position: "absolute",
-                        transform: "translate(-100%, 25%)",
+                        ".MuiButton-contained, :disabled": {
+                          backgroundColor: "#e5a9a988",
+                          color: "black",
+                        },
                       }}
-                    />
-                  )}
-                  <Button
-                    variant="contained"
-                    size="medium"
-                    aria-disabled={!submitable}
-                    aria-describedby="submit-disable-tooltip"
-                    disabled={!submitable}
-                    onClick={onSubmit}
-                    color="primary"
-                    sx={{
-                      ".MuiButton-contained, :disabled": {
-                        backgroundColor: "#e5a9a988",
-                        color: "black",
-                      },
-                    }}
-                    data-testid="hunt-submit-button"
-                  >
-                    Submit
-                  </Button>
-                </span>
+                      data-testid="hunt-submit-button"
+                    >
+                      Submit
+                    </Button>
+                  </span>
+                </div>
               </Tooltip>
               <Button
                 variant="outlined"

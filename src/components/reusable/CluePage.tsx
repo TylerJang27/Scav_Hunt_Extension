@@ -124,18 +124,20 @@ export const CluePage = (props: CluePageProps) => {
                     )}
                     {image && (
                       <Tooltip title={alt} followCursor>
-                        <img
-                          src={imageURL}
-                          alt={alt}
-                          loading="lazy"
-                          width="75%"
-                          height="75%"
-                          style={{
-                            marginLeft: "auto",
-                            marginRight: "auto",
-                            display: "block",
-                          }}
-                        />
+                        <div>
+                          <img
+                            src={imageURL}
+                            alt={alt}
+                            loading="lazy"
+                            width="75%"
+                            height="75%"
+                            style={{
+                              marginLeft: "auto",
+                              marginRight: "auto",
+                              display: "block",
+                            }}
+                          />
+                        </div>
                       </Tooltip>
                     )}
                     {interactive && (
