@@ -119,12 +119,21 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
             variant="outlined"
             value={createdClue.interactive?.prompt}
             onChange={(e) => {
+              let newInteractive: IntractiveConfig | undefined = {
+                ...createdClue.interactive,
+                prompt: e.target.value.length > 0 ? e.target.value : undefined,
+              } as IntractiveConfig;
+              if (
+                newInteractive.prompt == undefined &&
+                (newInteractive.key == undefined ||
+                  newInteractive.key.length == 0)
+              ) {
+                newInteractive = undefined;
+              }
+
               setCreatedClue({
                 ...createdClue,
-                interactive: {
-                  ...createdClue.interactive,
-                  prompt: e.target.value,
-                } as IntractiveConfig,
+                interactive: newInteractive,
               });
             }}
             sx={{ mt: 1 }}
@@ -150,6 +159,24 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
                   key: e.target.value,
                 },
               });
+              if (
+                e.target.value.length == 0 &&
+                createdClue.interactive?.prompt == undefined
+              ) {
+                // No prompt or key, so we remove the entire interactive object
+                setCreatedClue({
+                  ...createdClue,
+                  interactive: undefined,
+                });
+              } else {
+                setCreatedClue({
+                  ...createdClue,
+                  interactive: {
+                    ...createdClue.interactive,
+                    key: e.target.value,
+                  },
+                });
+              }
             }}
             required={Boolean(createdClue.interactive?.prompt) ?? false}
             error={

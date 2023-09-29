@@ -146,7 +146,7 @@ export const CluePage = (props: CluePageProps) => {
                         <TextField
                           variant="outlined"
                           value={inputKey}
-                          onChange={(e) => setInputKey(e.target.value.trim())}
+                          onChange={(e) => setInputKey(e.target.value)}
                           error={
                             !nonNull(interactive) || (!solved && submitted)
                           }
