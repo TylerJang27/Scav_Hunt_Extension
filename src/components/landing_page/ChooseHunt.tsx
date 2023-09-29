@@ -1,4 +1,3 @@
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
   Button,
@@ -6,8 +5,12 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
+  InputBase,
+  MenuItem,
   Radio,
   RadioGroup,
+  Select,
+  SelectChangeEvent,
   TextField,
   ToggleButtonGroup,
   Tooltip,
@@ -56,6 +59,32 @@ const ToggleButton = styled(MuiToggleButton)({
   background: "#353a85",
   textTransform: "inherit",
 });
+
+const PresetSelector = styled(InputBase)(({ theme }) => ({
+  "& .MuiInputBase-input": {
+    borderRadius: 4,
+    position: "relative",
+    backgroundColor: theme.palette.secondary.main,
+    paddingTop: "0.5rem",
+    paddingBottom: "0.5rem",
+    fontFamily: "Roboto,Helvetica,Arial,sans-serif",
+    fontWeight: 500,
+    fontSize: "0.875rem",
+    transition: theme.transitions.create([
+      "border-color",
+      "box-shadow",
+      "background-color",
+      "color",
+    ]),
+    textTransform: "uppercase",
+    boxShadow:
+      "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
+    "&:hover": {
+      color: "#eeeeee",
+      backgroundColor: "rgb(82, 49, 170)",
+    },
+  },
+}));
 
 const fetchFromUrl = async (url: string): Promise<any> =>
   // trunk-ignore(eslint/@typescript-eslint/no-unsafe-return)
@@ -305,25 +334,28 @@ export const ChooseHunt = () => {
                       <Typography>Presets</Typography>
                     </Grid>
                     <Grid item xs={9}>
-                      <Button
-                        fullWidth
-                        color="secondary"
-                        variant="contained"
-                        data-testid="hunt-preset-button"
-                        onClick={() => {
-                          setSourceFormState({
-                            ...sourceFormState,
-                            sourceType: "Preset",
-                          });
-                          setPresetModalOpen(true);
-                        }}
-                      >
-                        <>
-                          {presetHuntOptions.get(sourceFormState.presetPath) ??
-                            "Unknown name"}
-                          <ArrowDropDownIcon />
-                        </>
-                      </Button>
+                      <FormControl fullWidth sx={{ pt: "0px" }}>
+                        <Select
+                          id="hunt-preset-select"
+                          data-testid="hunt-preset-select"
+                          value={
+                            presetHuntOptions.get(sourceFormState.presetPath) ??
+                            "Unknown name"
+                          }
+                          input={<PresetSelector />}
+                          color="secondary"
+                          onChange={(_e: SelectChangeEvent) => {
+                            // TODO: TYLER HANDLE THIS WITH MULTIPLE PRESETS
+                            setSourceFormState({
+                              ...sourceFormState,
+                              sourceType: "Preset",
+                            });
+                            setPresetModalOpen(true);
+                          }}
+                        >
+                          <MenuItem value="hunt">Hunt</MenuItem>
+                        </Select>
+                      </FormControl>
                     </Grid>
                   </Grid>
                 </ToggleButton>

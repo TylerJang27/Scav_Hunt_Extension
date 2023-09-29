@@ -12,7 +12,7 @@ test("landing page", async ({ page, extensionId }) => {
     "aria-pressed",
     "true",
   );
-  await expect(page.getByTestId("hunt-preset-button")).toContainText("hunt");
+  await expect(page.getByTestId("hunt-preset-select")).toContainText("Hunt");
   await expect(page.getByTestId("hunt-submit-button")).toHaveAttribute(
     "aria-disabled",
     "false",
@@ -34,7 +34,7 @@ test("landing page", async ({ page, extensionId }) => {
   await page
     .getByTestId("hunt-url-textfield")
     .locator("input")
-    .type("_https://www.google.com");
+    .type("https://www.google.com");
   await page.getByTestId("hunt-url-textfield").click();
   await expect(page.getByTestId("hunt-submit-button")).toHaveAttribute(
     "aria-disabled",

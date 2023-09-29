@@ -3,7 +3,7 @@
     "rule": "aria-allowed-role",
     "targets": [
       [
-        ".css-cot347-MuiButtonBase-root-MuiButton-root"
+        ".MuiButton-containedSecondary"
       ]
     ]
   },
