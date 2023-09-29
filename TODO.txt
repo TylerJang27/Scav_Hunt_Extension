@@ -3,6 +3,7 @@ TODOs before next release
 Development:
 1. i18n
 2. Simplify css files
+3. Fix required fields having weird formatted *
 
 Scope:
 1. Replace HTML support with markdown and sanitize
