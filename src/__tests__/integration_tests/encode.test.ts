@@ -38,7 +38,8 @@ test("manual input", async ({ page, extensionId }) => {
 
   await page
     .getByTestId("hunt-beginning-field")
-    .locator("input")
+    .locator("textarea")
+    .first()
     .type("Starter clue");
 
   await page.getByTestId("hunt-silent-field").click();
@@ -53,7 +54,8 @@ test("manual input", async ({ page, extensionId }) => {
   await page.getByTestId("clue-url-field").locator("input").type("google.com");
   await page
     .getByTestId("clue-text-field")
-    .locator("input")
+    .locator("textarea")
+    .first()
     .type("You're at Google");
   await page.getByTestId("clue-save-button").click();
 
@@ -63,11 +65,13 @@ test("manual input", async ({ page, extensionId }) => {
   await page.getByTestId("clue-url-field").locator("input").type("bing.com");
   await page
     .getByTestId("clue-text-field")
-    .locator("input")
+    .locator("textarea")
+    .first()
     .type("You're at Bing");
   await page
     .getByTestId("clue-prompt-field")
-    .locator("input")
+    .locator("textarea")
+    .first()
     .type("Enter asdf");
   await page.getByTestId("clue-key-field").locator("input").type("asdf");
   await page.getByTestId("clue-save-button").click();

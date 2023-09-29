@@ -268,6 +268,7 @@ const Encode = () => {
                               beginning: e.target.value,
                             });
                           }}
+                          multiline
                           sx={{ mt: 1, mb: 4 }}
                           data-testid="hunt-beginning-field"
                         />
