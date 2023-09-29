@@ -1,0 +1,18 @@
+[
+  {
+    "rule": "aria-allowed-role",
+    "targets": [
+      [
+        ".css-101kd7r-MuiButtonBase-root-MuiButton-root"
+      ]
+    ]
+  },
+  {
+    "rule": "label",
+    "targets": [
+      [
+        "#\\:rf\\:"
+      ]
+    ]
+  }
+]
