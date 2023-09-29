@@ -8,6 +8,7 @@ import {
   Grid,
   styled,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -122,18 +123,20 @@ export const CluePage = (props: CluePageProps) => {
                       </Typography>
                     )}
                     {image && (
-                      <img
-                        src={imageURL}
-                        alt={alt}
-                        loading="lazy"
-                        width="75%"
-                        height="75%"
-                        style={{
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                          display: "block",
-                        }}
-                      />
+                      <Tooltip title={alt} followCursor>
+                        <img
+                          src={imageURL}
+                          alt={alt}
+                          loading="lazy"
+                          width="75%"
+                          height="75%"
+                          style={{
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                            display: "block",
+                          }}
+                        />
+                      </Tooltip>
                     )}
                     {interactive && (
                       // TODO: ADD STYLING
