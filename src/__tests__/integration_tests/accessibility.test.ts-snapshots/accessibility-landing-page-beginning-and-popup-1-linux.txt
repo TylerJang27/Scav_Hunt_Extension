@@ -1,0 +1,33 @@
+[
+  {
+    "rule": "aria-allowed-role",
+    "targets": [
+      [
+        ".css-cot347-MuiButtonBase-root-MuiButton-root"
+      ]
+    ]
+  },
+  {
+    "rule": "aria-prohibited-attr",
+    "targets": [
+      [
+        "iframe",
+        ".ytp-title-channel-logo"
+      ]
+    ]
+  },
+  {
+    "rule": "nested-interactive",
+    "targets": [
+      [
+        ".Mui-selected"
+      ],
+      [
+        "button[value=\"URL\"]"
+      ],
+      [
+        "button[value=\"Upload\"]"
+      ]
+    ]
+  }
+]

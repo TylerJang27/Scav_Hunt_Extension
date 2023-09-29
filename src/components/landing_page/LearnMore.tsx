@@ -32,6 +32,7 @@ export const LearnMore = () => (
           <Link
             href="https://github.com/TylerJang27/Scav_Hunt_Extension"
             sx={{ display: "flex", justifyContent: "center", pt: 1 }}
+            aria-label="Github Repo"
           >
             <GitHubIcon />
           </Link>

@@ -46,6 +46,7 @@ export const CluePage = (props: CluePageProps) => {
 
   const [inputKey, setInputKey] = useState<string>("");
   const [solved, setSolved] = useState<boolean>(false);
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
   const previewStyles = previewOnly
     ? { transform: "scale(0.5, 0.5)", WebkitTransformOriginY: "top" }
@@ -66,6 +67,7 @@ export const CluePage = (props: CluePageProps) => {
   }, [interactive]);
 
   const validateKey = () => {
+    setSubmitted(true);
     if (
       interactive &&
       Decrypt(interactive.key, encrypted, huntName) === inputKey
@@ -103,7 +105,10 @@ export const CluePage = (props: CluePageProps) => {
               <Grid item xs={12}>
                 <Card sx={{ mt: 4, backgroundColor: "#333" }}>
                   <CardContent>
-                    <PageHeaderAndSubtitle header={title} />
+                    <PageHeaderAndSubtitle
+                      header={title}
+                      headingComponent="h1"
+                    />
                     {solved && (
                       <Typography
                         variant="body1"
@@ -139,8 +144,14 @@ export const CluePage = (props: CluePageProps) => {
                           variant="outlined"
                           value={inputKey}
                           onChange={(e) => setInputKey(e.target.value.trim())}
-                          error={!nonNull(interactive) || !solved}
+                          error={
+                            !nonNull(interactive) || (!solved && submitted)
+                          }
                           data-testid="interactive-input-field"
+                          label="Enter prompt answer"
+                          aria-label="Enter prompt answer"
+                          disabled={solved}
+                          sx={{ mt: 2 }}
                         />
                         {/* TODO: ADD BETTER ERROR/RESPONSIVENESS SUPPORT (Show message on error) */}
                         <StyledButton

@@ -152,7 +152,10 @@ const Encode = () => {
                     </Tooltip>
                   </Box>
 
-                  <PageHeaderAndSubtitle header={"Make Your Own Hunt"} />
+                  <PageHeaderAndSubtitle
+                    header={"Make Your Own Hunt"}
+                    headingComponent="h1"
+                  />
 
                   <Grid
                     container
@@ -173,6 +176,7 @@ const Encode = () => {
                         <TextField
                           value={huntConfig.name}
                           label="Name"
+                          aria-label="Name"
                           required
                           error={
                             submittedEver && huntConfig.name.trim().length === 0
@@ -190,6 +194,7 @@ const Encode = () => {
                         <TextField
                           value={huntConfig.description}
                           label="Description"
+                          aria-label="Description"
                           required
                           error={
                             submittedEver &&
@@ -208,6 +213,7 @@ const Encode = () => {
                         <TextField
                           value={huntConfig.author}
                           label="Author"
+                          aria-label="Author"
                           required
                           error={
                             submittedEver &&
@@ -226,6 +232,7 @@ const Encode = () => {
                         <TextField
                           value={huntConfig.background}
                           label="Background (URL)"
+                          aria-label="Background (URL)"
                           required
                           error={
                             submittedEver &&
@@ -248,6 +255,7 @@ const Encode = () => {
                         <TextField
                           value={huntConfig.beginning}
                           label="Beginning"
+                          aria-label="Beginning"
                           required
                           error={
                             submittedEver &&

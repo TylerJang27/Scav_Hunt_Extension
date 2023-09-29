@@ -53,7 +53,7 @@ const ToggleButton = styled(MuiToggleButton)({
     backgroundColor: "#484d98",
   },
   color: "white",
-  background: "#383d88",
+  background: "#353a85",
   textTransform: "inherit",
 });
 
