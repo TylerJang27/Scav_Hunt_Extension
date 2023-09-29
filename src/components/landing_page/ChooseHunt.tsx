@@ -165,7 +165,7 @@ export const ChooseHunt = () => {
       }
     } else {
       logger.warn(
-        "Error: unknown condition reached. Please refresh the page.",
+        "Error: unknown condition reached when validating chosen hunt. Please refresh the page.",
         sourceFormState.sourceType,
       );
     }
@@ -193,7 +193,7 @@ export const ChooseHunt = () => {
   };
 
   const onUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) {
+    if (!e.target.files || e.target.files[0] == undefined) {
       return;
     }
     const file = e.target.files[0];
@@ -251,7 +251,7 @@ export const ChooseHunt = () => {
           saveConfigAndLaunch(uploadedConfig, sourceType);
         } else {
           logger.warn(
-            "Error: unknown condition reached. Please refresh the page.",
+            "Error: unknown condition reached when submitting. Please refresh the page.",
             sourceType,
           );
         }
@@ -282,8 +282,8 @@ export const ChooseHunt = () => {
                   _: React.MouseEvent<HTMLElement>,
                   nextView: string,
                 ) => {
-                  logger.info("Source type", nextView); // TODO: REMOVE
-                  if (nextView !== null) {
+                  logger.info("Source type being set", nextView); // TODO: REMOVE
+                  if (nextView !== null && nextView !== undefined) {
                     setSourceFormState({
                       ...sourceFormState,
                       sourceType: nextView as HuntSource,
