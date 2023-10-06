@@ -12,7 +12,7 @@ export const Footer = () => (
         sx={{
           width: "100%",
           height: "auto",
-          backgroundColor: "#989898d0",
+          backgroundColor: "#484848d0",
           paddingTop: "1rem",
           paddingBottom: "1rem",
           position: "fixed",
@@ -45,7 +45,6 @@ export const Footer = () => (
             variant="body1"
             textAlign="center"
             role="button"
-            color={yellow[600]}
             onClick={() => {
               const confirmBox = window.confirm(
                 "Do you really want to reset your progress?",
@@ -55,9 +54,8 @@ export const Footer = () => (
                 resetStorage(() => logger.info("Finished removing hunt"));
               }
             }}
-            sx={{ textDecoration: "underline" }}
           >
-            Reset Hunt
+            <Link color={yellow[600]}>Reset Hunt</Link>
           </Typography>
         </Stack>
       </Box>
