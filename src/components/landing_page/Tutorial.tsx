@@ -22,6 +22,7 @@ export const Tutorial = () => (
               allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               title="Embedded youtube"
+              role="application"
             />
           </div>
         </Grid>

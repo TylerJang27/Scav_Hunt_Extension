@@ -51,6 +51,7 @@ export const DownloadHuntButton = (props: DownloadHuntButtonProps) => (
     }}
     sx={{ mt: 1 }}
     startIcon={<DownloadIcon />}
+    data-testid="hunt-download-button"
   >
     Download
   </Button>

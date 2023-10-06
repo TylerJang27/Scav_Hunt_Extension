@@ -9,6 +9,7 @@ export interface PreviewHuntJsonProps {
 export const PreviewHuntJson = (props: PreviewHuntJsonProps) => (
   <TextField
     variant="outlined"
+    aria-label="Preview JSON"
     InputProps={{
       inputProps: { style: { color: "#fff" } },
     }}
@@ -22,5 +23,6 @@ export const PreviewHuntJson = (props: PreviewHuntJsonProps) => (
       color: "white",
       mt: 1,
     }}
+    data-testid="hunt-preview-pane"
   />
 );

@@ -11,7 +11,9 @@
   "author": "TylerJang27",
   "scripts": {
     "build": "webpack --config webpack/webpack.prod.js",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist dist_test",
+    "preintegration": "webpack --config webpack/webpack.test.js",
+    "integration": "npx playwright test",
     "serve": "serve dist",
     "static": "webpack --config webpack/webpack.static.js --watch",
     "test": "npx jest",
@@ -33,6 +35,8 @@
     "word-wrap": "^1.2.5"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.7.3",
+    "@playwright/test": "^1.37.1",
     "@types/chrome": "0.0.158",
     "@types/crypto-js": "^4.1.1",
     "@types/jest": "^27.0.2",
@@ -41,6 +45,7 @@
     "@types/react-dom": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
+    "axe-core": "^4.8.2",
     "copy-webpack-plugin": "^9.0.1",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
@@ -48,6 +53,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jest": "^27.2.3",
     "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-playwright": "^0.16.0",
     "eslint-plugin-prefer-arrow-functions": "^3.1.4",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-simple-import-sort": "^10.0.0",

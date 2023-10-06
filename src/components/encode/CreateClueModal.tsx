@@ -55,6 +55,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
             }}
             sx={{ mt: 1 }}
             aria-describedby="url-helper-text"
+            data-testid="clue-url-field"
           />
           <FormHelperText id="url-helper-text">
             Regex or substring match
@@ -64,6 +65,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
           <TextField
             label="Text"
             variant="outlined"
+            multiline
             required
             error={
               Boolean(createdClueError) &&
@@ -75,6 +77,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
             }}
             sx={{ mt: 1 }}
             aria-describedby="text-helper-text"
+            data-testid="clue-text-field"
           />
           <FormHelperText id="text-helper-text">
             Clue to display when this URL is visited
@@ -84,9 +87,12 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
           <TextField
             label="Image URL"
             variant="outlined"
-            value={createdClue.image}
+            value={createdClue.image ?? ""}
             onChange={(e) => {
-              setCreatedClue({ ...createdClue, image: e.target.value });
+              setCreatedClue({
+                ...createdClue,
+                image: e.target.value.length > 0 ? e.target.value : undefined,
+              });
             }}
             sx={{ mt: 1 }}
             aria-describedby="image-url-helper-text"
@@ -99,9 +105,12 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
           <TextField
             label="Image Alt"
             variant="outlined"
-            value={createdClue.alt}
+            value={createdClue.alt ?? ""}
             onChange={(e) => {
-              setCreatedClue({ ...createdClue, alt: e.target.value });
+              setCreatedClue({
+                ...createdClue,
+                alt: e.target.value.length > 0 ? e.target.value : undefined,
+              });
             }}
             sx={{ mt: 1 }}
             aria-describedby="image-alt-helper-text"
@@ -114,18 +123,29 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
           <TextField
             label="Interactive Prompt"
             variant="outlined"
-            value={createdClue.interactive?.prompt}
+            value={createdClue.interactive?.prompt ?? ""}
             onChange={(e) => {
+              let newInteractive: IntractiveConfig | undefined = {
+                ...createdClue.interactive,
+                prompt: e.target.value.length > 0 ? e.target.value : undefined,
+              } as IntractiveConfig;
+              if (
+                newInteractive.prompt == undefined &&
+                (newInteractive.key == undefined ||
+                  newInteractive.key.length == 0)
+              ) {
+                newInteractive = undefined;
+              }
+
               setCreatedClue({
                 ...createdClue,
-                interactive: {
-                  ...createdClue.interactive,
-                  prompt: e.target.value,
-                } as IntractiveConfig,
+                interactive: newInteractive,
               });
             }}
             sx={{ mt: 1 }}
+            multiline
             aria-describedby="prompt-helper-text"
+            data-testid="clue-prompt-field"
           />
           <FormHelperText id="prompt-helper-text">
             An optional question the user must answer before viewing the clue
@@ -136,7 +156,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
           <TextField
             label="Interactive Key"
             variant="outlined"
-            value={createdClue.interactive?.key}
+            value={createdClue.interactive?.key ?? ""}
             onChange={(e) => {
               setCreatedClue({
                 ...createdClue,
@@ -145,6 +165,24 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
                   key: e.target.value,
                 },
               });
+              if (
+                e.target.value.length == 0 &&
+                createdClue.interactive?.prompt == undefined
+              ) {
+                // No prompt or key, so we remove the entire interactive object
+                setCreatedClue({
+                  ...createdClue,
+                  interactive: undefined,
+                });
+              } else {
+                setCreatedClue({
+                  ...createdClue,
+                  interactive: {
+                    ...createdClue.interactive,
+                    key: e.target.value,
+                  },
+                });
+              }
             }}
             required={Boolean(createdClue.interactive?.prompt) ?? false}
             error={
@@ -154,6 +192,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
             }
             sx={{ mt: 1 }}
             aria-describedby="key-helper-text"
+            data-testid="clue-key-field"
           />
           <FormHelperText id="key-helper-text">
             Case-sensitive answer to the prompt
@@ -175,6 +214,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
               setCreatedClueError(err.message);
             }
           }}
+          data-testid="clue-save-button"
         >
           Save
         </Button>

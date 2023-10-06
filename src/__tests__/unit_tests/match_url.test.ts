@@ -1,9 +1,9 @@
-import { buildProviderMocks } from "src/__tests__/build_mocks";
+import { buildProviderMocks } from "src/__tests__/unit_tests/build_mocks";
 import {
   presetHunt,
   sampleEncryptedHunt,
   sampleSilentHunt,
-} from "src/__tests__/create_hunt_config";
+} from "src/__tests__/unit_tests/create_hunt_config";
 import { loadHuntProgress } from "src/content_script";
 
 // TODO: Add additional test coverage for loading an old corrupted hunt once we have multiple config versions.

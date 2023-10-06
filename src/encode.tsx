@@ -119,20 +119,15 @@ const Encode = () => {
   }, [huntConfig]);
 
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        <Container maxWidth="lg" sx={{ mt: 3 }}>
-          <Grid
-            container
-            spacing={2}
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Grid item xs={12}>
-              <Card sx={{ mt: 4, backgroundColor: "#333" }}>
-                <CardContent sx={{ position: "relative" }}>
-                  <Box sx={{ position: "absolute", right: "16px" }}>
-                    <Tooltip title={uploadError} followCursor leaveDelay={200}>
+    <ThemeProvider theme={theme}>
+      <Container maxWidth="lg" sx={{ mt: 3 }}>
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          <Grid item xs={12}>
+            <Card sx={{ mt: 4, backgroundColor: "#333" }}>
+              <CardContent sx={{ position: "relative" }}>
+                <Box sx={{ position: "absolute", right: "16px" }}>
+                  <Tooltip title={uploadError} followCursor leaveDelay={200}>
+                    <div>
                       <span>
                         {uploadError && (
                           <InfoOutlinedIcon
@@ -149,201 +144,221 @@ const Encode = () => {
                           setUploadError={setUploadError}
                         />
                       </span>
-                    </Tooltip>
-                  </Box>
+                    </div>
+                  </Tooltip>
+                </Box>
 
-                  <PageHeaderAndSubtitle header={"Make Your Own Hunt"} />
+                <PageHeaderAndSubtitle
+                  header={"Make Your Own Hunt"}
+                  headingComponent="h1"
+                />
 
+                <Grid
+                  container
+                  spacing={1}
+                  justifyContent="center"
+                  alignItems="center"
+                  direction="row"
+                  sx={{ mt: 2 }}
+                >
+                  {/* Input pane */}
                   <Grid
-                    container
-                    spacing={1}
-                    justifyContent="center"
-                    alignItems="center"
-                    direction="row"
-                    sx={{ mt: 2 }}
+                    item
+                    xs={6}
+                    display={"grid"}
+                    sx={{ alignSelf: "flex-start" }}
                   >
-                    {/* Input pane */}
-                    <Grid
-                      item
-                      xs={6}
-                      display={"grid"}
-                      sx={{ alignSelf: "flex-start" }}
-                    >
+                    <FormControl>
+                      <TextField
+                        value={huntConfig.name}
+                        label="Name"
+                        aria-label="Name"
+                        required
+                        error={
+                          submittedEver && huntConfig.name.trim().length === 0
+                        }
+                        variant="outlined"
+                        onChange={(e) => {
+                          setHuntConfig({
+                            ...huntConfig,
+                            name: e.target.value,
+                          });
+                        }}
+                        sx={{ mt: 1 }}
+                        data-testid="hunt-name-field"
+                      />
+                      <TextField
+                        value={huntConfig.description}
+                        label="Description"
+                        aria-label="Description"
+                        required
+                        error={
+                          submittedEver &&
+                          huntConfig.description.trim().length === 0
+                        }
+                        variant="outlined"
+                        onChange={(e) => {
+                          setHuntConfig({
+                            ...huntConfig,
+                            description: e.target.value,
+                          });
+                        }}
+                        sx={{ mt: 1 }}
+                        data-testid="hunt-description-field"
+                      />
+                      <TextField
+                        value={huntConfig.author}
+                        label="Author"
+                        aria-label="Author"
+                        required
+                        error={
+                          submittedEver && huntConfig.author.trim().length === 0
+                        }
+                        variant="outlined"
+                        onChange={(e) => {
+                          setHuntConfig({
+                            ...huntConfig,
+                            author: e.target.value,
+                          });
+                        }}
+                        sx={{ mt: 1 }}
+                        data-testid="hunt-author-field"
+                      />
+                      <TextField
+                        value={huntConfig.background}
+                        label="Background (URL)"
+                        aria-label="Background (URL)"
+                        required
+                        error={
+                          submittedEver &&
+                          (huntConfig.background.trim().length === 0 ||
+                            !/^https?:\/\/[\w-]+(\.[\w-]+)+[/#?]?.*$/.test(
+                              huntConfig.background.trim(),
+                            ))
+                        }
+                        variant="outlined"
+                        type="url"
+                        onChange={(e) => {
+                          setHuntConfig({
+                            ...huntConfig,
+                            background: e.target.value,
+                          });
+                        }}
+                        sx={{ mt: 1 }}
+                        data-testid="hunt-background-field"
+                      />
+                      <TextField
+                        value={huntConfig.beginning}
+                        label="Beginning"
+                        aria-label="Beginning"
+                        required
+                        error={
+                          submittedEver &&
+                          huntConfig.beginning.trim().length === 0
+                        }
+                        variant="outlined"
+                        onChange={(e) => {
+                          setHuntConfig({
+                            ...huntConfig,
+                            beginning: e.target.value,
+                          });
+                        }}
+                        multiline
+                        sx={{ mt: 1, mb: 4 }}
+                        data-testid="hunt-beginning-field"
+                      />
+                      <FormControl sx={{ mb: 2 }}>
+                        <InputLabel id="silent-select-label">Silent</InputLabel>
+                        <Select
+                          value={huntConfig.options.silent}
+                          label="Silent"
+                          labelId="silent-select-label"
+                          required
+                          variant="outlined"
+                          onChange={(e) => {
+                            setHuntConfig({
+                              ...huntConfig,
+                              options: {
+                                ...huntConfig.options,
+                                silent: e.target.value === "true",
+                              },
+                            });
+                          }}
+                          data-testid="hunt-silent-field"
+                        >
+                          <MenuItem value="true" data-testid="hunt-silent-true">
+                            True (Icon alerts)
+                          </MenuItem>
+                          <MenuItem value="false">
+                            False (Popping up alerts)
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
                       <FormControl>
-                        <TextField
-                          value={huntConfig.name}
-                          label="Name"
+                        <InputLabel id="encrypted-select-label">
+                          Encrypted
+                        </InputLabel>
+                        <Select
+                          value={huntConfig.encrypted}
+                          label="Encrypted"
+                          labelId="encrypted-select-label"
                           required
-                          error={
-                            submittedEver && huntConfig.name.trim().length === 0
-                          }
                           variant="outlined"
                           onChange={(e) => {
+                            const selectedValue = e.target.value;
                             setHuntConfig({
                               ...huntConfig,
-                              name: e.target.value,
+                              encrypted: selectedValue === "true",
                             });
+                            if (selectedValue === "false") {
+                              window.alert(
+                                "The downloaded file will NOT be encrypted and the clues will be displayed as plain text.",
+                              );
+                            }
                           }}
-                          sx={{ mt: 1 }}
-                        />
-                        <TextField
-                          value={huntConfig.description}
-                          label="Description"
-                          required
-                          error={
-                            submittedEver &&
-                            huntConfig.description.trim().length === 0
-                          }
-                          variant="outlined"
-                          onChange={(e) => {
-                            setHuntConfig({
-                              ...huntConfig,
-                              description: e.target.value,
-                            });
-                          }}
-                          sx={{ mt: 1 }}
-                        />
-                        <TextField
-                          value={huntConfig.author}
-                          label="Author"
-                          required
-                          error={
-                            submittedEver &&
-                            huntConfig.author.trim().length === 0
-                          }
-                          variant="outlined"
-                          onChange={(e) => {
-                            setHuntConfig({
-                              ...huntConfig,
-                              author: e.target.value,
-                            });
-                          }}
-                          sx={{ mt: 1 }}
-                        />
-                        <TextField
-                          value={huntConfig.background}
-                          label="Background (URL)"
-                          required
-                          error={
-                            submittedEver &&
-                            (huntConfig.background.trim().length === 0 ||
-                              !/^https?:\/\/[\w-]+(\.[\w-]+)+[/#?]?.*$/.test(
-                                huntConfig.background.trim(),
-                              ))
-                          }
-                          variant="outlined"
-                          type="url"
-                          onChange={(e) => {
-                            setHuntConfig({
-                              ...huntConfig,
-                              background: e.target.value,
-                            });
-                          }}
-                          sx={{ mt: 1 }}
-                        />
-                        <TextField
-                          value={huntConfig.beginning}
-                          label="Beginning"
-                          required
-                          error={
-                            submittedEver &&
-                            huntConfig.beginning.trim().length === 0
-                          }
-                          variant="outlined"
-                          onChange={(e) => {
-                            setHuntConfig({
-                              ...huntConfig,
-                              beginning: e.target.value,
-                            });
-                          }}
-                          sx={{ mt: 1, mb: 4 }}
-                        />
-                        <FormControl sx={{ mb: 2 }}>
-                          <InputLabel id="silent-select-label">
-                            Silent
-                          </InputLabel>
-                          <Select
-                            value={huntConfig.options.silent}
-                            label="Silent"
-                            labelId="silent-select-label"
-                            required
-                            variant="outlined"
-                            onChange={(e) => {
-                              setHuntConfig({
-                                ...huntConfig,
-                                options: {
-                                  ...huntConfig.options,
-                                  silent: e.target.value === "true",
-                                },
-                              });
-                            }}
+                          data-testid="hunt-encrypted-field"
+                        >
+                          <MenuItem value="true">True (For Sharing)</MenuItem>
+                          <MenuItem
+                            value="false"
+                            data-testid="hunt-encrypted-false"
                           >
-                            <MenuItem value="true">True (Icon alerts)</MenuItem>
-                            <MenuItem value="false">
-                              False (Popping up alerts)
-                            </MenuItem>
-                          </Select>
-                        </FormControl>
-                        <FormControl>
-                          <InputLabel id="encrypted-select-label">
-                            Encrypted
-                          </InputLabel>
-                          <Select
-                            value={huntConfig.encrypted}
-                            label="Encrypted"
-                            labelId="encrypted-select-label"
-                            required
-                            variant="outlined"
-                            onChange={(e) => {
-                              const selectedValue = e.target.value;
-                              setHuntConfig({
-                                ...huntConfig,
-                                encrypted: selectedValue === "true",
-                              });
-                              if (selectedValue === "false") {
-                                window.alert(
-                                  "The downloaded file will NOT be encrypted and the clues will be displayed as plain text.",
-                                );
-                              }
-                            }}
-                          >
-                            <MenuItem value="true">True (For Sharing)</MenuItem>
-                            <MenuItem value="false">
-                              False (For Drafts)
-                            </MenuItem>
-                          </Select>
-                        </FormControl>
+                            False (For Drafts)
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
 
-                        <List>
-                          {huntConfig.clues.map(
-                            (
-                              { id, url, text, image, alt, interactive },
-                              index,
-                            ) => (
-                              <Tooltip
-                                key={"tooltip" + id}
-                                placement="right"
-                                title={
-                                  <CluePage
-                                    key={"preview" + id}
-                                    huntName={huntConfig.name || "Preview"}
-                                    encrypted={false}
-                                    clue={{
-                                      id,
-                                      url,
-                                      text,
-                                      image,
-                                      alt,
-                                      interactive,
-                                    }}
-                                    previewOnly={true}
-                                    backgroundURL={
-                                      huntConfig.background ||
-                                      getURL("graphics/background.png")
-                                    }
-                                  />
-                                }
-                              >
+                      <List>
+                        {huntConfig.clues.map(
+                          (
+                            { id, url, text, image, alt, interactive },
+                            index,
+                          ) => (
+                            <Tooltip
+                              key={"tooltip" + id}
+                              placement="right"
+                              title={
+                                <CluePage
+                                  key={"preview" + id}
+                                  huntName={huntConfig.name || "Preview"}
+                                  encrypted={false}
+                                  clue={{
+                                    id,
+                                    url,
+                                    text,
+                                    image,
+                                    alt,
+                                    interactive,
+                                  }}
+                                  previewOnly={true}
+                                  backgroundURL={
+                                    huntConfig.background ||
+                                    getURL("graphics/background.png")
+                                  }
+                                />
+                              }
+                            >
+                              <div>
                                 <ListItem
                                   key={id}
                                   className="clue-list-item"
@@ -457,63 +472,66 @@ const Encode = () => {
                                     <DeleteIcon />
                                   </IconButton>
                                 </ListItem>
-                              </Tooltip>
-                            ),
-                          )}
-                        </List>
-                        <Button
-                          fullWidth
-                          color="secondary"
-                          variant="contained"
-                          onClick={() => {
-                            setCreatedClueIndex(huntConfig.clues.length);
-                            setCreateClueOpen(true);
-                          }}
-                        >
-                          Create New Clue
-                        </Button>
-                        <Tooltip
-                          title={errorTooltip}
-                          followCursor
-                          leaveDelay={200}
-                        >
+                              </div>
+                            </Tooltip>
+                          ),
+                        )}
+                      </List>
+                      <Button
+                        fullWidth
+                        color="secondary"
+                        variant="contained"
+                        onClick={() => {
+                          setCreatedClueIndex(huntConfig.clues.length);
+                          setCreateClueOpen(true);
+                        }}
+                        data-testid="hunt-create-button"
+                      >
+                        Create New Clue
+                      </Button>
+                      <Tooltip
+                        title={errorTooltip}
+                        followCursor
+                        leaveDelay={200}
+                      >
+                        <div>
                           <DownloadHuntButton
                             huntConfig={huntConfig}
                             setSubmittedEver={setSubmittedEver}
                             setErrorTooltip={setErrorTooltip}
                           />
-                        </Tooltip>
-                      </FormControl>
-                    </Grid>
-
-                    {/* Preview pane */}
-                    <Grid
-                      item
-                      xs={6}
-                      display={"grid"}
-                      sx={{ alignSelf: "flex-start" }}
-                    >
-                      <PreviewHuntJson huntConfig={huntConfig} />
-                    </Grid>
+                        </div>
+                      </Tooltip>
+                    </FormControl>
                   </Grid>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12}>
-              <Footer />
-            </Grid>
-          </Grid>
-        </Container>
 
-        <CreateClueModal
-          isOpen={createClueOpen}
-          createdClue={createdClue}
-          setCreatedClue={setCreatedClue}
-          onSave={onCreatedClueSave}
-          onClose={onCreatedClueClose}
-        />
-      </ThemeProvider>
-    </>
+                  {/* Preview pane */}
+                  <Grid
+                    item
+                    xs={6}
+                    display={"grid"}
+                    sx={{ alignSelf: "flex-start" }}
+                  >
+                    <PreviewHuntJson huntConfig={huntConfig} />
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12}>
+            <Footer />
+          </Grid>
+        </Grid>
+      </Container>
+
+      <CreateClueModal
+        isOpen={createClueOpen}
+        createdClue={createdClue}
+        setCreatedClue={setCreatedClue}
+        onSave={onCreatedClueSave}
+        onClose={onCreatedClueClose}
+      />
+    </ThemeProvider>
   );
 };
 

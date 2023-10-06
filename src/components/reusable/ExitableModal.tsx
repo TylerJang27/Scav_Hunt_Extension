@@ -18,6 +18,7 @@ export const ExitableModal = (props: PropsWithChildren<FormModalProps>) => (
         sx={{
           float: "right",
         }}
+        aria-label="Close Modal"
       >
         <CloseIcon />
       </IconButton>

@@ -1,5 +1,5 @@
-import { buildProviderMocks } from "src/__tests__/build_mocks";
-import { presetHunt } from "src/__tests__/create_hunt_config";
+import { buildProviderMocks } from "src/__tests__/unit_tests/build_mocks";
+import { presetHunt } from "src/__tests__/unit_tests/create_hunt_config";
 import { saveConfigAndLaunch } from "src/components/landing_page/ChooseHunt";
 import { resetStorage } from "src/providers/helpers";
 

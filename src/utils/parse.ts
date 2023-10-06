@@ -217,7 +217,7 @@ export const EncryptClue = (
   interactive: clue.interactive
     ? {
         prompt: wrapEncrypt(clue.interactive.prompt, encrypted, secretKey),
-        key: clue.interactive.key,
+        key: wrapEncrypt(clue.interactive.key, encrypted, secretKey),
       }
     : undefined,
 });

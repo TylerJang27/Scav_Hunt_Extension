@@ -1,4 +1,3 @@
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
   Button,
@@ -6,8 +5,12 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
+  InputBase,
+  MenuItem,
   Radio,
   RadioGroup,
+  Select,
+  SelectChangeEvent,
   TextField,
   ToggleButtonGroup,
   Tooltip,
@@ -53,9 +56,35 @@ const ToggleButton = styled(MuiToggleButton)({
     backgroundColor: "#484d98",
   },
   color: "white",
-  background: "#383d88",
+  background: "#353a85",
   textTransform: "inherit",
 });
+
+const PresetSelector = styled(InputBase)(({ theme }) => ({
+  "& .MuiInputBase-input": {
+    borderRadius: 4,
+    position: "relative",
+    backgroundColor: theme.palette.secondary.main,
+    paddingTop: "0.5rem",
+    paddingBottom: "0.5rem",
+    fontFamily: "Roboto,Helvetica,Arial,sans-serif",
+    fontWeight: 500,
+    fontSize: "0.875rem",
+    transition: theme.transitions.create([
+      "border-color",
+      "box-shadow",
+      "background-color",
+      "color",
+    ]),
+    textTransform: "uppercase",
+    boxShadow:
+      "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
+    "&:hover": {
+      color: "#eeeeee",
+      backgroundColor: "rgb(82, 49, 170)",
+    },
+  },
+}));
 
 const fetchFromUrl = async (url: string): Promise<any> =>
   // trunk-ignore(eslint/@typescript-eslint/no-unsafe-return)
@@ -165,7 +194,7 @@ export const ChooseHunt = () => {
       }
     } else {
       logger.warn(
-        "Error: unknown condition reached. Please refresh the page.",
+        "Error: unknown condition reached when validating chosen hunt. Please refresh the page.",
         sourceFormState.sourceType,
       );
     }
@@ -193,7 +222,7 @@ export const ChooseHunt = () => {
   };
 
   const onUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) {
+    if (!e.target.files || e.target.files[0] == undefined) {
       return;
     }
     const file = e.target.files[0];
@@ -251,7 +280,7 @@ export const ChooseHunt = () => {
           saveConfigAndLaunch(uploadedConfig, sourceType);
         } else {
           logger.warn(
-            "Error: unknown condition reached. Please refresh the page.",
+            "Error: unknown condition reached when submitting. Please refresh the page.",
             sourceType,
           );
         }
@@ -282,8 +311,8 @@ export const ChooseHunt = () => {
                   _: React.MouseEvent<HTMLElement>,
                   nextView: string,
                 ) => {
-                  logger.info("Source type", nextView); // TODO: REMOVE
-                  if (nextView !== null) {
+                  logger.info("Source type being set", nextView); // TODO: REMOVE
+                  if (nextView !== null && nextView !== undefined) {
                     setSourceFormState({
                       ...sourceFormState,
                       sourceType: nextView as HuntSource,
@@ -291,7 +320,11 @@ export const ChooseHunt = () => {
                   }
                 }}
               >
-                <ToggleButton value="Preset" aria-label="Preset">
+                <ToggleButton
+                  value="Preset"
+                  aria-label="Preset"
+                  data-testid="hunt-preset-toggle"
+                >
                   <Grid container direction="row" spacing={1}>
                     <Grid
                       item
@@ -301,29 +334,37 @@ export const ChooseHunt = () => {
                       <Typography>Presets</Typography>
                     </Grid>
                     <Grid item xs={9}>
-                      <Button
-                        fullWidth
-                        color="secondary"
-                        variant="contained"
-                        onClick={() => {
-                          setSourceFormState({
-                            ...sourceFormState,
-                            sourceType: "Preset",
-                          });
-                          setPresetModalOpen(true);
-                        }}
-                      >
-                        <>
-                          {presetHuntOptions.get(sourceFormState.presetPath) ??
-                            "Unknown name"}
-                          <ArrowDropDownIcon />
-                        </>
-                      </Button>
+                      <FormControl fullWidth sx={{ pt: "0px" }}>
+                        <Select
+                          id="hunt-preset-select"
+                          data-testid="hunt-preset-select"
+                          value={
+                            presetHuntOptions.get(sourceFormState.presetPath) ??
+                            "Unknown name"
+                          }
+                          input={<PresetSelector />}
+                          color="secondary"
+                          onChange={(_e: SelectChangeEvent) => {
+                            // TODO: TYLER HANDLE THIS WITH MULTIPLE PRESETS
+                            setSourceFormState({
+                              ...sourceFormState,
+                              sourceType: "Preset",
+                            });
+                            setPresetModalOpen(true);
+                          }}
+                        >
+                          <MenuItem value="hunt">Hunt</MenuItem>
+                        </Select>
+                      </FormControl>
                     </Grid>
                   </Grid>
                 </ToggleButton>
 
-                <ToggleButton value="URL" aria-label="URL">
+                <ToggleButton
+                  value="URL"
+                  aria-label="URL"
+                  data-testid="hunt-url-toggle"
+                >
                   <Grid container direction="row" spacing={0}>
                     <Grid
                       item
@@ -334,6 +375,7 @@ export const ChooseHunt = () => {
                     </Grid>
                     <Grid item xs={9}>
                       <TextField
+                        data-testid="hunt-url-textfield"
                         fullWidth
                         color="secondary"
                         variant="outlined"
@@ -355,7 +397,11 @@ export const ChooseHunt = () => {
                   </Grid>
                 </ToggleButton>
 
-                <ToggleButton value="Upload" aria-label="Upload">
+                <ToggleButton
+                  value="Upload"
+                  aria-label="Upload"
+                  data-testid="hunt-upload-toggle"
+                >
                   <Grid
                     container
                     direction="row"
@@ -375,6 +421,7 @@ export const ChooseHunt = () => {
                         component="label"
                         color="secondary"
                         sx={{ display: "flex" }}
+                        data-testid="hunt-upload-button"
                       >
                         {sourceFormState.fileName ?? "Choose File"}
                         <input
@@ -409,39 +456,43 @@ export const ChooseHunt = () => {
               }}
             >
               <Tooltip
+                data-testid="hunt-submit-tooltip"
                 title={validationError?.message ?? missingInputMessage}
                 followCursor
                 leaveDelay={200}
               >
-                <span>
-                  {!submitable && (
-                    <InfoOutlinedIcon
-                      htmlColor="#ff99a9"
-                      id="submit-disable-tooltip"
+                <div>
+                  <span>
+                    {!submitable && (
+                      <InfoOutlinedIcon
+                        htmlColor="#ff99a9"
+                        id="submit-disable-tooltip"
+                        sx={{
+                          position: "absolute",
+                          transform: "translate(-100%, 25%)",
+                        }}
+                      />
+                    )}
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      aria-disabled={!submitable}
+                      aria-describedby="submit-disable-tooltip"
+                      disabled={!submitable}
+                      onClick={onSubmit}
+                      color="primary"
                       sx={{
-                        position: "absolute",
-                        transform: "translate(-100%, 25%)",
+                        ".MuiButton-contained, :disabled": {
+                          backgroundColor: "#e5a9a988",
+                          color: "black",
+                        },
                       }}
-                    />
-                  )}
-                  <Button
-                    variant="contained"
-                    size="medium"
-                    aria-disabled={!submitable}
-                    aria-describedby="submit-disable-tooltip"
-                    disabled={!submitable}
-                    onClick={onSubmit}
-                    color="primary"
-                    sx={{
-                      ".MuiButton-contained, :disabled": {
-                        backgroundColor: "#e5a9a988",
-                        color: "black",
-                      },
-                    }}
-                  >
-                    Submit
-                  </Button>
-                </span>
+                      data-testid="hunt-submit-button"
+                    >
+                      Submit
+                    </Button>
+                  </span>
+                </div>
               </Tooltip>
               <Button
                 variant="outlined"
@@ -449,6 +500,7 @@ export const ChooseHunt = () => {
                 onClick={onReset}
                 color="primary"
                 disabled={hasReset}
+                data-testid="hunt-reset-button"
               >
                 Remove Current Hunt
               </Button>

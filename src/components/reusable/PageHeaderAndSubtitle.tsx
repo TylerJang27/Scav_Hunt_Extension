@@ -1,10 +1,11 @@
 import { Typography, useTheme } from "@mui/material";
-import React from "react";
+import React, { ElementType } from "react";
 
 export interface PageHeaderAndSubtitleProps {
   headerPrefix?: React.ReactNode;
   header: React.ReactNode;
   subtitle?: React.ReactNode;
+  headingComponent?: ElementType<any>;
 }
 
 export const PageHeaderAndSubtitle: React.FC<PageHeaderAndSubtitleProps> = (
@@ -19,6 +20,7 @@ export const PageHeaderAndSubtitle: React.FC<PageHeaderAndSubtitleProps> = (
         textAlign="center"
         color="white"
         fontFamily="Dosis"
+        component={props.headingComponent ?? "h3"}
       >
         {props.headerPrefix}
         {props.headerPrefix && ": "}

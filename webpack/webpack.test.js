@@ -1,11 +1,9 @@
 const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
 const webpack = require("webpack");
-const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
-const srcDir = path.join(__dirname, "..", "src");
 
-module.exports = merge(common(false), {
+module.exports = merge(common(true), {
   devtool: "inline-source-map",
   mode: "development",
   plugins: [
@@ -14,11 +12,7 @@ module.exports = merge(common(false), {
       options: {},
     }),
 
-    // https://webpack.js.org/plugins/normal-module-replacement-plugin/#advanced-example
-    new webpack.NormalModuleReplacementPlugin(
-      /providers\/chrome.ts/,
-      "./__mocks__/chrome.ts",
-    ),
+    // Use additional logging. Debug and Info are silenced for production.
     new webpack.NormalModuleReplacementPlugin(/logger\/index.ts/, "./debug.ts"),
   ],
 });

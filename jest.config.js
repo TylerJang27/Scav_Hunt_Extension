@@ -6,7 +6,7 @@ module.exports = {
   snapshotFormat: {
     printBasicPrototype: false,
   },
-  testMatch: ["**/__tests__/**/*.test.ts"],
+  testMatch: ["**/__tests__/unit_tests/**/*.test.ts"],
   transform: {
     "^.+\\.test.ts$": "ts-jest",
   },

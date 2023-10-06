@@ -8,6 +8,7 @@ import {
   Grid,
   styled,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -46,6 +47,7 @@ export const CluePage = (props: CluePageProps) => {
 
   const [inputKey, setInputKey] = useState<string>("");
   const [solved, setSolved] = useState<boolean>(false);
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
   const previewStyles = previewOnly
     ? { transform: "scale(0.5, 0.5)", WebkitTransformOriginY: "top" }
@@ -66,6 +68,7 @@ export const CluePage = (props: CluePageProps) => {
   }, [interactive]);
 
   const validateKey = () => {
+    setSubmitted(true);
     if (
       interactive &&
       Decrypt(interactive.key, encrypted, huntName) === inputKey
@@ -103,43 +106,60 @@ export const CluePage = (props: CluePageProps) => {
               <Grid item xs={12}>
                 <Card sx={{ mt: 4, backgroundColor: "#333" }}>
                   <CardContent>
-                    <PageHeaderAndSubtitle header={title} />
+                    <PageHeaderAndSubtitle
+                      header={title}
+                      headingComponent="h1"
+                    />
                     {solved && (
                       <Typography
                         variant="body1"
                         textAlign="center"
                         color="white"
                         mt={1}
+                        sx={{ whiteSpace: "break-spaces" }}
                       >
                         {/* TODO: TYLER DO LINE REPLACEMENT */}
                         {error ?? text}
                       </Typography>
                     )}
                     {image && (
-                      <img
-                        src={imageURL}
-                        alt={alt}
-                        loading="lazy"
-                        width="75%"
-                        height="75%"
-                        style={{
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                          display: "block",
-                        }}
-                      />
+                      <Tooltip title={alt} followCursor>
+                        <div>
+                          <img
+                            src={imageURL}
+                            alt={alt}
+                            loading="lazy"
+                            width="75%"
+                            height="75%"
+                            style={{
+                              marginLeft: "auto",
+                              marginRight: "auto",
+                              display: "block",
+                            }}
+                          />
+                        </div>
+                      </Tooltip>
                     )}
                     {interactive && (
                       // TODO: ADD STYLING
                       <FormControl sx={{ minWidth: "100%" }}>
                         {interactive.prompt && (
-                          <Typography>{interactive.prompt}</Typography>
+                          <Typography sx={{ whiteSpace: "break-spaces" }}>
+                            {interactive.prompt}
+                          </Typography>
                         )}
                         <TextField
                           variant="outlined"
                           value={inputKey}
-                          onChange={(e) => setInputKey(e.target.value.trim())}
-                          error={!nonNull(interactive) || !solved}
+                          onChange={(e) => setInputKey(e.target.value)}
+                          error={
+                            !nonNull(interactive) || (!solved && submitted)
+                          }
+                          data-testid="interactive-input-field"
+                          label="Enter prompt answer"
+                          aria-label="Enter prompt answer"
+                          disabled={solved}
+                          sx={{ mt: 2 }}
                         />
                         {/* TODO: ADD BETTER ERROR/RESPONSIVENESS SUPPORT (Show message on error) */}
                         <StyledButton
@@ -148,6 +168,7 @@ export const CluePage = (props: CluePageProps) => {
                           color="primary"
                           onClick={validateKey}
                           disabled={previewOnly || solved}
+                          data-testid="interactive-submit-button"
                         >
                           Submit
                         </StyledButton>

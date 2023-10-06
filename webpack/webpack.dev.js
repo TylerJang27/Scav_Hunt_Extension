@@ -3,7 +3,7 @@ const common = require("./webpack.common.js");
 const webpack = require("webpack");
 const CopyPlugin = require("copy-webpack-plugin");
 
-module.exports = merge(common, {
+module.exports = merge(common(false), {
   devtool: "inline-source-map",
   mode: "development",
   plugins: [

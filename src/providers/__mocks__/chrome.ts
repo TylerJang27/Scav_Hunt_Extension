@@ -30,6 +30,9 @@ const storageGetter = (items: string | string[], callback: Function) => {
         id: 1,
         url: "google.com",
         text: "The first of two clues",
+        image:
+          "https://raw.githubusercontent.com/TylerJang27/Scav_Hunt_Extension/dev/public/graphics/scav.png",
+        alt: "Scavenger Hunt logo",
       },
       {
         id: 2,
@@ -44,7 +47,7 @@ const storageGetter = (items: string | string[], callback: Function) => {
   };
 
   // Change this to change which clue is rendered when visiting popup
-  const defaultCurrentProgress = 2;
+  const defaultCurrentProgress = 1;
 
   const defaultMaxProgress = 2;
 
