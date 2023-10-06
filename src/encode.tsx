@@ -527,6 +527,8 @@ const Encode = () => {
       <CreateClueModal
         isOpen={createClueOpen}
         createdClue={createdClue}
+        huntName={huntConfig.name}
+        huntBackground={huntConfig.background}
         setCreatedClue={setCreatedClue}
         onSave={onCreatedClueSave}
         onClose={onCreatedClueClose}
