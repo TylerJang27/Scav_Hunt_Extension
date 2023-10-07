@@ -357,6 +357,9 @@ export const ChooseHunt = () => {
                               presetPath: filePath,
                             });
                           }}
+                          MenuProps={{
+                            disableScrollLock: true,
+                          }}
                         >
                           {presetHuntOptions.map((preset: HuntPreset) => (
                             <MenuItem key={preset.name} value={preset.name}>

@@ -285,6 +285,9 @@ const Encode = () => {
                             });
                           }}
                           data-testid="hunt-silent-field"
+                          MenuProps={{
+                            disableScrollLock: true,
+                          }}
                         >
                           <MenuItem value="true" data-testid="hunt-silent-true">
                             True (Icon alerts)
@@ -317,6 +320,9 @@ const Encode = () => {
                             }
                           }}
                           data-testid="hunt-encrypted-field"
+                          MenuProps={{
+                            disableScrollLock: true,
+                          }}
                         >
                           <MenuItem value="true">True (For Sharing)</MenuItem>
                           <MenuItem
