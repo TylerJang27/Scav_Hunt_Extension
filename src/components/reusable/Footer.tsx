@@ -27,13 +27,16 @@ export const Footer = () => (
           sx={{ justifyContent: "center" }}
         >
           <Typography variant="body1" textAlign="center">
-            {/* TODO: TYLER ADD OTHER LINKS AND THINGS */}
             <Link href={getURL("landing_page.html")} color={yellow[600]}>
               Home
             </Link>
           </Typography>
           <Typography variant="body1" textAlign="center">
-            {/* TODO: TYLER ADD OTHER LINKS AND THINGS */}
+            <Link href={getURL("beginning.html")} color={yellow[600]}>
+              Beginning
+            </Link>
+          </Typography>
+          <Typography variant="body1" textAlign="center">
             <Link
               href="https://github.com/TylerJang27/Scav_Hunt_Extension"
               color={yellow[600]}
