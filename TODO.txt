@@ -12,5 +12,3 @@ Scope:
     c. Silence on going backwards
 3. Maximum hunt size (10 MB) and relevant permissions
 4. Update Readme and record new tutorial video
-5. Fix required fields having weird formatted *
-6. On last clue, button to reset hunt (or just in footer)

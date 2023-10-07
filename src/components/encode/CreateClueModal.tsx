@@ -6,13 +6,17 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { CluePage } from "src/components/reusable/CluePage";
 import { ExitableModal } from "src/components/reusable/ExitableModal";
+import { getURL } from "src/providers/runtime";
 import { ClueConfig, IntractiveConfig } from "src/types/hunt_config";
 import { ParseClue } from "src/utils/parse";
 
 export interface CreateClueModalProps {
   isOpen: boolean;
   createdClue: ClueConfig;
+  huntName: string;
+  huntBackground: string;
   setCreatedClue: (clue: ClueConfig) => void;
   onSave: (clue: ClueConfig) => void;
   onClose: () => void;
@@ -202,7 +206,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
         <Button
           variant="contained"
           color="primary"
-          sx={{ mt: 2 }}
+          sx={{ mt: 2, mb: 2 }}
           onClick={() => {
             try {
               // Validate the clue and check for errors
@@ -220,6 +224,16 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
         </Button>
         {createdClueError && <Alert severity="error">{createdClueError}</Alert>}
       </FormControl>
+      <CluePage
+        key={"preview clue creation"}
+        huntName={props.huntName || "Preview"}
+        encrypted={false}
+        clue={createdClue}
+        previewOnly={true}
+        backgroundURL={
+          props.huntBackground || getURL("graphics/background.png")
+        }
+      />
     </ExitableModal>
   );
 };
