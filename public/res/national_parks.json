@@ -8,7 +8,7 @@
   "options": {
     "silent": false
   },
-  "beginning": "We will take you to explore some of the most famous National Parks in the US. All of the clues can be found on the NPS website.\n\n1. What’s the most famous national park (easy warm up)?\n2. Although remote, this national park boasts the biggest size\n3. You absolutely wanna go stargazing there, cowboy\n4. Find the source of this background picture\n5.  I've seen it rainin' fire in the sky~\n6. The child of Dorr\n7. Where Angels land\n8. Here you’ll find A. mississippiensis\n9. It earns its name, this land of stone and light\n10. Blue Ridge Mountains~\n\nOnce you have them all, visit the main National Parks Service Wikipedia page.",
+  "beginning": "We will take you to explore some of the most famous National Parks in the US. All of the clues can be found on the NPS website.\n\n1. What’s the most famous national park (easy warm up)?\n2. Although remote, this national park boasts the biggest size\n3. You absolutely wanna go stargazing there, cowboy\n4. Find the source of this background picture\n5.  I've seen it rainin' fire in the sky~\n6. The child of Dorr\n7. Where Angels land\n8. Here you’ll find A. mississippiensis\n9. It earns its name, this land of stone and light\n10. 'Blue Ridge Mountains, _______'~\n\nOnce you have them all, visit the main National Parks Service Wikipedia page.",
   "clues": [
     {
       "id": 1,
@@ -50,7 +50,7 @@
       "image": "https://cdn.jsdelivr.net/gh/declan-haojin/blog-image@master/2023/202310082334231.webp",
       "alt": "Grand Teton",
       "interactive": {
-        "prompt": "What Native American tribe have historically called this land home and along the Wind River (case sensitive)?",
+        "prompt": "What Native American tribe have historically called this land home and along the Wind River (1 word, case sensitive)?",
         "key": "Shoshone"
       }
     },
