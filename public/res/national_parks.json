@@ -8,7 +8,7 @@
   "options": {
     "silent": false
   },
-  "beginning": "We will take you to explore some of the most famous National Parks in the US. All of the clues can be found on the NPS website.\n\n1. What’s the most famous national park (easy warm up)?\n2. Although remote, this national park boasts the biggest size\n3. You absolutely wanna go stargazing there, cowboy\n4. Find the source of this background picture\n5. ♪I've seen it rainin' fire in the sky♪\n6. The child of Dorr\n7. Where Angels land\n8. Here you’ll find A. mississippiensis\n9. It earns its name, this land of stone and light\n10. ♪Blue Ridge Mountains, _______♪\n\nOnce you have them all, visit the main National Parks Service Wikipedia page.",
+  "beginning": "We will take you to explore some of the most famous National Parks in the US. All of the clues can be found on the NPS website. Hint: take notes as you go!\n\n1. What’s the most famous national park (easy warm up)?\n2. Although remote, this national park boasts the biggest size\n3. You absolutely wanna go stargazing there, cowboy\n4. Find the source of this background picture\n5. ♪I've seen it rainin' fire in the sky♪\n6. The child of Dorr\n7. Where Angels land\n8. Here you’ll find A. mississippiensis\n9. It earns its name, this land of stone and light\n10. ♪Blue Ridge Mountains, _______♪\n\nOnce you have them all, visit the main National Parks Service Wikipedia page.",
   "clues": [
     {
       "id": 1,
@@ -39,7 +39,7 @@
       "image": "https://cdn.jsdelivr.net/gh/declan-haojin/blog-image@master/2023/202310090000800.webp",
       "alt": "Big Bend National Park",
       "interactive": {
-        "prompt": "What does the “bend” stand for (case sensitive)?",
+        "prompt": "What does the “bend” stand for (2 words, case sensitive)?",
         "key": "Rio Grande"
       }
     },
@@ -126,7 +126,7 @@
       "image": "https://nps.gov/common/commonspot/templates/images/promos/npf-white.png",
       "alt": "National Parks Service",
       "interactive": {
-        "prompt": "Now that you’ve solved the clues, sum up the numbers, and identify which national park that represents, in the order that they were founded.",
+        "prompt": "Now that you’ve solved the clues, sum up the numbers, and identify which national park that represents, in the order that they were founded (case sensitive, 2 words).",
         "key": "Great Basin"
       }
     }
