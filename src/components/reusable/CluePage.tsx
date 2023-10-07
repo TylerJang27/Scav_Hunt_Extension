@@ -169,7 +169,6 @@ export const CluePage = (props: CluePageProps) => {
                         mt={1}
                         sx={{ whiteSpace: "break-spaces" }}
                       >
-                        {/* TODO: TYLER DO LINE REPLACEMENT */}
                         {error ?? text}
                       </Typography>
                     )}
