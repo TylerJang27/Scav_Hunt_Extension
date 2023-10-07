@@ -1,0 +1,35 @@
+{
+  "name": "The Hunt Is On",
+  "description": "A basic scavenger hunt",
+  "version": "1.0",
+  "author": "Tyler Jang",
+  "encrypted": false,
+  "background": "https://images.unsplash.com/photo-1583425921686-c5daf5f49e4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80",
+  "options": { "silent": false },
+  "beginning": "Welcome to the hunt.\nBegin by navigating to google.com",
+  "clues": [
+    {
+      "id": 1,
+      "url": "www.google.com/?$",
+      "text": "The hunt begins for pure and brave\nAt education's own conclave.\nYou'll find the treasure that you seek\nUpon Khan's anointed peak.",
+      "image": "res/scav_alt.png",
+      "alt": "Mouse over the image to view any alt or secret text! 'Scavenger Hunt Icon'"
+    },
+    {
+      "id": 2,
+      "url": "khanacademy.org",
+      "text": "You found the next clue! To continue, visit the site of Randall Munroe's famous webcomic",
+      "image": "https://i.pcmag.com/imagery/reviews/07AxdIVbQ63OEkJoPgCybXt-19.1594914797.fit_scale.size_1028x578.png",
+      "alt": "Khan Academy"
+    },
+    {
+      "id": 3,
+      "url": "xkcd.com",
+      "text": "You cracked the code and finished the tutorial!",
+      "interactive": {
+        "prompt": "Enter the secret word ('yolo')",
+        "key": "yolo"
+      }
+    }
+  ]
+}

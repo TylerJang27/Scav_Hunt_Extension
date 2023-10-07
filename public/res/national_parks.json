@@ -1,0 +1,134 @@
+{
+  "name": "National Parks 🏞️",
+  "description": "We will take you to explore some of the most famous National Parks!",
+  "author": "Haojin Li",
+  "version": "1.0",
+  "encrypted": false,
+  "background": "https://cdn.jsdelivr.net/gh/declan-haojin/blog-image@master/2023/202310082334231.webp",
+  "options": {
+    "silent": false
+  },
+  "beginning": "We will take you to explore some of the most famous National Parks in the US. All of the clues can be found on the NPS website.\n\n1. What’s the most famous national park (easy warm up)?\n2. Although remote, this national park boasts the biggest size\n3. You absolutely wanna go stargazing there, cowboy\n4. Find the source of this background picture\n5.  I've seen it rainin' fire in the sky~\n6. The child of Dorr\n7. Where Angels land\n8. Here you’ll find A. mississippiensis\n9. It earns its name, this land of stone and light\n10. Blue Ridge Mountains~\n\nOnce you have them all, visit the main National Parks Service Wikipedia page.",
+  "clues": [
+    {
+      "id": 1,
+      "url": "nps.gov/yell/index.htm",
+      "text": "You did it! Here’s a piece of the final password: 2",
+      "image": "https://cdn.jsdelivr.net/gh/declan-haojin/blog-image@master/2023/202310082342879.webp",
+      "alt": "Yellowstone National Park",
+      "interactive": {
+        "prompt": "In what year was the park established?",
+        "key": "1872"
+      }
+    },
+    {
+      "id": 2,
+      "url": "nps.gov/wrst/index.htm",
+      "text": "Exploring the last frontier! Here’s a piece of the final password: 3",
+      "image": "https://www.nps.gov/common/uploads/banner_image/akr/homepage/F8805363-1DD8-B71B-0BE59C3D3428BD7B.jpg",
+      "alt": "Wrangell-St. Elias",
+      "interactive": {
+        "prompt": "The state in which Wrangell-St. Elias is located became what numbered state to join the union?",
+        "key": "49"
+      }
+    },
+    {
+      "id": 3,
+      "url": "nps.gov/bibe/index.htm",
+      "text": "Yay! Here’s a piece of the final password: 7",
+      "image": "https://cdn.jsdelivr.net/gh/declan-haojin/blog-image@master/2023/202310090000800.webp",
+      "alt": "Big Bend National Park",
+      "interactive": {
+        "prompt": "What does the “bend” stand for (case sensitive)?",
+        "key": "Rio Grande"
+      }
+    },
+    {
+      "id": 4,
+      "url": "nps.gov/grte/index.htm",
+      "text": "Nice! Here’s a piece of the final password: 1",
+      "image": "https://cdn.jsdelivr.net/gh/declan-haojin/blog-image@master/2023/202310082334231.webp",
+      "alt": "Grand Teton",
+      "interactive": {
+        "prompt": "What Native American tribe have historically called this land home and along the Wind River (case sensitive)?",
+        "key": "Shoshone"
+      }
+    },
+    {
+      "id": 5,
+      "url": "nps.gov/romo/index.htm",
+      "text": "Rocky Mountain High! You got number 5 for the final password!",
+      "image": "https://cdn.jsdelivr.net/gh/declan-haojin/blog-image@master/2023/202310090009201.webp",
+      "alt": "Rocky Mountains",
+      "interactive": {
+        "prompt": "What’s the highest altitude among all the visitor centers in the park (in feet)?",
+        "key": "11796"
+      }
+    },
+    {
+      "id": 6,
+      "url": "nps.gov/acad/index.htm",
+      "text": "What amazing scenic views! You got number 3 for the final password!",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Bass_Harbor_Lighthouse_b.jpg/284px-Bass_Harbor_Lighthouse_b.jpg",
+      "alt": "Acadia",
+      "interactive": {
+        "prompt": "What is the nearest town (case sensitive)?",
+        "key": "Bar Harbor"
+      }
+    },
+    {
+      "id": 7,
+      "url": "nps.gov/zion/index.htm",
+      "text": "Great job! The clue for final password is 11!",
+      "image": "https://cdn.jsdelivr.net/gh/declan-haojin/blog-image@master/2023/202310090020736.webp",
+      "interactive": {
+        "prompt": "What’s the length of Zion Canyon?",
+        "key": "15"
+      }
+    },
+    {
+      "id": 8,
+      "url": "nps.gov/ever/index.htm",
+      "text": "It’s an ecological marvel! Here’s a piece of the final password: 6",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Sunset_over_the_River_of_Grass%2C_NPSphoto%2C_G.Gardner_%289255157507%29.jpg/284px-Sunset_over_the_River_of_Grass%2C_NPSphoto%2C_G.Gardner_%289255157507%29.jpg",
+      "alt": "Everglades",
+      "interactive": {
+        "prompt": "Where does this park rank in terms of size in the contiguous US?",
+        "key": "3"
+      }
+    },
+    {
+      "id": 9,
+      "url": "nps.gov/badl/index.htm",
+      "text": "Fascinating indeed! Here’s a piece of the final password: 3",
+      "image": "https://www.nps.gov/common/uploads/banner_image/mwr/homepage/C4524107-A9DF-29E3-80B8554266867C06.jpg",
+      "alt": "Badlands",
+      "interactive": {
+        "prompt": "In what year did it become a National Monument?",
+        "key": "1939"
+      }
+    },
+    {
+      "id": 10,
+      "url": "nps.gov/shen/index.htm",
+      "text": "Great job! Your last piece of the final password is 8!",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Skyline_Drive_in_the_Fall_%2821852619608%29.jpg/2880px-Skyline_Drive_in_the_Fall_%2821852619608%29.jpg",
+      "alt": "Shenandoah",
+      "interactive": {
+        "prompt": "How many miles long is the scenic Skyline Drive?",
+        "key": "105"
+      }
+    },
+    {
+      "id": 11,
+      "url": "en.wikipedia.org/wiki/National_Park_Service",
+      "text": "You did it! Congrats on exploring all the National Parks!",
+      "image": "https://nps.gov/common/commonspot/templates/images/promos/npf-white.png",
+      "alt": "National Parks Service",
+      "interactive": {
+        "prompt": "Now that you’ve solved the clues, sum up the numbers, and identify which national park that represents, in the order that they were founded.",
+        "key": "Great Basin"
+      }
+    }
+  ]
+}

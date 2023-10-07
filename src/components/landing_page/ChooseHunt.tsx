@@ -3,12 +3,9 @@ import {
   Button,
   Container,
   FormControl,
-  FormControlLabel,
   Grid,
   InputBase,
   MenuItem,
-  Radio,
-  RadioGroup,
   Select,
   SelectChangeEvent,
   TextField,
@@ -20,7 +17,6 @@ import { styled } from "@mui/material/styles";
 import MuiToggleButton from "@mui/material/ToggleButton";
 import path from "path";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { ExitableModal } from "src/components/reusable/ExitableModal";
 import { PageHeaderAndSubtitle } from "src/components/reusable/PageHeaderAndSubtitle";
 import { logger } from "src/logger";
 import { resetStorage } from "src/providers/helpers";
@@ -162,7 +158,6 @@ export const ChooseHunt = () => {
   const [missingInputMessage, setMissingInputMessage] = useState<
     string | undefined
   >();
-  const [presetModalOpen, setPresetModalOpen] = useState<boolean>(false);
 
   // TODO: TYLER INITIALIZE THIS TO THE ACTUAL VALUE OF WHETHER OR NOT WE HAVE A HUNT OR NOT
   const [hasReset, setHasReset] = useState<boolean>(false);
@@ -361,7 +356,6 @@ export const ChooseHunt = () => {
                               sourceType: "Preset",
                               presetPath: filePath,
                             });
-                            setPresetModalOpen(true);
                           }}
                         >
                           {presetHuntOptions.map((preset: HuntPreset) => (
