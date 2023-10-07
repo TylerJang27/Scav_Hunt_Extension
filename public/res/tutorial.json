@@ -12,14 +12,14 @@
       "id": 1,
       "url": "www.google.com/?$",
       "text": "The hunt begins for pure and brave\nAt education's own conclave.\nYou'll find the treasure that you seek\nUpon Khan's anointed peak.",
-      "image": "res/scav_alt.png",
-      "alt": "Hint for the next clue: look for a certain academy"
+      "image": "https://i.pcmag.com/imagery/reviews/07AxdIVbQ63OEkJoPgCybXt-19.1594914797.fit_scale.size_1028x578.png",
+      "alt": "Hint for this clue: look for a certain academy"
     },
     {
       "id": 2,
       "url": "khanacademy.org",
-      "text": "You found the next clue! To continue, visit the site of Randall Munroe's famous webcomic",
-      "image": "https://i.pcmag.com/imagery/reviews/07AxdIVbQ63OEkJoPgCybXt-19.1594914797.fit_scale.size_1028x578.png",
+      "text": "You found the next clue! To continue, visit the site of Randall Munroe's famous webcomic.",
+      "image": "res/scav_alt.png",
       "alt": "Khan Academy"
     },
     {
