@@ -1,6 +1,8 @@
-# Scav_Hunt_Extension
+# Scavenger Hunt Extension
 
-Available on [Chrome Store](https://chrome.google.com/webstore/detail/scavenger-hunt/opcgbolmjikeaokbmldpfhemaamnfggf?hl=en-US)
+Create and solve scavenger hunts across the Internet. The sky is your limit!
+
+Available on [Chrome Store](https://chrome.google.com/webstore/detail/scavenger-hunt/opcgbolmjikeaokbmldpfhemaamnfggf?hl=en-US)!
 
 Additional User Guides coming soon!
 
