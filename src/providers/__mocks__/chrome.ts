@@ -119,6 +119,9 @@ const runtime = {
 
 const action = {
   onClicked: { addListener: addClickedListener },
+  getBadgeText: (callback: (result: string) => void) => {
+    callback("Badge Text");
+  },
   setBadgetText: (contents: chrome.action.BadgeTextDetails) => {
     logger.info("Setting badge text", contents.text);
   },

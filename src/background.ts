@@ -57,8 +57,9 @@ export const setupMessageListener = () =>
         setBadgeText("");
         return;
       } else {
+        // TODO(Tyler): Make this be change the hunt background to be red
         // Invalid
-        setBadgeText("X");
+        setBadgeText("");
         return;
       }
       // trunk-ignore-end(eslint/@typescript-eslint/no-unsafe-member-access,eslint/@typescript-eslint/no-floating-promises)
