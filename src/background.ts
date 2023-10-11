@@ -41,6 +41,8 @@ const openClueCallback = (items: SomeProgress) => {
     createTab("popup.html");
   } else {
     logger.warn(EMPTY_OR_INVALID_HUNT);
+    // trunk-ignore(eslint/@typescript-eslint/no-floating-promises)
+    createTab("landing_page.html");
   }
 };
 
