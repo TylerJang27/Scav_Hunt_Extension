@@ -3,12 +3,9 @@ import {
   Button,
   Container,
   FormControl,
-  FormControlLabel,
   Grid,
   InputBase,
   MenuItem,
-  Radio,
-  RadioGroup,
   Select,
   SelectChangeEvent,
   TextField,
@@ -20,7 +17,6 @@ import { styled } from "@mui/material/styles";
 import MuiToggleButton from "@mui/material/ToggleButton";
 import path from "path";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { ExitableModal } from "src/components/reusable/ExitableModal";
 import { PageHeaderAndSubtitle } from "src/components/reusable/PageHeaderAndSubtitle";
 import { logger } from "src/logger";
 import { resetStorage } from "src/providers/helpers";
@@ -125,31 +121,35 @@ export const saveConfigAndLaunch = (
   });
 };
 
+interface HuntPreset {
+  name: string;
+  filename: string;
+}
+
 const getPresetOptions = () => {
   // TODO: TYLER POPULATE THIS WITH MORE DEFAULTS
-  const presetHuntOptions = new Map<string, string>();
-  const files = ["hunt.json"];
-  files
-    .filter((file) => file.endsWith(".json"))
-    .forEach((file) => {
-      const name = path.parse(file).name.replace("_", " ");
-      presetHuntOptions.set(file, name);
-    });
+  const presetHuntOptions = new Array<HuntPreset>();
+  presetHuntOptions.push({ name: "Tutorial", filename: "tutorial.json" });
+  presetHuntOptions.push({ name: "Foods", filename: "foods.json" });
+  presetHuntOptions.push({
+    name: "National Parks (nonlinear)",
+    filename: "national_parks.json",
+  });
   return presetHuntOptions;
 };
 
 export const ChooseHunt = () => {
-  // TODO: DETERMINE THESE PROGRAMATICALLY
-
-  // const presetHuntOptions = ["Tutorial", "Board Games", "Star Wars"];
   const presetHuntOptions = getPresetOptions();
 
   // TODO: TYLER USE PRESET USEEFFECT TO GET THE CURRENT CONFIGURATION
   // Persistent state
+  const initialPreset = "Tutorial";
   const [sourceFormState, setSourceFormState] = useState<SourceFormType>({
     sourceType: "Preset",
-    huntName: "Tutorial",
-    presetPath: Array.from(presetHuntOptions.keys())[0],
+    huntName: initialPreset,
+    presetPath: presetHuntOptions.filter(
+      (preset: HuntPreset) => preset.name === initialPreset,
+    )[0].filename,
   });
 
   const [validationError, setValidationError] = useState<Error | undefined>(
@@ -158,7 +158,6 @@ export const ChooseHunt = () => {
   const [missingInputMessage, setMissingInputMessage] = useState<
     string | undefined
   >();
-  const [presetModalOpen, setPresetModalOpen] = useState<boolean>(false);
 
   // TODO: TYLER INITIALIZE THIS TO THE ACTUAL VALUE OF WHETHER OR NOT WE HAVE A HUNT OR NOT
   const [hasReset, setHasReset] = useState<boolean>(false);
@@ -339,21 +338,34 @@ export const ChooseHunt = () => {
                           id="hunt-preset-select"
                           data-testid="hunt-preset-select"
                           value={
-                            presetHuntOptions.get(sourceFormState.presetPath) ??
-                            "Unknown name"
+                            presetHuntOptions.filter(
+                              (preset: HuntPreset) =>
+                                preset.filename === sourceFormState.presetPath,
+                            )[0].name ?? "Unknown path"
                           }
                           input={<PresetSelector />}
                           color="secondary"
-                          onChange={(_e: SelectChangeEvent) => {
-                            // TODO: TYLER HANDLE THIS WITH MULTIPLE PRESETS
+                          onChange={(e: SelectChangeEvent) => {
+                            const filePath = presetHuntOptions.filter(
+                              (preset: HuntPreset) =>
+                                preset.name === e.target.value,
+                            )[0].filename;
+
                             setSourceFormState({
                               ...sourceFormState,
                               sourceType: "Preset",
+                              presetPath: filePath,
                             });
-                            setPresetModalOpen(true);
+                          }}
+                          MenuProps={{
+                            disableScrollLock: true,
                           }}
                         >
-                          <MenuItem value="hunt">Hunt</MenuItem>
+                          {presetHuntOptions.map((preset: HuntPreset) => (
+                            <MenuItem key={preset.name} value={preset.name}>
+                              {preset.name}
+                            </MenuItem>
+                          ))}
                         </Select>
                       </FormControl>
                     </Grid>
@@ -508,38 +520,6 @@ export const ChooseHunt = () => {
           </Grid>
         </Grid>
       </Container>
-      <ExitableModal
-        open={presetModalOpen}
-        onClose={() => setPresetModalOpen(false)}
-        modalTitle="Select Sample Hunt"
-      >
-        {/* TODO: TYLER ADD SUBMIT AND CANCEL BUTTONS TO MODAL */}
-        <FormControl>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            name="preset-hunt-group"
-            value={sourceFormState.presetPath}
-            onChange={(e) => {
-              setSourceFormState({
-                ...sourceFormState,
-                presetPath: e.target.value as HuntSource,
-              });
-            }}
-          >
-            {Array.from(presetHuntOptions.entries()).map(
-              ([presetPath, presetName]) => (
-                <FormControlLabel
-                  key={presetName}
-                  value={presetPath}
-                  control={<Radio />}
-                  label={presetName}
-                  sx={{ textTransform: "capitalize" }}
-                />
-              ),
-            )}
-          </RadioGroup>
-        </FormControl>
-      </ExitableModal>
     </>
   );
 };

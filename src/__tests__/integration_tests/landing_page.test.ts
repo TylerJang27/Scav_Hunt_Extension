@@ -12,7 +12,9 @@ test("landing page", async ({ page, extensionId }) => {
     "aria-pressed",
     "true",
   );
-  await expect(page.getByTestId("hunt-preset-select")).toContainText("Hunt");
+  await expect(page.getByTestId("hunt-preset-select")).toContainText(
+    "Tutorial",
+  );
   await expect(page.getByTestId("hunt-submit-button")).toHaveAttribute(
     "aria-disabled",
     "false",

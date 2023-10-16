@@ -110,25 +110,13 @@ export const CluePage = (props: CluePageProps) => {
                       header={title}
                       headingComponent="h1"
                     />
-                    {solved && (
-                      <Typography
-                        variant="body1"
-                        textAlign="center"
-                        color="white"
-                        mt={1}
-                        sx={{ whiteSpace: "break-spaces" }}
-                      >
-                        {/* TODO: TYLER DO LINE REPLACEMENT */}
-                        {error ?? text}
-                      </Typography>
-                    )}
                     {image && (
                       <Tooltip title={alt} followCursor>
                         <div>
                           <img
                             src={imageURL}
                             alt={alt}
-                            loading="lazy"
+                            loading="eager"
                             width="75%"
                             height="75%"
                             style={{
@@ -141,7 +129,6 @@ export const CluePage = (props: CluePageProps) => {
                       </Tooltip>
                     )}
                     {interactive && (
-                      // TODO: ADD STYLING
                       <FormControl sx={{ minWidth: "100%" }}>
                         {interactive.prompt && (
                           <Typography sx={{ whiteSpace: "break-spaces" }}>
@@ -173,6 +160,17 @@ export const CluePage = (props: CluePageProps) => {
                           Submit
                         </StyledButton>
                       </FormControl>
+                    )}
+                    {solved && (
+                      <Typography
+                        variant="body1"
+                        textAlign="center"
+                        color="white"
+                        mt={1}
+                        sx={{ whiteSpace: "break-spaces" }}
+                      >
+                        {error ?? text}
+                      </Typography>
                     )}
                   </CardContent>
                 </Card>

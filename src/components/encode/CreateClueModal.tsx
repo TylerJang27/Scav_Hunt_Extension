@@ -67,28 +67,6 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
         </FormControl>
         <FormControl>
           <TextField
-            label="Text"
-            variant="outlined"
-            multiline
-            required
-            error={
-              Boolean(createdClueError) &&
-              (createdClue.text ?? "").trim().length === 0
-            }
-            value={createdClue.text}
-            onChange={(e) => {
-              setCreatedClue({ ...createdClue, text: e.target.value });
-            }}
-            sx={{ mt: 1 }}
-            aria-describedby="text-helper-text"
-            data-testid="clue-text-field"
-          />
-          <FormHelperText id="text-helper-text">
-            Clue to display when this URL is visited
-          </FormHelperText>
-        </FormControl>
-        <FormControl>
-          <TextField
             label="Image URL"
             variant="outlined"
             value={createdClue.image ?? ""}
@@ -200,6 +178,29 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
           />
           <FormHelperText id="key-helper-text">
             Case-sensitive answer to the prompt
+          </FormHelperText>
+        </FormControl>
+        <FormControl>
+          <TextField
+            label="Text"
+            variant="outlined"
+            multiline
+            required
+            error={
+              Boolean(createdClueError) &&
+              (createdClue.text ?? "").trim().length === 0
+            }
+            value={createdClue.text}
+            onChange={(e) => {
+              setCreatedClue({ ...createdClue, text: e.target.value });
+            }}
+            sx={{ mt: 1 }}
+            aria-describedby="text-helper-text"
+            data-testid="clue-text-field"
+          />
+          <FormHelperText id="text-helper-text">
+            Clue to display when this URL is visited. Hidden until prompt is
+            answered
           </FormHelperText>
         </FormControl>
 
