@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "es6",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist/js",
+    "strict": true,
+    "esModuleInterop": true,
+    "incremental": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "."
+    // "paths": {
+    //   "src/*": ["./src/*"]
+    // }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", ".vscode"]
+}

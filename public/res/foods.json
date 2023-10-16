@@ -1,0 +1,77 @@
+{
+  "name": "Foods of the World",
+  "description": "Take a tour through the world's cuisine.",
+  "author": "Tyler Jang",
+  "version": "1.0",
+  "encrypted": false,
+  "background": "https://upload.wikimedia.org/wikipedia/en/c/c4/Food_Platter_at_Bar_One_Cafe_Chenab_2022.jpg",
+  "options": {
+    "silent": false
+  },
+  "beginning": "It's time to take a tour through the world's cuisine! Every clue is found on a related Wikipedia page.\n\nTo start, find the town claimed to be responsible for Canada's national dish.",
+  "clues": [
+    {
+      "id": 1,
+      "url": "en.wikipedia.org/wiki/Warwick,_Quebec",
+      "text": "Très bien! Next, it's not winter, spring, or fall. Wrapped in rice paper, you're on a roll!",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Food_at_WIkimanian_2017_02.jpg",
+      "alt": "Poutine!"
+    },
+    {
+      "id": 2,
+      "url": "en.wikipedia.org/wiki/G%E1%BB%8Fi_cu%E1%BB%91n",
+      "text": "Mmmm. Now, it's time to travel to Hawaii for one of their most famous dishes.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Summer_rolls_with_peanut_sauce.jpg",
+      "alt": "Summer rollllls"
+    },
+    {
+      "id": 3,
+      "url": "en.wikipedia.org/wiki/Poke_(Hawaiian_dish)",
+      "text": "Yummy! Now, turn a steak into a pastry and what do you get? Find its namesake, himself.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Ahi_tuna_Poke.jpeg",
+      "alt": "Poke"
+    },
+    {
+      "id": 4,
+      "url": "en.wikipedia.org/wiki/Arthur_Wellesley,_1st_Duke_of_Wellington",
+      "text": "Beef wellington will fill you up! Now, what's the national dish of El Salvador?",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/6/65/Beef_Wellington_-_rare%2C_sliced.jpg",
+      "alt": "Well, well wellington"
+    },
+    {
+      "id": 5,
+      "url": "en.wikipedia.org/wiki/Pupusa",
+      "text": "They're quite delicious. Now, find the namesake of the common burger.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/4/47/Pupusa_con_salsa_y_curtido.jpg",
+      "alt": "Pupusas!"
+    },
+    {
+      "id": 6,
+      "url": "en.wikipedia.org/wiki/Hamburg",
+      "text": "Savory! Find the place where \"red porridge with cream\" becomes a tongue twister.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/f/f9/Hamburg%2C_Speicherstadt%2C_Wasserschloss_--_2016_--_3223-9.jpg",
+      "alt": "Hamburg, Germany"
+    },
+    {
+      "id": 7,
+      "url": "en.wikipedia.org/wiki/Denmark",
+      "text": "Taste buds twisted! Almost there. Find the world's top producer of cocoa.",
+      "image": "https://live.staticflickr.com/6007/5918690875_2e73bfd6b2_b.jpg",
+      "alt": "Røde grøde med fløde"
+    },
+    {
+      "id": 8,
+      "url": "en.wikipedia.org/wiki/Ivory_Coast",
+      "text": "Chocolatey! Lastly, find the national dish of Senegal!",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Chocolate%28bgFFF%29.jpg",
+      "alt": "Chocolate! My favorite!"
+    },
+    {
+      "id": 9,
+      "url": "en.wikipedia.org/wiki/Thieboudienne",
+      "text": "You made it! Congrats, and I hope you enjoyed your food world tour!",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Thie_Bou_Djeun.jpg",
+      "alt": "Thieboudienne"
+    }
+  ]
+}

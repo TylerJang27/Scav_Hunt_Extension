@@ -1,0 +1,32 @@
+html,
+body {
+  background: url("../graphics/background.png");
+  background-repeat: repeat-y;
+  background-size: cover;
+  background-position: center center;
+}
+
+.clue-list-item {
+  background-color: #555;
+}
+
+.MuiTooltip-tooltipPlacementRight {
+  /* Avoid showing empty tooltip box because of rendered float clue preview */
+  background-color: transparent !important;
+}
+
+.video-responsive {
+  overflow: hidden;
+  padding-bottom: 56.25%;
+  padding-top: 25%;
+  position: relative;
+  height: 0;
+}
+
+.video-responsive iframe {
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}

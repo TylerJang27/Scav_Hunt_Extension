@@ -1,0 +1,17 @@
+{
+  "name": "Test Hunt",
+  "description": "Test Data",
+  "version": "1.0",
+  "author": "M. Test",
+  "encrypted": true,
+  "beginning": "This is the beginning",
+  "clues": [
+    {
+      "id": 1,
+      "url": "Zb2z98v0Zl2gxqlfLmmiNwvwbbQw=k=",
+      "text": "VvGohwlqI5GgZ7pccinnNi0eItGfN3s0ddWkU2=",
+      "image": "afHdRw0lcwH6Me6iLryn97pzLsnsByjfblW6FqnyLtm2Njv3bjSk9qphbcW5FznzZcXdJ15mL83nJdlud4mzlxlad936MovlMkDgdmB5eaGiRhJtV3m4JyR9NmjnNaPoRwWut4Kjb21uBhn1Qq3rldijW7H2QztxMyTxkcu7MkT4U15dN5D9kvx5NjDmcs5xNqyx5pmtayXaR3fxcm2eNqhfbqG1Usu4ch2zlz6uZ4Vb88xmM4DqIh4ie3DvUs3fO0Cy53wvbbmmch=",
+      "alt": "Sr2thvh0blifB3B1Yu25Fuk6ZcWg175"
+    }
+  ]
+}

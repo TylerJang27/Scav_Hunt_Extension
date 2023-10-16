@@ -1,0 +1,37 @@
+name: Pull Request
+on: [pull_request, workflow_dispatch]
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions: read-all
+
+jobs:
+  trunk_check:
+    name: Trunk Check Runner
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write # Trunk
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Trunk Check
+        uses: trunk-io/trunk-action@v1
+
+  test_extension:
+    name: Unit and Integration Tests
+    uses: ./.github/workflows/tests.reusable.yaml
+
+  build_extension:
+    name: Build Extension
+    uses: ./.github/workflows/build.reusable.yaml

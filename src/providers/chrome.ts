@@ -1,0 +1,1 @@
+export const getProvider = () => chrome;
