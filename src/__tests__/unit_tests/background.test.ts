@@ -48,7 +48,7 @@ it("Receive messages", () => {
   );
   setupMessageListener();
   expect(setBadgeMock).toHaveBeenCalledTimes(1);
-  expect(setBadgeMock).toHaveBeenCalledWith("X");
+  expect(setBadgeMock).toHaveBeenCalledWith("");
 
   setBadgeMock.mockReset();
   addMessageListenerMock.mockImplementation((callback) =>
@@ -109,7 +109,7 @@ it("Click malformed config", () => {
 
   expect(setBadgeMock).toHaveBeenCalledTimes(1);
   expect(setBadgeMock).toHaveBeenCalledWith("");
-  expect(createTabMock).not.toHaveBeenCalled();
+  expect(createTabMock).toHaveBeenCalledWith("landing_page.html");
 });
 
 it("Install and open tab", () => {
