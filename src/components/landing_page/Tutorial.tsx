@@ -18,7 +18,7 @@ export const Tutorial = () => (
             <iframe
               width="853"
               height="480"
-              src={`https://www.youtube.com/embed/yBkaL08VXWs`}
+              src={`https://www.youtube.com/embed/O9CKn3I73Oc`}
               allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               title="Embedded youtube"

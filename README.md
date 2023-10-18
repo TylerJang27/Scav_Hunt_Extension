@@ -4,7 +4,7 @@ Create and solve scavenger hunts across the Internet. The sky is your limit!
 
 Available on [Chrome Store](https://chrome.google.com/webstore/detail/scavenger-hunt/opcgbolmjikeaokbmldpfhemaamnfggf?hl=en-US)!
 
-Additional User Guides coming soon!
+[YouTube Tutorial](https://youtu.be/O9CKn3I73Oc)
 
 ## Overview
 
@@ -12,8 +12,6 @@ A simple Chrome Extension to create a Scavenger Hunt for URLs based on [encoded 
 
 ![first_clue](repo_assets/clue_1.jpg)
 ![second_clue](repo_assets/clue_2.jpg)
-
-[YouTube Tutorial](https://www.youtube.com/watch?v=yBkaL08VXWs)
 
 ### Install
 
