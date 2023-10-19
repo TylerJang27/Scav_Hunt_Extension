@@ -12,7 +12,7 @@
     "48": "graphics/scav48.png",
     "128": "graphics/scav128.png"
   },
-  "minimum_chrome_version": "46",
+  "minimum_chrome_version": "88",
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
