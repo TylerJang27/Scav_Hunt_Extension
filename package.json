@@ -27,6 +27,7 @@
     "@mui/material": "^5.11.15",
     "crypto-js": "^4.1.1",
     "path-browserify": "^1.0.1",
+    "playwright": "1.40.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "semver": "^7.5.4",

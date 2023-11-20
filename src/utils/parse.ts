@@ -112,7 +112,8 @@ const ParseHuntOptions = ({
     "description",
   ) as string,
   version: ValidateVersion(version),
-  author: ValidateRequiredField(author, "author") as string,
+  // make sure nonempty string
+  author: ValidateRequiredNonEmptyField(author, "author") as string,
   encrypted: encrypted,
   background: background,
   options: options,
