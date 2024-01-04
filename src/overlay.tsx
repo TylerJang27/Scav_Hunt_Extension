@@ -34,6 +34,7 @@ const loadSolvedClueFromStorage = (
       }
 
       if (items.currentProgress === 0) {
+        // TODO: TYLER THIS SHOULD RENDER THE BEGINNING STATE
         errorCallback(UNKNOWN_ERROR_RESET_HUNT);
         return;
       }
