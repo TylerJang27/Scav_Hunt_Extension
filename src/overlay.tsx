@@ -10,7 +10,6 @@ import { SomeProgress } from "src/types/progress";
 import { nonNull } from "src/utils/helpers";
 import { DecryptClue } from "src/utils/parse";
 import { Render } from "src/utils/root";
-import { getURL } from "src/providers/runtime";
 
 const DEFAULT_LOADING_CLUE = {
   id: -1,

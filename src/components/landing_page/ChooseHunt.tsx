@@ -1,4 +1,5 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import SettingsIcon from "@mui/icons-material/Settings";
 import {
   Box,
   Button,
@@ -17,11 +18,15 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MuiToggleButton from "@mui/material/ToggleButton";
-import SettingsIcon from "@mui/icons-material/Settings";
 import path from "path";
 import React, { ChangeEvent, useEffect, useState } from "react";
+import {
+  HuntSettings,
+  HuntSettingsModal,
+} from "src/components/landing_page/HuntSettingsModal";
 import { PageHeaderAndSubtitle } from "src/components/reusable/PageHeaderAndSubtitle";
 import { logger } from "src/logger";
+import { setPopup } from "src/providers/action";
 import { resetStorage } from "src/providers/helpers";
 import { getLastError, getURL } from "src/providers/runtime";
 import { saveStorageValues } from "src/providers/storage";
@@ -29,11 +34,6 @@ import { createTab } from "src/providers/tabs";
 import { HuntConfig, SAMPLE_DIR } from "src/types/hunt_config";
 import { ClueDisplayMode, HuntSource, Progress } from "src/types/progress";
 import { ParseConfig } from "src/utils/parse";
-import {
-  HuntSettings,
-  HuntSettingsModal,
-} from "src/components/landing_page/HuntSettingsModal";
-import { setPopup } from "src/providers/action";
 
 interface SourceFormType {
   sourceType: HuntSource;

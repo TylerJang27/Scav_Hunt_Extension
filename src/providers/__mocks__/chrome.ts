@@ -96,6 +96,7 @@ const addClickedListener = (callback: Function) => {
 
 const setPopup = (obj: chrome.action.PopupDetails, callback: Function) => {
   logger.info("Registered popup", obj);
+  callback();
 };
 
 const tabs = {
