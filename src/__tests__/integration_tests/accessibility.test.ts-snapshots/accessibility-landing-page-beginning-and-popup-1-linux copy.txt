@@ -3,16 +3,10 @@
     "rule": "aria-allowed-role",
     "targets": [
       [
-        ".MuiButton-containedSecondary"
-      ]
-    ]
-  },
-  {
-    "rule": "aria-prohibited-attr",
-    "targets": [
+        ".MuiIconButton-root"
+      ],
       [
-        "iframe",
-        ".ytp-title-channel-logo"
+        ".MuiButton-containedSecondary"
       ]
     ]
   },
