@@ -6,7 +6,7 @@ import {
 } from "src/__tests__/unit_tests/create_hunt_config";
 import { loadHuntProgress } from "src/content_script";
 
-// TODO: Add additional test coverage for loading an old corrupted hunt once we have multiple config versions.
+// TODO(Tyler): Add additional test coverage for loading an old corrupted hunt once we have multiple config versions.
 // New extension versions should be compatible with older hunts when possible.
 
 jest.mock("src/providers/alert");

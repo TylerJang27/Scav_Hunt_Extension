@@ -3,7 +3,6 @@ import { expect, test } from "src/__tests__/integration_tests/fixtures";
 
 const PATH_TO_TEST_DATA = "src/__tests__/integration_tests/test_data";
 
-// TODO(Tyler): See if we can test the alerts and clicking on the badge as well.
 test("stress test", async ({ page, extensionId }) => {
   // Navigate to the landing page, and select an upload file
   await page.goto(`chrome-extension://${extensionId}/landing_page.html`);

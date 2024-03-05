@@ -24,7 +24,6 @@ export interface ClueConfig {
 }
 
 // TODO: OTHER OPTIONS, SUCH AS REQUIRE IN-ORDER, SHOW_PROGRESS
-// TODO: SHOULD THE HTML OPTION INCLUDE A NOTICE?
 export interface HuntOptions {
   silent: boolean;
 }

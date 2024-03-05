@@ -45,8 +45,8 @@ interface SourceFormType {
   uploadedError?: Error;
 }
 
-// TODO: TYLER MOVE THIS LOGIC TO THEME
-// TODO: TYLER HANDLE DARK VS LIGHT MODE
+// TODO(Tyler): Move this logic to themes.
+// TODO(Tyler): Handle light vs. dark mode.
 const ToggleButton = styled(MuiToggleButton)({
   "&.Mui-selected, &.Mui-selected:hover": {
     color: "white",
@@ -128,7 +128,6 @@ export const saveConfigAndLaunch = (
         logger.error("Error saving initial progress", error);
       } else {
         // Popup beginnining of hunt
-        logger.info("Saved initial progress", progress); // TODO: TYLER REMOVE PROGRESS FROM LOG
         await createTab("beginning.html");
       }
     })();
@@ -141,7 +140,7 @@ interface HuntPreset {
 }
 
 const getPresetOptions = () => {
-  // TODO: TYLER POPULATE THIS WITH MORE DEFAULTS
+  // TODO(Tyler): Add more defaults to the hunt presets.
   const presetHuntOptions = new Array<HuntPreset>();
   presetHuntOptions.push({ name: "Tutorial", filename: "tutorial.json" });
   presetHuntOptions.push({ name: "Foods", filename: "foods.json" });
@@ -155,7 +154,6 @@ const getPresetOptions = () => {
 export const ChooseHunt = () => {
   const presetHuntOptions = getPresetOptions();
 
-  // TODO: TYLER USE PRESET USEEFFECT TO GET THE CURRENT CONFIGURATION
   // Persistent state
   const initialPreset = "Tutorial";
   const [sourceFormState, setSourceFormState] = useState<SourceFormType>({
@@ -222,7 +220,6 @@ export const ChooseHunt = () => {
 
   // Upload state
   const validateAndSetUploadedConfig = (huntConfig: any, fileName: string) => {
-    logger.info("Validating hunt config"); // TODO: REMOVE
     try {
       const parsedConfig = ParseConfig(huntConfig);
       setSourceFormState({
@@ -350,7 +347,6 @@ export const ChooseHunt = () => {
                   _: React.MouseEvent<HTMLElement>,
                   nextView: string,
                 ) => {
-                  logger.info("Source type being set", nextView); // TODO: REMOVE
                   if (nextView !== null && nextView !== undefined) {
                     setSourceFormState({
                       ...sourceFormState,

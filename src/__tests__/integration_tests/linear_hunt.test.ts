@@ -3,7 +3,8 @@ import { expect, test } from "src/__tests__/integration_tests/fixtures";
 
 const PATH_TO_TEST_DATA = "src/__tests__/integration_tests/test_data";
 
-// TODO(Tyler): See if we can test the alerts and clicking on the badge as well.
+// NOTE(Tyler): There does not seem to be a way to interact with the badge/alert at this time.
+// https://github.com/microsoft/playwright/issues/5593
 test("end to end test", async ({ page, extensionId }) => {
   // Navigate to the landing page, and select an upload file
   await page.goto(`chrome-extension://${extensionId}/landing_page.html`);

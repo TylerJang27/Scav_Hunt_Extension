@@ -60,7 +60,6 @@ const Popup = () => {
   const [error, setError] = useState<string | undefined>();
   const [backgroundURL, setBackgroundURL] = useState<string>("");
 
-  // TODO: TYLER MAKE SURE EVERYWHERE ELSE HAS THE USE EFFECT IT NEEDS
   useEffect(
     () =>
       loadSolvedClueFromStorage(

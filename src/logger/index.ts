@@ -1,5 +1,5 @@
 // These are the settings used for production logging
-// TODO: Make logs namespaced for easier debugging
+// TODO(Tyler): Make logs namespaced for easier debugging
 
 export const logger = {
   // trunk-ignore(eslint/@typescript-eslint/no-unused-vars)
