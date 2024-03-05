@@ -77,4 +77,16 @@ test("landing page", async ({ page, extensionId }) => {
 
   // TODO(Tyler): When clicked, should it redirect in the playwright test?
   await page.getByTestId("hunt-submit-button").click();
+
+  // Once submitted, reloading the page should show the same chosen state.
+  await page.goto(`chrome-extension://${extensionId}/landing_page.html`);
+  await expect(page.getByTestId("hunt-preset-toggle")).toHaveAttribute(
+    "aria-pressed",
+    "false",
+  );
+  await expect(page.getByTestId("hunt-submit-button")).toHaveAttribute(
+    "aria-disabled",
+    "true",
+  );
+  await expect(page.getByTestId("hunt-upload-button")).toHaveText("hunt.json");
 });
