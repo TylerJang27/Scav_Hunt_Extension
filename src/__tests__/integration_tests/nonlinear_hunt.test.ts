@@ -56,6 +56,7 @@ test("reverse test", async ({ page, extensionId }) => {
 });
 
 // TODO(Tyler): Add testing for unusual flows.
+// trunk-ignore(eslint/playwright/no-skipped-test)
 test.skip("stress test", async ({ page, extensionId }) => {
   await page.goto(`chrome-extension://${extensionId}/landing_page.html`);
   await expect(page.locator("body")).toContainText("Begin A Hunt");
