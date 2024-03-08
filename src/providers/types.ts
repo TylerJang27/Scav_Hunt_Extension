@@ -8,7 +8,7 @@ export const storageKeys = [
   "currentProgress",
   "sourceType",
   "huntConfig",
-  "displayMode",
+  "userConfig",
 ] as const;
 export type StorageKeys = (typeof storageKeys)[number];
 

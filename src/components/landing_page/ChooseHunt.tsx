@@ -20,10 +20,7 @@ import { styled } from "@mui/material/styles";
 import MuiToggleButton from "@mui/material/ToggleButton";
 import path from "path";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import {
-  HuntSettings,
-  HuntSettingsModal,
-} from "src/components/landing_page/HuntSettingsModal";
+import { UserConfigModal } from "src/components/landing_page/UserConfigModal";
 import { PageHeaderAndSubtitle } from "src/components/reusable/PageHeaderAndSubtitle";
 import { logger } from "src/logger";
 import { setPopup } from "src/providers/action";
@@ -32,7 +29,7 @@ import { getLastError, getURL } from "src/providers/runtime";
 import { saveStorageValues } from "src/providers/storage";
 import { createTab } from "src/providers/tabs";
 import { HuntConfig, SAMPLE_DIR } from "src/types/hunt_config";
-import { ClueDisplayMode, HuntSource, Progress } from "src/types/progress";
+import { HuntSource, Progress, UserConfig } from "src/types/progress";
 import { ParseConfig } from "src/utils/parse";
 
 interface SourceFormType {
@@ -105,7 +102,7 @@ const fetchFromPresets = async (presetPath: string): Promise<any> => {
 export const saveConfigAndLaunch = (
   huntConfig: HuntConfig,
   sourceType: HuntSource,
-  displayMode: ClueDisplayMode,
+  userConfig: UserConfig,
 ) => {
   // Save config and hunt progress to local storage
   const progress: Progress = {
@@ -113,11 +110,11 @@ export const saveConfigAndLaunch = (
     huntConfig,
     maxProgress: 0,
     currentProgress: 0,
-    displayMode,
+    userConfig,
   };
 
   saveStorageValues(progress, () => {
-    if (displayMode === "Tab") {
+    if (userConfig.displayMode === "Tab") {
       // Need to unset the popup if we want to make onClick work.
       setPopup({ popup: "" }, () => {});
     } else {
@@ -169,7 +166,7 @@ export const ChooseHunt = () => {
     )[0].filename,
   });
   // Persistent settings
-  const [settingsState, setSettingsState] = useState<HuntSettings>({
+  const [userConfigState, setUserConfigState] = useState<UserConfig>({
     displayMode: "Overlay",
   });
 
@@ -289,27 +286,15 @@ export const ChooseHunt = () => {
           // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
           const presetJson = await fetchFromPresets(presetPath);
           const parsedConfig = ParseConfig(presetJson);
-          saveConfigAndLaunch(
-            parsedConfig,
-            sourceType,
-            settingsState.displayMode,
-          );
+          saveConfigAndLaunch(parsedConfig, sourceType, userConfigState);
         } else if (sourceType == "URL" && sourceURL) {
           // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
           const fetchedJson = await fetchFromUrl(sourceURL);
           const parsedConfig = ParseConfig(fetchedJson);
-          saveConfigAndLaunch(
-            parsedConfig,
-            sourceType,
-            settingsState.displayMode,
-          );
+          saveConfigAndLaunch(parsedConfig, sourceType, userConfigState);
         } else if (sourceType == "Upload" && uploadedConfig) {
           // huntConfig will have already been parsed
-          saveConfigAndLaunch(
-            uploadedConfig,
-            sourceType,
-            settingsState.displayMode,
-          );
+          saveConfigAndLaunch(uploadedConfig, sourceType, userConfigState);
         } else {
           logger.warn(
             "Error: unknown condition reached when submitting. Please refresh the page.",
@@ -575,10 +560,10 @@ export const ChooseHunt = () => {
           </Grid>
         </Grid>
       </Container>
-      <HuntSettingsModal
+      <UserConfigModal
         isOpen={settingsModalOpen}
-        settingsState={settingsState}
-        setSettingsState={setSettingsState}
+        userConfigState={userConfigState}
+        setUserConfigState={setUserConfigState}
         onClose={() => {
           setSettingsModalOpen(false);
         }}

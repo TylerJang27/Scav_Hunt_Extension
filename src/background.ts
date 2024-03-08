@@ -33,7 +33,7 @@ const openClueCallback = (items: SomeProgress) => {
       return;
     }
 
-    if (items.displayMode && items.displayMode === "Overlay") {
+    if (items.userConfig && items.userConfig.displayMode === "Overlay") {
       // Do nothing since it was registered on save.
     } else {
       // Open the clue page for the most recently found clue.
@@ -74,7 +74,7 @@ export const setupOnClickedListener = () =>
     // trunk-ignore(eslint/@typescript-eslint/no-floating-promises)
     setBadgeText("");
     loadStorageValues(
-      ["huntConfig", "currentProgress", "displayMode"],
+      ["huntConfig", "currentProgress", "userConfig"],
       openClueCallback,
     );
   });

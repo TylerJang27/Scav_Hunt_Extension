@@ -4,13 +4,18 @@ export type HuntSource = "Preset" | "Upload" | "URL";
 
 export type ClueDisplayMode = "Tab" | "Overlay"; // Legacy is tab. New default is Overlay.
 
+export interface UserConfig {
+  // since 1.1.0
+  displayMode: ClueDisplayMode;
+}
+
 export interface Progress {
   sourceType: HuntSource;
   huntConfig: HuntConfig;
   maxProgress: number;
   currentProgress: number;
   // since 1.1.0
-  displayMode: ClueDisplayMode;
+  userConfig: UserConfig;
 }
 
 export interface SomeProgress {
@@ -19,7 +24,7 @@ export interface SomeProgress {
   maxProgress?: number;
   currentProgress?: number;
   // since 1.1.0
-  displayMode?: ClueDisplayMode;
+  userConfig?: UserConfig;
 }
 
 export interface SolvedOptions {

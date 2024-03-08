@@ -26,7 +26,9 @@ it("Save config", () => {
       huntConfig: presetHunt,
       maxProgress: 0,
       currentProgress: 0,
-      displayMode: "Tab",
+      userConfig: {
+        displayMode: "Tab",
+      },
     });
     // Provide preset hunt, with no progress made yet
     callback();
@@ -34,7 +36,7 @@ it("Save config", () => {
 
   getLastErrorMock.mockReturnValue(undefined);
 
-  saveConfigAndLaunch(presetHunt, "Preset", "Tab");
+  saveConfigAndLaunch(presetHunt, "Preset", { displayMode: "Tab" });
   expect(saveMock).toHaveBeenCalledTimes(1);
   expect(createTabMock).toHaveBeenCalledTimes(1);
   expect(createTabMock).toHaveBeenCalledWith("beginning.html");
@@ -50,7 +52,7 @@ it("Reset config", () => {
       huntConfig: null,
       maxProgress: null,
       currentProgress: null,
-      displayMode: null,
+      userConfig: null,
     });
     // Provide sample hunt, with no progress made yet
     callback();
