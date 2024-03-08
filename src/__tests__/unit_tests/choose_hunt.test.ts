@@ -37,7 +37,7 @@ it("Save config", () => {
 
   getLastErrorMock.mockReturnValue(undefined);
 
-  saveConfigAndLaunch(presetHunt, "Preset", { displayMode: "Tab" }, "Foods",);
+  saveConfigAndLaunch(presetHunt, "Preset", { displayMode: "Tab" }, "Foods");
   expect(saveMock).toHaveBeenCalledTimes(1);
   expect(createTabMock).toHaveBeenCalledTimes(1);
   expect(createTabMock).toHaveBeenCalledWith("beginning.html");

@@ -30,7 +30,12 @@ import { loadStorageValues, saveStorageValues } from "src/providers/storage";
 import { createTab } from "src/providers/tabs";
 import { EMPTY_OR_INVALID_HUNT } from "src/types/errors";
 import { HuntConfig, SAMPLE_DIR } from "src/types/hunt_config";
-import { HuntSource, Progress, SomeProgress, UserConfig } from "src/types/progress";
+import {
+  HuntSource,
+  Progress,
+  SomeProgress,
+  UserConfig,
+} from "src/types/progress";
 import { ParseConfig } from "src/utils/parse";
 
 interface SourceFormType {
@@ -215,7 +220,7 @@ export const ChooseHunt = () => {
             setResetable(false);
           }
           if (userConfig) {
-            setSettingsState({ userConfig.displayMode });
+            setUserConfigState(userConfig);
           }
         } catch (err) {
           logger.warn(EMPTY_OR_INVALID_HUNT);
@@ -331,15 +336,30 @@ export const ChooseHunt = () => {
           const presetJson = await fetchFromPresets(presetPath);
           const presetName = getPresetOptions({ filename: presetPath })[0].name;
           const parsedConfig = ParseConfig(presetJson);
-          saveConfigAndLaunch(parsedConfig, sourceType, userConfigState, presetName);
+          saveConfigAndLaunch(
+            parsedConfig,
+            sourceType,
+            userConfigState,
+            presetName,
+          );
         } else if (sourceType == "URL" && sourceURL) {
           // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
           const fetchedJson = await fetchFromUrl(sourceURL);
           const parsedConfig = ParseConfig(fetchedJson);
-          saveConfigAndLaunch(parsedConfig, sourceType, userConfigState, sourceURL);
+          saveConfigAndLaunch(
+            parsedConfig,
+            sourceType,
+            userConfigState,
+            sourceURL,
+          );
         } else if (sourceType == "Upload" && uploadedConfig) {
           // huntConfig will have already been parsed
-          saveConfigAndLaunch(uploadedConfig, sourceType, userConfigState, sourceFormState.fileName ?? "");
+          saveConfigAndLaunch(
+            uploadedConfig,
+            sourceType,
+            userConfigState,
+            sourceFormState.fileName ?? "",
+          );
         } else {
           logger.warn(
             "Error: unknown condition reached when submitting. Please refresh the page.",
