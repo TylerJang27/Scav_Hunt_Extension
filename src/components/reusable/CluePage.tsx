@@ -20,7 +20,7 @@ import { ClueConfig } from "src/types/hunt_config";
 import { Decrypt } from "src/utils/encrypt";
 import { nonNull } from "src/utils/helpers";
 
-import { Footer } from "./Footer";
+import { Footer, OverlayFooter } from "./Footer";
 
 export interface CluePageProps {
   huntName: string;
@@ -29,6 +29,7 @@ export interface CluePageProps {
   error?: string;
   previewOnly?: boolean;
   backgroundURL: string;
+  isBeginning?: boolean;
 }
 
 export const CluePage = (props: CluePageProps) => {
@@ -42,8 +43,8 @@ export const CluePage = (props: CluePageProps) => {
   } = props;
   const imageURL = image && !image.startsWith("http") ? getURL(image) : image;
 
-  const clueNumber = id > 0 ? `: ${id}` : "";
-  const title = `${huntName}${clueNumber}`;
+  const clueSuffix = id > 0 ? `: ${id}` : "";
+  const title = `${huntName}${clueSuffix}`;
 
   const [inputKey, setInputKey] = useState<string>("");
   const [solved, setSolved] = useState<boolean>(false);
@@ -177,6 +178,145 @@ export const CluePage = (props: CluePageProps) => {
               </Grid>
               <Grid item xs={12}></Grid>
               {!previewOnly && <Footer />}
+            </Grid>
+          </Container>
+        </ThemeProvider>
+      </BackgroundWrapper>
+    </>
+  );
+};
+
+export const ClueOverlay = (props: CluePageProps) => {
+  const {
+    huntName,
+    encrypted,
+    clue: { id, text, image, alt, interactive },
+    error,
+    previewOnly,
+    backgroundURL,
+    isBeginning,
+  } = props;
+  const imageURL = image && !image.startsWith("http") ? getURL(image) : image;
+
+  const clueSuffix = id > 0 ? `: ${id}` : "";
+  const title = `${huntName}${clueSuffix}`;
+
+  const [inputKey, setInputKey] = useState<string>("");
+  const [solved, setSolved] = useState<boolean>(false);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+
+  // It will take a second to load, so assume not solved until we know for sure the value of interactive
+  useEffect(() => {
+    setSolved(!interactive);
+  }, [interactive]);
+
+  const validateKey = () => {
+    setSubmitted(true);
+    if (
+      interactive &&
+      Decrypt(interactive.key, encrypted, huntName) === inputKey
+    ) {
+      setSolved(true);
+    }
+  };
+
+  useEffect(() => {
+    const listener = (event: KeyboardEvent) => {
+      if (event.code === "Enter" || event.code === "NumpadEnter") {
+        validateKey();
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  }, [interactive, inputKey]);
+
+  return (
+    <>
+      <BackgroundWrapper backgroundURL={backgroundURL}>
+        <ThemeProvider theme={theme}>
+          <Container maxWidth="sm" sx={{ mt: 1, "&::after": { flex: "auto" } }}>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Grid item xs={12}>
+                <Card sx={{ mt: 0, mb: 4, backgroundColor: "#333" }}>
+                  <CardContent>
+                    <PageHeaderAndSubtitle
+                      header={title}
+                      headingComponent="h1"
+                    />
+                    {image && (
+                      <Tooltip title={alt} followCursor>
+                        <div>
+                          <img
+                            src={imageURL}
+                            alt={alt}
+                            loading="eager"
+                            width="75%"
+                            height="75%"
+                            style={{
+                              marginLeft: "auto",
+                              marginRight: "auto",
+                              display: "block",
+                            }}
+                          />
+                        </div>
+                      </Tooltip>
+                    )}
+                    {interactive && (
+                      <FormControl sx={{ minWidth: "100%" }}>
+                        {interactive.prompt && (
+                          <Typography sx={{ whiteSpace: "break-spaces" }}>
+                            {interactive.prompt}
+                          </Typography>
+                        )}
+                        <TextField
+                          variant="outlined"
+                          value={inputKey}
+                          onChange={(e) => setInputKey(e.target.value)}
+                          error={
+                            !nonNull(interactive) || (!solved && submitted)
+                          }
+                          data-testid="interactive-input-field"
+                          label="Enter prompt answer"
+                          aria-label="Enter prompt answer"
+                          disabled={solved}
+                          sx={{ mt: 2 }}
+                        />
+                        {/* TODO: ADD BETTER ERROR/RESPONSIVENESS SUPPORT (Show message on error) */}
+                        <Button
+                          variant="outlined"
+                          size="medium"
+                          color="primary"
+                          onClick={validateKey}
+                          disabled={previewOnly || solved}
+                          data-testid="interactive-submit-button"
+                        >
+                          Submit
+                        </Button>
+                      </FormControl>
+                    )}
+                    {solved && (
+                      <Typography
+                        variant="body1"
+                        textAlign="center"
+                        color="white"
+                        mt={1}
+                        sx={{ whiteSpace: "break-spaces" }}
+                      >
+                        {error ?? text}
+                      </Typography>
+                    )}
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12}></Grid>
+              {<OverlayFooter isBeginning={isBeginning || false} />}
             </Grid>
           </Container>
         </ThemeProvider>

@@ -15,7 +15,6 @@ import { nonNull } from "src/utils/helpers";
 const CHROME_INSTALL_REASON = "install";
 
 const openClueCallback = (items: SomeProgress) => {
-  // TODO: TYLER SHOULD WE OPEN THE OPTIONS PAGE WHEN THERES NO HUNT? OR A TUTORIAL?
   if (
     items.huntConfig &&
     items.huntConfig.clues &&
@@ -26,7 +25,6 @@ const openClueCallback = (items: SomeProgress) => {
     }
     const { clues } = items.huntConfig;
     const foundClue = clues[items.currentProgress! - 1];
-    // TODO: TYLER REMOVE THIS FUNCTIONALITY AND USE MARKDOWN
     if (foundClue.html) {
       logger.error(
         "HTML functionality is deprecated. Please adjust your hunt.",
@@ -35,10 +33,14 @@ const openClueCallback = (items: SomeProgress) => {
       return;
     }
 
-    // Open the clue page for the most recently found clue.
-    // This should actually be awaited, but the wiring here is nontrivial so leaving as is for now.
-    // trunk-ignore(eslint/@typescript-eslint/no-floating-promises)
-    createTab("popup.html");
+    if (items.userConfig && items.userConfig.displayMode === "Overlay") {
+      // Do nothing since it was registered on save.
+    } else {
+      // Open the clue page for the most recently found clue.
+      // This should actually be awaited, but the wiring here is nontrivial so leaving as is for now.
+      // trunk-ignore(eslint/@typescript-eslint/no-floating-promises)
+      createTab("popup.html");
+    }
   } else {
     logger.warn(EMPTY_OR_INVALID_HUNT);
     // trunk-ignore(eslint/@typescript-eslint/no-floating-promises)
@@ -71,7 +73,10 @@ export const setupOnClickedListener = () =>
   addOnClickedListener(() => {
     // trunk-ignore(eslint/@typescript-eslint/no-floating-promises)
     setBadgeText("");
-    loadStorageValues(["huntConfig", "currentProgress"], openClueCallback);
+    loadStorageValues(
+      ["huntConfig", "currentProgress", "userConfig"],
+      openClueCallback,
+    );
   });
 
 export const setupOnInstalledListener = () => {

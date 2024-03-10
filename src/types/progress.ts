@@ -2,12 +2,20 @@ import { ClueConfig, HuntConfig } from "src/types/hunt_config";
 
 export type HuntSource = "Preset" | "Upload" | "URL";
 
+export type ClueDisplayMode = "Tab" | "Overlay"; // Legacy is tab. New default is Overlay.
+
+export interface UserConfig {
+  // since 1.1.0
+  displayMode: ClueDisplayMode;
+}
+
 export interface Progress {
   sourceType: HuntSource;
   huntConfig: HuntConfig;
   maxProgress: number;
   currentProgress: number;
-  // TODO: TYLER DOES THIS NEED A SOURCEUPDATES?
+  // since 1.1.0
+  userConfig: UserConfig;
 }
 
 export interface SomeProgress {
@@ -15,7 +23,8 @@ export interface SomeProgress {
   huntConfig?: HuntConfig;
   maxProgress?: number;
   currentProgress?: number;
-  // TODO: TYLER DOES THIS NEED A SOURCEUPDATES?
+  // since 1.1.0
+  userConfig?: UserConfig;
 }
 
 export interface SolvedOptions {

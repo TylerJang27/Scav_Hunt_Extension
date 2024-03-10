@@ -1,4 +1,8 @@
-import { addOnClickedListener, setBadgeText } from "src/providers/action";
+import {
+  addOnClickedListener,
+  setBadgeText,
+  setPopup,
+} from "src/providers/action";
 import { alertWrapper } from "src/providers/alert";
 import { getCurrentURL } from "src/providers/href";
 import {
@@ -24,4 +28,5 @@ export const buildProviderMocks = () => ({
   saveMock: jest.mocked(saveStorageValues),
   sendMessageMock: jest.mocked(sendMessage),
   setBadgeMock: jest.mocked(setBadgeText),
+  setPopup: jest.mocked(setPopup),
 });

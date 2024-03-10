@@ -10,6 +10,7 @@ module.exports = (test) => {
   return {
     entry: {
       popup: path.join(srcDir, "popup.tsx"),
+      overlay: path.join(srcDir, "overlay.tsx"),
       landing_page: path.join(srcDir, "landing_page.tsx"),
       encode: path.join(srcDir, "encode.tsx"),
       beginning: path.join(srcDir, "beginning.tsx"),
@@ -28,6 +29,7 @@ module.exports = (test) => {
           return ![
             "background",
             "popup",
+            "overlay",
             "beginning",
             "encode",
             "landing_page",

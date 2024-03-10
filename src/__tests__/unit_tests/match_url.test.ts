@@ -29,6 +29,7 @@ it("Check URL for match", () => {
   });
   sendMessageMock.mockImplementation((message) => {
     expect(message).toEqual({ status: "Found" });
+    return new Promise((_resolve, _reject) => {});
   });
   saveMock.mockImplementation((items, callback) => {
     expect(items).toEqual({ maxProgress: 2, currentProgress: 2 });
@@ -59,6 +60,7 @@ it("Check URL for match from in-progress hunt", () => {
   });
   sendMessageMock.mockImplementation((message) => {
     expect(message).toEqual({ status: "Found" });
+    return new Promise((_resolve, _reject) => {});
   });
   saveMock.mockImplementation((items, callback) => {
     expect(items).toEqual({ maxProgress: 3, currentProgress: 1 });
@@ -89,6 +91,7 @@ it("Check URL for match from silent hunt", () => {
   });
   sendMessageMock.mockImplementation((message) => {
     expect(message).toEqual({ status: "Found" });
+    return new Promise((_resolve, _reject) => {});
   });
   saveMock.mockImplementation((items, callback) => {
     expect(items).toEqual({ maxProgress: 4, currentProgress: 4 });
@@ -119,6 +122,7 @@ it("Check encoded URL for match from in-progress hunt", () => {
   });
   sendMessageMock.mockImplementation((message) => {
     expect(message).toEqual({ status: "Found" });
+    return new Promise((_resolve, _reject) => {});
   });
   saveMock.mockImplementation((items, callback) => {
     expect(items).toEqual({ maxProgress: 3, currentProgress: 3 });
@@ -149,6 +153,7 @@ it("Check URL for no match", () => {
   });
   sendMessageMock.mockImplementation((message) => {
     expect(message).toEqual({ status: "Not Found" });
+    return new Promise((_resolve, _reject) => {});
   });
 
   currentURLMock.mockReturnValue(
@@ -175,6 +180,7 @@ it("Check URL with invalid hunt", () => {
   });
   sendMessageMock.mockImplementation((message) => {
     expect(message).toEqual({ status: "Invalid" });
+    return new Promise((_resolve, _reject) => {});
   });
 
   // Run the script triggered when a page is loaded.

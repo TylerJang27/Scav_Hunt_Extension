@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { CluePage } from "src/components/reusable/CluePage";
+import { ClueOverlay } from "src/components/reusable/CluePage";
 import { loadStorageValues } from "src/providers/storage";
-import {
-  EMPTY_OR_INVALID_HUNT,
-  UNKNOWN_ERROR_RESET_HUNT,
-} from "src/types/errors";
+import { EMPTY_OR_INVALID_HUNT } from "src/types/errors";
 import { ClueConfig } from "src/types/hunt_config";
 import { SomeProgress } from "src/types/progress";
 import { nonNull } from "src/utils/helpers";
@@ -23,6 +20,7 @@ const loadSolvedClueFromStorage = (
   huntBackgroundCallback: (item: string) => void,
   clueCallback: (item: ClueConfig) => void,
   errorCallback: (item: string) => void,
+  beginningCallback: (item: boolean) => void,
 ) => {
   loadStorageValues(
     ["huntConfig", "currentProgress"],
@@ -31,13 +29,22 @@ const loadSolvedClueFromStorage = (
         errorCallback(EMPTY_OR_INVALID_HUNT);
         return;
       }
+      const { name, encrypted, background, beginning, clues } =
+        items.huntConfig;
 
       if (items.currentProgress === 0) {
-        errorCallback(UNKNOWN_ERROR_RESET_HUNT);
+        huntNameCallback(name);
+        encryptedCallback(false);
+        huntBackgroundCallback(background);
+        clueCallback({
+          id: 0,
+          url: "",
+          text: beginning,
+        });
+        beginningCallback(true);
         return;
       }
 
-      const { name, encrypted, background, clues } = items.huntConfig;
       const decryptedClue = DecryptClue(
         clues[items.currentProgress! - 1],
         encrypted,
@@ -52,15 +59,16 @@ const loadSolvedClueFromStorage = (
   );
 };
 
-const Popup = () => {
+// TODO: TYLER ADD TESTING FOR OVERLAY MODE
+const Overlay = () => {
   const [huntName, setHuntName] = useState<string>("Scavenger Hunt");
   const [encrypted, setEncrypted] = useState<boolean>(false);
   const [decryptedClue, setDecryptedClue] =
     useState<ClueConfig>(DEFAULT_LOADING_CLUE);
   const [error, setError] = useState<string | undefined>();
   const [backgroundURL, setBackgroundURL] = useState<string>("");
+  const [isBeginning, setIsBeginning] = useState<boolean>(false);
 
-  // TODO: TYLER MAKE SURE EVERYWHERE ELSE HAS THE USE EFFECT IT NEEDS
   useEffect(
     () =>
       loadSolvedClueFromStorage(
@@ -69,18 +77,21 @@ const Popup = () => {
         setBackgroundURL,
         setDecryptedClue,
         setError,
+        setIsBeginning,
       ),
     [],
   );
   return (
-    <CluePage
+    <ClueOverlay
       huntName={huntName}
       encrypted={encrypted}
       clue={decryptedClue}
       error={error}
+      previewOnly={true}
       backgroundURL={backgroundURL}
+      isBeginning={isBeginning}
     />
   );
 };
 
-Render(<Popup />);
+Render(<Overlay />);

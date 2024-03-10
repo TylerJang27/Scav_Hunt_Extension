@@ -5,6 +5,7 @@ import { resetStorage } from "src/providers/helpers";
 
 // TODO: Add additional logic and testing for reseting/clearing the hunt.
 // TODO: The options page needs frontend testing for all its different states.
+// TODO: Add test to make sure that all preset hunt URLs still exist (Wikipedia URLs sometimes change).
 
 jest.mock("src/providers/chrome");
 jest.mock("src/providers/runtime");
@@ -25,6 +26,9 @@ it("Save config", () => {
       huntConfig: presetHunt,
       maxProgress: 0,
       currentProgress: 0,
+      userConfig: {
+        displayMode: "Tab",
+      },
     });
     // Provide preset hunt, with no progress made yet
     callback();
@@ -32,7 +36,7 @@ it("Save config", () => {
 
   getLastErrorMock.mockReturnValue(undefined);
 
-  saveConfigAndLaunch(presetHunt, "Preset");
+  saveConfigAndLaunch(presetHunt, "Preset", { displayMode: "Tab" });
   expect(saveMock).toHaveBeenCalledTimes(1);
   expect(createTabMock).toHaveBeenCalledTimes(1);
   expect(createTabMock).toHaveBeenCalledWith("beginning.html");
@@ -48,6 +52,7 @@ it("Reset config", () => {
       huntConfig: null,
       maxProgress: null,
       currentProgress: null,
+      userConfig: null,
     });
     // Provide sample hunt, with no progress made yet
     callback();

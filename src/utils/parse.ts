@@ -95,7 +95,6 @@ const ValidateClues = (clues: ClueConfig[]) => {
   });
 };
 
-// TODO: TYLER TEST WITH BAD TYPE INPUTS
 const ParseHuntOptions = ({
   name,
   description,

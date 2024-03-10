@@ -94,6 +94,11 @@ const addClickedListener = (callback: Function) => {
   logger.info("Registered on click listener callback", callback);
 };
 
+const setPopup = (obj: chrome.action.PopupDetails, callback: Function) => {
+  logger.info("Registered popup", obj);
+  callback();
+};
+
 const tabs = {
   create: (obj: chrome.tabs.CreateProperties) => {
     logger.info("Creating tab", obj);
@@ -125,6 +130,7 @@ const action = {
   setBadgetText: (contents: chrome.action.BadgeTextDetails) => {
     logger.info("Setting badge text", contents.text);
   },
+  setPopup,
 };
 
 const downloads = {

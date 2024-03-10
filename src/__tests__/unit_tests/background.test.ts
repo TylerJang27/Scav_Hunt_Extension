@@ -63,9 +63,13 @@ it("Click no progress", () => {
   jest.resetAllMocks();
 
   loadMock.mockImplementation((items, callback) => {
-    expect(items).toEqual(["huntConfig", "currentProgress"]);
+    expect(items).toEqual(["huntConfig", "currentProgress", "userConfig"]);
     // Provide sample hunt, with no progress made yet
-    callback({ huntConfig: presetHunt, currentProgress: 0 });
+    callback({
+      huntConfig: presetHunt,
+      currentProgress: 0,
+      userConfig: { displayMode: "Tab" },
+    });
   });
   addOnClickedListenerMock.mockImplementation((callback) => callback());
 
@@ -81,9 +85,13 @@ it("Click well-formed config", () => {
   jest.resetAllMocks();
 
   loadMock.mockImplementation((items, callback) => {
-    expect(items).toEqual(["huntConfig", "currentProgress"]);
+    expect(items).toEqual(["huntConfig", "currentProgress", "userConfig"]);
     // Provide sample hunt, with progress made
-    callback({ huntConfig: presetHunt, currentProgress: 1 });
+    callback({
+      huntConfig: presetHunt,
+      currentProgress: 1,
+      userConfig: { displayMode: "Tab" },
+    });
   });
   addOnClickedListenerMock.mockImplementation((callback) => callback());
 
@@ -99,9 +107,13 @@ it("Click malformed config", () => {
   jest.resetAllMocks();
 
   loadMock.mockImplementation((items, callback) => {
-    expect(items).toEqual(["huntConfig", "currentProgress"]);
+    expect(items).toEqual(["huntConfig", "currentProgress", "userConfig"]);
     // Provide malformed hunt
-    callback({ huntConfig: {}, currentProgress: 999 });
+    callback({
+      huntConfig: {},
+      currentProgress: 999,
+      userConfig: { displayMode: "Tab" },
+    });
   });
   addOnClickedListenerMock.mockImplementation((callback) => callback());
 
