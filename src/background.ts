@@ -59,7 +59,6 @@ export const setupMessageListener = () =>
         setBadgeText("");
         return;
       } else {
-        // TODO(Tyler): Make this be change the hunt background to be red
         // Invalid
         setBadgeText("");
         return;

@@ -16,16 +16,11 @@ export interface Progress {
   currentProgress: number;
   // since 1.1.0
   userConfig: UserConfig;
+  // since 1.1.0
+  sourceInfo: string;
 }
 
-export interface SomeProgress {
-  sourceType?: HuntSource;
-  huntConfig?: HuntConfig;
-  maxProgress?: number;
-  currentProgress?: number;
-  // since 1.1.0
-  userConfig?: UserConfig;
-}
+export type SomeProgress = Partial<Progress>;
 
 export interface SolvedOptions {
   encrypted: boolean;

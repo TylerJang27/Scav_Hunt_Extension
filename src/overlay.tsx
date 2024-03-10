@@ -59,7 +59,7 @@ const loadSolvedClueFromStorage = (
   );
 };
 
-// TODO: TYLER ADD TESTING FOR OVERLAY MODE
+// NOTE(Tyler): Overlay popup testing is not supported via playwright: https://github.com/microsoft/playwright/issues/5593
 const Overlay = () => {
   const [huntName, setHuntName] = useState<string>("Scavenger Hunt");
   const [encrypted, setEncrypted] = useState<boolean>(false);

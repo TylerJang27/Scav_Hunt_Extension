@@ -10,7 +10,7 @@ logger.warn("Using mocked chrome library");
  * These are incomplete mocks of the chrome library, used for local development.
  * Override the returned values as appropriate in order to suit development needs.
  *
- * TODO: Read in provided values from a locally untracked json/data file, otherwise use defaults.
+ * TODO(Tyler): Read in provided values from a locally untracked json/data file, otherwise use defaults.
  */
 
 const storageGetter = (items: string | string[], callback: Function) => {

@@ -9,6 +9,7 @@ export const storageKeys = [
   "sourceType",
   "huntConfig",
   "userConfig",
+  "sourceInfo",
 ] as const;
 export type StorageKeys = (typeof storageKeys)[number];
 

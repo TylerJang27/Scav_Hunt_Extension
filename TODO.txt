@@ -11,7 +11,6 @@ Scope:
     b. Require in-order
     c. Silence on going backwards
 3. Maximum hunt size (10 MB) and relevant permissions
-4. Popup mode (overlay)
-5. limit webpack bundle size
-6. Load existing hunt state when populating options.html
-7. Make the badge text be the currentProgress num
+4. limit webpack bundle size
+5. Load existing hunt state when populating options.html
+6. Make the badge text be the currentProgress num

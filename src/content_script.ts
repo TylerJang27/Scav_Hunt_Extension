@@ -67,7 +67,6 @@ const sendClueFound = (maxProgress: number, solvedClue: ClueConfig) => {
     });
   };
 
-  console.log("tyler doing the popup thing"); // todo: remove
   saveStorageValues(
     {
       maxProgress:

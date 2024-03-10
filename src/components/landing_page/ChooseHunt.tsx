@@ -26,10 +26,16 @@ import { logger } from "src/logger";
 import { setPopup } from "src/providers/action";
 import { resetStorage } from "src/providers/helpers";
 import { getLastError, getURL } from "src/providers/runtime";
-import { saveStorageValues } from "src/providers/storage";
+import { loadStorageValues, saveStorageValues } from "src/providers/storage";
 import { createTab } from "src/providers/tabs";
+import { EMPTY_OR_INVALID_HUNT } from "src/types/errors";
 import { HuntConfig, SAMPLE_DIR } from "src/types/hunt_config";
-import { HuntSource, Progress, UserConfig } from "src/types/progress";
+import {
+  HuntSource,
+  Progress,
+  SomeProgress,
+  UserConfig,
+} from "src/types/progress";
 import { ParseConfig } from "src/utils/parse";
 
 interface SourceFormType {
@@ -45,8 +51,8 @@ interface SourceFormType {
   uploadedError?: Error;
 }
 
-// TODO: TYLER MOVE THIS LOGIC TO THEME
-// TODO: TYLER HANDLE DARK VS LIGHT MODE
+// TODO(Tyler): Move this logic to themes.
+// TODO(Tyler): Handle light vs. dark mode.
 const ToggleButton = styled(MuiToggleButton)({
   "&.Mui-selected, &.Mui-selected:hover": {
     color: "white",
@@ -103,6 +109,7 @@ export const saveConfigAndLaunch = (
   huntConfig: HuntConfig,
   sourceType: HuntSource,
   userConfig: UserConfig,
+  sourceInfo: string,
 ) => {
   // Save config and hunt progress to local storage
   const progress: Progress = {
@@ -111,6 +118,7 @@ export const saveConfigAndLaunch = (
     maxProgress: 0,
     currentProgress: 0,
     userConfig,
+    sourceInfo,
   };
 
   saveStorageValues(progress, () => {
@@ -128,7 +136,6 @@ export const saveConfigAndLaunch = (
         logger.error("Error saving initial progress", error);
       } else {
         // Popup beginnining of hunt
-        logger.info("Saved initial progress", progress); // TODO: TYLER REMOVE PROGRESS FROM LOG
         await createTab("beginning.html");
       }
     })();
@@ -140,8 +147,8 @@ interface HuntPreset {
   filename: string;
 }
 
-const getPresetOptions = () => {
-  // TODO: TYLER POPULATE THIS WITH MORE DEFAULTS
+const getPresetOptions = ({ name, filename }: Partial<HuntPreset>) => {
+  // TODO(Tyler): Add more defaults to the hunt presets.
   const presetHuntOptions = new Array<HuntPreset>();
   presetHuntOptions.push({ name: "Tutorial", filename: "tutorial.json" });
   presetHuntOptions.push({ name: "Foods", filename: "foods.json" });
@@ -149,21 +156,29 @@ const getPresetOptions = () => {
     name: "National Parks (nonlinear)",
     filename: "national_parks.json",
   });
+
+  if (name) {
+    return presetHuntOptions.filter(
+      (preset: HuntPreset) => preset.name === name,
+    );
+  }
+  if (filename) {
+    return presetHuntOptions.filter(
+      (preset: HuntPreset) => preset.filename === filename,
+    );
+  }
   return presetHuntOptions;
 };
 
 export const ChooseHunt = () => {
-  const presetHuntOptions = getPresetOptions();
+  const presetHuntOptions = getPresetOptions({});
 
-  // TODO: TYLER USE PRESET USEEFFECT TO GET THE CURRENT CONFIGURATION
   // Persistent state
   const initialPreset = "Tutorial";
   const [sourceFormState, setSourceFormState] = useState<SourceFormType>({
     sourceType: "Preset",
     huntName: initialPreset,
-    presetPath: presetHuntOptions.filter(
-      (preset: HuntPreset) => preset.name === initialPreset,
-    )[0].filename,
+    presetPath: getPresetOptions({ name: initialPreset })[0].filename,
   });
   // Persistent settings
   const [userConfigState, setUserConfigState] = useState<UserConfig>({
@@ -177,8 +192,43 @@ export const ChooseHunt = () => {
     string | undefined
   >();
 
-  // TODO: TYLER INITIALIZE THIS TO THE ACTUAL VALUE OF WHETHER OR NOT WE HAVE A HUNT OR NOT
   const [resetable, setResetable] = useState<boolean>(true);
+
+  useEffect(() => {
+    loadStorageValues(
+      ["huntConfig", "sourceInfo", "sourceType", "userConfig"],
+      (items: SomeProgress) => {
+        logger.debug("Loaded initial");
+        logger.debug(items);
+        try {
+          const { sourceInfo, sourceType, huntConfig, userConfig } = items;
+          if (sourceType && huntConfig) {
+            const presetPath =
+              sourceType === "Preset"
+                ? getPresetOptions({ name: sourceInfo })[0]?.filename
+                : getPresetOptions({ name: initialPreset })[0].filename;
+
+            setSourceFormState({
+              sourceType,
+              huntName: huntConfig.name,
+              presetPath,
+              sourceURL: sourceType === "URL" ? sourceInfo : undefined,
+              fileName: sourceType === "Upload" ? sourceInfo : undefined,
+            });
+            setResetable(true);
+          } else {
+            setResetable(false);
+          }
+          if (userConfig) {
+            setUserConfigState(userConfig);
+          }
+        } catch (err) {
+          logger.warn(EMPTY_OR_INVALID_HUNT);
+          logger.warn(err);
+        }
+      },
+    );
+  }, []);
 
   const validateSubmitable = () => {
     if (validationError) {
@@ -222,7 +272,6 @@ export const ChooseHunt = () => {
 
   // Upload state
   const validateAndSetUploadedConfig = (huntConfig: any, fileName: string) => {
-    logger.info("Validating hunt config"); // TODO: REMOVE
     try {
       const parsedConfig = ParseConfig(huntConfig);
       setSourceFormState({
@@ -285,22 +334,39 @@ export const ChooseHunt = () => {
         if (sourceType == "Preset") {
           // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
           const presetJson = await fetchFromPresets(presetPath);
+          const presetName = getPresetOptions({ filename: presetPath })[0].name;
           const parsedConfig = ParseConfig(presetJson);
-          saveConfigAndLaunch(parsedConfig, sourceType, userConfigState);
+          saveConfigAndLaunch(
+            parsedConfig,
+            sourceType,
+            userConfigState,
+            presetName,
+          );
         } else if (sourceType == "URL" && sourceURL) {
           // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
           const fetchedJson = await fetchFromUrl(sourceURL);
           const parsedConfig = ParseConfig(fetchedJson);
-          saveConfigAndLaunch(parsedConfig, sourceType, userConfigState);
+          saveConfigAndLaunch(
+            parsedConfig,
+            sourceType,
+            userConfigState,
+            sourceURL,
+          );
         } else if (sourceType == "Upload" && uploadedConfig) {
           // huntConfig will have already been parsed
-          saveConfigAndLaunch(uploadedConfig, sourceType, userConfigState);
+          saveConfigAndLaunch(
+            uploadedConfig,
+            sourceType,
+            userConfigState,
+            sourceFormState.fileName ?? "",
+          );
         } else {
           logger.warn(
             "Error: unknown condition reached when submitting. Please refresh the page.",
             sourceType,
           );
         }
+        setResetable(true);
       } catch (error) {
         setValidationError(error as Error);
       }
@@ -350,7 +416,6 @@ export const ChooseHunt = () => {
                   _: React.MouseEvent<HTMLElement>,
                   nextView: string,
                 ) => {
-                  logger.info("Source type being set", nextView); // TODO: REMOVE
                   if (nextView !== null && nextView !== undefined) {
                     setSourceFormState({
                       ...sourceFormState,
@@ -378,18 +443,16 @@ export const ChooseHunt = () => {
                           id="hunt-preset-select"
                           data-testid="hunt-preset-select"
                           value={
-                            presetHuntOptions.filter(
-                              (preset: HuntPreset) =>
-                                preset.filename === sourceFormState.presetPath,
-                            )[0].name ?? "Unknown path"
+                            getPresetOptions({
+                              filename: sourceFormState.presetPath,
+                            })[0]?.name ?? "Unknown path"
                           }
                           input={<PresetSelector />}
                           color="secondary"
                           onChange={(e: SelectChangeEvent) => {
-                            const filePath = presetHuntOptions.filter(
-                              (preset: HuntPreset) =>
-                                preset.name === e.target.value,
-                            )[0].filename;
+                            const filePath = getPresetOptions({
+                              name: e.target.value,
+                            })[0].filename;
 
                             setSourceFormState({
                               ...sourceFormState,
