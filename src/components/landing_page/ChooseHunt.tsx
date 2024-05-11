@@ -192,6 +192,7 @@ export const ChooseHunt = () => {
     string | undefined
   >();
 
+  const [submitMessage, setSubmitMessage] = useState<string>("Start");
   const [resetable, setResetable] = useState<boolean>(true);
 
   useEffect(() => {
@@ -319,6 +320,14 @@ export const ChooseHunt = () => {
       setValidationError(sourceFormState.uploadedError);
     } else {
       setValidationError(undefined);
+    }
+
+    if (sourceFormState.sourceType == "Preset") {
+      setSubmitMessage("Start Hunt From Preset");
+    } else if (sourceFormState.sourceType == "URL") {
+      setSubmitMessage("Start Hunt From URL");
+    } else {
+      setSubmitMessage("Start Hunt From Upload");
     }
   }, [sourceFormState.sourceType]);
 
@@ -561,13 +570,13 @@ export const ChooseHunt = () => {
           <Grid item xs={12}>
             <Grid
               container
-              direction="row"
+              direction="column"
               spacing={1}
               sx={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                paddingTop: 2,
+                paddingTop: 1,
               }}
             >
               <Tooltip
@@ -604,7 +613,7 @@ export const ChooseHunt = () => {
                       }}
                       data-testid="hunt-submit-button"
                     >
-                      Submit
+                      {submitMessage}
                     </Button>
                   </span>
                 </div>
@@ -616,6 +625,7 @@ export const ChooseHunt = () => {
                 color="primary"
                 disabled={!resetable}
                 data-testid="hunt-reset-button"
+                sx={{ marginTop: 1 }}
               >
                 Remove Current Hunt
               </Button>
