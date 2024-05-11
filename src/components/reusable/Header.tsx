@@ -1,6 +1,7 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import React from "react";
 import { PageHeaderAndSubtitle } from "src/components/reusable/PageHeaderAndSubtitle";
+import { getURL } from "src/providers/runtime";
 
 export const Header = () => (
   <>
@@ -18,9 +19,29 @@ export const Header = () => (
           zIndex: 99,
         }}
       >
-        {/* TODO: TYLER ADD LOGO */}
-
-        <PageHeaderAndSubtitle header="Scavenger Hunt" />
+        <Grid
+          container
+          direction="row"
+          spacing={1}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            paddingTop: 1,
+          }}
+        >
+          <img
+            src={getURL("graphics/scav.png")}
+            style={{
+              width: "45px",
+              height: "50px",
+              paddingTop: "5px",
+              marginRight: "15px",
+            }}
+            alt="Scavenger Hunt Logo"
+          />
+          <PageHeaderAndSubtitle header="Scavenger Hunt" />
+        </Grid>
       </Box>
     </header>
   </>

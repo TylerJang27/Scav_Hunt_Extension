@@ -28,7 +28,7 @@ import { resetStorage } from "src/providers/helpers";
 import { getLastError, getURL } from "src/providers/runtime";
 import { loadStorageValues, saveStorageValues } from "src/providers/storage";
 import { createTab } from "src/providers/tabs";
-import { EMPTY_OR_INVALID_HUNT } from "src/types/errors";
+import { EMPTY_OR_INVALID_HUNT, throwIfTooLarge } from "src/types/errors";
 import { HuntConfig, SAMPLE_DIR } from "src/types/hunt_config";
 import {
   HuntSource,
@@ -274,6 +274,7 @@ export const ChooseHunt = () => {
   // Upload state
   const validateAndSetUploadedConfig = (huntConfig: any, fileName: string) => {
     try {
+      throwIfTooLarge(huntConfig);
       const parsedConfig = ParseConfig(huntConfig);
       setSourceFormState({
         ...sourceFormState,
@@ -343,6 +344,7 @@ export const ChooseHunt = () => {
         if (sourceType == "Preset") {
           // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
           const presetJson = await fetchFromPresets(presetPath);
+          throwIfTooLarge(presetJson);
           const presetName = getPresetOptions({ filename: presetPath })[0].name;
           const parsedConfig = ParseConfig(presetJson);
           saveConfigAndLaunch(
@@ -354,6 +356,7 @@ export const ChooseHunt = () => {
         } else if (sourceType == "URL" && sourceURL) {
           // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
           const fetchedJson = await fetchFromUrl(sourceURL);
+          throwIfTooLarge(fetchedJson);
           const parsedConfig = ParseConfig(fetchedJson);
           saveConfigAndLaunch(
             parsedConfig,
