@@ -1,6 +1,6 @@
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { Box, Divider, Link, Stack, Typography } from "@mui/material";
 import { yellow } from "@mui/material/colors";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import React from "react";
 import { logger } from "src/logger";
 import { setPopup } from "src/providers/action";
