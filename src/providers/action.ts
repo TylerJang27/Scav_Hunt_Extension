@@ -18,3 +18,5 @@ export const addOnClickedListener = (callback: OnClickedListenerCallback) =>
 
 export const setPopup = (details: PopupDetails, callback: OnPopupSetCallback) =>
   getProvider().action.setPopup(details, callback);
+
+// openPopup is only available to policy-installed extensions.
