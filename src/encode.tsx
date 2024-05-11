@@ -249,8 +249,8 @@ const Encode = () => {
                       />
                       <TextField
                         value={huntConfig.beginning}
-                        label="Beginning"
-                        aria-label="Beginning"
+                        label="First Clue"
+                        aria-label="First Clue"
                         required
                         error={
                           submittedEver &&
