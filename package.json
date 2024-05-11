@@ -14,6 +14,7 @@
     "clean": "rimraf dist dist_test",
     "preintegration": "webpack --config webpack/webpack.test.js",
     "integration": "npx playwright test",
+    "postprepare": "node webpack/postinstall.js",
     "serve": "serve dist",
     "static": "webpack --config webpack/webpack.static.js --watch",
     "test": "npx jest",
