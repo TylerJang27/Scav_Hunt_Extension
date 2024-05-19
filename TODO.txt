@@ -8,8 +8,7 @@ Scope:
 1. Replace HTML support with markdown and sanitize
 2. Audit hunt settings and if we want more options
     a. Progress bar
-    b. Require in-order
-    c. Silence on going backwards
+    b. Silence on going backwards
 3. Maximum hunt size (10 MB) and relevant permissions
 4. limit webpack bundle size
 5. Load existing hunt state when populating options.html

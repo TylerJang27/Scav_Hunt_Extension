@@ -45,6 +45,9 @@ test("manual input", async ({ page, extensionId }) => {
   await page.getByTestId("hunt-silent-field").click();
   await page.getByTestId("hunt-silent-true").click();
 
+  await page.getByTestId("hunt-in-order-field").click();
+  await page.getByTestId("hunt-in-order-true").click();
+
   await page.getByTestId("hunt-encrypted-field").click();
   await page.getByTestId("hunt-encrypted-false").click();
 

@@ -6,8 +6,8 @@
   "encrypted": false,
   "background": "https://upload.wikimedia.org/wikipedia/en/c/c4/Food_Platter_at_Bar_One_Cafe_Chenab_2022.jpg",
   "options": {
-    "silent": false,
-    "inOrder": true
+    "inOrder": true,
+    "silent": false
   },
   "beginning": "It's time to take a tour through the world's cuisine! Every clue is found on a related Wikipedia page.\n\nTo start, find the town claimed to be responsible for Canada's national dish.",
   "clues": [

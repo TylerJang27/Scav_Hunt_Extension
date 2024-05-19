@@ -48,6 +48,7 @@ const Encode = () => {
     encrypted: true,
     background: "",
     options: {
+      inOrder: false,
       silent: false,
     },
     beginning: "",
@@ -267,6 +268,41 @@ const Encode = () => {
                         sx={{ mt: 1, mb: 4 }}
                         data-testid="hunt-beginning-field"
                       />
+                      <FormControl sx={{ mb: 2 }}>
+                        <InputLabel id="inorder-select-label">
+                          In Order
+                        </InputLabel>
+                        <Select
+                          value={huntConfig.options.inOrder}
+                          label="In Order"
+                          labelId="inorder-select-label"
+                          required
+                          variant="outlined"
+                          onChange={(e) => {
+                            setHuntConfig({
+                              ...huntConfig,
+                              options: {
+                                ...huntConfig.options,
+                                inOrder: e.target.value === "true",
+                              },
+                            });
+                          }}
+                          data-testid="hunt-in-order-field"
+                          MenuProps={{
+                            disableScrollLock: true,
+                          }}
+                        >
+                          <MenuItem
+                            value="true"
+                            data-testid="hunt-in-order-true"
+                          >
+                            True (Linear Hunts & Solo)
+                          </MenuItem>
+                          <MenuItem value="false">
+                            False (Nonlinear Hunts/Collab)
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
                       <FormControl sx={{ mb: 2 }}>
                         <InputLabel id="silent-select-label">Silent</InputLabel>
                         <Select
