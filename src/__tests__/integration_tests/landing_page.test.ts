@@ -69,7 +69,7 @@ test("landing page", async ({ page, extensionId }) => {
   await page
     .getByTestId("hunt-upload-button")
     .locator("input")
-    .setInputFiles(path.join(PATH_TO_TEST_DATA, "hunt.json"));
+    .setInputFiles(path.join(PATH_TO_TEST_DATA, "linear_hunt.json"));
   await expect(page.getByTestId("hunt-submit-button")).toHaveAttribute(
     "aria-disabled",
     "false",
@@ -88,5 +88,7 @@ test("landing page", async ({ page, extensionId }) => {
     "aria-disabled",
     "true",
   );
-  await expect(page.getByTestId("hunt-upload-button")).toHaveText("hunt.json");
+  await expect(page.getByTestId("hunt-upload-button")).toHaveText(
+    "linear_hunt.json",
+  );
 });

@@ -17,7 +17,7 @@ test("reverse test", async ({ page, extensionId }) => {
   await page
     .getByTestId("hunt-upload-button")
     .locator("input")
-    .setInputFiles(path.join(PATH_TO_TEST_DATA, "hunt.json"));
+    .setInputFiles(path.join(PATH_TO_TEST_DATA, "nonlinear_hunt.json"));
   await expect(page.getByTestId("hunt-submit-button")).toHaveAttribute(
     "aria-disabled",
     "false",

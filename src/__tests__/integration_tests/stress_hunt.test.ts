@@ -16,7 +16,7 @@ test("stress test", async ({ page, extensionId }) => {
   await page
     .getByTestId("hunt-upload-button")
     .locator("input")
-    .setInputFiles(path.join(PATH_TO_TEST_DATA, "hunt.json"));
+    .setInputFiles(path.join(PATH_TO_TEST_DATA, "linear_hunt.json"));
   await expect(page.getByTestId("hunt-submit-button")).toHaveAttribute(
     "aria-disabled",
     "false",
@@ -28,6 +28,21 @@ test("stress test", async ({ page, extensionId }) => {
   // Then, navigate to the beginning page.
   await page.goto(`chrome-extension://${extensionId}/beginning.html`);
   await expect(page.locator("body")).toContainText("Welcome to the hunt.");
+
+  // Then, navigate to the third clue page, and go to popup.html (not allowed yet)
+  await page.goto("https://www.bing.com");
+  await page.goto(`chrome-extension://${extensionId}/popup.html`);
+  await expect(page.locator("body")).toContainText("Unknown error");
+
+  // Then, navigate to the first clue page, and go to popup.html
+  await page.goto("https://www.google.com");
+  await page.goto(`chrome-extension://${extensionId}/popup.html`);
+  await expect(page.locator("body")).toContainText("The Hunt Is On: 1");
+
+  // Then, navigate to the second clue page, and go to popup.html
+  await page.goto("https://www.khanacademy.org");
+  await page.goto(`chrome-extension://${extensionId}/popup.html`);
+  await expect(page.locator("body")).toContainText("The Hunt Is On: 2");
 
   // Then, navigate to the third clue page, and go to popup.html
   await page.goto("https://www.bing.com");
@@ -42,17 +57,6 @@ test("stress test", async ({ page, extensionId }) => {
     .type("yolo");
   await page.getByTestId("interactive-submit-button").click();
   await expect(page.locator("body")).toContainText("You cracked the code!");
-
-  // Then, navigate to the second clue page, and go to popup.html
-  await page.goto("https://www.khanacademy.org");
-  await page.goto(`chrome-extension://${extensionId}/popup.html`);
-  await expect(page.locator("body")).toContainText("The Hunt Is On: 2");
-
-  // Then, navigate to the third clue page, and go to popup.html
-  await page.goto("https://www.bing.com");
-  await page.goto(`chrome-extension://${extensionId}/popup.html`);
-  await expect(page.locator("body")).toContainText("The Hunt Is On: 3");
-  await expect(page.locator("body")).toContainText("Enter yolo");
 
   // Then, navigate to the first clue page, and go to popup.html
   await page.goto("https://www.google.com");
