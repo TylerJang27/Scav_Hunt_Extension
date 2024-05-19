@@ -15,6 +15,7 @@ export const DEFAULT_HUNT_CONFIG: HuntConfig = {
   background: MOCKED_DEFAULT_BACKGROUND,
   options: {
     silent: false,
+    inOrder: false,
   },
   beginning: "The beginning clue",
   clues: [

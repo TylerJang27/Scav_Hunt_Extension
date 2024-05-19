@@ -82,6 +82,7 @@ export const makeEncryptedInteractiveClue = (
 export const makeHunt = (
   clues: ClueConfig[],
   silent: boolean = false,
+  inOrder: boolean = false,
 ): HuntConfig => ({
   name: testHuntName,
   description: "A Test Hunt",
@@ -89,7 +90,7 @@ export const makeHunt = (
   author: "Tester",
   encrypted: false,
   background: DEFAULT_BACKGROUND,
-  options: { silent },
+  options: { silent, inOrder },
   beginning: "The beginning clue",
   clues: clues.reduce(
     (ret: ClueConfig[], current: ClueConfig, index: number) =>
@@ -101,6 +102,7 @@ export const makeHunt = (
 export const makeEncryptedHunt = (
   clues: ClueConfig[],
   silent: boolean = false,
+  inOrder: boolean = false,
 ): HuntConfig => ({
   name: testHuntName,
   description: "A Test Hunt",
@@ -108,7 +110,7 @@ export const makeEncryptedHunt = (
   author: "Tester",
   encrypted: true,
   background: DEFAULT_BACKGROUND,
-  options: { silent },
+  options: { silent, inOrder },
   beginning: "The beginning clue",
   clues: clues.reduce(
     (ret: ClueConfig[], current: ClueConfig, index: number) =>
@@ -154,4 +156,4 @@ export const sampleEncryptedClues = [
 
 export const presetHunt = makeHunt(sampleClues);
 export const sampleEncryptedHunt = makeEncryptedHunt(sampleEncryptedClues);
-export const sampleSilentHunt = makeHunt(sampleClues, true);
+export const sampleSilentHunt = makeHunt(sampleClues, true, false);

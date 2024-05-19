@@ -26,6 +26,7 @@ export interface ClueConfig {
 // TODO: OTHER OPTIONS, SUCH AS REQUIRE IN-ORDER, SHOW_PROGRESS
 export interface HuntOptions {
   silent: boolean;
+  inOrder: boolean;
 }
 
 export interface HuntConfig {
