@@ -31,6 +31,11 @@ test("end to end test", async ({ page, extensionId }) => {
   await page.goto(`chrome-extension://${extensionId}/beginning.html`);
   await expect(page.locator("body")).toContainText("Welcome to the hunt.");
 
+  // Then, navigate to the third clue page, and go to popup.html (disallow out of order)
+  await page.goto("https://www.bing.com");
+  await page.goto(`chrome-extension://${extensionId}/popup.html`);
+  await expect(page.locator("body")).toContainText("Unknown error.");
+
   // Then, navigate to the first clue page, and go to popup.html
   await page.goto("https://www.google.com");
   await page.goto(`chrome-extension://${extensionId}/popup.html`);
