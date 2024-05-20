@@ -1,8 +1,10 @@
 // trunk-ignore-all(eslint/@typescript-eslint/ban-types)
 import { logger } from "src/logger";
-import { HuntConfig } from "src/types/hunt_config";
-
-const MOCKED_DEFAULT_BACKGROUND = "../graphics/background.png";
+import {
+  DEFAULT_CURRENT_PROGRESS,
+  DEFAULT_HUNT_CONFIG,
+  DEFAULT_MAX_PROGRESS,
+} from "src/providers/__mocks__/hunt";
 
 logger.warn("Using mocked chrome library");
 
@@ -10,51 +12,13 @@ logger.warn("Using mocked chrome library");
  * These are incomplete mocks of the chrome library, used for local development.
  * Override the returned values as appropriate in order to suit development needs.
  *
- * TODO(Tyler): Read in provided values from a locally untracked json/data file, otherwise use defaults.
+ * The default hunt for development is loaded in from a git-ignored hunt.ts.
  */
-
 const storageGetter = (items: string | string[], callback: Function) => {
-  const defaultHuntConfig: HuntConfig = {
-    name: "Default Hunt",
-    description: "Default Hunt for Mocked Development",
-    author: "Author",
-    version: "1.0",
-    encrypted: false,
-    background: MOCKED_DEFAULT_BACKGROUND,
-    options: {
-      silent: false,
-    },
-    beginning: "The beginning clue",
-    clues: [
-      {
-        id: 1,
-        url: "google.com",
-        text: "The first of two clues",
-        image:
-          "https://raw.githubusercontent.com/TylerJang27/Scav_Hunt_Extension/dev/public/graphics/scav.png",
-        alt: "Scavenger Hunt logo",
-      },
-      {
-        id: 2,
-        url: "bing.com",
-        text: "The second of two clues",
-        interactive: {
-          prompt: "Enter 'test'",
-          key: "test",
-        },
-      },
-    ],
-  };
-
-  // Change this to change which clue is rendered when visiting popup
-  const defaultCurrentProgress = 1;
-
-  const defaultMaxProgress = 2;
-
   const defaultReturnValues = {
-    huntConfig: defaultHuntConfig,
-    currentProgress: defaultCurrentProgress,
-    maxProgress: defaultMaxProgress,
+    huntConfig: DEFAULT_HUNT_CONFIG,
+    currentProgress: DEFAULT_CURRENT_PROGRESS,
+    maxProgress: DEFAULT_MAX_PROGRESS,
   };
 
   const ret: any = {};

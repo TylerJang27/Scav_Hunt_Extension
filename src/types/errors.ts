@@ -100,8 +100,18 @@ export class TooFewObjectsError extends ConfigError {
   }
 }
 
-// TODO: TYLER FIX MAXIMUM SIZE
-export const MAXIMUM_SIZE = 200;
+/**
+ * https://developer.chrome.com/docs/extensions/reference/api/storage#storage_areas
+ * Maximum size is 10 MB. We also store (storageKeys):
+ * - currentProgress: int
+ * - huntConfig: full
+ * - maxProgress: int
+ * - sourceInfo: string (user)
+ * - sourceType: string (enum)
+ * - userConfig: Object (1 key)
+ * So we set 8 MB to be safe.
+ */
+export const MAXIMUM_SIZE = 8 * 1024 * 1024;
 
 export class FileTooLargeError extends ConfigError {
   constructor(size: number) {
@@ -112,6 +122,14 @@ export class FileTooLargeError extends ConfigError {
     Object.setPrototypeOf(this, FileTooLargeError.prototype);
   }
 }
+
+export const throwIfTooLarge = (json: any) => {
+  const jsonString = JSON.stringify(json);
+  const blob = new Blob([jsonString], { type: "text/plain" });
+  if (blob.size > MAXIMUM_SIZE) {
+    throw new FileTooLargeError(blob.size);
+  }
+};
 
 export class BulkError extends Error {
   errors: ConfigError[];

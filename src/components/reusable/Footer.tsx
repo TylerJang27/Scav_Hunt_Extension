@@ -1,3 +1,4 @@
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { Box, Divider, Link, Stack, Typography } from "@mui/material";
 import { yellow } from "@mui/material/colors";
 import React from "react";
@@ -27,22 +28,16 @@ export const Footer = () => (
           divider={<Divider orientation="vertical" flexItem />}
           sx={{ justifyContent: "center" }}
         >
-          <Typography variant="body1" textAlign="center">
-            <Link href={getURL("landing_page.html")} color={yellow[600]}>
-              Home
-            </Link>
-          </Typography>
+          <Link
+            href={getURL("landing_page.html")}
+            color={yellow[600]}
+            aria-label="Home"
+          >
+            <HomeRoundedIcon sx={{ pb: 0.5 }} />
+          </Link>
           <Typography variant="body1" textAlign="center">
             <Link href={getURL("beginning.html")} color={yellow[600]}>
-              Beginning
-            </Link>
-          </Typography>
-          <Typography variant="body1" textAlign="center">
-            <Link
-              href="https://github.com/TylerJang27/Scav_Hunt_Extension"
-              color={yellow[600]}
-            >
-              GitHub
+              First Clue
             </Link>
           </Typography>
           <Typography
@@ -57,6 +52,7 @@ export const Footer = () => (
                 logger.info("Resetting hunt");
                 resetStorage(() => logger.info("Finished removing hunt"));
                 setPopup({ popup: "" }, () => {});
+                window.open(getURL("landing_page.html"), "_blank");
               }
             }}
           >
@@ -93,25 +89,54 @@ export const OverlayFooter = (props: OverlayFooterProps) => (
           divider={<Divider orientation="vertical" flexItem />}
           sx={{ justifyContent: "center" }}
         >
-          {!props.isBeginning && (
-            <Typography variant="body1" textAlign="center">
-              <Link
-                href={getURL("popup.html")}
-                color={yellow[600]}
-                target="_blank"
-              >
-                View in Tab
-              </Link>
-            </Typography>
-          )}
+          <Link
+            href={getURL("landing_page.html")}
+            color={yellow[600]}
+            aria-label="Home"
+          >
+            <HomeRoundedIcon sx={{ pb: 0.5 }} />
+          </Link>
           <Typography variant="body1" textAlign="center">
             <Link
-              href={getURL("beginning.html")}
+              href={
+                props.isBeginning
+                  ? getURL("beginning.html")
+                  : getURL("popup.html")
+              }
               color={yellow[600]}
               target="_blank"
             >
-              Beginning
+              View in Tab
             </Link>
+          </Typography>
+          {!props.isBeginning && (
+            <Typography variant="body1" textAlign="center">
+              <Link
+                href={getURL("beginning.html")}
+                color={yellow[600]}
+                target="_blank"
+              >
+                First Clue
+              </Link>
+            </Typography>
+          )}
+          <Typography
+            variant="body1"
+            textAlign="center"
+            role="button"
+            onClick={() => {
+              const confirmBox = window.confirm(
+                "Do you really want to reset your progress?",
+              );
+              if (confirmBox === true) {
+                logger.info("Resetting hunt");
+                resetStorage(() => logger.info("Finished removing hunt"));
+                setPopup({ popup: "" }, () => {});
+                window.open(getURL("landing_page.html"), "_blank");
+              }
+            }}
+          >
+            <Link color={yellow[600]}>Reset Hunt</Link>
           </Typography>
         </Stack>
       </Box>

@@ -28,7 +28,7 @@ import { resetStorage } from "src/providers/helpers";
 import { getLastError, getURL } from "src/providers/runtime";
 import { loadStorageValues, saveStorageValues } from "src/providers/storage";
 import { createTab } from "src/providers/tabs";
-import { EMPTY_OR_INVALID_HUNT } from "src/types/errors";
+import { EMPTY_OR_INVALID_HUNT, throwIfTooLarge } from "src/types/errors";
 import { HuntConfig, SAMPLE_DIR } from "src/types/hunt_config";
 import {
   HuntSource,
@@ -192,6 +192,7 @@ export const ChooseHunt = () => {
     string | undefined
   >();
 
+  const [submitMessage, setSubmitMessage] = useState<string>("Start");
   const [resetable, setResetable] = useState<boolean>(true);
 
   useEffect(() => {
@@ -273,6 +274,7 @@ export const ChooseHunt = () => {
   // Upload state
   const validateAndSetUploadedConfig = (huntConfig: any, fileName: string) => {
     try {
+      throwIfTooLarge(huntConfig);
       const parsedConfig = ParseConfig(huntConfig);
       setSourceFormState({
         ...sourceFormState,
@@ -320,6 +322,14 @@ export const ChooseHunt = () => {
     } else {
       setValidationError(undefined);
     }
+
+    if (sourceFormState.sourceType == "Preset") {
+      setSubmitMessage("Start Hunt From Preset");
+    } else if (sourceFormState.sourceType == "URL") {
+      setSubmitMessage("Start Hunt From URL");
+    } else {
+      setSubmitMessage("Start Hunt From Upload");
+    }
   }, [sourceFormState.sourceType]);
 
   useEffect(() => {
@@ -334,6 +344,7 @@ export const ChooseHunt = () => {
         if (sourceType == "Preset") {
           // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
           const presetJson = await fetchFromPresets(presetPath);
+          throwIfTooLarge(presetJson);
           const presetName = getPresetOptions({ filename: presetPath })[0].name;
           const parsedConfig = ParseConfig(presetJson);
           saveConfigAndLaunch(
@@ -345,6 +356,7 @@ export const ChooseHunt = () => {
         } else if (sourceType == "URL" && sourceURL) {
           // trunk-ignore(eslint/@typescript-eslint/no-unsafe-assignment)
           const fetchedJson = await fetchFromUrl(sourceURL);
+          throwIfTooLarge(fetchedJson);
           const parsedConfig = ParseConfig(fetchedJson);
           saveConfigAndLaunch(
             parsedConfig,
@@ -561,13 +573,13 @@ export const ChooseHunt = () => {
           <Grid item xs={12}>
             <Grid
               container
-              direction="row"
+              direction="column"
               spacing={1}
               sx={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                paddingTop: 2,
+                paddingTop: 1,
               }}
             >
               <Tooltip
@@ -604,7 +616,7 @@ export const ChooseHunt = () => {
                       }}
                       data-testid="hunt-submit-button"
                     >
-                      Submit
+                      {submitMessage}
                     </Button>
                   </span>
                 </div>
@@ -616,6 +628,7 @@ export const ChooseHunt = () => {
                 color="primary"
                 disabled={!resetable}
                 data-testid="hunt-reset-button"
+                sx={{ marginTop: 1 }}
               >
                 Remove Current Hunt
               </Button>

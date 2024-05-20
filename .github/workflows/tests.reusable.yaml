@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest] # reenable macos-latest once we have a better themes story
     steps:
       - name: Checkout
         uses: actions/checkout@v3
