@@ -102,7 +102,7 @@ const ParseHuntOptions = ({
   author,
   encrypted = false,
   background = DEFAULT_BACKGROUND,
-  options = { silent: false },
+  options = { inOrder: false, silent: false },
   beginning,
 }: HuntConfig): HuntConfig => ({
   name: ValidateRequiredNonEmptyField(name, "name") as string,

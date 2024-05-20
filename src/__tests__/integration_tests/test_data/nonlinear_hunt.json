@@ -9,7 +9,7 @@
   "beginning": "Welcome to the hunt.\nBegin by navigating to google.com",
   "clues": [
     {
-      "id": 3,
+      "id": 1,
       "url": "google.com",
       "text": "The hunt begins for pure and brave\nAt education's own conclave.\nYou'll find the treasure that you seek\nUpon Khan's anointed peak.",
       "image": "res/scav_alt.png",
@@ -23,7 +23,7 @@
       "alt": "Khan Academy"
     },
     {
-      "id": 1,
+      "id": 3,
       "url": "https://www.bing.com/*",
       "text": "You cracked the code!",
       "interactive": {

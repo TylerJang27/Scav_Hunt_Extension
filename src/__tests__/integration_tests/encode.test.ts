@@ -45,6 +45,9 @@ test("manual input", async ({ page, extensionId }) => {
   await page.getByTestId("hunt-silent-field").click();
   await page.getByTestId("hunt-silent-true").click();
 
+  await page.getByTestId("hunt-in-order-field").click();
+  await page.getByTestId("hunt-in-order-true").click();
+
   await page.getByTestId("hunt-encrypted-field").click();
   await page.getByTestId("hunt-encrypted-false").click();
 
@@ -99,7 +102,7 @@ test("manual input", async ({ page, extensionId }) => {
 });
 
 test("upload draft", async ({ page, extensionId }) => {
-  const draft_path = path.join(PATH_TO_TEST_DATA, "hunt.json");
+  const draft_path = path.join(PATH_TO_TEST_DATA, "nonlinear_hunt.json");
 
   // Navigate to the landing page, and select an upload file
   await page.goto(`chrome-extension://${extensionId}/encode.html`);

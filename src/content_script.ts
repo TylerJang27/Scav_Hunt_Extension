@@ -27,11 +27,12 @@ const CLUE_FOUND_TEXT =
 
 const checkHuntForURLMatch = (
   huntConfig: HuntConfig,
+  maxProgress: number,
 ): ClueConfig | undefined => {
   const {
     encrypted,
     clues,
-    options: { silent },
+    options: { inOrder, silent },
   } = huntConfig;
   logger.info(`checking for match among ${clues.length} clues`);
 
@@ -43,6 +44,11 @@ const checkHuntForURLMatch = (
     const reg = new RegExp(clueUrl);
     logger.info(`checking ${currentUrl} against ${clueUrl}`);
     if (!currentUrl.match(reg) && !currentUrl.includes(clueUrl)) {
+      continue;
+    }
+
+    // If require in order and not in order, skip
+    if (inOrder && clue.id > maxProgress + 1) {
       continue;
     }
 
@@ -95,7 +101,10 @@ const loadHuntCallback = (items: SomeProgress) => {
   logger.info(items);
   try {
     if (items.huntConfig && nonNull(items.maxProgress)) {
-      const urlMatchClue = checkHuntForURLMatch(items.huntConfig);
+      const urlMatchClue = checkHuntForURLMatch(
+        items.huntConfig,
+        items.maxProgress ?? 0,
+      );
       if (urlMatchClue) {
         sendClueFound(items.maxProgress!, urlMatchClue);
       } else {

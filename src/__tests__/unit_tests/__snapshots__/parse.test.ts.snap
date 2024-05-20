@@ -20,6 +20,7 @@ exports[`Parse valid v1.0 hunt config basic.json 1`] = `
   "encrypted": false,
   "name": "Test Hunt",
   "options": {
+    "inOrder": false,
     "silent": false,
   },
   "version": "1.0",
@@ -46,6 +47,7 @@ exports[`Parse valid v1.0 hunt config encoded.json 1`] = `
   "encrypted": true,
   "name": "Test Hunt",
   "options": {
+    "inOrder": false,
     "silent": false,
   },
   "version": "1.0",
@@ -72,6 +74,7 @@ exports[`Parse valid v1.0 hunt config extra.json 1`] = `
   "encrypted": false,
   "name": "Test Hunt",
   "options": {
+    "inOrder": false,
     "silent": false,
   },
   "version": "1.0",

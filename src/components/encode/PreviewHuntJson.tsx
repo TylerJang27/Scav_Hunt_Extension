@@ -13,8 +13,8 @@ export const PreviewHuntJson = (props: PreviewHuntJsonProps) => (
     InputProps={{
       inputProps: { style: { color: "#fff" } },
     }}
-    minRows={23}
-    maxRows={23 + props.huntConfig.clues.length * 4}
+    minRows={26}
+    maxRows={26 + props.huntConfig.clues.length * 4}
     multiline
     value={JSON.stringify(props.huntConfig, null, "  ")}
     sx={{
