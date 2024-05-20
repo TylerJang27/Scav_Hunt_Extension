@@ -1,8 +1,6 @@
 const fs = require("fs").promises;
 const path = require("path");
 
-console.log("hello!");
-
 async function copyIfNotExists(source, destination) {
   try {
     await fs.access(destination);
