@@ -16,6 +16,7 @@ const DEFAULT_LOADING_CLUE = {
 
 const loadSolvedClueFromStorage = (
   huntNameCallback: (item: string) => void,
+  numCluesCallback: (item: number | undefined) => void,
   encryptedCallback: (item: boolean) => void,
   huntBackgroundCallback: (item: string) => void,
   clueCallback: (item: ClueConfig) => void,
@@ -29,7 +30,7 @@ const loadSolvedClueFromStorage = (
         errorCallback(EMPTY_OR_INVALID_HUNT);
         return;
       }
-      const { name, encrypted, background, beginning, clues } =
+      const { name, encrypted, background, beginning, clues, options } =
         items.huntConfig;
 
       if (items.currentProgress === 0) {
@@ -52,6 +53,7 @@ const loadSolvedClueFromStorage = (
       );
 
       huntNameCallback(name);
+      numCluesCallback(options.inOrder ? clues.length : undefined);
       encryptedCallback(encrypted);
       huntBackgroundCallback(background);
       clueCallback(decryptedClue);
@@ -62,6 +64,7 @@ const loadSolvedClueFromStorage = (
 // NOTE(Tyler): Overlay popup testing is not supported via playwright: https://github.com/microsoft/playwright/issues/5593
 const Overlay = () => {
   const [huntName, setHuntName] = useState<string>("Scavenger Hunt");
+  const [numClues, setNumClues] = useState<number | undefined>();
   const [encrypted, setEncrypted] = useState<boolean>(false);
   const [decryptedClue, setDecryptedClue] =
     useState<ClueConfig>(DEFAULT_LOADING_CLUE);
@@ -73,6 +76,7 @@ const Overlay = () => {
     () =>
       loadSolvedClueFromStorage(
         setHuntName,
+        setNumClues,
         setEncrypted,
         setBackgroundURL,
         setDecryptedClue,
@@ -86,6 +90,7 @@ const Overlay = () => {
       huntName={huntName}
       encrypted={encrypted}
       clue={decryptedClue}
+      numClues={numClues}
       error={error}
       previewOnly={true}
       backgroundURL={backgroundURL}

@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@emotion/react";
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -11,6 +12,9 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import LinearProgress, {
+  linearProgressClasses,
+} from "@mui/material/LinearProgress";
 import React, { useEffect, useState } from "react";
 import { BackgroundWrapper } from "src/components/reusable/BackgroundWrapper";
 import { PageHeaderAndSubtitle } from "src/components/reusable/PageHeaderAndSubtitle";
@@ -22,10 +26,19 @@ import { nonNull } from "src/utils/helpers";
 
 import { Footer, OverlayFooter } from "./Footer";
 
+const BorderLinearProgress = styled(LinearProgress)(() => ({
+  height: 8,
+  borderRadius: 4,
+  [`& .${linearProgressClasses.bar}`]: {
+    borderRadius: 4,
+  },
+}));
+
 export interface CluePageProps {
   huntName: string;
   encrypted: boolean;
   clue: ClueConfig;
+  numClues?: number;
   error?: string;
   previewOnly?: boolean;
   backgroundURL: string;
@@ -94,6 +107,15 @@ export const CluePage = (props: CluePageProps) => {
     <>
       <BackgroundWrapper backgroundURL={backgroundURL} scale={previewScale}>
         <ThemeProvider theme={theme}>
+          {props.numClues !== undefined && (
+            <Box sx={{ width: "100%" }}>
+              <BorderLinearProgress
+                variant="determinate"
+                value={(id * 100.0) / props.numClues}
+                color="secondary"
+              />
+            </Box>
+          )}
           <Container
             maxWidth="sm"
             sx={{ mt: 3, "&::after": { flex: "auto" }, ...previewStyles }}
@@ -236,6 +258,15 @@ export const ClueOverlay = (props: CluePageProps) => {
     <>
       <BackgroundWrapper backgroundURL={backgroundURL}>
         <ThemeProvider theme={theme}>
+          {props.numClues !== undefined && (
+            <Box sx={{ width: "100%" }}>
+              <BorderLinearProgress
+                variant="determinate"
+                value={(id * 100.0) / props.numClues}
+                color="secondary"
+              />
+            </Box>
+          )}
           <Container maxWidth="sm" sx={{ mt: 1, "&::after": { flex: "auto" } }}>
             <Grid
               container

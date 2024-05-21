@@ -230,6 +230,7 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
         huntName={props.huntName || "Preview"}
         encrypted={false}
         clue={createdClue}
+        numClues={undefined}
         previewOnly={true}
         backgroundURL={
           props.huntBackground || getURL("graphics/background.png")

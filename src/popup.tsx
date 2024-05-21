@@ -19,6 +19,7 @@ const DEFAULT_LOADING_CLUE = {
 
 const loadSolvedClueFromStorage = (
   huntNameCallback: (item: string) => void,
+  numCluesCallback: (item: number | undefined) => void,
   encryptedCallback: (item: boolean) => void,
   huntBackgroundCallback: (item: string) => void,
   clueCallback: (item: ClueConfig) => void,
@@ -37,7 +38,7 @@ const loadSolvedClueFromStorage = (
         return;
       }
 
-      const { name, encrypted, background, clues } = items.huntConfig;
+      const { name, encrypted, background, clues, options } = items.huntConfig;
       const decryptedClue = DecryptClue(
         clues[items.currentProgress! - 1],
         encrypted,
@@ -45,6 +46,7 @@ const loadSolvedClueFromStorage = (
       );
 
       huntNameCallback(name);
+      numCluesCallback(options.inOrder ? clues.length : undefined);
       encryptedCallback(encrypted);
       huntBackgroundCallback(background);
       clueCallback(decryptedClue);
@@ -54,6 +56,7 @@ const loadSolvedClueFromStorage = (
 
 const Popup = () => {
   const [huntName, setHuntName] = useState<string>("Scavenger Hunt");
+  const [numClues, setNumClues] = useState<number | undefined>();
   const [encrypted, setEncrypted] = useState<boolean>(false);
   const [decryptedClue, setDecryptedClue] =
     useState<ClueConfig>(DEFAULT_LOADING_CLUE);
@@ -64,6 +67,7 @@ const Popup = () => {
     () =>
       loadSolvedClueFromStorage(
         setHuntName,
+        setNumClues,
         setEncrypted,
         setBackgroundURL,
         setDecryptedClue,
@@ -76,6 +80,7 @@ const Popup = () => {
       huntName={huntName}
       encrypted={encrypted}
       clue={decryptedClue}
+      numClues={numClues}
       error={error}
       backgroundURL={backgroundURL}
     />
