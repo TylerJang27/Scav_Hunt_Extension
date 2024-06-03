@@ -2,6 +2,7 @@ import { DEFAULT_BACKGROUND } from "src/providers/helpers";
 import {
   BulkError,
   ConfigError,
+  DeprecatedFieldError,
   InvalidIndexError,
   MissingFieldError,
   MissingValueError,
@@ -38,7 +39,14 @@ const ValidateRequiredNonEmptyField = (
   return value;
 };
 
-// trunk-ignore(eslint/@typescript-eslint/no-unused-vars)
+const ValidateDeprecatedFields = (clue: any, index?: number) => {
+  // Deprecated in v1.2.0
+  // trunk-ignore(eslint/@typescript-eslint/no-unsafe-member-access)
+  if (clue.html) {
+    throw new DeprecatedFieldError("html", index);
+  }
+};
+
 const ValidateXORFields = (
   value1: any,
   fieldName1: string,
@@ -61,21 +69,20 @@ const ValidateVersion = (value: string): string => {
 };
 
 export const ParseClue = (
-  { id, url, text, html, image, alt, interactive }: ClueConfig,
+  { id, url, text, markdown, image, alt, interactive }: ClueConfig,
   index?: number,
 ): ClueConfig => {
   const ret = {
     id: ValidateRequiredNonEmptyField(id, "id", index) as number,
     url: ValidateRequiredNonEmptyField(url, "url", index) as string,
-    text: ValidateRequiredNonEmptyField(text, "text", index) as string,
-    html: html,
+    text: text,
+    markdown: markdown,
     image: image,
     alt: alt,
     interactive: interactive,
   };
 
-  // TODO: TYLER ONCE WE ADD MARKDOWN SUPPORT, WE SHOULD USE XOR HERE AND REMOVE text VALIDATION
-  // ValidateXORFields(text, "text", html, "html", index);
+  ValidateXORFields(text, "text", markdown, "markdown", index);
 
   // Validate clue config
   if (interactive) {
@@ -137,6 +144,8 @@ export const ParseConfig = (object: any) => {
       clue: ClueConfig,
     ) => {
       try {
+        ValidateDeprecatedFields(clue as any, index);
+
         return [
           index + 1,
           clueAccumulator.concat(ParseClue(clue, index)),
@@ -189,7 +198,7 @@ export const DecryptClue = (
   /* Encoded fields */
   url: Decrypt(clue.url, encrypted, secretKey),
   text: wrapDecrypt(clue.text, encrypted, secretKey),
-  html: wrapDecrypt(clue.html, encrypted, secretKey),
+  markdown: wrapDecrypt(clue.markdown, encrypted, secretKey),
   image: wrapDecrypt(clue.image, encrypted, secretKey),
   alt: wrapDecrypt(clue.alt, encrypted, secretKey),
   interactive: clue.interactive
@@ -210,7 +219,7 @@ export const EncryptClue = (
   /* Encoded fields */
   url: Encrypt(clue.url, encrypted, secretKey),
   text: wrapEncrypt(clue.text, encrypted, secretKey),
-  html: wrapEncrypt(clue.html, encrypted, secretKey),
+  markdown: wrapEncrypt(clue.markdown, encrypted, secretKey),
   image: wrapEncrypt(clue.image, encrypted, secretKey),
   alt: wrapEncrypt(clue.alt, encrypted, secretKey),
   interactive: clue.interactive

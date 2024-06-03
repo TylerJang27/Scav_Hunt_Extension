@@ -16,6 +16,8 @@ import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 import React, { useEffect, useState } from "react";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { BackgroundWrapper } from "src/components/reusable/BackgroundWrapper";
 import { PageHeaderAndSubtitle } from "src/components/reusable/PageHeaderAndSubtitle";
 import { theme } from "src/components/reusable/theme";
@@ -45,11 +47,35 @@ export interface CluePageProps {
   isBeginning?: boolean;
 }
 
+export interface ClueTextProps {
+  text?: string;
+  markdown?: string;
+  error?: string;
+}
+
+const ClueText = (props: ClueTextProps) => {
+  const { text, markdown, error } = props;
+  if (markdown) {
+    return <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>;
+  }
+  return (
+    <Typography
+      variant="body1"
+      textAlign="center"
+      color="white"
+      mt={1}
+      sx={{ whiteSpace: "break-spaces" }}
+    >
+      {error ?? text}
+    </Typography>
+  );
+};
+
 export const CluePage = (props: CluePageProps) => {
   const {
     huntName,
     encrypted,
-    clue: { id, text, image, alt, interactive },
+    clue: { id, text, markdown, image, alt, interactive },
     error,
     previewOnly,
     backgroundURL,
@@ -185,15 +211,7 @@ export const CluePage = (props: CluePageProps) => {
                       </FormControl>
                     )}
                     {solved && (
-                      <Typography
-                        variant="body1"
-                        textAlign="center"
-                        color="white"
-                        mt={1}
-                        sx={{ whiteSpace: "break-spaces" }}
-                      >
-                        {error ?? text}
-                      </Typography>
+                      <ClueText text={text} markdown={markdown} error={error} />
                     )}
                   </CardContent>
                 </Card>
@@ -212,7 +230,7 @@ export const ClueOverlay = (props: CluePageProps) => {
   const {
     huntName,
     encrypted,
-    clue: { id, text, image, alt, interactive },
+    clue: { id, text, markdown, image, alt, interactive },
     error,
     previewOnly,
     backgroundURL,
@@ -333,15 +351,7 @@ export const ClueOverlay = (props: CluePageProps) => {
                       </FormControl>
                     )}
                     {solved && (
-                      <Typography
-                        variant="body1"
-                        textAlign="center"
-                        color="white"
-                        mt={1}
-                        sx={{ whiteSpace: "break-spaces" }}
-                      >
-                        {error ?? text}
-                      </Typography>
+                      <ClueText text={text} markdown={markdown} error={error} />
                     )}
                   </CardContent>
                 </Card>

@@ -25,11 +25,13 @@ const openClueCallback = (items: SomeProgress) => {
     }
     const { clues } = items.huntConfig;
     const foundClue = clues[items.currentProgress! - 1];
-    if (foundClue.html) {
+
+    // Check for deprecated fields
+    // trunk-ignore(eslint/@typescript-eslint/no-unsafe-member-access)
+    if ((foundClue as any).html) {
       logger.error(
         "HTML functionality is deprecated. Please adjust your hunt.",
       );
-      // createTab(Decrypt(foundClue.html, encrypted));
       return;
     }
 
