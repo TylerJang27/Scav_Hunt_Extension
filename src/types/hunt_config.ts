@@ -16,7 +16,9 @@ export interface ClueConfig {
   // URL or regex
   url: string;
   text?: string; // TODO: TYLER SANITIZE THIS WHEN WE RENDER THIS
-  html?: string; // TODO: TYLER CHANGE TO MARKDOWN
+  markdown?: string;
+  // Deprecated in v1.2.0
+  // html?: string;
   // URL or file path
   image?: string; // TODO: TYLER AUDIT/SANITIZE THIS WHEN WE RENDER THIS
   alt?: string;
@@ -38,6 +40,7 @@ export interface HuntConfig {
   encrypted: boolean;
   background: string;
   options: HuntOptions;
+  // TODO(Tyler): Do we want to support markdown for beginning text?
   beginning: string;
   clues: ClueConfig[];
 }

@@ -43,6 +43,7 @@ const Beginning = () => {
         id: 0,
         url: "",
         text: beginningText,
+        // TODO(Tyler): Do we want to support markdown for beginning text?
       }}
       backgroundURL={backgroundURL}
     />

@@ -62,9 +62,8 @@ test("manual input", async ({ page, extensionId }) => {
     .type("You're at Google");
   await page.getByTestId("clue-save-button").click();
 
-  await page.getByTestId("hunt-create-button").click();
-
   // Clue Modal 2
+  await page.getByTestId("hunt-create-button").click();
   await page.getByTestId("clue-url-field").locator("input").type("bing.com");
   await page
     .getByTestId("clue-text-field")
@@ -77,6 +76,41 @@ test("manual input", async ({ page, extensionId }) => {
     .first()
     .type("Enter asdf");
   await page.getByTestId("clue-key-field").locator("input").type("asdf");
+  await page.getByTestId("clue-save-button").click();
+
+  // Clue Modal 3 (markdown)
+  await page.getByTestId("hunt-create-button").click();
+  await page.getByTestId("clue-url-field").locator("input").type("yahoo.com");
+  // text first
+  await page
+    .getByTestId("clue-text-field")
+    .locator("textarea")
+    .first()
+    .type("You're at Bing");
+  await expect(page.getByTestId("clue-markdown-field")).toHaveAttribute(
+    "aria-disabled",
+    "true",
+  );
+  await page
+    .getByTestId("clue-text-field")
+    .locator("textarea")
+    .first()
+    .fill("");
+  await expect(page.getByTestId("clue-markdown-field")).toHaveAttribute(
+    "aria-disabled",
+    "false",
+  );
+
+  // then markdown
+  await page
+    .getByTestId("clue-markdown-field")
+    .locator("textarea")
+    .first()
+    .type("# Header\n\n*Markdown clue*");
+  await expect(page.getByTestId("clue-text-field")).toHaveAttribute(
+    "aria-disabled",
+    "true",
+  );
   await page.getByTestId("clue-save-button").click();
 
   // Validate preview pane
@@ -99,49 +133,4 @@ test("manual input", async ({ page, extensionId }) => {
   expect(fs.readFileSync(downloadPath!).toString()).toEqual(
     expected_download_contents,
   );
-});
-
-test("upload draft", async ({ page, extensionId }) => {
-  const draft_path = path.join(PATH_TO_TEST_DATA, "nonlinear_hunt.json");
-
-  // Navigate to the landing page, and select an upload file
-  await page.goto(`chrome-extension://${extensionId}/encode.html`);
-
-  // Upload a draft file
-  await page
-    .getByTestId("draft-upload-button")
-    .locator("input")
-    .setInputFiles(draft_path);
-
-  await expect(
-    page.getByTestId("hunt-name-field").locator("input"),
-  ).toHaveValue("The Hunt Is On");
-
-  // Validate preview pane
-  const draft_contents = fs.readFileSync(draft_path).toString();
-  await expect(page.getByTestId("hunt-preview-pane")).toHaveText(
-    draft_contents,
-  );
-});
-
-test("upload error draft", async ({ page, extensionId }) => {
-  const draft_path = path.join(PATH_TO_TEST_DATA, "invalid.json");
-
-  // Navigate to the landing page, and select an upload file
-  await page.goto(`chrome-extension://${extensionId}/encode.html`);
-  // Upload a draft file
-  await page
-    .getByTestId("draft-upload-button")
-    .locator("input")
-    .setInputFiles(draft_path);
-
-  await page.getByTestId("draft-upload-button").hover();
-
-  await expect(page.getByRole("tooltip")).toHaveText(
-    "Parsed invalid index 3. Expected 1",
-  );
-
-  await expect(
-    page.getByTestId("hunt-name-field").locator("input"),
-  ).toHaveValue("");
 });

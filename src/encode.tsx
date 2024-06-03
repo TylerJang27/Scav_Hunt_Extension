@@ -62,6 +62,7 @@ const Encode = () => {
     id: -1,
     url: "",
     text: "",
+    markdown: "",
     interactive: undefined,
   });
 
@@ -71,6 +72,7 @@ const Encode = () => {
       id: -1,
       url: "",
       text: "",
+      markdown: "",
       image: "",
       alt: "",
     });
@@ -80,10 +82,16 @@ const Encode = () => {
     const newClue: ClueConfig = {
       id: createdClueIndex + 1,
       url: createdClue.url,
-      text: createdClue.text,
       image: createdClue.image,
       alt: createdClue.alt,
     };
+    if (createdClue.text) {
+      newClue.text = createdClue.text;
+    }
+    if (createdClue.markdown) {
+      newClue.markdown = createdClue.markdown;
+    }
+
     if (createdClue.interactive) {
       newClue.interactive = createdClue.interactive;
     }
@@ -105,6 +113,7 @@ const Encode = () => {
       id: -1,
       url: "",
       text: "",
+      markdown: "",
       image: "",
       alt: "",
       interactive: undefined,
@@ -248,6 +257,7 @@ const Encode = () => {
                         sx={{ mt: 1 }}
                         data-testid="hunt-background-field"
                       />
+                      {/* TODO(Tyler): Do we want to support markdown for beginning text? */}
                       <TextField
                         value={huntConfig.beginning}
                         label="First Clue"
@@ -373,7 +383,15 @@ const Encode = () => {
                       <List>
                         {huntConfig.clues.map(
                           (
-                            { id, url, text, image, alt, interactive },
+                            {
+                              id,
+                              url,
+                              text,
+                              markdown,
+                              image,
+                              alt,
+                              interactive,
+                            },
                             index,
                           ) => (
                             <Tooltip
@@ -388,6 +406,7 @@ const Encode = () => {
                                     id,
                                     url,
                                     text,
+                                    markdown,
                                     image,
                                     alt,
                                     interactive,
@@ -468,7 +487,7 @@ const Encode = () => {
                                   )}
 
                                   <ListItemText
-                                    primary={`Clue ${index + 1}: ${text}`}
+                                    primary={`Clue ${index + 1}: ${text ?? markdown}`}
                                     secondary={`URL: ${url}`}
                                   />
                                   <IconButton
@@ -480,6 +499,7 @@ const Encode = () => {
                                         id,
                                         url,
                                         text,
+                                        markdown,
                                         image,
                                         alt,
                                         interactive,

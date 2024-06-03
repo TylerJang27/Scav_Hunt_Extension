@@ -19,13 +19,20 @@
     {
       "id": 2,
       "url": "bing.com",
-      "text": "You're at Bing",
       "image": "",
       "alt": "",
+      "text": "You're at Bing",
       "interactive": {
         "prompt": "Enter asdf",
         "key": "asdf"
       }
+    },
+    {
+      "id": 3,
+      "url": "yahoo.com",
+      "image": "",
+      "alt": "",
+      "markdown": "# Header\n\n*Markdown clue*"
     }
   ]
 }

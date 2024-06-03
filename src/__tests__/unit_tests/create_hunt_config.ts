@@ -16,12 +16,14 @@ export const coalesce = (val: any, ret: any): any => {
 export const makeClue = (
   url: string,
   text: string,
+  markdown: string,
   image?: string,
   alt?: string,
 ): ClueConfig => ({
   id: -1,
   url,
   text,
+  markdown,
   image,
   alt,
 });
@@ -29,12 +31,14 @@ export const makeClue = (
 export const makeEncryptedClue = (
   url: string,
   text: string,
+  markdown: string,
   image?: string,
   alt?: string,
 ): ClueConfig =>
   makeClue(
     Encrypt(url, true, testHuntName),
     Encrypt(text, true, testHuntName),
+    Encrypt(markdown, true, testHuntName),
     // trunk-ignore-begin(eslint/@typescript-eslint/no-unsafe-argument)
     coalesce(image, Encrypt(image ?? "", true, testHuntName)),
     coalesce(image, Encrypt(alt ?? "", true, testHuntName)),
@@ -44,6 +48,7 @@ export const makeEncryptedClue = (
 export const makeInteractiveClue = (
   url: string,
   text: string,
+  markdown: string,
   prompt: string,
   key: string,
   image?: string,
@@ -52,6 +57,7 @@ export const makeInteractiveClue = (
   id: -1,
   url,
   text,
+  markdown,
   image,
   alt,
   interactive: {
@@ -63,6 +69,7 @@ export const makeInteractiveClue = (
 export const makeEncryptedInteractiveClue = (
   url: string,
   text: string,
+  markdown: string,
   prompt: string,
   key: string,
   image?: string,
@@ -71,6 +78,7 @@ export const makeEncryptedInteractiveClue = (
   makeInteractiveClue(
     Encrypt(url, true, testHuntName),
     Encrypt(text, true, testHuntName),
+    Encrypt(markdown, true, testHuntName),
     Encrypt(prompt, true, testHuntName),
     Encrypt(key, true, testHuntName),
     // trunk-ignore-begin(eslint/@typescript-eslint/no-unsafe-argument)
@@ -120,14 +128,15 @@ export const makeEncryptedHunt = (
 });
 
 export const sampleClues = [
-  makeClue("google.com/1", "First clue"),
-  makeClue("google.com/2", "Second clue", "clue_2_url"),
-  makeClue("google.com/3", "Third clue", "clue_3_url", "alt_text_3"),
-  makeInteractiveClue("google.com/4", "Fourth clue", "Enter four", "four"),
+  makeClue("google.com/1", "First clue", ""),
+  makeClue("google.com/2", "Second clue", "", "clue_2_url"),
+  makeClue("google.com/3", "Third clue", "", "clue_3_url", "alt_text_3"),
+  makeInteractiveClue("google.com/4", "Fourth clue", "", "Enter four", "four"),
   makeInteractiveClue(
     "google.com/5",
     "Fifth clue",
     "Enter five",
+    "",
     "five",
     "clue_5_url",
     "alt_text_5",
@@ -135,18 +144,26 @@ export const sampleClues = [
 ];
 
 export const sampleEncryptedClues = [
-  makeEncryptedClue("google.com/1", "First clue"),
-  makeEncryptedClue("google.com/2", "Second clue", "clue_2_url"),
-  makeEncryptedClue("google.com/3", "Third clue", "clue_3_url", "alt_text_3"),
+  makeEncryptedClue("google.com/1", "First clue", ""),
+  makeEncryptedClue("google.com/2", "Second clue", "", "clue_2_url"),
+  makeEncryptedClue(
+    "google.com/3",
+    "Third clue",
+    "",
+    "clue_3_url",
+    "alt_text_3",
+  ),
   makeEncryptedInteractiveClue(
     "google.com/4",
     "Fourth clue",
+    "",
     "Enter four",
     "four",
   ),
   makeEncryptedInteractiveClue(
     "google.com/5",
     "Fifth clue",
+    "",
     "Enter five",
     "five",
     "clue_5_url",
