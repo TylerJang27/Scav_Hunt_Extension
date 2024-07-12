@@ -58,16 +58,31 @@ export class XORFieldsError extends ConfigError {
   ) {
     if (index) {
       super(
-        `Only one of ${fieldName1} and ${fieldName2} can be set in clue index ${index}. Got ${value1} and ${value2}`,
+        `Exactly one of ${fieldName1} and ${fieldName2} can be set in clue index ${index}. Got ${value1} and ${value2}`,
       );
     } else {
       super(
-        `Only one of ${fieldName1} and ${fieldName2}. Got ${value1} and ${value2}`,
+        `Exactly one of ${fieldName1} and ${fieldName2} can be set. Got ${value1} and ${value2}`,
       );
     }
     this.index = index;
 
     Object.setPrototypeOf(this, XORFieldsError.prototype);
+  }
+}
+
+export class DeprecatedFieldError extends ConfigError {
+  index?: number;
+
+  constructor(fieldName: string, index?: number) {
+    if (index !== undefined) {
+      super(`Deprecated field '${fieldName}' in clue index ${index + 1}`);
+    } else {
+      super(`Deprecated field '${fieldName}'`);
+    }
+    this.index = index;
+
+    Object.setPrototypeOf(this, DeprecatedFieldError.prototype);
   }
 }
 

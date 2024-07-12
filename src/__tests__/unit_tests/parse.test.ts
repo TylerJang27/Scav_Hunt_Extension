@@ -17,6 +17,7 @@ const failureMessages = new Map<string, string | RegExp>([
   ["index_gap", "Parsed invalid index 3. Expected 2"],
   ["malformed_clue", "Missing field 'url' in clue index 1"],
   ["malformed", "Missing field 'name'"],
+  ["markdown_and_text", "Exactly one of text and markdown can be set"],
   ["no_clues", "Received empty field for clues"],
   ["unordered", "Parsed invalid index 2. Expected 1"],
 ]);

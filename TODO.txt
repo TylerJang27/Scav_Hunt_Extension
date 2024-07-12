@@ -5,7 +5,6 @@ Development:
 2. Simplify css files
 
 Scope:
-1. Replace HTML support with markdown and sanitize
-2. limit webpack bundle size
-3. Make the badge text be the currentProgress num?
-4. More default hunts
+1. optimize webpack bundle size
+2. Make the badge text be the currentProgress num?
+3. More default hunts

@@ -12,6 +12,7 @@ const DEFAULT_LOADING_CLUE = {
   id: -1,
   url: "https://chrome.google.com/webstore/detail/scavenger-hunt/opcgbolmjikeaokbmldpfhemaamnfggf/related?hl=en-US",
   text: "",
+  markdown: "",
 };
 
 const loadSolvedClueFromStorage = (
@@ -41,6 +42,8 @@ const loadSolvedClueFromStorage = (
           id: 0,
           url: "",
           text: beginning,
+          // TODO(Tyler): Do we want to support markdown for beginning text?
+          markdown: "",
         });
         beginningCallback(true);
         return;

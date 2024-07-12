@@ -185,10 +185,12 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
             label="Text"
             variant="outlined"
             multiline
-            required
+            disabled={(createdClue.markdown ?? "").trim().length > 0}
+            aria-disabled={(createdClue.markdown ?? "").trim().length > 0}
             error={
               Boolean(createdClueError) &&
-              (createdClue.text ?? "").trim().length === 0
+              (createdClue.text ?? "").trim().length === 0 &&
+              (createdClue.markdown ?? "").trim().length === 0
             }
             value={createdClue.text}
             onChange={(e) => {
@@ -201,6 +203,31 @@ export const CreateClueModal = (props: CreateClueModalProps) => {
           <FormHelperText id="text-helper-text">
             Clue to display when this URL is visited. Hidden until prompt is
             answered
+          </FormHelperText>
+        </FormControl>
+        <FormControl>
+          <TextField
+            label="Markdown"
+            variant="outlined"
+            multiline
+            disabled={(createdClue.text ?? "").trim().length > 0}
+            aria-disabled={(createdClue.text ?? "").trim().length > 0}
+            error={
+              Boolean(createdClueError) &&
+              (createdClue.text ?? "").trim().length === 0 &&
+              (createdClue.markdown ?? "").trim().length === 0
+            }
+            value={createdClue.markdown}
+            onChange={(e) => {
+              setCreatedClue({ ...createdClue, markdown: e.target.value });
+            }}
+            sx={{ mt: 1 }}
+            aria-describedby="markdown-helper-text"
+            data-testid="clue-markdown-field"
+          />
+          <FormHelperText id="markdown-helper-text">
+            GitHub-flavored Markdown to display when this URL is visited.
+            Alternative to text
           </FormHelperText>
         </FormControl>
 

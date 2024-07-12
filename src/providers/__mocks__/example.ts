@@ -23,6 +23,7 @@ export const DEFAULT_HUNT_CONFIG: HuntConfig = {
       id: 1,
       url: "google.com",
       text: "The first of two clues",
+      markdown: undefined,
       image:
         "https://raw.githubusercontent.com/TylerJang27/Scav_Hunt_Extension/dev/public/graphics/scav.png",
       alt: "Scavenger Hunt logo",
@@ -31,6 +32,7 @@ export const DEFAULT_HUNT_CONFIG: HuntConfig = {
       id: 2,
       url: "bing.com",
       text: "The second of two clues",
+      markdown: undefined,
       interactive: {
         prompt: "Enter 'test'",
         key: "test",
