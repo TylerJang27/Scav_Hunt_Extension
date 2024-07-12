@@ -11,7 +11,8 @@ export const Tutorial = () => (
         </Grid>
         <Grid item xs={12}>
           <Typography textAlign={"center"}>
-            Follow the clues, visit the matching websites, and solve the hunt!
+            Follow the clues, visit the matching websites, and solve the hunt if
+            you dare!
           </Typography>
           {/* YouTube embedder based on https://dev.to/bravemaster619/simplest-way-to-embed-a-youtube-video-in-your-react-app-3bk2 */}
           <div className="video-responsive">
