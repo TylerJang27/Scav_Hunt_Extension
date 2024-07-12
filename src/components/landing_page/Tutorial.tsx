@@ -12,7 +12,7 @@ export const Tutorial = () => (
         <Grid item xs={12}>
           <Typography textAlign={"center"}>
             Follow the clues, visit the matching websites, and solve the hunt if
-            you dare!
+            you dare, you coward!
           </Typography>
           {/* YouTube embedder based on https://dev.to/bravemaster619/simplest-way-to-embed-a-youtube-video-in-your-react-app-3bk2 */}
           <div className="video-responsive">
